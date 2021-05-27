@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>WAC</title>
+    <!-- Favicon-->
+    <link rel="icon" href="../../uploads/logo.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
+        type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="../../plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="../../plugins/node-waves/waves.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="../../plugins/animate-css/animate.css" rel="stylesheet" />
+
+    <!-- JQuery DataTable Css -->
+    <link href="../../plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+
+    <link href="../../plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+
+
+    <!-- Bootstrap Material Datetime Picker Css -->
+    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+        rel="stylesheet" />
+    <link href="../../plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+
+
+    <!-- Custom Css -->
+    <link href="../../css/style.css" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="../../css/themes/all-themes.css" rel="stylesheet" />
+
+    <!-- Bootstrap Material Datetime Picker Css -->
+    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+        rel="stylesheet" />
+
+    <!-- Bootstrap DatePicker Css -->
+    <link href="../../plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+
+    <link href="../../plugins/light-gallery/css/lightgallery.css" rel="stylesheet">
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.mjs"></script>
+
+    <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
+
+    <!-- modal  -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../plugins2/responsive.bootstrap4.min.css">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="../../plugins/light-gallery/css/lightgallery.css" rel="stylesheet">
+
+    <script src="./pageTable.js"></script>
+
+    <link href="./css-collor.css" rel="stylesheet">
+
+    <link href="../../plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.js"></script>
+
+    <script src="./user.js"></script>
+    <script src="./queueqrcode.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+
+
+</head>
+
+<link href="./css-collor.css" rel="stylesheet">
+
+<script src="./logout.js"></script>
+<script></script>
+<style>
+    .intro {
+        display: block !important;
+    }
+
+    .intronone {
+        display: none !important;
+    }
+</style>
+<link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet' type='text/css'>
+<style>
+    body h1 h2 h3 h4 h5 h6 ul li a p {
+        font-family: 'Kanit', sans-serif;
+    }
+
+    div {
+        font-family: 'Kanit', sans-serif;
+    }
+</style>
+
+<body class="theme-red">
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+    <!-- #END# Page Loader -->
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+    <!-- #END# Overlay For Sidebars -->
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <div class="search-icon">
+            <i class="material-icons">search</i>
+        </div>
+        <input type="text" placeholder="START TYPING...">
+        <div class="close-search">
+            <i class="material-icons">close</i>
+        </div>
+    </div>
+    <!-- #END# Search Bar -->
+    <!-- Top Bar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand" style="display: none;" id="logoname" href="javascript:void(0);"></a>
+                <a class="navbar-brand" id="namecompyny" href="#" style="color: white;" href="#"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Call Search -->
+                    <li><a id='logout' style="cursor: pointer;" data-close="true">[ออกจากระบบ]</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+    <section>
+        <!-- Left Sidebar -->
+        <aside id="leftsidebar" class="sidebar" style="text-align: center;">
+            <!-- User Info -->
+            <div class="user-info" style="text-align:center;">
+                <div class="image" style="display: none;">
+                    <!-- <img id="LOGOVIEW" name="LOGOVIEW" width="100" height="100" alt="User" />
+                    <p id="usernamelogin" style="color:white;"></p> -->
+                    <!-- <a class="navbar-brand" id="logoname" href="../../visitordashboard.html">VISITOR</a> -->
+                    <a class="navbar-brand" id="logoname" href="">
+                        <!-- <img id="imageProfile" src="/images/Profile.png" width="80" height="80" alt="User" /> -->
+                    </a>
+                </div>
+                <div><br></div>
+                <div><br></div>
+                <div style="color: white;">
+                    <div class="name" data-toggle="dropdown" id="userlogin" aria-haspopup="true" aria-expanded="false">
+                    </div>
+                </div>
+            </div>
+            <div class="menu">
+                <ul class="list">
+                    <!-- <li>
+                        <a href="visitordashboard.html">
+                            <i class="material-icons">home</i>
+                            <span>แดชบอร์ด VISITOR</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="visitorreport.html">
+                            <i class="material-icons">description</i>
+                            <span>รายงานการเข้าออก</span>
+                        </a>
+                    </li>
+                    <li id="ll" style="display: none;">
+                        <a href="visitorreportcost.html">
+                            <i class="material-icons">attach_money</i>
+                            <span>รายงานการคิดเงิน</span>
+                        </a>
+                    </li> -->
+                    <!-- <li>
+                        <a href="memberlist.html">
+                            <i class="material-icons">account_circle</i>
+                            <span>รายชื่อผู้ลงทะเบียน</span>
+                        </a>
+                    </li> -->
+                    <li id="queuedashboard">
+                        <a href="queuedashboard.html">
+                            <i class="material-icons">queue</i>
+                            <span>แดชบอร์ด</span>
+                        </a> 
+                    </li>
+                    <li class="active">
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">settings</i>
+                            <span>ตั้งค่า</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="queueregisteruser.html">
+                                    <span>เพิ่มผู้ใช้งาน</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="queuecategory.html">
+                                    <span>สร้างแผนก</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="queueProfile.html">
+                                    <span>สร้างโปรไฟล์</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="queuevdo.html">
+                                    <span>สร้างวีดีโอ</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="queuemessage.html">
+                                    <span>ข้อความหน้าจอ</span>
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a href="queueqrcode.html">
+                                    <span>คิวอาร์โค้ด</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- #Menu -->
+            <!-- Footer -->
+
+            <!-- #Footer -->
+        </aside>
+        <!-- #END# Left Sidebar -->
+        <!-- Right Sidebar -->
+        <aside id="rightsidebar" class="right-sidebar">
+            <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                <li role="presentation" class="active"><a href="#skins" data-toggle="tab">SKINS</a></li>
+                <!-- <li role="presentation"><a href="#settings" data-toggle="tab">SETTINGS</a></li> -->
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active in active" id="skins">
+                    <ul class="demo-choose-skin">
+                        <li data-theme="red" class="active">
+                            <div class="red"></div>
+                            <span>Red</span>
+                        </li>
+                        <li data-theme="pink">
+                            <div class="pink"></div>
+                            <span>Pink</span>
+                        </li>
+                        <li data-theme="purple">
+                            <div class="purple"></div>
+                            <span>Purple</span>
+                        </li>
+                        <li data-theme="deep-purple">
+                            <div class="deep-purple"></div>
+                            <span>Deep Purple</span>
+                        </li>
+                        <li data-theme="indigo">
+                            <div class="indigo"></div>
+                            <span>Indigo</span>
+                        </li>
+                        <li data-theme="blue">
+                            <div class="blue"></div>
+                            <span>Blue</span>
+                        </li>
+                        <li data-theme="light-blue">
+                            <div class="light-blue"></div>
+                            <span>Light Blue</span>
+                        </li>
+                        <li data-theme="cyan">
+                            <div class="cyan"></div>
+                            <span>Cyan</span>
+                        </li>
+                        <li data-theme="teal">
+                            <div class="teal"></div>
+                            <span>Teal</span>
+                        </li>
+                        <li data-theme="green">
+                            <div class="green"></div>
+                            <span>Green</span>
+                        </li>
+                        <li data-theme="light-green">
+                            <div class="light-green"></div>
+                            <span>Light Green</span>
+                        </li>
+                        <li data-theme="lime">
+                            <div class="lime"></div>
+                            <span>Lime</span>
+                        </li>
+                        <li data-theme="yellow">
+                            <div class="yellow"></div>
+                            <span>Yellow</span>
+                        </li>
+                        <li data-theme="amber">
+                            <div class="amber"></div>
+                            <span>Amber</span>
+                        </li>
+                        <li data-theme="orange">
+                            <div class="orange"></div>
+                            <span>Orange</span>
+                        </li>
+                        <li data-theme="deep-orange">
+                            <div class="deep-orange"></div>
+                            <span>Deep Orange</span>
+                        </li>
+                        <li data-theme="brown">
+                            <div class="brown"></div>
+                            <span>Brown</span>
+                        </li>
+                        <li data-theme="grey">
+                            <div class="grey"></div>
+                            <span>Grey</span>
+                        </li>
+                        <li data-theme="blue-grey">
+                            <div class="blue-grey"></div>
+                            <span>Blue Grey</span>
+                        </li>
+                        <li data-theme="black">
+                            <div class="black"></div>
+                            <span>Black</span>
+                        </li>
+                    </ul>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="settings">
+                    <div class="demo-settings">
+                        <p>GENERAL SETTINGS</p>
+                        <ul class="setting-list">
+                            <li>
+                                <span>Report Panel Usage</span>
+                                <div class="switch">
+                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                </div>
+                            </li>
+                            <li>
+                                <span>Email Redirect</span>
+                                <div class="switch">
+                                    <label><input type="checkbox"><span class="lever"></span></label>
+                                </div>
+                            </li>
+                        </ul>
+                        <p>SYSTEM SETTINGS</p>
+                        <ul class="setting-list">
+                            <li>
+                                <span>Notifications</span>
+                                <div class="switch">
+                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                </div>
+                            </li>
+                            <li>
+                                <span>Auto Updates</span>
+                                <div class="switch">
+                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                </div>
+                            </li>
+                        </ul>
+                        <p>ACCOUNT SETTINGS</p>
+                        <ul class="setting-list">
+                            <li>
+                                <span>Offline</span>
+                                <div class="switch">
+                                    <label><input type="checkbox"><span class="lever"></span></label>
+                                </div>
+                            </li>
+                            <li>
+                                <span>Location Permission</span>
+                                <div class="switch">
+                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- #END# Right Sidebar -->
+    </section>
+
+
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Input -->
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="header header-new">
+                                    <h2>
+                                        <font style="color: white;">คิวอาร์โค้ด
+                                        </font>
+                                    </h2>
+                                </div>
+                                <div class="body">
+                                    <form id="formElem">
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade in active" id="home">
+                                                <div class="body">
+                                                    <div class="row clearfix">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <div class="form-group form-float">
+                                                                    <div class="list-unstyled row clearfix">
+                                                                        <h4>คิวอาร์โค้ด</h4>
+                                                                        <div id="createImg" style="text-align: center;">
+                                                                            <img id='Imageqrcode' />
+                                                                        </div>
+                                                                        <div id='a_load' style="text-align: center;">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="container">
+            <div class="modal fade" id="myModaldont" role="dialog">
+                <div class="modal-dialog" style="width: 300px; height: 200px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 id="title" class="modal-title">บันทึกข้อมูล</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-20">
+                                        <i class="fa fa-exclamation-triangle" id="c_delete"
+                                            style="font-size:48px;color:red"></i>
+                                        <i class="fa fa-check-circle" id="completed"
+                                            style="font-size:48px;color:green; display: none;"></i>
+                                    </div>
+                                    <div>
+                                        <label id="lbl_completed" for="fname"> </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">ตกลง</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        </div>
+    </section>
+
+
+    <!-- Jquery Core Js -->
+    <!-- <script src="../../plugins/jquery/jquery.min.js"></script> -->
+
+    <!-- Bootstrap Core Js -->
+    <!-- <script src="../../plugins/bootstrap/js/bootstrap.js"></script> -->
+
+    <!-- Select Plugin Js -->
+    <!-- <script src="../../plugins/bootstrap-select/js/bootstrap-select.js"></script> -->
+
+    <!-- Slimscroll Plugin Js -->
+    <script src="../../plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script src="../../plugins/node-waves/waves.js"></script>
+
+    <script src="../../plugins/light-gallery/js/lightgallery-all.js"></script>
+    <script src="../../js/pages/medias/image-gallery.js"></script>
+
+    <script src="../../plugins/autosize/autosize.js"></script>
+
+    <script src="../../plugins/momentjs/moment.js"></script>
+
+
+    <script src="../../plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+
+    <!-- Bootstrap Datepicker Plugin Js -->
+    <script src="../../plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <!-- Bootstrap Material Datetime Picker Plugin Js -->
+
+
+    <script src="../../plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../js/pages/ui/dialogs.js"></script>
+
+    <!-- Jquery DataTable Plugin Js -->
+    <script src="../../plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <script src="../../plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+
+
+    <script src="../../js/pages/forms/basic-form-elements.js"></script>
+    <!-- Custom Js -->
+    <script src="../../js/admin.js"></script>
+    <script src="../../js/demo.js"></script>
+    <script src="../../plugins2/dataTables.responsive.min.js"></script>
+</body>
+
+</html>

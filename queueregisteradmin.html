@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>WAC</title>
+    <!-- Favicon-->
+    <link rel="icon" href="../../uploads/logo.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
+        type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="../../plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="../../plugins/node-waves/waves.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="../../plugins/animate-css/animate.css" rel="stylesheet" />
+
+    <!-- JQuery DataTable Css -->
+    <link href="../../plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+
+    <link href="../../plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link href="../../css/style.css" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="../../css/themes/all-themes.css" rel="stylesheet" />
+
+    <!-- Bootstrap Material Datetime Picker Css -->
+    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+        rel="stylesheet" />
+
+    <!-- Bootstrap DatePicker Css -->
+    <link href="../../plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+
+    <link href="../../plugins/light-gallery/css/lightgallery.css" rel="stylesheet">
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.mjs"></script>
+
+
+    <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
+
+    <!-- modal  -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../plugins2/responsive.bootstrap4.min.css">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="../../plugins/light-gallery/css/lightgallery.css" rel="stylesheet">
+    <!-- <script src="./visitoractivate.js"></script> -->
+
+    <script src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
+    <script src="https://pagination.js.org/dist/2.1.5/pagination.js"></script>
+    <link href="./css-collor.css" rel="stylesheet">
+</head>
+<link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet' type='text/css'>
+<style>
+    body h1 h2 h3 h4 h5 h6 ul li a p {
+        font-family: 'Kanit', sans-serif;
+    }
+
+    div {
+        font-family: 'Kanit', sans-serif;
+    }
+</style>
+
+
+
+<body class="theme-red">
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+    <!-- #END# Page Loader -->
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+    <!-- #END# Overlay For Sidebars -->
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <div class="search-icon">
+            <i class="material-icons">search</i>
+        </div>
+        <input type="text" placeholder="START TYPING...">
+        <div class="close-search">
+            <i class="material-icons">close</i>
+        </div>
+    </div>
+    <!-- #END# Search Bar -->
+    <!-- Top Bar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand" id="logoname" href="">REGISTER QUEUE</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Call Search -->
+                    <li><a onclick="logout()" style="cursor: pointer;" class="js-search"
+                            data-close="true">[ออกจากระบบ]</a></li>
+                    <script>
+                        function logout() {
+                            $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                                var urlipaddress = data.substring(1, data.length - 1);
+
+                                const databody = {
+                                    refresh_token: document.getElementById("refreshtoken").value,//refreshtoken
+                                }
+
+                                axios.post(urlipaddress + 'logout', databody, {
+                                    headers: {
+                                        'Authorization': document.getElementById("accesstoken").value//refreshtoken
+                                    }
+                                }).then(function (response) {
+
+                                    // console.log(response.data)
+
+                                    if (response.data.message == "success") {
+                                        document.getElementById("p_logout").innerText = "ออกจากระบบสำเร็จ";
+
+                                    } else {
+                                        // alert("บันทึกข้อมูลไม่สำเร็จ");
+                                    }
+
+                                }).catch(function (res) {
+                                    const { response } = res
+                                    //  console.log(response.data.message)
+                                    if (response.data.message == "Unauthorized") {
+                                        alert("คุณยังไม่ได้ login admin");
+                                    }
+                                });
+                            });
+                            location.href = "index.html";
+                        }
+                    </script>
+                    <!-- #END# Call Search -->
+                    <!-- Notifications -->
+                    <li class="dropdown">
+
+                        <ul class="dropdown-menu">
+                            <li class="header">NOTIFICATIONS</li>
+                            <li class="body">
+                                <ul class="menu">
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-light-green">
+                                                <i class="material-icons">person_add</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4>12 new members joined</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 14 mins ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-cyan">
+                                                <i class="material-icons">add_shopping_cart</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4>4 sales made</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 22 mins ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-red">
+                                                <i class="material-icons">delete_forever</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4><b>Nancy Doe</b> deleted account</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 3 hours ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-orange">
+                                                <i class="material-icons">mode_edit</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4><b>Nancy</b> changed name</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 2 hours ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-blue-grey">
+                                                <i class="material-icons">comment</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4><b>John</b> commented your post</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 4 hours ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-light-green">
+                                                <i class="material-icons">cached</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4><b>John</b> updated status</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 3 hours ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-purple">
+                                                <i class="material-icons">settings</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4>Settings updated</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> Yesterday
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="footer">
+                                <a href="javascript:void(0);">View All Notifications</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- #END# Notifications -->
+                    <!-- Tasks -->
+                    <li class="dropdown">
+
+                        <ul class="dropdown-menu">
+                            <li class="header">TASKS</li>
+                            <li class="body">
+                                <ul class="menu tasks">
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Footer display issue
+                                                <small>32%</small>
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-pink" role="progressbar" aria-valuenow="85"
+                                                    aria-valuemin="0" aria-valuemax="100" style="width: 32%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Make new buttons
+                                                <small>45%</small>
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-cyan" role="progressbar" aria-valuenow="85"
+                                                    aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Create new dashboard
+                                                <small>54%</small>
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-teal" role="progressbar" aria-valuenow="85"
+                                                    aria-valuemin="0" aria-valuemax="100" style="width: 54%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Solve transition issue
+                                                <small>65%</small>
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-orange" role="progressbar"
+                                                    aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"
+                                                    style="width: 65%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Answer GitHub questions
+                                                <small>92%</small>
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-purple" role="progressbar"
+                                                    aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"
+                                                    style="width: 92%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="footer">
+                                <a href="javascript:void(0);">View All Tasks</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- #END# Tasks -->
+                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i
+                                class="material-icons">more_vert</i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+    <section>
+        <!-- Left Sidebar -->
+        <aside id="leftsidebar" class="sidebar" style="text-align: center;">
+            <!-- User Info -->
+            <div class="user-info" style="text-align:center;">
+                <div class="image">
+                    <!-- <img id="LOGOVIEW" name="LOGOVIEW" width="100" height="100" alt="User" />
+                    <p id="usernamelogin" style="color:white;"></p> -->
+                </div>
+                <div><br></div>
+                <div><br></div>
+                <div style="color: white;">
+                    <div class="name" data-toggle="dropdown" id="userlogin" aria-haspopup="true" aria-expanded="false">
+                    </div>
+                </div>
+            </div>
+            <div class="menu">
+                <ul class="list">
+                    <!-- <li class="active">
+                        <a href="visitorregisteradmin.html">
+                            <span>ลงทะเบียน</span>
+                        </a>
+                    </li> -->
+
+                </ul>
+            </div>
+            <!-- #Menu -->
+            <!-- Footer -->
+
+            <!-- #Footer -->
+        </aside>
+        <!-- #END# Left Sidebar -->
+        <!-- Right Sidebar -->
+        <aside id="rightsidebar" class="right-sidebar">
+            <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                <li role="presentation" class="active"><a href="#skins" data-toggle="tab">SKINS</a></li>
+                <!-- <li role="presentation"><a href="#settings" data-toggle="tab">SETTINGS</a></li> -->
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active in active" id="skins">
+                    <ul class="demo-choose-skin">
+                        <li data-theme="red" class="active">
+                            <div class="red"></div>
+                            <span>Red</span>
+                        </li>
+                        <li data-theme="pink">
+                            <div class="pink"></div>
+                            <span>Pink</span>
+                        </li>
+                        <li data-theme="purple">
+                            <div class="purple"></div>
+                            <span>Purple</span>
+                        </li>
+                        <li data-theme="deep-purple">
+                            <div class="deep-purple"></div>
+                            <span>Deep Purple</span>
+                        </li>
+                        <li data-theme="indigo">
+                            <div class="indigo"></div>
+                            <span>Indigo</span>
+                        </li>
+                        <li data-theme="blue">
+                            <div class="blue"></div>
+                            <span>Blue</span>
+                        </li>
+                        <li data-theme="light-blue">
+                            <div class="light-blue"></div>
+                            <span>Light Blue</span>
+                        </li>
+                        <li data-theme="cyan">
+                            <div class="cyan"></div>
+                            <span>Cyan</span>
+                        </li>
+                        <li data-theme="teal">
+                            <div class="teal"></div>
+                            <span>Teal</span>
+                        </li>
+                        <li data-theme="green">
+                            <div class="green"></div>
+                            <span>Green</span>
+                        </li>
+                        <li data-theme="light-green">
+                            <div class="light-green"></div>
+                            <span>Light Green</span>
+                        </li>
+                        <li data-theme="lime">
+                            <div class="lime"></div>
+                            <span>Lime</span>
+                        </li>
+                        <li data-theme="yellow">
+                            <div class="yellow"></div>
+                            <span>Yellow</span>
+                        </li>
+                        <li data-theme="amber">
+                            <div class="amber"></div>
+                            <span>Amber</span>
+                        </li>
+                        <li data-theme="orange">
+                            <div class="orange"></div>
+                            <span>Orange</span>
+                        </li>
+                        <li data-theme="deep-orange">
+                            <div class="deep-orange"></div>
+                            <span>Deep Orange</span>
+                        </li>
+                        <li data-theme="brown">
+                            <div class="brown"></div>
+                            <span>Brown</span>
+                        </li>
+                        <li data-theme="grey">
+                            <div class="grey"></div>
+                            <span>Grey</span>
+                        </li>
+                        <li data-theme="blue-grey">
+                            <div class="blue-grey"></div>
+                            <span>Blue Grey</span>
+                        </li>
+                        <li data-theme="black">
+                            <div class="black"></div>
+                            <span>Black</span>
+                        </li>
+                    </ul>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="settings">
+                    <div class="demo-settings">
+                        <p>GENERAL SETTINGS</p>
+                        <ul class="setting-list">
+                            <li>
+                                <span>Report Panel Usage</span>
+                                <div class="switch">
+                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                </div>
+                            </li>
+                            <li>
+                                <span>Email Redirect</span>
+                                <div class="switch">
+                                    <label><input type="checkbox"><span class="lever"></span></label>
+                                </div>
+                            </li>
+                        </ul>
+                        <p>SYSTEM SETTINGS</p>
+                        <ul class="setting-list">
+                            <li>
+                                <span>Notifications</span>
+                                <div class="switch">
+                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                </div>
+                            </li>
+                            <li>
+                                <span>Auto Updates</span>
+                                <div class="switch">
+                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                </div>
+                            </li>
+                        </ul>
+                        <p>ACCOUNT SETTINGS</p>
+                        <ul class="setting-list">
+                            <li>
+                                <span>Offline</span>
+                                <div class="switch">
+                                    <label><input type="checkbox"><span class="lever"></span></label>
+                                </div>
+                            </li>
+                            <li>
+                                <span>Location Permission</span>
+                                <div class="switch">
+                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- #END# Right Sidebar -->
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Input -->
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="header header-new"">
+                                    <h2>
+                                        <font style=" color: white;">ลงทะเบียน QUEUE
+                                    </font>
+                                    </h2>
+                                </div>
+                                <div class="body">
+                                    <form>
+
+                                        <div class="div">
+                                            <div>&nbsp;</div>
+                                            <table align="center">
+                                                <tr>
+                                                    <td>
+                                                        <div>&nbsp;</div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> USER :</td>
+                                                    <td> <input type="text" id="admin" name="admin"></td>
+                                                    <td></td>
+                                                    <td> <input type="button" value="GENERATE ADMIN ID" id="GENERATE"
+                                                            autocomplete="off" style="display: none;"
+                                                            onclick="GENERATECLICKADMIN()" name="GENERATE"
+                                                            style="cursor: pointer;"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div>&nbsp;</div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>PASSWORD :</td>
+                                                    <td><input type="password" name="passadmin" autocomplete="off"
+                                                            id="passadmin" />
+                                                        <!-- <span class="showBtn">SHOW</span> -->
+                                                    </td>
+                                                    <td>&nbsp;</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div>&nbsp;</div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>RULE :</td>
+                                                    <td>
+                                                        <!-- <input type="RULE" name="RULE"  autocomplete="off" value="Master Admin"  id="RULE" /> -->
+                                                        <!-- <span class="showBtn">SHOW</span> -->
+
+                                                        <select class="show-tick" name="RULE" id="RULE"
+                                                            style="cursor: pointer;" onchange="">
+                                                            <option value="Master Admin" selected>Master Admin</option>
+
+                                                        </select>
+                                                    </td>
+                                                    <td>&nbsp;</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div>&nbsp;</div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>COMPANY :</td>
+                                                    <td><input type="text" name="COMPANY" autocomplete="off"
+                                                            id="COMPANY" />
+                                                        <!-- <span class="showBtn">SHOW</span> -->
+                                                    </td>
+                                                    <td>&nbsp;</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div>&nbsp;</div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>PHONE :</td>
+                                                    <td><input type="text" name="PHONE" autocomplete="off" id="PHONE" />
+                                                        <!-- <span class="showBtn">SHOW</span> -->
+                                                    </td>
+                                                    <td>&nbsp;</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div>&nbsp;</div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>CODE :</td>
+                                                    <td><input type="password" name="CODE" autocomplete="off"
+                                                            id="CODE" />
+                                                        <!-- <span class="showBtn">SHOW</span> -->
+                                                    </td>
+                                                    <td>&nbsp;</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>
+
+                                                    </td>
+                                                    <td>
+                                                        <div>&nbsp;</div>
+                                                        <p style="color: green;">ใช้อักขระ ที่มีทั้งตัวอักษร (A-Z,a-z)
+                                                            ตัวเลข (0-9) และสัญลักษณ์ผสมกัน
+                                                        </p>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td>
+                                                        <input type="button" value="REGISTER ADMIN" id="REGISTER_ADMIN"
+                                                            onclick="regisadmin();" name="REGISTER_ADMIN"
+                                                            style="cursor: pointer;">
+                                                        <p id="p_admin" style="font-size: 18px;"></p>
+
+                                                        <script>
+                                                            function validateUsername() {
+                                                                // var reg = /^-?\d*\.?\d*$/;
+                                                                var regexNumber = /\d/; //ตรวจสอบว่าเป็นตัวเลข
+                                                                var regexLetter_A = /[a-z]/;  // ตรวจสอบว่า เป็นตัวอักษรภาษาอังกฤษ ทั้งพิมพ์ใหญ่และพิมพ์เล็ก
+                                                                var regexLetter_a = /[A-Z]/;
+                                                                var regExpStrong = /[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/;
+                                                                var checkpassadmin = document.getElementById('passadmin').value;
+                                                                if (regexLetter_A.test(checkpassadmin) && (regexLetter_a.test(checkpassadmin)) && (regexNumber.test(checkpassadmin)) && (regExpStrong.test(checkpassadmin))) {
+                                                                    return true;
+                                                                } else {
+                                                                    document.getElementById("p_admin").innerText = "ใช้อักขระ [A-Z,a-z,0-9] และสัญลักษณ์ผสมกัน";
+                                                                    document.getElementById("p_admin").style.color = "red";
+                                                                    return false;
+                                                                }
+                                                            }
+
+
+                                                            function regisadmin() {
+                                                                var chk_pass = validateUsername();
+                                                                if (chk_pass == false) {
+                                                                    return;
+                                                                }
+
+                                                                document.getElementById("p_admin").innerText = "";
+                                                                if (document.getElementById("admin").value == "" || document.getElementById("passadmin").value == "") {
+                                                                    alert("กรุณา กดปุ่ม  GENERATE ADMIN ID และ ระบุ PASSWORD");
+                                                                    return;
+                                                                }
+                                                                $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                                                                    var ipclientUrl;
+                                                                    $.getScript("ipclient.js", function (dataipclient, textStatus, jqxhr) {
+                                                                        ipclientUrl = dataipclient.substring(1, dataipclient.length - 1);
+                                                                    
+                                                                        var urlipaddress = data.substring(1, data.length - 1);
+                                                                        const dataUser = {
+                                                                            user: document.getElementById("admin").value,
+                                                                            password: document.getElementById("passadmin").value,
+                                                                            rule: document.getElementById("RULE").value,
+                                                                            company: document.getElementById("COMPANY").value,
+                                                                            phone: document.getElementById("PHONE").value,
+                                                                            serialKey: document.getElementById("CODE").value,
+                                                                            clientUrl: ipclientUrl.substring(0, ipclientUrl.length - 1),
+                                                                        };
+                                                                        axios.post(urlipaddress + 'regis', dataUser).then(function (response) {
+                                                                        }).then(function (response) {
+                                                                            document.getElementById("p_admin").innerText = "บันทึกสำเร็จ";
+                                                                            document.getElementById("p_admin").style.color = "green";
+                                                                        }).catch(function (res) {
+                                                                            const { response } = res
+                                                                            if (response.data.message == 'You have no right') {
+                                                                                document.getElementById("p_admin").innerText = "คุณไม่มีสิทธิ์ทำรายการนี้";
+                                                                                document.getElementById("p_admin").style.color = "red";
+                                                                            } else
+                                                                                if (response.data.message == 'This user has already been used.') {
+                                                                                    document.getElementById("p_admin").innerText = "ชื่อผู้ใช้นี้ มีอยุ่ในระบบแล้ว";
+                                                                                    document.getElementById("p_admin").style.color = "red";
+                                                                                }
+                                                                                else {
+                                                                                    document.getElementById("p_admin").innerText = "บันทึกไม่สำเร็จ";
+                                                                                    document.getElementById("p_admin").style.color = "red";
+                                                                                }
+                                                                        });
+
+                                                                    });
+
+                                                                });
+                                                            }
+                                                        </script>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <div>&nbsp;</div>
+                                        </div>
+
+
+
+                                        <!-- /// LOGIN -->
+                                        <div>&nbsp;</div>
+                                        <div style="display: none;">
+                                            <h1>REGISTER USER LOGIN ด้วย ADMIN เพื่อลงทะเบียน USER</h1>
+                                            <div style="display: none;">
+
+                                                <input type="button" value="LOGOUT" id="logout" onclick="LOG_OUT()"
+                                                    name="logout" style="cursor: pointer;">
+                                                <p style="color: red; font-size: 18px;">*** กรุณาออกจากระบบทุกครั้ง ***
+                                                </p>
+                                                <p id="p_logout" style="color: green; font-size: 18px;"></p>
+                                            </div>
+                                            <script>
+                                                function LOG_OUT() {
+                                                    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                                                        var urlipaddress = data.substring(1, data.length - 1);
+
+                                                        const databody = {
+                                                            refresh_token: document.getElementById("refreshtoken").value,//refreshtoken
+                                                        }
+
+                                                        axios.post(urlipaddress + 'logout', databody, {
+                                                            headers: {
+                                                                'Authorization': document.getElementById("accesstoken").value//refreshtoken
+                                                            }
+                                                        }).then(function (response) {
+
+                                                            // console.log(response.data)
+
+                                                            if (response.data.message == "success") {
+                                                                document.getElementById("p_logout").innerText = "ออกจากระบบสำเร็จ";
+                                                                location.href = "index.html";
+                                                            } else {
+                                                                // alert("บันทึกข้อมูลไม่สำเร็จ");
+                                                            }
+
+                                                        }).catch(function (res) {
+                                                            const { response } = res
+                                                            // console.log(response.data.message)
+                                                            if (response.data.message == "Unauthorized") {
+                                                                // alert("คุณยังไม่ได้ login admin");
+                                                                location.href = "index.html";
+                                                            }
+                                                        });
+                                                    });
+                                                }
+                                            </script>
+
+
+
+                                            <div>&nbsp;</div>
+                                        </div>
+                                        <div class="div" style="display: none;">
+                                            <div>&nbsp;</div>
+
+                                            <div>
+                                                <table align="center">
+                                                    <tr>
+                                                        <td> USER ID :</td>
+                                                        <td> <input type="text" id="login_user" name="login_user"
+                                                                value=""></td>
+                                                        <td></td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div>&nbsp;</div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>PASSWORD :</td>
+                                                        <td><input type="password" name="login_pass" id="login_pass"
+                                                                value="" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div>&nbsp;</div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <input type="button" value="LOGIN" id="login"
+                                                                onclick="SUBMITLOGIN()" name="login"
+                                                                style="cursor: pointer;">
+                                                            <input type="hidden" id="objid">
+                                                            <input type="hidden" id="accesstoken">
+                                                            <input type="hidden" id="refreshtoken">
+                                                            <input type="hidden" id="userName">
+                                                        </td>
+
+                                                        <script>
+
+                                                            function SUBMITLOGIN() {
+
+                                                                if (document.getElementById("login_user").value == "" || document.getElementById("login_pass").value == "") {
+                                                                    alert("กรุณากรอก USER ID และ PASSWORD");
+                                                                    return;
+                                                                }
+                                                                $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                                                                    var urlipaddress = data.substring(1, data.length - 1);
+                                                                    const dataUser = {
+                                                                        user: document.getElementById("login_user").value,
+                                                                        password: document.getElementById("login_pass").value,
+                                                                    }
+                                                                    axios.post(urlipaddress + 'login', dataUser).then(function (response) {
+                                                                        document.getElementById("tbl_1").style.display = "block";
+                                                                        var decodejwt = parseJwt(response.data.message.refresh_token);
+
+                                                                        document.getElementById("objid").value = decodejwt.userId;
+
+                                                                        //    console.log(data)
+                                                                        //    console.log("data")
+                                                                        axios.post(urlipaddress + 'token', data, {
+                                                                            headers: {
+                                                                                'Authorization': response.data.message.refresh_token
+                                                                            }
+                                                                        }).then(function (response) {
+
+                                                                            document.getElementById("accesstoken").value = response.data.message.access_token
+                                                                            document.getElementById("refreshtoken").value = response.data.message.refresh_token
+                                                                            //      console.log(response.data.message)
+
+                                                                            //////// GET USER
+                                                                            const dataUserID = {
+                                                                                userId: document.getElementById("objid").value
+                                                                            }
+                                                                            axios.post(urlipaddress + 'user', dataUserID, {
+                                                                                headers: {
+                                                                                    'Authorization': response.data.message.access_token
+                                                                                }
+                                                                            }).then(function (response) {
+                                                                                var cnt = response.data.message.data.length;
+                                                                                var n = 0;
+                                                                                var _arr = new Array();
+                                                                                for (i = 0; i < cnt; i++) {
+                                                                                    if (response.data.message.data[i].rule == "user") {
+                                                                                        _arr[n] = {
+                                                                                            _user: response.data.message.data[i].user
+                                                                                        }
+                                                                                        n = n + 1
+                                                                                    }
+
+                                                                                }
+                                                                                //      console.log(_arr)
+                                                                                $('#table1').DataTable({
+                                                                                    "lengthMenu": [[50, 100, 200, 300, 400, 500, 1000, 1500, 2000, -1], [50, 100, 200, 300, 400, 500, 1000, 1500, 2000, "All"]],
+                                                                                    "pageLength": 50,
+                                                                                    'data': _arr,
+                                                                                    "responsive": true,
+                                                                                    "autoWidth": false,
+                                                                                    "order": [],
+                                                                                    "paging": false,
+                                                                                    "ordering": false,
+                                                                                    "searching": false,
+                                                                                    "info": false,
+                                                                                    columns: [
+                                                                                        { data: "_user" },
+                                                                                        {
+                                                                                            data: null,
+                                                                                            className: "center",
+                                                                                            defaultContent: '<i href="" class="editor fa fa-search" style="font-size:16px;color:blue; cursor: pointer;">แก้ไข </i>/ <i href="" class="remove fa fa-minus-circle" style="font-size:14px;color:red; cursor: pointer;">ลบ</i>'
+                                                                                        }
+                                                                                    ]
+                                                                                });
+
+                                                                                $(document).ready(function () {
+                                                                                    $('#table1').on('click', 'i.editor', function (e) {
+                                                                                        e.preventDefault();
+                                                                                        var table = $('#table1').DataTable();
+                                                                                        var _ro = table.row($(this).parents('tr'));
+                                                                                        var data = _ro.data();
+
+                                                                                        if (data == undefined) {
+                                                                                            data = table.row(this).data();
+                                                                                        }
+
+                                                                                        $("#myModaledit").modal();
+
+                                                                                        document.getElementById("user_edit").value = data._user;
+                                                                                        document.getElementById("passuser_old").value = "";
+                                                                                        document.getElementById("passuser_new").value = "";
+                                                                                        document.getElementById("update").innerText = "";
+
+                                                                                    });
+
+
+                                                                                    var data;
+                                                                                    $('#table1').on('click', 'i.remove', function (e) {
+                                                                                        e.preventDefault();
+                                                                                        var table = $('#table1').DataTable();
+                                                                                        var _ro = table.row($(this).parents('tr'));
+                                                                                        data = _ro.data();
+
+                                                                                        if (data == undefined) {
+                                                                                            data = table.row(this).data();
+                                                                                        }
+
+                                                                                        $("#myModaldelete").modal();
+                                                                                        document.getElementById("c_delete").style.display = "block";
+                                                                                        document.getElementById("completed").style.display = "none";
+                                                                                        document.getElementById("user_edit").value = data._user;
+                                                                                        document.getElementById("passuser_old").value = "";
+                                                                                        document.getElementById("passuser_new").value = "";
+                                                                                        document.getElementById("update").innerText = "";
+                                                                                        $("#lbl_completed").text('คุณต้องการจะลบข้อมูล ใช่หรือไม่');
+
+                                                                                    });
+
+                                                                                    $('#deleteUser').on('click', function (e) {
+                                                                                        //     console.log('adadasda' + decodejwt.userId)
+
+                                                                                        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                                                                                            var urlipaddress = data.substring(1, data.length - 1);
+                                                                                            const dataUser = {
+                                                                                                userId: decodejwt.userId,
+                                                                                                userName: document.getElementById("user_edit").value
+                                                                                            }
+                                                                                            //      console.log(document.getElementById("refreshtoken").value)
+                                                                                            //    console.log(document.getElementById("accesstoken").value)
+                                                                                            //   console.log(dataUser)
+
+                                                                                            axios({
+                                                                                                url: urlipaddress + 'delPass',
+                                                                                                method: 'delete',
+                                                                                                data: {
+                                                                                                    userId: decodejwt.userId,
+                                                                                                    userName: document.getElementById("user_edit").value
+                                                                                                },
+                                                                                                headers: { 'Authorization': document.getElementById("accesstoken").value }
+                                                                                            }).then(function (response) {
+                                                                                                //    console.log(response.data)
+                                                                                                if (response.data.message == "delete completed") {
+                                                                                                    document.getElementById("c_delete").style.display = "none";
+                                                                                                    document.getElementById("completed").style.display = "block";
+                                                                                                    $("#lbl_completed").text('ลบข้อมูลสำเร็จ');
+                                                                                                }
+
+
+                                                                                                //////// GET USER
+                                                                                                const dataUserID = {
+                                                                                                    userId: document.getElementById("objid").value
+                                                                                                }
+                                                                                                axios.post(urlipaddress + 'user', dataUserID, {
+                                                                                                    headers: {
+                                                                                                        'Authorization': document.getElementById("accesstoken").value
+                                                                                                    }
+                                                                                                }).then(function (response) {
+                                                                                                    //       console.log('2')
+                                                                                                    //       console.log(response)
+                                                                                                    var cnt = response.data.message.data.length;
+                                                                                                    var n = 0;
+                                                                                                    var _arr = new Array();
+                                                                                                    for (i = 0; i < cnt; i++) {
+                                                                                                        if (response.data.message.data[i].rule == "user") {
+                                                                                                            _arr[n] = {
+                                                                                                                _user: response.data.message.data[i].user
+                                                                                                            }
+                                                                                                            n = n + 1
+                                                                                                        }
+                                                                                                    }
+                                                                                                    //   console.log(_arr)
+                                                                                                    $('#table1').DataTable().destroy();
+                                                                                                    $('#table1').DataTable({
+                                                                                                        "lengthMenu": [[50, 100, 200, 300, 400, 500, 1000, 1500, 2000, -1], [50, 100, 200, 300, 400, 500, 1000, 1500, 2000, "All"]],
+                                                                                                        "pageLength": 50,
+                                                                                                        'data': _arr,
+                                                                                                        "responsive": true,
+                                                                                                        "autoWidth": false,
+                                                                                                        "order": [],
+                                                                                                        "paging": false,
+                                                                                                        "ordering": false,
+                                                                                                        "searching": false,
+                                                                                                        "info": false,
+                                                                                                        columns: [
+                                                                                                            { data: "_user" },
+                                                                                                            {
+                                                                                                                data: null,
+                                                                                                                className: "center",
+                                                                                                                defaultContent: '<i href="" class="editor fa fa-search" style="font-size:16px;color:blue; cursor: pointer;">แก้ไข </i>/ <i href="" class="remove fa fa-minus-circle" style="font-size:14px;color:red; cursor: pointer;">ลบ</i>'
+                                                                                                            }
+                                                                                                        ]
+                                                                                                    });
+
+                                                                                                    $(document).ready(function () {
+                                                                                                        $('#table1').on('click', 'i.editor', function (e) {
+                                                                                                            e.preventDefault();
+                                                                                                            var table = $('#table1').DataTable();
+                                                                                                            var _ro = table.row($(this).parents('tr'));
+                                                                                                            var data = _ro.data();
+
+                                                                                                            if (data == undefined) {
+                                                                                                                data = table.row(this).data();
+                                                                                                            }
+
+                                                                                                            $("#myModaledit").modal();
+
+                                                                                                            document.getElementById("user_edit").value = data._user;
+                                                                                                            document.getElementById("passuser_old").value = "";
+                                                                                                            document.getElementById("passuser_new").value = "";
+                                                                                                            document.getElementById("update").innerText = "";
+
+                                                                                                        });
+
+
+                                                                                                        var data;
+                                                                                                        $('#table1').on('click', 'i.remove', function (e) {
+                                                                                                            e.preventDefault();
+                                                                                                            var table = $('#table1').DataTable();
+                                                                                                            var _ro = table.row($(this).parents('tr'));
+                                                                                                            data = _ro.data();
+
+                                                                                                            if (data == undefined) {
+                                                                                                                data = table.row(this).data();
+                                                                                                            }
+
+                                                                                                            $("#myModaldelete").modal();
+                                                                                                            document.getElementById("user_edit").value = data._user;
+                                                                                                            document.getElementById("passuser_old").value = "";
+                                                                                                            document.getElementById("passuser_new").value = "";
+                                                                                                            document.getElementById("update").innerText = "";
+                                                                                                            $("#lbl_completed").text('คุณต้องการจะลบข้อมูล ใช่หรือไม่');
+
+                                                                                                        });
+
+                                                                                                        $('#deleteUser').on('click', function (e) {
+                                                                                                            //    console.log('adadasda' + decodejwt.userId)
+
+                                                                                                            $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                                                                                                                var urlipaddress = data.substring(1, data.length - 1);
+                                                                                                                const dataUser = {
+                                                                                                                    userId: decodejwt.userId,
+                                                                                                                    userName: document.getElementById("user_edit").value
+                                                                                                                }
+                                                                                                                //     console.log(document.getElementById("refreshtoken").value)
+                                                                                                                //    console.log(document.getElementById("accesstoken").value)
+                                                                                                                //    console.log(dataUser)
+
+                                                                                                                axios({
+                                                                                                                    url: urlipaddress + 'delPass',
+                                                                                                                    method: 'delete',
+                                                                                                                    data: {
+                                                                                                                        userId: decodejwt.userId,
+                                                                                                                        userName: document.getElementById("user_edit").value
+                                                                                                                    },
+                                                                                                                    headers: { 'Authorization': document.getElementById("accesstoken").value }
+                                                                                                                }).then(function (response) {
+                                                                                                                    //    console.log(response.data)
+                                                                                                                    if (response.data.message == "delete completed") {
+                                                                                                                        document.getElementById("c_delete").style.display = "none";
+                                                                                                                        document.getElementById("completed").style.display = "block";
+                                                                                                                        $("#lbl_completed").text('ลบข้อมูลสำเร็จ');
+
+
+                                                                                                                    }
+
+                                                                                                                }).catch(function (res) {
+                                                                                                                    const { response } = res
+                                                                                                                    //   console.log(response.data.message)
+                                                                                                                });
+                                                                                                            });
+                                                                                                        });
+                                                                                                    });
+
+                                                                                                }).catch(function (res) {
+                                                                                                    const { response } = res
+                                                                                                    // console.log(response.data.message)
+                                                                                                });
+
+                                                                                            }).catch(function (res) {
+                                                                                                const { response } = res
+                                                                                                //  console.log(response.data.message)
+                                                                                            });
+                                                                                        });
+                                                                                    });
+                                                                                });
+
+
+
+                                                                            }).catch(function (res) {
+                                                                                const { response } = res
+                                                                                //console.log(response.data.message)
+                                                                            });
+
+
+                                                                        }).catch(function (res) {
+                                                                            const { response } = res
+                                                                            //console.log(response.data.message)
+                                                                        });
+                                                                    }).catch(function (res) {
+                                                                        const { response } = res
+                                                                        // console.log(response.data.message)
+                                                                    });
+                                                                });
+                                                            }
+
+                                                            function parseJwt(token) {
+                                                                var base64Url = token.split('.')[1];
+                                                                var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                                                                var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+                                                                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                                                                }).join(''));
+                                                                return JSON.parse(jsonPayload);
+                                                            };
+                                                        </script>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+
+                                            <div>&nbsp;</div>
+
+
+                                            <!-- /// USER -->
+
+                                            <div>&nbsp;</div>
+                                            <div id="tbl_1" style="display: none;">
+                                                <div style="text-align: center;">
+                                                    <div>
+                                                        <h1>ADD USER</h1>
+                                                    </div>
+                                                </div>
+                                                <table align="center">
+                                                    <tr>
+                                                        <td> USER :</td>
+                                                        <td> <input type="text" id="user" name="user"></td>
+                                                        <td></td>
+                                                        <td> <input type="button" value="GENERATE USER ID"
+                                                                id="GENERATE_USER" style="display: none;"
+                                                                onclick="GENERATECLICKUSER()" name="GENERATE_USER"
+                                                                style="cursor: pointer;"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div>&nbsp;</div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>PASSWORD :</td>
+                                                        <td><input type="password" name="passuser" id="passuser" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <div>&nbsp;</div>
+                                                            <p style="color: green;">ใช้อักขระ ที่มีทั้งตัวอักษร
+                                                                (A-Z,a-z) ตัวเลข (0-9) และสัญลักษณ์ผสมกัน
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <input type="button" value="REGISTER USER"
+                                                                id="REGISTER_USER" onclick="ADDACCOUNT()"
+                                                                name="REGISTER_USER" style="cursor: pointer;">
+                                                            <p id="save" style="color: green; font-size: 18px;"></p>
+                                                        </td>
+
+                                                        <script>
+
+
+                                                            function validateUsernameUSER() {
+                                                                // var reg = /^-?\d*\.?\d*$/;
+                                                                var regexNumber = /\d/; //ตรวจสอบว่าเป็นตัวเลข
+                                                                var regexLetter_A = /[a-z]/;  // ตรวจสอบว่า เป็นตัวอักษรภาษาอังกฤษ ทั้งพิมพ์ใหญ่และพิมพ์เล็ก
+                                                                var regexLetter_a = /[A-Z]/;
+                                                                var regExpStrong = /[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/;
+                                                                var checkpassadmin = document.getElementById('passuser').value;
+                                                                //  console.log("en" + regexLetter_a.test(checkpassadmin));
+                                                                //  console.log("EN" + regexLetter_A.test(checkpassadmin));
+                                                                //  console.log("NUM" + regexNumber.test(checkpassadmin));
+                                                                //  console.log("Strong" + regExpStrong.test(checkpassadmin));
+
+                                                                // console.log("reg"+reg.test(checkpassadmin));
+                                                                // เงื่อนไข  ถ้าไม่ใช่ตัวอักษรภาษาอังกฤษ  หรือ  เป็นตัวอักษรภาษาไทย  ให้แสดงข้อความเตือน
+                                                                if (regexLetter_A.test(checkpassadmin) && (regexLetter_a.test(checkpassadmin)) && (regexNumber.test(checkpassadmin)) && (regExpStrong.test(checkpassadmin))) {
+                                                                    return true;
+                                                                } else {
+                                                                    document.getElementById("save").innerText = "ใช้อักขระ [A-Z,a-z,0-9] และสัญลักษณ์ผสมกัน";
+                                                                    document.getElementById("save").style.color = "red";
+                                                                    return false;
+                                                                }
+                                                            }
+
+
+                                                            function ADDACCOUNT() {
+
+                                                                var chk_pass = validateUsernameUSER();
+                                                                if (chk_pass == false) {
+                                                                    return;
+                                                                }
+
+                                                                if (document.getElementById("user").value == "" || document.getElementById("passuser").value == "") {
+                                                                    alert("กรุณา กดปุ่ม  GENERATE USER ID และ ระบุ PASSWORD");
+                                                                    return;
+                                                                }
+                                                                $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                                                                    var urlipaddress = data.substring(1, data.length - 1);
+                                                                    // console.log(document.getElementById("accesstoken").value)
+
+                                                                    const dataUser = {
+                                                                        userId: document.getElementById("objid").value,
+                                                                        user: document.getElementById("user").value,
+                                                                        password: document.getElementById("passuser").value,
+                                                                        rule: 'user'
+                                                                    }
+
+                                                                    axios.put(urlipaddress + 'addAccount', dataUser, {
+                                                                        headers: {
+                                                                            'Authorization': document.getElementById("accesstoken").value
+                                                                        }
+                                                                    }).then(function (response) {
+                                                                        //  console.log('1')
+                                                                        document.getElementById("tbl_1").style.display = "block";
+                                                                        //   console.log(response.data)
+
+                                                                        if (response.data.message == "This user has already been used.") {
+                                                                            alert("มีข้อมูลในระบบแล้ว");
+                                                                        } else {
+                                                                            document.getElementById("save").innerText = "บันทึกสำเร็จ";
+                                                                            document.getElementById("save").style.color = "green";
+                                                                        }
+
+
+
+
+
+
+                                                                        //////// GET USER
+                                                                        const dataUserID = {
+                                                                            userId: document.getElementById("objid").value
+                                                                        }
+                                                                        axios.post(urlipaddress + 'user', dataUserID, {
+                                                                            headers: {
+                                                                                'Authorization': document.getElementById("accesstoken").value
+                                                                            }
+                                                                        }).then(function (response) {
+                                                                            //  console.log('2')
+                                                                            //  console.log(response)
+                                                                            var cnt = response.data.message.data.length;
+                                                                            var n = 0;
+                                                                            var _arr = new Array();
+                                                                            for (i = 0; i < cnt; i++) {
+                                                                                if (response.data.message.data[i].rule == "user") {
+                                                                                    _arr[n] = {
+                                                                                        _user: response.data.message.data[i].user
+                                                                                    }
+                                                                                    n = n + 1
+                                                                                }
+                                                                            }
+                                                                            //  console.log(_arr)
+                                                                            $('#table1').DataTable().destroy();
+                                                                            $('#table1').DataTable({
+                                                                                "lengthMenu": [[50, 100, 200, 300, 400, 500, 1000, 1500, 2000, -1], [50, 100, 200, 300, 400, 500, 1000, 1500, 2000, "All"]],
+                                                                                "pageLength": 50,
+                                                                                'data': _arr,
+                                                                                "responsive": true,
+                                                                                "autoWidth": false,
+                                                                                "order": [],
+                                                                                "paging": false,
+                                                                                "ordering": false,
+                                                                                "searching": false,
+                                                                                "info": false,
+                                                                                columns: [
+                                                                                    { data: "_user" },
+                                                                                    {
+                                                                                        data: null,
+                                                                                        className: "center",
+                                                                                        defaultContent: '<i href="" class="editor fa fa-search" style="font-size:16px;color:blue; cursor: pointer;">แก้ไข </i>/ <i href="" class="remove fa fa-minus-circle" style="font-size:14px;color:red; cursor: pointer;">ลบ</i>'
+                                                                                    }
+                                                                                ]
+                                                                            });
+
+                                                                            $(document).ready(function () {
+                                                                                $('#table1').on('click', 'i.editor', function (e) {
+                                                                                    e.preventDefault();
+                                                                                    var table = $('#table1').DataTable();
+                                                                                    var _ro = table.row($(this).parents('tr'));
+                                                                                    var data = _ro.data();
+
+                                                                                    if (data == undefined) {
+                                                                                        data = table.row(this).data();
+                                                                                    }
+
+                                                                                    $("#myModaledit").modal();
+
+                                                                                    document.getElementById("user_edit").value = data._user;
+                                                                                    document.getElementById("passuser_old").value = "";
+                                                                                    document.getElementById("passuser_new").value = "";
+                                                                                    document.getElementById("update").innerText = "";
+
+                                                                                });
+
+
+                                                                                var data;
+                                                                                $('#table1').on('click', 'i.remove', function (e) {
+                                                                                    e.preventDefault();
+                                                                                    var table = $('#table1').DataTable();
+                                                                                    var _ro = table.row($(this).parents('tr'));
+                                                                                    data = _ro.data();
+
+                                                                                    if (data == undefined) {
+                                                                                        data = table.row(this).data();
+                                                                                    }
+
+                                                                                    $("#myModaldelete").modal();
+                                                                                    document.getElementById("user_edit").value = data._user;
+                                                                                    document.getElementById("passuser_old").value = "";
+                                                                                    document.getElementById("passuser_new").value = "";
+                                                                                    document.getElementById("update").innerText = "";
+                                                                                    $("#lbl_completed").text('คุณต้องการจะลบข้อมูล ใช่หรือไม่');
+
+                                                                                });
+
+                                                                                $('#deleteUser').on('click', function (e) {
+                                                                                    // console.log('adadasda' + decodejwt.userId)
+
+                                                                                    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                                                                                        var urlipaddress = data.substring(1, data.length - 1);
+                                                                                        const dataUser = {
+                                                                                            userId: decodejwt.userId,
+                                                                                            userName: document.getElementById("user_edit").value
+                                                                                        }
+                                                                                        //  console.log(document.getElementById("refreshtoken").value)
+                                                                                        //  console.log(document.getElementById("accesstoken").value)
+                                                                                        // console.log(dataUser)
+
+                                                                                        axios({
+                                                                                            url: urlipaddress + 'delPass',
+                                                                                            method: 'delete',
+                                                                                            data: {
+                                                                                                userId: decodejwt.userId,
+                                                                                                userName: document.getElementById("user_edit").value
+                                                                                            },
+                                                                                            headers: { 'Authorization': document.getElementById("accesstoken").value }
+                                                                                        }).then(function (response) {
+                                                                                            //    console.log(response.data)
+                                                                                            if (response.data.message == "delete completed") {
+                                                                                                document.getElementById("c_delete").style.display = "none";
+                                                                                                document.getElementById("completed").style.display = "block";
+                                                                                                $("#lbl_completed").text('ลบข้อมูลสำเร็จ');
+                                                                                            }
+
+                                                                                        }).catch(function (res) {
+                                                                                            const { response } = res
+                                                                                            //  console.log(response.data.message)
+                                                                                        });
+                                                                                    });
+                                                                                });
+                                                                            });
+                                                                        }).catch(function (res) {
+                                                                            const { response } = res
+                                                                            // console.log(response.data.message)
+                                                                        });
+                                                                    }).catch(function (res) {
+                                                                        const { response } = res
+                                                                        // console.log(response.data.message)
+                                                                        if (response.data.message == "update fail.") {
+                                                                            alert("บันทึกข้อมูลไม่สำเร็จ");
+                                                                        }
+                                                                    });
+                                                                });
+                                                            }
+                                                        </script>
+                                                    </tr>
+                                                </table>
+
+                                                <table align="center"
+                                                    style="text-align:center; width: 800px; height: 200px;" id="table1"
+                                                    border="1px">
+                                                    <thead>
+                                                        <tr style="text-align:center;">
+                                                            <th style="text-align:center; font-size: 18px;">USER ID</th>
+                                                            <th style="text-align:center; font-size: 18px;">แก้ไข/ลบ
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+
+                                                <!-- // แก้ไข PASSWORD -->
+                                                <div class="container">
+                                                    <div class="modal fade" id="myModaledit" role="dialog">
+                                                        <div class="modal-dialog">
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 id="title_dalete_official" class="modal-title">
+                                                                        เปลี่ยน PASSWORD</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="container">
+                                                                        <table>
+                                                                            <tr>
+                                                                                <td> USER :</td>
+                                                                                <td> <input type="text" id="user_edit"
+                                                                                        name="user_edit"></td>
+                                                                                <td></td>
+                                                                                <td> </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <div>&nbsp;</div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>PASSWORD :</td>
+                                                                                <td><input type="password"
+                                                                                        name="passuser_old"
+                                                                                        id="passuser_old" /></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <div>&nbsp;</div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>NEWPASSWORD :</td>
+                                                                                <td><input type="password"
+                                                                                        name="passuser_new"
+                                                                                        id="passuser_new" /></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <div>&nbsp;</div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td></td>
+                                                                                <td>
+                                                                                    <input type="button"
+                                                                                        value="UPDATE PASSWORD"
+                                                                                        id="UPDATE"
+                                                                                        onclick="UPDATE_PASSWORD()"
+                                                                                        name="UPDATE"
+                                                                                        style="cursor: pointer;">
+                                                                                    <p id="update"
+                                                                                        style="color: green; font-size: 18px;">
+                                                                                    </p>
+                                                                                </td>
+
+                                                                                <script>
+                                                                                    function UPDATE_PASSWORD() {
+                                                                                        if (document.getElementById("user_edit").value == "" || document.getElementById("passuser_old").value == "" || document.getElementById("passuser_new").value == "") {
+                                                                                            alert("กรุณา ระบุ ข้อมูลให้ครบ !!!");
+                                                                                            return;
+                                                                                        }
+                                                                                        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                                                                                            var urlipaddress = data.substring(1, data.length - 1);
+                                                                                            const dataUser = {
+                                                                                                user: document.getElementById("user_edit").value,
+                                                                                                password: document.getElementById("passuser_old").value,
+                                                                                                newPassword: document.getElementById("passuser_new").value,
+                                                                                            }
+
+                                                                                            axios.post(urlipaddress + 'changePass', dataUser, {
+                                                                                                headers: {
+                                                                                                    'Authorization': document.getElementById("accesstoken").value
+                                                                                                }
+                                                                                            }).then(function (response) {
+                                                                                                //  console.log(response.data)
+                                                                                                if (response.data.message == "Complete Registration") {
+                                                                                                    document.getElementById("update").innerText = "อัพเดทสำเร็จ";
+                                                                                                }
+
+                                                                                            }).catch(function (res) {
+                                                                                                const { response } = res
+                                                                                                //   console.log(response.data.message)
+                                                                                                if (response.data.message == "update fail.") {
+                                                                                                    alert("บันทึกข้อมูลไม่สำเร็จ");
+                                                                                                    document.getElementById("update").innerText = "";
+                                                                                                    document.getElementById("update").style.color = "red";
+                                                                                                }
+                                                                                                if (response.data.message == "Wrong user or password") {
+                                                                                                    document.getElementById("update").innerText = "รหัสผ่านเดิม ไม่ถูกต้อง !!!";
+                                                                                                    document.getElementById("update").style.color = "red";
+                                                                                                }
+
+                                                                                            });
+                                                                                        });
+                                                                                    }
+                                                                                </script>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default"
+                                                                        data-dismiss="modal">ปิด</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+
+
+
+                                                <!-- /// ลบ -->
+                                                <div class="container">
+                                                    <div class="modal fade" id="myModaldelete" role="dialog">
+                                                        <div class="modal-dialog" style="width: 300px; height: 200px;">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 id="title" class="modal-title">ลบข้อมูล</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="container">
+                                                                        <div class="row">
+                                                                            <div class="col-20">
+                                                                                <i class="fa fa-exclamation-triangle"
+                                                                                    id="c_delete"
+                                                                                    style="font-size:48px;color:red"></i>
+                                                                                <i class="fa fa-check-circle"
+                                                                                    id="completed"
+                                                                                    style="font-size:48px;color:green; display: none;"></i>
+                                                                            </div>
+
+                                                                            <div>
+                                                                                <label id="lbl_completed"
+                                                                                    for="fname"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <!-- <input type="button" value="ตกลง" id="deleteUser"
+                                                                    onclick="Click_DELETE()" name="deleteUser"
+                                                                    style="cursor: pointer;"> -->
+                                                                    <input type="button" value="ตกลง" id="deleteUser"
+                                                                        class="primary btn btn-default" />
+
+                                                                    <button type="button" class="btn btn-default"
+                                                                        data-dismiss="modal">ปิด</button>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div>&nbsp;</div>
+                                        </div>
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </section>
+
+    <!-- Jquery Core Js -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core Js -->
+    <script src="../../plugins/bootstrap/js/bootstrap.js"></script>
+
+    <!-- Select Plugin Js -->
+    <!-- <script src="../../plugins/bootstrap-select/js/bootstrap-select.js"></script> -->
+
+    <!-- Slimscroll Plugin Js -->
+    <script src="../../plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script src="../../plugins/node-waves/waves.js"></script>
+
+    <script src="../../plugins/light-gallery/js/lightgallery-all.js"></script>
+    <script src="../../js/pages/medias/image-gallery.js"></script>
+
+    <script src="../../plugins/autosize/autosize.js"></script>
+
+    <script src="../../plugins/momentjs/moment.js"></script>
+
+
+    <script src="../../plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+
+    <!-- Bootstrap Datepicker Plugin Js -->
+    <script src="../../plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <!-- Bootstrap Material Datetime Picker Plugin Js -->
+
+
+
+    <!-- Jquery DataTable Plugin Js -->
+    <script src="../../plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <script src="../../plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+
+
+
+
+    <script src="../../js/pages/forms/basic-form-elements.js"></script>
+    <!-- Custom Js -->
+    <script src="../../js/admin.js"></script>
+    <script src="../../js/demo.js"></script>
+    <script src="../../plugins2/dataTables.responsive.min.js"></script>
+</body>
+
+</html>

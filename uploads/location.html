@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="icon" href="../../uploads/logo.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
+        type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="../../plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="../../plugins/node-waves/waves.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="../../plugins/animate-css/animate.css" rel="stylesheet" />
+
+    <!-- Bootstrap Material Datetime Picker Css -->
+    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+        rel="stylesheet" />
+
+    <!-- Bootstrap DatePicker Css -->
+    <link href="../../plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+
+    <!-- Wait Me Css -->
+    <link href="../../plugins/waitme/waitMe.css" rel="stylesheet" />
+
+    <!-- Bootstrap Select Css -->
+    <link href="../../plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link href="../../css/style.css" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="../../css/themes/all-themes.css" rel="stylesheet" />
+
+    <!-- cookie -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.mjs"></script>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+    <!-- modal  -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <!-- Custom Css -->
+    <link href="../../css/style.css" rel="stylesheet">
+    <script type="text/javascript" src="../getlogo_name.js"></script>
+
+</head>
+
+
+<script>
+  
+
+
+</script>
+
+
+
+
+<body class="theme-red">
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+    <!-- #END# Page Loader -->
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+    <!-- #END# Overlay For Sidebars -->
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <div class="search-icon">
+            <i class="material-icons">search</i>
+        </div>
+        <input type="text" placeholder="START TYPING...">
+        <div class="close-search">
+            <i class="material-icons">close</i>
+        </div>
+    </div>
+    <!-- #END# Search Bar -->
+    <!-- Top Bar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand" id="logoname" href="viewdashboard.html"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Call Search -->
+
+                    <!-- #END# Call Search -->
+                    <!-- Notifications -->
+                    <li class="dropdown">
+
+                        <ul class="dropdown-menu">
+                            <li class="header">NOTIFICATIONS</li>
+                            <li class="body">
+                                <ul class="menu">
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-light-green">
+                                                <i class="material-icons">person_add</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4>12 new members joined</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 14 mins ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-cyan">
+                                                <i class="material-icons">add_shopping_cart</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4>4 sales made</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 22 mins ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-red">
+                                                <i class="material-icons">delete_forever</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4><b>Nancy Doe</b> deleted account</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 3 hours ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-orange">
+                                                <i class="material-icons">mode_edit</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4><b>Nancy</b> changed name</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 2 hours ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-blue-grey">
+                                                <i class="material-icons">comment</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4><b>John</b> commented your post</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 4 hours ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-light-green">
+                                                <i class="material-icons">cached</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4><b>John</b> updated status</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 3 hours ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-purple">
+                                                <i class="material-icons">settings</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4>Settings updated</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> Yesterday
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="footer">
+                                <a href="javascript:void(0);">View All Notifications</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- #END# Notifications -->
+                    <!-- Tasks -->
+                    <li class="dropdown">
+
+                        <ul class="dropdown-menu">
+                            <li class="header">TASKS</li>
+                            <li class="body">
+                                <ul class="menu tasks">
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Footer display issue
+                                                <small>32%</small>
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-pink" role="progressbar" aria-valuenow="85"
+                                                    aria-valuemin="0" aria-valuemax="100" style="width: 32%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Make new buttons
+                                                <small>45%</small>
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-cyan" role="progressbar" aria-valuenow="85"
+                                                    aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Create new dashboard
+                                                <small>54%</small>
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-teal" role="progressbar" aria-valuenow="85"
+                                                    aria-valuemin="0" aria-valuemax="100" style="width: 54%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Solve transition issue
+                                                <small>65%</small>
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-orange" role="progressbar"
+                                                    aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"
+                                                    style="width: 65%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Answer GitHub questions
+                                                <small>92%</small>
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-purple" role="progressbar"
+                                                    aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"
+                                                    style="width: 92%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="footer">
+                                <a href="javascript:void(0);">View All Tasks</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- #END# Tasks -->
+                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i
+                                class="material-icons">more_vert</i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+    <section>
+        <!-- Left Sidebar -->
+        <aside id="leftsidebar" class="sidebar" style="text-align:center;">
+            <!-- User Info -->
+            <div class="user-info" style="text-align:center;">
+                <div class="image">
+                    <img id="LOGOVIEW" name="LOGOVIEW" width="100" height="100" alt="User" />
+
+                </div>
+                <div><br></div>
+                <div><br></div>
+                <div style="color: white;">
+                    <div class="name" data-toggle="dropdown" id="userlogin"  aria-haspopup="true" aria-expanded="false"></div>
+                </div>
+            </div>
+            <div class="menu">
+                <ul class="list">
+                    <li class="active">
+                        <a href="location.html">
+                            <i class="material-icons">home</i>
+                            <span>location</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- #Menu -->
+            <!-- Footer -->
+
+            <!-- #Footer -->
+        </aside>
+        <!-- #END# Left Sidebar -->
+        <!-- Right Sidebar -->
+        <aside id="rightsidebar" class="right-sidebar">
+            <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                <li role="presentation" class="active"><a href="#skins" data-toggle="tab">SKINS</a></li>
+                <!-- <li role="presentation"><a href="#settings" data-toggle="tab">SETTINGS</a></li> -->
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active in active" id="skins">
+                    <ul class="demo-choose-skin">
+                        <li data-theme="red" class="active">
+                            <div class="red"></div>
+                            <span>Red</span>
+                        </li>
+                        <li data-theme="pink">
+                            <div class="pink"></div>
+                            <span>Pink</span>
+                        </li>
+                        <li data-theme="purple">
+                            <div class="purple"></div>
+                            <span>Purple</span>
+                        </li>
+                        <li data-theme="deep-purple">
+                            <div class="deep-purple"></div>
+                            <span>Deep Purple</span>
+                        </li>
+                        <li data-theme="indigo">
+                            <div class="indigo"></div>
+                            <span>Indigo</span>
+                        </li>
+                        <li data-theme="blue">
+                            <div class="blue"></div>
+                            <span>Blue</span>
+                        </li>
+                        <li data-theme="light-blue">
+                            <div class="light-blue"></div>
+                            <span>Light Blue</span>
+                        </li>
+                        <li data-theme="cyan">
+                            <div class="cyan"></div>
+                            <span>Cyan</span>
+                        </li>
+                        <li data-theme="teal">
+                            <div class="teal"></div>
+                            <span>Teal</span>
+                        </li>
+                        <li data-theme="green">
+                            <div class="green"></div>
+                            <span>Green</span>
+                        </li>
+                        <li data-theme="light-green">
+                            <div class="light-green"></div>
+                            <span>Light Green</span>
+                        </li>
+                        <li data-theme="lime">
+                            <div class="lime"></div>
+                            <span>Lime</span>
+                        </li>
+                        <li data-theme="yellow">
+                            <div class="yellow"></div>
+                            <span>Yellow</span>
+                        </li>
+                        <li data-theme="amber">
+                            <div class="amber"></div>
+                            <span>Amber</span>
+                        </li>
+                        <li data-theme="orange">
+                            <div class="orange"></div>
+                            <span>Orange</span>
+                        </li>
+                        <li data-theme="deep-orange">
+                            <div class="deep-orange"></div>
+                            <span>Deep Orange</span>
+                        </li>
+                        <li data-theme="brown">
+                            <div class="brown"></div>
+                            <span>Brown</span>
+                        </li>
+                        <li data-theme="grey">
+                            <div class="grey"></div>
+                            <span>Grey</span>
+                        </li>
+                        <li data-theme="blue-grey">
+                            <div class="blue-grey"></div>
+                            <span>Blue Grey</span>
+                        </li>
+                        <li data-theme="black">
+                            <div class="black"></div>
+                            <span>Black</span>
+                        </li>
+                    </ul>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="settings">
+                    <div class="demo-settings">
+                        <p>GENERAL SETTINGS</p>
+                        <ul class="setting-list">
+                            <li>
+                                <span>Report Panel Usage</span>
+                                <div class="switch">
+                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                </div>
+                            </li>
+                            <li>
+                                <span>Email Redirect</span>
+                                <div class="switch">
+                                    <label><input type="checkbox"><span class="lever"></span></label>
+                                </div>
+                            </li>
+                        </ul>
+                        <p>SYSTEM SETTINGS</p>
+                        <ul class="setting-list">
+                            <li>
+                                <span>Notifications</span>
+                                <div class="switch">
+                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                </div>
+                            </li>
+                            <li>
+                                <span>Auto Updates</span>
+                                <div class="switch">
+                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                </div>
+                            </li>
+                        </ul>
+                        <p>ACCOUNT SETTINGS</p>
+                        <ul class="setting-list">
+                            <li>
+                                <span>Offline</span>
+                                <div class="switch">
+                                    <label><input type="checkbox"><span class="lever"></span></label>
+                                </div>
+                            </li>
+                            <li>
+                                <span>Location Permission</span>
+                                <div class="switch">
+                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- #END# Right Sidebar -->
+    </section>
+
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <h2>
+                </h2>
+            </div>
+            <!-- Basic Validation -->
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="card">
+                        <div class="header">
+                            <h2>:: ประกาศ ::</h2>
+
+                        </div>
+                        <div class="body">
+                            <form id="formElem">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="posttopic" id="posttopic" value=""
+                                            required autocomplete=off />
+                                        <label class="form-label">หัวข้อ</label>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <div class="input-group date" id="bs_datepicker_component_container">
+                                            <div class="">
+                                                <input type="text" class="form-control" placeholder="วันที่ประกาศ"
+                                                    autocomplete=off id="datetimenotice">
+                                            </div>
+                                            <span class="input-group-addon">
+                                                <i class="material-icons" style="cursor: pointer;">date_range</i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <input type="file" name="fileimage" type="file" accept=".png, .jpg, .jpeg" multiple
+                                        id="fileimage">
+                                    <label class="form-label">เลือกรูปภาพอัพโหลด</label>
+
+                                </div>
+
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <textarea class="form-control" id="postdetail" name="postdetail" rows="3"
+                                            required placeholder="รายละเอียด"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <textarea class="form-control" id="weblink" name="weblink" rows="3"
+                                            placeholder="เว็บลิงค์"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="password" class="form-control" name="password" required>
+                                        <label class="form-label">Password</label>
+                                    </div>
+                                </div> -->
+
+
+                                <button class="btn btn-primary waves-effect" onclick="postdataAAA()"
+                                    id="submitpostinvoice" class="primary" type="button">บันทึก</button>
+                                <p style="font-size: 18px;;" id="lbl_notice" name="lbl_notice"></p>
+                                <!-- <input type="button" value="บันทึก" class="btn btn-primary waves-effect"
+                                    onclick="postdataAAA()" id="submitpostinvoice" class="primary" /> -->
+                            </form>
+
+                            <script>
+                                function postdataAAA() {
+                                      alert('cdescfe')
+
+                                    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                                        var urlipaddress = data.substring(1, data.length - 1);
+
+
+                                        var _posttopic = document.getElementById("posttopic").value;
+                                        var _date = document.getElementById("datetimenotice").value;
+                                        var _postdetail = document.getElementById("postdetail").value;
+                                        var _weblink = document.getElementById("weblink").value;
+
+
+                                        if (_posttopic == '' || _date == '' || _postdetail == '') {
+                                            alert('sdsd')
+                                            document.getElementById("lbl_notice").innerText = "กรุณากรอกข้อมูลให้ครบ";
+                                            document.getElementById("lbl_notice").style.color = "red";
+                                            //  alert('dsds')
+                                            // if (_posttopic == '') { document.getElementById("posttopic").style.borderColor = "red"; }
+                                            // if (_date == '') { document.getElementById("datetimenotice").style.borderColor = "red"; }
+                                            // if (_postdetail == '') { document.getElementById("postdetail").style.borderColor = "red"; }
+                                            // $("#myModaldont").modal();
+
+                                            return;
+                                        }
+                                        var today = new Date();
+                                        var ti = today.toLocaleTimeString('en-US', {
+                                            hour12: false,
+                                            hour: "numeric",
+                                            minute: "numeric"
+                                        }).padStart(2, '0');
+                                        var sp_date = _date.split("/");
+                                        var Strdatetime = sp_date[1] + '/' + sp_date[0] + '/' + sp_date[2] + ", " + ti;
+
+                                        const dataNotice = {
+                                            topic: _posttopic + "",
+                                            dateNotice: Strdatetime,
+                                            detail: _postdetail,
+                                            weblink: _weblink
+                                        }
+
+                                        //console.log(dataNotice)
+                                        var file_data = $('#fileimage').prop('files')[0];
+                                        const url = urlipaddress + 'addNotice';
+                                        let formData = new FormData();
+                                        if (file_data == undefined) {
+                                            formData.append('dataNotice', JSON.stringify(dataNotice));
+                                            formData.append('imageNotice', '');
+                                        } else {
+                                            formData.append('dataNotice', JSON.stringify(dataNotice));
+                                            formData.append('imageNotice', file_data);
+                                            var typefile = $('#fileimage').val().split('.');
+                                            if (typefile[1] != 'PNG' && typefile[1] != 'JPG' && typefile[1] != 'jpg' && typefile[1] != 'jpeg' && typefile[1] != 'png') {
+                                                $("#myModaldont").modal();
+                                                document.getElementById("completed").style.display = 'none';
+                                                document.getElementById("c_delete").style.display = 'block';
+                                                document.getElementById("lbl_completed").innerText = 'เลือกรูปภาพใหม่ เป็นไฟล์ JPEG, JPG, PNG !!!';
+                                                return;
+                                            }
+                                        }
+                                        //   console.log(JSON.stringify(dataNotice))
+                                        //console.log(url)
+                                        axios.post(url, formData
+                                        ).then(function (response) {
+
+                                            // $("#myModaldont").modal();
+                                            // document.getElementById("lbl_completed").innerText = 'บันทึกข้อมูลสำเร็จ';
+                                            // document.getElementById("c_delete").style.display = 'none';
+                                            // document.getElementById("completed").style.display = 'block';
+                                            // document.getElementById("posttopic").style.borderColor = "none";
+                                            // document.getElementById("datetimenotice").style.borderColor = "none";
+                                            // document.getElementById("postdetail").style.borderColor = "none";
+                                            location.href = "allnotice.html";
+
+                                        }).catch(function (res) {
+                                            const { response } = res
+                                            // $("#myModaldont").modal();
+                                            // document.getElementById("completed").style.display = 'none';
+                                            // document.getElementById("c_delete").style.display = 'block';
+                                            // document.getElementById("lbl_completed").innerText = 'บันทึกข้อมูลไม่สำเร็จ !!!';
+                                        });
+
+                                    });
+                                }
+
+
+                            </script>
+
+
+
+
+                            <div class="container">
+                                <div class="modal fade" id="myModaldont" role="dialog">
+                                    <div class="modal-dialog" style="width: 300px; height: 200px;">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 id="title" class="modal-title">บันทึกข้อมูล</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-20">
+                                                            <i class="fa fa-exclamation-triangle" id="c_delete"
+                                                                style="font-size:48px;color:red"></i>
+                                                            <i class="fa fa-check-circle" id="completed"
+                                                                style="font-size:48px;color:green; display: none;"></i>
+                                                        </div>
+                                                        <div>
+                                                            <label id="lbl_completed" for="fname"> </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default"
+                                                    data-dismiss="modal">ตกลง</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jquery Core Js -->
+    <!-- <script src="../../plugins/jquery/jquery.min.js"></script> -->
+
+    <!-- Bootstrap Core Js -->
+    <!-- <script src="../../plugins/bootstrap/js/bootstrap.js"></script> -->
+
+    <!-- Select Plugin Js -->
+    <script src="../../plugins/bootstrap-select/js/bootstrap-select.js"></script>
+
+    <!-- Slimscroll Plugin Js -->
+    <script src="../../plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script src="../../plugins/node-waves/waves.js"></script>
+
+    <!-- Autosize Plugin Js -->
+    <script src="../../plugins/autosize/autosize.js"></script>
+
+    <!-- Moment Plugin Js -->
+    <script src="../../plugins/momentjs/moment.js"></script>
+
+    <!-- Bootstrap Material Datetime Picker Plugin Js -->
+    <script src="../../plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+
+    <!-- Bootstrap Datepicker Plugin Js -->
+    <script src="../../plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+
+    <!-- Custom Js -->
+    <script src="../../js/admin.js"></script>
+    <script src="../../js/pages/forms/basic-form-elements.js"></script>
+
+    <!-- Demo Js -->
+    <script src="../../js/demo.js"></script>
+
+
+
+    <script>
+        function myFunction() {
+            document.getElementById("formElem").reset();
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+            var ti = today.toLocaleTimeString('en-US', {
+                hour12: false,
+                hour: "numeric",
+                minute: "numeric"
+            });
+
+            today = dd + '/' + mm + '/' + yyyy + ' ' + ti;
+
+            $(document).ready(function () {
+                $("#datetimenotice").val(today);
+            });
+        }
+    </script>
+
+
+</body>
+
+</html>

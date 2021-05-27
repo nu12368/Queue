@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+    <!-- ///// icon -->
+
+    <!-- Load paper.css for happy printing -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>WAC</title>
+    <!-- Favicon-->
+    <link rel="icon" href="../../uploads/logo.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
+        type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="../../plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="../../plugins/node-waves/waves.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="../../plugins/animate-css/animate.css" rel="stylesheet" />
+
+    <!-- JQuery DataTable Css -->
+    <link href="../../plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+
+    <link href="../../plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+
+
+    <!-- Bootstrap Material Datetime Picker Css -->
+    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+        rel="stylesheet" />
+    <link href="../../plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+
+
+    <!-- Custom Css -->
+    <link href="../../css/style.css" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="../../css/themes/all-themes.css" rel="stylesheet" />
+
+    <!-- Bootstrap Material Datetime Picker Css -->
+    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+        rel="stylesheet" />
+
+    <!-- Bootstrap DatePicker Css -->
+    <link href="../../plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+
+    <link href="../../plugins/light-gallery/css/lightgallery.css" rel="stylesheet">
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.mjs"></script>
+
+    <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
+
+    <!-- modal  -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
+    <link rel="stylesheet" href="../../plugins2/responsive.bootstrap4.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="../../plugins/light-gallery/css/lightgallery.css" rel="stylesheet">
+
+
+    <link href="../../plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+
+
+     <!-- modal  -->
+    
+    <script src="./guest.js"></script>
+</head>
+<link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet' type='text/css'>
+<style>
+    body h1 h2 h3 h4 h5 h6 ul li a p {
+        font-family: 'Kanit', sans-serif;
+    }
+
+    div {
+        font-family: 'Kanit', sans-serif;
+    }
+
+    .i:read-only {
+        background-color: yellow;
+    }
+</style>
+
+<script>
+
+//     const urlParams = new URLSearchParams(window.location.search);
+//     let myParam = urlParams.toString();
+//     console.log(myParam)
+//     $.getScript("ip.js", function (data, textStatus, jqxhr) {
+//         var urlipaddress = data.substring(1, data.length - 1);
+//         console.log(myParam)
+//         const authGuest = async () => {
+//             console.log(myParam)
+//             const url = `${urlipaddress}guest?${myParam}`;
+//             console.log(url)
+//             try {
+//                 const res = await axios.get(url);
+//                 console.log(res.data.message)
+
+//                 return res.data.message;
+//             } catch (err) {
+//                 throw err.response.data.message;
+//             }
+//         };
+//         authGuest();
+//    });
+</script>
+<script>
+    $(function () {
+        var daysInWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+        var dayArrayLong = new Array('อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์');
+
+        var monthArrayLong = new Array('มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม');
+
+
+        function time() {
+            var date = new Date();
+            var dd = String(date.getDate()).padStart(2, '0');
+            var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = date.getFullYear();
+            var time = date.toLocaleTimeString('en-US', {
+                hour12: false,
+            });
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            var day = date.toLocaleDateString('en-US', options);
+            console.log(day)
+            document.getElementById('_time').innerHTML = dd + '/' + mm + '/' + (parseInt(yyyy) + 543).toString() + ' ' + time;
+            document.getElementById('_time').style.color = 'blue'
+
+            // document.getElementById('q_day').innerHTML = '<b>วันที่ </b> ' + dd + '/' + mm + '/' + (parseInt(yyyy) + 543).toString() + ' ' + time;
+
+
+        }
+        setInterval(function () {
+            time();
+        }, 1000);
+    });
+</script>
+<script>
+
+
+
+</script>
+
+<body class="theme-red ">
+
+    <nav class="navbar" style="display: none;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand" style="display: none;" id="logoname" href="javascript:void(0);"></a>
+                <a class="navbar-brand" id="namecompyny" href="#" style="color: white;" href="#"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Call Search -->
+                    <li><a id='logoutsss' style="cursor: pointer;" data-close="true">[ออกจากระบบ]</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+    <section class="">
+        <div class="container-fluid">
+            <div class="row clearfix">
+                <!-- Task Info -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>จองคิวออนไลน์ วันที่ <font style="font-size: 14px; text-align: right;" id="_time">
+                                </font>
+                            </h2>
+                            <div class="form-group"></div>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <select class="form-control show-tick" placeholder="กรุณาเลือกแผนก"
+                                        onchange="selectcategory()" name="qr_category" id="qr_category">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="username" id="username" value=""
+                                        autocomplete="off" placeholder="ชื่อ-สกุล" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="tel" id="tel" value=""
+                                        autocomplete="off" placeholder="เบอร์โทร" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="button" value="จองคิว" class="btn btn-primary waves-effect"
+                                    id="submitaddqueue" class="primary" />
+                            </div>
+                            <a onclick="_cviewqrcode()"> >>คิวอาร์โค้ดจองคิวออนไลน์<< </a>
+                                    <script>
+                                        function _cviewqrcode() {
+                                            document.getElementById("div_qrcode").style.display = 'block'
+                                        }
+                                        function _cviewqrcodenone() {
+                                            document.getElementById("div_qrcode").style.display = 'none'
+                                        }
+                                    </script>
+                                    <div id="div_qrcode" style="display: none;" class="form-group">
+                                        <div class="list-unstyled row clearfix">
+                                            <div id="Imageqrcode">
+                                            </div>
+                                        </div>
+                                        <a onclick="_cviewqrcodenone()">ย่อ</a>
+                                    </div>
+                                    <div></div>
+                                    <br />
+                                    <script>
+                                      
+                                        function selectcategory() {
+                                            $(function () {
+                                                var _c = document.getElementById("qr_category").value.split(';')
+                                                document.getElementById('q_category').innerHTML = '<b>แผนก </b> ' + _c[1];
+                                            });
+                                        }
+                                        // $(function () {
+                                        //     $("#btn-Convert-Html2Image").on('click', function () {
+                                        //         html2canvas($("#createImg"), {
+                                        //             onrendered: function (canvas) {
+                                        //                 var imgageData = canvas.toDataURL("image/png");
+                                        //                 var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
+                                        //              console.log(newData)
+                                        //                $("#btn-Convert-Html2Image").attr("download", "queue.png").attr("href", newData);
+                                        //             }
+                                        //         });
+                                        //     });
+                                        // });
+
+                                    </script>
+                                  
+                                    <div id='a_load'>
+                                    </div>
+                                    <!-- <a id="btn-Convert-Html2Image" href="#">Download</a> -->
+                                    <div id="_viewlog" style="display: none;"  class="form-group">
+                                        <div id="createImg">
+                                            <h3 id="number_queue" style="text-align: center;">
+                                                <p id="q_no"></p>
+                                            </h3>
+                                            <hr />
+                                         <p id="q_category">
+                                            </p>
+                                            <p id="q_day">
+                                            </p>
+                                            <hr />
+                                            <div>
+                                                <img id='Imageqrcode_view' />
+                                            </div>
+                                            <br />
+                                        </div>
+                                    </div>
+                                    <div id="img" style="display:none;">
+                                        <img id="newimg" />
+                                    </div>
+
+                                    <ul class="header-dropdown m-r--5">
+                                        <li class="dropdown">
+                                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"
+                                                role="button" aria-haspopup="true" aria-expanded="false">
+                                                <i class="material-icons">more_vert</i>
+                                            </a>
+                                            <ul class="dropdown-menu pull-right" id="ul_profile">
+                                                <li><a id='logoutsss' style="cursor: pointer;"
+                                                        data-close="true">[ออกจากระบบ]</a></li>
+                                            </ul>
+
+                                        </li>
+                                    </ul>
+                        </div>
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table
+                                    class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
+                                    style="border: none;  " id="table_view">
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- <div class="container">
+        <div class="modal fade" id="myModalqueue" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 id="title_dalete_official" class="modal-title">
+                            จองคิวออนไลน์</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-20">
+                                    <i class="material-icons" id="lbl_completed_official"
+                                        style="font-size:58px;color:green;">check_circle</i>
+                                </div>
+                                <div>
+                                    <label id="lbl_dalete" for="fname">aasasas </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" id='a_load'>
+                      
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div> -->
+
+
+
+
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core Js -->
+    <!-- <script src="../../plugins/bootstrap/js/bootstrap.js"></script> -->
+
+    <!-- Select Plugin Js -->
+    <!-- <script src="../../plugins/bootstrap-select/js/bootstrap-select.js"></script> -->
+
+    <!-- Slimscroll Plugin Js -->
+    <script src="../../plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script src="../../plugins/node-waves/waves.js"></script>
+
+    <!-- Autosize Plugin Js -->
+    <script src="../../plugins/autosize/autosize.js"></script>
+
+    <!-- Moment Plugin Js -->
+    <script src="../../plugins/momentjs/moment.js"></script>
+
+    <!-- Bootstrap Material Datetime Picker Plugin Js -->
+    <script src="../../plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+
+    <!-- Bootstrap Datepicker Plugin Js -->
+    <script src="../../plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+
+    <script src="../../plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../js/pages/ui/dialogs.js"></script>
+
+    <script src="../../plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <script src="../../plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+    <script src="../../plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+
+
+
+
+
+    <script src="../../plugins/light-gallery/js/lightgallery-all.js"></script>
+    <script src="../../js/pages/medias/image-gallery.js"></script>
+
+    <!-- Custom Js -->
+    <script src="../../js/admin.js"></script>
+    <script src="../../js/pages/forms/basic-form-elements.js"></script>
+
+    <!-- Demo Js -->
+    <script src="../../js/demo.js"></script>
+    <script src="../../plugins2/dataTables.responsive.min.js"></script>
+
+
+
+</body>
+
+
+<script src="../../plugins/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core Js -->
+<script src="../../plugins/bootstrap/js/bootstrap.js"></script>
+
+<!-- Select Plugin Js -->
+<!-- <script src="../../plugins/bootstrap-select/js/bootstrap-select.js"></script> -->
+
+<!-- Slimscroll Plugin Js -->
+<script src="../../plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+<!-- Waves Effect Plugin Js -->
+<script src="../../plugins/node-waves/waves.js"></script>
+
+<!-- Autosize Plugin Js -->
+<script src="../../plugins/autosize/autosize.js"></script>
+
+<!-- Moment Plugin Js -->
+<script src="../../plugins/momentjs/moment.js"></script>
+
+<!-- Bootstrap Material Datetime Picker Plugin Js -->
+<script src="../../plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+
+<!-- Bootstrap Datepicker Plugin Js -->
+<script src="../../plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+
+<script src="../../plugins/sweetalert/sweetalert.min.js"></script>
+<script src="../../js/pages/ui/dialogs.js"></script>
+
+
+
+
+
+<script src="../../plugins/jquery-datatable/jquery.dataTables.js"></script>
+<script src="../../plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+<script src="../../plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+<script src="../../plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+<script src="../../plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+<script src="../../plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+<script src="../../plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+<script src="../../plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+<script src="../../plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+
+
+
+
+
+<script src="../../plugins/light-gallery/js/lightgallery-all.js"></script>
+<script src="../../js/pages/medias/image-gallery.js"></script>
+
+<!-- Custom Js -->
+<script src="../../js/admin.js"></script>
+<script src="../../js/pages/forms/basic-form-elements.js"></script>
+
+<!-- Demo Js -->
+<script src="../../js/demo.js"></script>
+<script src="../../plugins2/dataTables.responsive.min.js"></script>
+
+
+</html>
