@@ -52,6 +52,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
+
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.mjs"></script>
     <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
@@ -64,11 +65,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="../../plugins/light-gallery/css/lightgallery.css" rel="stylesheet">
 
-   <script src="./queuedashboard.js"></script>
+    <script src="./queuedashboard.js"></script>
     <script src="./pageTable.js"></script>
     <link href="./css-collor.css" rel="stylesheet">
+    <script src="./logout.js"></script>
 </head>
-
+<script src="./user.js"></script>
 
 <script src="http://code.highcharts.com/highcharts.js"></script>
 
@@ -76,12 +78,14 @@
 <link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet' type='text/css'>
 <style>
     body h1 h2 h3 h4 h5 h6 ul li a p {
-      font-family: 'Kanit', sans-serif;
+        font-family: 'Kanit', sans-serif;
     }
-    div{
+
+    div {
         font-family: 'Kanit', sans-serif;
     }
 </style>
+
 <body class="theme-red">
     <!-- Page Loader -->
     <div class="page-loader-wrapper">
@@ -156,14 +160,14 @@
             </div>
             <div class="menu">
                 <ul class="list">
-                   
+
                     <li class="active" id="queuedashboard">
                         <a href="queuedashboard.html">
                             <i class="material-icons">home</i>
                             <span>แดชบอร์ด</span>
-                        </a> 
+                        </a>
                     </li>
-                    <li >
+                    <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">settings</i>
                             <span>ตั้งค่า</span>
@@ -194,7 +198,7 @@
                                     <span>ข้อความหน้าจอ</span>
                                 </a>
                             </li>
-                            <li >
+                            <li>
                                 <a href="queueqrcode.html">
                                     <span>คิวอาร์โค้ด</span>
                                 </a>
@@ -206,7 +210,7 @@
             </div>
             <!-- #Menu -->
             <!-- Footer -->
-           
+
             <!-- #Footer -->
         </aside>
         <!-- #END# Left Sidebar -->
@@ -369,8 +373,9 @@
                             <i class="material-icons">add_to_queue</i>
                         </div>
                         <div class="content">
-                            <div class="text">จำนวนคิวทั้งหมด</div>
-                            <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
+                            <div style="font-size: 18px;" class="text">จำนวนคิวทั้งหมด</div>
+                            <div class="number count-to" data-from="0" data-to="125" id="queue" data-speed="15"
+                                data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
@@ -380,8 +385,9 @@
                             <i class="material-icons">queue</i>
                         </div>
                         <div class="content">
-                            <div class="text">จำนวนคิววันนี้</div>
-                            <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
+                            <div style="font-size: 18px;" class="text">จำนวนคิวรอรับบริการ</div>
+                            <div class="number count-to" data-from="0" data-to="257" id="qadd" data-speed="1000"
+                                data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
@@ -391,8 +397,9 @@
                             <i class="material-icons">add_to_queue</i>
                         </div>
                         <div class="content">
-                            <div class="text">จำนวนคิวทั้งสัปดาห์</div>
-                            <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
+                            <div style="font-size: 18px;" class="text">จำนวนคิวกำลังรับบริการ</div>
+                            <div class="number count-to" data-from="0" data-to="243" id="qcall" data-speed="1000"
+                                data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
@@ -402,213 +409,548 @@
                             <i class="material-icons">person_add</i>
                         </div>
                         <div class="content">
-                            <div class="text">NEW VISITORS</div>
-                            <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
+                            <div style="font-size: 18px;" class="text">จำนวนคิวผู้รับบริการแล้ว</div>
+                            <div class="number count-to" data-from="0" data-to="1225" id="qend" data-speed="1000"
+                                data-fresh-interval="20"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-red hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">error_outline</i>
+                        </div>
+                        <div class="content">
+                            <div style="font-size: 18px;" class="text">จำนวนคิวถูกยกเลิก</div>
+                            <div class="number count-to" data-from="0" data-to="1225" data-speed="1000"
+                                data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- #END# Widgets -->
             <!-- CPU Usage -->
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+            <div id="div_qall" class="col-xs-12 col-sm-12 col-md-8 col-lg-12">
                 <div class="card">
-                    <div class="header">
-                        <h2>จำนวนคิว แบ่งตามแผนก </h2>
+                    <div class="header header-new">
+                        <h2>
+                
+                            <font style="color: white;">ตารางแสดงจำนวนคิวทั้งหมด
+                            </font>
+                        </h2>
                     </div>
                     <div class="body">
-                        <canvas id="bar_queuecategory" class="graph"></canvas>
+                        <div class="table-responsive">
+                            <table
+                                class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
+                                id="tablequeue" style="font-size: 18px;">
+                                <thead>
+                                    <tr>
+                                        <th>แผนก</th>
+                                        <th>ผู้รอรับบริการ</th>
+                                        <th>ผู้กำลังรับบริการ</th>
+                                        <th>ผู้รับบริการแล้ว</th>
+                                        <th>การยกเลิก</th>
+                                    </tr>
+                                </thead>
+                                <tfoot id='tfoot_queue'>
+                                    <tr>
+                                        <th style="text-align:right">รวม</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="div_qdisplay" style="display: none;" class="col-xs-12 col-sm-12 col-md-8 col-lg-12">
+                <div class="card">
+                    <div class="header header-new">
+                        <h2>
+                            <a onclick="a_back()" style="color: white; cursor: pointer;">< ย้อนกลับ</a>
+                            <script>
+                                function a_back() {
+                                 
+                                    document.getElementById("div_qall").style.display = 'block'
+                                    document.getElementById("div_qdisplay").style.display = 'none'
+                                }
+                            </script>
+                          
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <h4 id="h_name_report" ></h4>
+                        <div class="table-responsive">
+                            <table
+                                class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
+                                id="tablequeue_view" style="font-size: 16px;">
+                                <thead>
+                                    <tr>
+                                        <th>ลำดับที่</th>
+                                        <th>แผนก</th>
+                                        <th>หมายเลขคิว</th>
+                                        <th>ช่องบริการ</th>
+                                        <th>ชื่อ</th>
+                                        <th>เบอร์โทร</th>
+                                        <th>เวลารอรับบริการ</th>
+                                        <th>เวลารับบริการ</th>
+                                        <th>เวลารับบริการแล้ว</th>
+                                    </tr>
+                                </thead>
+                            
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="row clearfix">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="header">
+                            <div class="row clearfix">
+                                <div class="col-xs-12 col-sm-6">
+                                    <h2>กราฟแสดงจำนวนคิว แบ่งตามแผนก </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="body">
+                            <canvas id="bar_queuecategory" class="graph"></canvas>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6">
                 <div class="card">
                     <div class="header">
-                        <h2>จำนวนคิว แบ่งตามโปรไฟล์</h2>
+                        <h2>กราฟแสดงแผนกทั้งหมด</h2>
                     </div>
                     <div class="body">
-                        <canvas id="bar_queueprofile" class="graph"></canvas>
+                        <canvas id="donut_chart_category" height="150"></canvas>
                     </div>
                 </div>
             </div>
-            <div class="">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="card">
-                        <div class="header">
-                            <div class="row clearfix">
-                                <div class="col-xs-12 col-sm-6">
-                                    <h2>จำนวนคิว</h2>
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6">
+                <div class="card">
+                    <div class="header">
+                        <h2>กราฟแสดงโปรไฟล์ทั้งหมด</h2>
+                    </div>
+                    <div class="body">
+                        <canvas id="donut_chart_profile" height="150"></canvas>
+                    </div>
+                </div>
+            </div>
+
+
+            <section class="" style="display: none;">
+                <div class="container-fluid">
+                    <!-- Input -->
+                    <div class="row clearfix">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="card">
+                                        <div class="header header-new">
+                                            <h2>
+                                                <font style=" color: white;">รายงานสถานะคิว
+                                                </font>
+                                            </h2>
+                                        </div>
+                                        <div class="body">
+                                            <form id="formElem">
+                                                <!-- Nav tabs -->
+                                                <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                                                    <li role="presentation" class="active"><a href="tab1"
+                                                            style="font-size: 18px;"
+                                                            data-toggle="tab">ผู้รอรับบริการ</a>
+                                                    </li>
+
+                                                    <li role="presentation" class=""><a href="#tab2"
+                                                            style="font-size: 18px;" data-toggle="tab">ผู้กำลังรับบริการ
+                                                        </a>
+                                                    </li>
+                                                    <li role="presentation" class=""><a href="#tab3"
+                                                            style="font-size: 18px;" data-toggle="tab">ผู้รับบริการแล้ว
+                                                        </a>
+                                                    </li>
+                                                    <li role="presentation" class=""><a href="#tab4"
+                                                            style="font-size: 18px;" data-toggle="tab">การยกเลิก </a>
+                                                    </li>
+                                                </ul>
+                                                <!-- Tab panes -->
+                                                <div class="tab-content">
+                                                    <div role="tabpanel" class="tab-pane fade in active" id="tab1">
+                                                        <div class="body">
+                                                            <div class="row clearfix">
+                                                                <div class="col-xs-4 form-group">
+                                                                    <div class="input-group date"
+                                                                        id="bs_datepicker_component_container">
+                                                                        <div class="form-line">
+                                                                            <input type="text" id="startdate"
+                                                                                autocomplete=off class="form-control"
+                                                                                placeholder="วันที่เริ่มต้น">
+                                                                        </div>
+                                                                        <span class="input-group-addon">
+                                                                            <i class="material-icons">date_range</i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 form-group">
+                                                                    <div class="input-daterange input-group"
+                                                                        id="timestart">
+                                                                        <div class="form-line">
+                                                                            <input type="text" id="txttimestart"
+                                                                                class="timepicker form-control"
+                                                                                placeholder="เวลาเริ่มต้น">
+                                                                        </div>
+                                                                        <span class="input-group-addon">
+                                                                            <i class="material-icons"
+                                                                                style="cursor: pointer;">access_time</i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-xs-4 form-group">
+                                                                    <div class="input-group date"
+                                                                        id="bs_datepicker_range_container">
+                                                                        <div class="form-line">
+                                                                            <input type="text" id="enddate"
+                                                                                autocomplete=off class="form-control"
+                                                                                placeholder="วันที่สิ้นสุด">
+                                                                        </div>
+                                                                        <span class="input-group-addon">
+                                                                            <i class="material-icons">date_range</i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 form-group">
+                                                                    <div class="input-daterange input-group"
+                                                                        id="timerange">
+                                                                        <div class="form-line">
+                                                                            <input type="text" id="txttimestop"
+                                                                                class="timepicker form-control"
+                                                                                placeholder="เวลาสิ้นสุด">
+                                                                        </div>
+                                                                        <span class="input-group-addon">
+                                                                            <i class="material-icons"
+                                                                                style="cursor: pointer;">access_time</i>
+                                                                        </span>
+
+                                                                    </div>
+                                                                </div>
+                                                                <button class="btn btn-primary waves-effect"
+                                                                    id="submitqueueReport" class="primary"
+                                                                    type="button">ค้นหา</button>
+
+                                                            </div>
+                                                        </div>
+                                                        <div>&nbsp;</div>
+                                                        <div class="table-responsive">
+
+                                                            <table
+                                                                class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
+                                                                id="table1">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>ลำดับที่</th>
+                                                                        <th>หมายเลขคิว</th>
+                                                                        <th>ช่องบริการ</th>
+                                                                        <th>ชื่อ</th>
+                                                                        <th>เบอร์โทร</th>
+                                                                        <th>เวลา</th>
+                                                                    </tr>
+                                                                </thead>
+                                                            </table>
+                                                        </div>
+
+                                                    </div>
+                                                    <div role="tabpanel" class="tab-pane fade in " id="tab2">
+                                                        <div class="body">
+                                                            <div class="row clearfix">
+                                                                <div class="col-xs-4 form-group">
+                                                                    <div class="input-group date"
+                                                                        id="bs_datepicker_component_container">
+                                                                        <div class="form-line">
+                                                                            <input type="text" id="startdate"
+                                                                                autocomplete=off class="form-control"
+                                                                                placeholder="วันที่เริ่มต้น">
+                                                                        </div>
+                                                                        <span class="input-group-addon">
+                                                                            <i class="material-icons">date_range</i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 form-group">
+                                                                    <div class="input-daterange input-group"
+                                                                        id="timestart">
+                                                                        <div class="form-line">
+                                                                            <input type="text" id="txttimestart"
+                                                                                class="timepicker form-control"
+                                                                                placeholder="เวลาเริ่มต้น">
+                                                                        </div>
+                                                                        <span class="input-group-addon">
+                                                                            <i class="material-icons"
+                                                                                style="cursor: pointer;">access_time</i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-xs-4 form-group">
+                                                                    <div class="input-group date"
+                                                                        id="bs_datepicker_range_container">
+                                                                        <div class="form-line">
+                                                                            <input type="text" id="enddate"
+                                                                                autocomplete=off class="form-control"
+                                                                                placeholder="วันที่สิ้นสุด">
+                                                                        </div>
+                                                                        <span class="input-group-addon">
+                                                                            <i class="material-icons">date_range</i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 form-group">
+                                                                    <div class="input-daterange input-group"
+                                                                        id="timerange">
+                                                                        <div class="form-line">
+                                                                            <input type="text" id="txttimestop"
+                                                                                class="timepicker form-control"
+                                                                                placeholder="เวลาสิ้นสุด">
+                                                                        </div>
+                                                                        <span class="input-group-addon">
+                                                                            <i class="material-icons"
+                                                                                style="cursor: pointer;">access_time</i>
+                                                                        </span>
+
+                                                                    </div>
+                                                                </div>
+                                                                <button class="btn btn-primary waves-effect"
+                                                                    id="submitqueueReport" class="primary"
+                                                                    type="button">ค้นหา</button>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="table-responsive">
+                                                            <table
+                                                                class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
+                                                                id="table2">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>ลำดับที่</th>
+                                                                        <th>หมายเลขคิว</th>
+                                                                        <th>ช่องบริการ</th>
+                                                                        <th>ชื่อ</th>
+                                                                        <th>เบอร์โทร</th>
+                                                                        <th>เวลา</th>
+                                                                    </tr>
+                                                                </thead>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div role="tabpanel" class="tab-pane fade in " id="tab3">
+                                                        <div class="body">
+                                                            <div class="row clearfix">
+                                                                <div class="col-xs-4 form-group">
+                                                                    <div class="input-group date"
+                                                                        id="bs_datepicker_component_container">
+                                                                        <div class="form-line">
+                                                                            <input type="text" id="startdate"
+                                                                                autocomplete=off class="form-control"
+                                                                                placeholder="วันที่เริ่มต้น">
+                                                                        </div>
+                                                                        <span class="input-group-addon">
+                                                                            <i class="material-icons">date_range</i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 form-group">
+                                                                    <div class="input-daterange input-group"
+                                                                        id="timestart">
+                                                                        <div class="form-line">
+                                                                            <input type="text" id="txttimestart"
+                                                                                class="timepicker form-control"
+                                                                                placeholder="เวลาเริ่มต้น">
+                                                                        </div>
+                                                                        <span class="input-group-addon">
+                                                                            <i class="material-icons"
+                                                                                style="cursor: pointer;">access_time</i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-xs-4 form-group">
+                                                                    <div class="input-group date"
+                                                                        id="bs_datepicker_range_container">
+                                                                        <div class="form-line">
+                                                                            <input type="text" id="enddate"
+                                                                                autocomplete=off class="form-control"
+                                                                                placeholder="วันที่สิ้นสุด">
+                                                                        </div>
+                                                                        <span class="input-group-addon">
+                                                                            <i class="material-icons">date_range</i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 form-group">
+                                                                    <div class="input-daterange input-group"
+                                                                        id="timerange">
+                                                                        <div class="form-line">
+                                                                            <input type="text" id="txttimestop"
+                                                                                class="timepicker form-control"
+                                                                                placeholder="เวลาสิ้นสุด">
+                                                                        </div>
+                                                                        <span class="input-group-addon">
+                                                                            <i class="material-icons"
+                                                                                style="cursor: pointer;">access_time</i>
+                                                                        </span>
+
+                                                                    </div>
+                                                                </div>
+                                                                <button class="btn btn-primary waves-effect"
+                                                                    id="submitqueueReport" class="primary"
+                                                                    type="button">ค้นหา</button>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="table-responsive">
+                                                            <table
+                                                                class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
+                                                                id="table3">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>ลำดับที่</th>
+                                                                        <th>หมายเลขคิว</th>
+                                                                        <th>ช่องบริการ</th>
+                                                                        <th>ชื่อ</th>
+                                                                        <th>เบอร์โทร</th>
+                                                                        <th>เวลา</th>
+                                                                    </tr>
+                                                                </thead>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+                                                    <div role="tabpanel" class="tab-pane fade in " id="tab4">
+                                                        <div class="body">
+                                                            <div class="row clearfix">
+                                                                <div class="col-xs-4 form-group">
+                                                                    <div class="input-group date"
+                                                                        id="bs_datepicker_component_container">
+                                                                        <div class="form-line">
+                                                                            <input type="text" id="startdate"
+                                                                                autocomplete=off class="form-control"
+                                                                                placeholder="วันที่เริ่มต้น">
+                                                                        </div>
+                                                                        <span class="input-group-addon">
+                                                                            <i class="material-icons">date_range</i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 form-group">
+                                                                    <div class="input-daterange input-group"
+                                                                        id="timestart">
+                                                                        <div class="form-line">
+                                                                            <input type="text" id="txttimestart"
+                                                                                class="timepicker form-control"
+                                                                                placeholder="เวลาเริ่มต้น">
+                                                                        </div>
+                                                                        <span class="input-group-addon">
+                                                                            <i class="material-icons"
+                                                                                style="cursor: pointer;">access_time</i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-xs-4 form-group">
+                                                                    <div class="input-group date"
+                                                                        id="bs_datepicker_range_container">
+                                                                        <div class="form-line">
+                                                                            <input type="text" id="enddate"
+                                                                                autocomplete=off class="form-control"
+                                                                                placeholder="วันที่สิ้นสุด">
+                                                                        </div>
+                                                                        <span class="input-group-addon">
+                                                                            <i class="material-icons">date_range</i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-4 form-group">
+                                                                    <div class="input-daterange input-group"
+                                                                        id="timerange">
+                                                                        <div class="form-line">
+                                                                            <input type="text" id="txttimestop"
+                                                                                class="timepicker form-control"
+                                                                                placeholder="เวลาสิ้นสุด">
+                                                                        </div>
+                                                                        <span class="input-group-addon">
+                                                                            <i class="material-icons"
+                                                                                style="cursor: pointer;">access_time</i>
+                                                                        </span>
+
+                                                                    </div>
+                                                                </div>
+                                                                <button class="btn btn-primary waves-effect"
+                                                                    id="submitqueueReport" class="primary"
+                                                                    type="button">ค้นหา</button>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="table-responsive">
+                                                            <table
+                                                                class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
+                                                                id="table4">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>ลำดับที่</th>
+                                                                        <th>หมายเลขคิว</th>
+                                                                        <th>ช่องบริการ</th>
+                                                                        <th>ชื่อ</th>
+                                                                        <th>เบอร์โทร</th>
+                                                                        <th>เวลา</th>
+                                                                    </tr>
+                                                                </thead>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+
+
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                       
                     </div>
                 </div>
-            </div>
-            <div class="row clearfix">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="card">
-                        <div class="header">
-                            <div class="row clearfix">
-                                <div class="col-xs-12 col-sm-6">
-                                    <h2>จำนวนคิว แบ่งตามโปรไฟล์</h2>
-                                </div>
-                            </div>
-                        </div>
-                      
-                    </div>
-                </div>
-            </div>
-            <div class="row clearfix">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="card">
-                        <div class="header">
-                            <div class="row clearfix">
-                                <div class="col-xs-12 col-sm-6">
-                                    <h2>จำนวนคิว แบ่งตามช่วงเวลา </h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="body">
-                            <canvas id="bar_queuetime" class="graph"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- #END# CPU Usage -->
-           
-            <div class="row clearfix">
-                <!-- Task Info -->
-                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                    <div class="card">
-                        <div class="header">
-                            <h2></h2>
-                            <ul class="header-dropdown m-r--5">
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
-                                    </a>
-                                    <ul class="dropdown-menu pull-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                        <li><a href="javascript:void(0);">Something else here</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="body">
-                            <div class="table-responsive">
-                                <table class="table table-hover dashboard-task-infos">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Task</th>
-                                            <th>Status</th>
-                                            <th>Manager</th>
-                                            <th>Progress</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Task A</td>
-                                            <td><span class="label bg-green">Doing</span></td>
-                                            <td>John Doe</td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-green" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" style="width: 62%"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Task B</td>
-                                            <td><span class="label bg-blue">To Do</span></td>
-                                            <td>John Doe</td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-blue" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Task C</td>
-                                            <td><span class="label bg-light-blue">On Hold</span></td>
-                                            <td>John Doe</td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-light-blue" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style="width: 72%"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>Task D</td>
-                                            <td><span class="label bg-orange">Wait Approvel</span></td>
-                                            <td>John Doe</td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-orange" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>5</td>
-                                            <td>Task E</td>
-                                            <td>
-                                                <span class="label bg-red">Suspended</span>
-                                            </td>
-                                            <td>John Doe</td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-red" role="progressbar" aria-valuenow="87" aria-valuemin="0" aria-valuemax="100" style="width: 87%"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- #END# Task Info -->
-                <!-- Browser Usage -->
-                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                    <div class="card">
-                        <div class="header">
-                            <h2>BROWSER USAGE</h2>
-                            <ul class="header-dropdown m-r--5">
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
-                                    </a>
-                                    <ul class="dropdown-menu pull-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                        <li><a href="javascript:void(0);">Something else here</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="body">
-                            <div id="donut_chart" class="dashboard-donut-chart"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- #END# Browser Usage -->
-            </div>
         </div>
     </section>
 
-  
-  
+    </div>
+    </section>
+
+
+
 
 
     <script src="../../plugins/jquery/jquery.min.js"></script>
 
     <!-- Bootstrap Core Js -->
-    <!-- <script src="../../plugins/bootstrap/js/bootstrap.js"></script> -->
+    <script src="../../plugins/bootstrap/js/bootstrap.js"></script>
 
     <!-- Select Plugin Js -->
     <!-- <script src="../../plugins/bootstrap-select/js/bootstrap-select.js"></script> -->
@@ -634,6 +976,7 @@
     <script src="../../plugins/sweetalert/sweetalert.min.js"></script>
     <script src="../../js/pages/ui/dialogs.js"></script>
 
+    <!-- Jquery DataTable Plugin Js -->
     <script src="../../plugins/jquery-datatable/jquery.dataTables.js"></script>
     <script src="../../plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
     <script src="../../plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
@@ -659,7 +1002,7 @@
     <!-- Demo Js -->
     <script src="../../js/demo.js"></script>
     <script src="../../plugins2/dataTables.responsive.min.js"></script>
-   
+
 
 
 

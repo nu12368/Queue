@@ -293,9 +293,8 @@ $(async function () {
         var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
 
         //Add the data rows from Excel file.
-        for (var i = 1; i < excelRows.length; i++) {
-            console.log(excelRows[i].DPTCODE)
-            console.log(excelRows[i].category)
+        for (var i = 0; i < excelRows.length; i++) {
+
             const datacategory = {
                 userId: _objectId,
                 category: excelRows[i].category,
@@ -303,7 +302,6 @@ $(async function () {
             }
             $.getScript("ip.js", function (data, textStatus, jqxhr) {
                 var urlipaddress = data.substring(1, data.length - 1);
-                console.log(datacategory)
                 axios.post(urlipaddress + 'category', datacategory, {
                     headers: {
                         'Authorization': result

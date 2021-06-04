@@ -81,7 +81,7 @@ function getcategory(refresh_token) {
                 $select.find('option').remove();
                 $select.append('<option value=' + '0' + '>' + '-- เลือกแผนก --' + '</option>');
                 $.each(response.data.message.category, function (key, value) {
-                    $select.append('<option value=' + value.category + '>' + value.category + '</option>');
+                    $select.append(`<option>${value.category}</option>`);
                 });
 
 
