@@ -27,17 +27,17 @@ var _i_loop = 0;
 const queueloop = async (refresh_token, _page) => {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-        axios.get(urlipaddress + 'queue/' + _objectId + '?_page='+ _page +'&_limit=100&_sort=1', {
+        axios.get(urlipaddress + 'queue/' + _objectId + '?_page=' + _page + '&_limit=100&_sort=1', {
             headers: {
                 'Authorization': refresh_token
             }
         }).then(function (response) {
-           // console.log(response.data.message.values)
-          //  $('#table_view').DataTable().destroy();
-          //  $("#table_view").empty();
+            // console.log(response.data.message.values)
+            //  $('#table_view').DataTable().destroy();
+            //  $("#table_view").empty();
             var _collor = ["bg-red", "bg-pink", "bg-blue", "bg-amber", "bg-orange", "bg-teal", "bg-green", "bg-purple"];
             var _num = 0;
-           
+
             for (i = 0; i < response.data.message.values.length; i++) {
                 $("#table_view").append(`
                 <tr>
@@ -64,7 +64,7 @@ const queueloop = async (refresh_token, _page) => {
                     _num = 0;
                 }
             }
-            
+
         });
     });
 
@@ -77,11 +77,11 @@ function getqueueview(refresh_token) {
                 'Authorization': refresh_token
             }
         }).then(function (response) {
-           // console.log(response.data.message)
+            // console.log(response.data.message)
             var totle = response.data.message.total
-          //  console.log(totle)
+            //  console.log(totle)
             var looptotle = Math.ceil(totle / 100)
-           // console.log(looptotle)
+            // console.log(looptotle)
             if (looptotle > 1) { ///// คิวมากกว่า loop 100
                 var _page = 1;
                 $("#table_view").append(`
@@ -96,8 +96,8 @@ function getqueueview(refresh_token) {
                     queueloop(refresh_token, _page)
                     _page = _page + 1
                 }
-                
-            }else{
+
+            } else {
                 $("#table_view").empty();
                 var _collor = ["bg-red", "bg-pink", "bg-blue", "bg-amber", "bg-orange", "bg-teal", "bg-green", "bg-purple"];
                 var _num = 0;
@@ -137,14 +137,13 @@ function getqueueview(refresh_token) {
                 }
             }
 
-           
+
 
         }).catch(function (res) {
             const { response } = res
         });
     });
 }
-
 function getcategoryview(refresh_token) {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
@@ -196,7 +195,7 @@ function getqrcode(refresh_token) {
 $(async function () {
     const urlParams = new URLSearchParams(window.location.search);
     let myParam = urlParams.toString();
-   // console.log(myParam)
+    // console.log(myParam)
     let result;
     var _category;
     var _objid = myParam.split('=');
@@ -208,7 +207,7 @@ $(async function () {
             try {
                 const res = await axios.get(url);
                 result = await acctoken(res.data.message.refresh_token)
-              //  console.log(result)
+                //  console.log(result)
                 getqueueview(result);
                 _category = await getcategoryview(result);
                 getqrcode(result);
@@ -219,11 +218,20 @@ $(async function () {
         };
         authGuest();
 
-        $('#submitaddqueue').on('click', function (e) {
+        $('#submitaddqueue').on('click', async function (e) {
 
-          //  console.log(_category)
+            var obj = JSON.parse(Cookies.get('refresh_tokenOnline'));
+            //  var userId = Cookies.get('dataUserOnline');
+            var _objectId_online = Cookies.get('_objectIdOnline');
+
+            const result_online = await acctoken(obj);
+
+
+            //  console.log(result_online)
+            // console.log(userId)
+            // console.log(_objectId_online)
+
             var select_category = document.getElementById("qr_category").value
-
             var post_catery;
             for (i = 0; i < _category.length; i++) {
                 if (select_category == _category[i].category) {
@@ -232,34 +240,34 @@ $(async function () {
             }
             const socket = io(urlipaddress);
             socket.emit('addQueue', { addQueue: 'Updated' });
-
             const dataaddQueue = {
                 values: post_catery.category,
                 tel: document.getElementById("tel").value,
                 name: document.getElementById("username").value,
             }
 
-            axios.post(urlipaddress + 'addQueue/' + _objectId, dataaddQueue, {
+            axios.post(urlipaddress + 'addQueue/' + _objectId_online, dataaddQueue, {
                 headers: {
-                    'Authorization': result
+                    'Authorization': result_online
                 }
             }).then(function (response) {
-              //  console.log(response.data.message)
+                //  console.log(response.data.message)
 
                 if (response.data.message.status == "Successful") {
                     document.getElementById('q_day').innerHTML = '<b>วัน/เวลา </b> ' + document.getElementById('_time').innerHTML
-                    document.getElementById('q_no').innerHTML = 'คิวที่ No. ' + response.data.message.queue
+                    document.getElementById('q_no').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  คิวที่ No. ' + response.data.message.queue
 
                     $("#_viewlog").show();
-                    var imgsrc;
-                    var dataURL;
+                 
+
                     html2canvas($("#createImg"), {
                         onrendered: function (canvas) {
-                            imgsrc = canvas.toDataURL("image/png");
+                            var imgsrc = canvas.toDataURL("image/png");
                             $("#img").show();
-                            dataURL = canvas.toDataURL();
+                            console.log(imgsrc)
                         }
                     });
+
                     // $("#a_load").append(`
                     // <a id="btn-Convert-Html2Image" href="#">Download</a>`);
                     showSuccessMessage_queue('จองคิวสำเร็จ', '')
@@ -272,10 +280,73 @@ $(async function () {
             });
         });
 
+
+        $('#logout_online').on('click', async function (e) {
+            var obj = JSON.parse(Cookies.get('refresh_tokenOnline'));
+            const result_online = await acctoken(obj);
+            $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                var urlipaddress = data.substring(1, data.length - 1);
+                const databody = {
+                    refresh_token: obj
+                }
+                axios.post(urlipaddress + 'logout', databody, {
+                    headers: {
+                        'Authorization': result_online
+                    }
+                }).then(function (response) {
+                    if (response.data.message == "success") {
+                        Cookies.remove('dataUserOnline');
+                        Cookies.remove('refresh_tokenOnline');
+                        Cookies.remove('_objectIdOnline');
+                        document.getElementById('add_q_online').style.display = 'none'
+                        document.getElementById('submit_q_login').style.display = 'block'
+
+                        showSuccessMessage_register('ออกจากระบบ', '')
+                    }
+                }).catch(function (res) {
+                    const { response } = res
+                });
+            });
+        });
+        $('#Submitmember_register').on('click', function (e) {
+            if (document.getElementById("member_register_user").value == '' || document.getElementById("member_register_pass").value == '') {
+                showCancelMessage_queue('กรอกข้อมูลให้ครบ', 'ระบุ ชื่อผู้ใช้งาน และ รหัสผ่าน')
+                return;
+            }
+            // var chk_pass = validateUsernameUSER();
+            // if (chk_pass == false) {
+            //     return;
+            // }
+            $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                var urlipaddress = data.substring(1, data.length - 1);
+                const dataUser = {
+                    userId: _objectId,
+                    user: document.getElementById("member_register_user").value,
+                    password: document.getElementById("member_register_pass").value,
+                    rule: 'online'
+                }
+                axios.put(urlipaddress + 'addAccount', dataUser, {
+                    headers: {
+                        'Authorization': result,
+                    }
+                }
+                ).then(function (response) {
+                    console.log(response.data.message)
+                    if (response.data.message == "This user has already been used.") {
+                        showCancelMessage_queue('มีข้อมูลในระบบแล้ว', 'กรุณาระชื่อผู้ใช้งานใหม่ อีกครั้ง')
+                    } else {
+                        showSuccessMessage_register('บันทึกสำเร็จ', 'คุณทำการลงทะเบียนเรียบร้อยแล้ว')
+
+                    }
+                }).catch(function (res) {
+                    const { response } = res
+                    if (response.data.message == 'This user has already been used.') {
+                        showCancelMessage_queue('มีข้อมูลในระบบแล้ว', '')
+                    }
+                });
+            });
+        });
     });
-
-
-
     function showCancelMessage_queue(title, text) {
         swal({
             title: title,
@@ -285,8 +356,18 @@ $(async function () {
             swal("Cancelled", "Your imaginary file is safe :)", "error");
         });
     }
-    function showSuccessMessage_queue(text, _q) {
+    function showSuccessMessage_register(text, _q) {
+        swal({
+            title: "สำเร็จ",
+            text: text,
+            type: "success",
+        }, function (isConfirm) {
+            if (isConfirm) {
 
+            }
+        });
+    }
+    function showSuccessMessage_queue(text, _q) {
         swal({
             title: "สำเร็จ",
             text: text,
@@ -296,10 +377,10 @@ $(async function () {
                 html2canvas($("#createImg"), {
                     onrendered: function (canvas) {
                         var imgageData = canvas.toDataURL("image/png");
+                        // console.log(imgageData)
                         // Get the canvas
                         var canvas = document.getElementById("canvas");
                         // Convert the canvas to data
-
                         // Create a link
                         var aDownloadLink = document.createElement('a');
                         // Add the name of the file to the link

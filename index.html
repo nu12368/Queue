@@ -74,14 +74,16 @@
     Cookies.remove('datamember');
     Cookies.remove('datamemberID');
 
-    Cookies.remove('appeal');
-    Cookies.remove('inform');
-    Cookies.remove('maintenance');
-    Cookies.remove('asset');
-    Cookies.remove('service');
-    Cookies.remove('business');
-    Cookies.remove('travel');
-    Cookies.remove('announce');
+    Cookies.remove('refresh_token');
+    Cookies.remove('dataUser');
+    Cookies.remove('_objectId');
+    
+
+    Cookies.remove('dataUserOnline');
+    Cookies.remove('refresh_tokenOnline');
+    Cookies.remove('_objectIdOnline');
+
+
 
     // ADMIN
     function GENERATECLICKADMIN() {
@@ -137,7 +139,7 @@
                                 <td style="text-align: right;"> <i class="material-icons">person </i> &nbsp;
                                 </td>
                                 <td> <input type="text" id="login_user" required autofocus name="login_user"
-                                        class="form-control" placeholder="ID USER" value="admin">
+                                        class="form-control" placeholder="ชื่อผู้ใช้งาน" value="admin">
 
                                 </td>
                                 <td></td>
@@ -151,7 +153,7 @@
                             <tr>
                                 <td> <i class="material-icons">lock</i></td>
                                 <td><input type="password" name="login_pass" required autofocus class="form-control"
-                                        placeholder="PASSWORD" id="login_pass" value="admin" /></td>
+                                        placeholder="รหัสผ่าน" id="login_pass" value="1234" /></td>
                             </tr>
                             <tr>
                                 <td>

@@ -20,7 +20,6 @@ function acctoken() {
                     location.href = "index.html";
                     return;
                 }
-
             });
         });
     });

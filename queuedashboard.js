@@ -7,6 +7,26 @@ var n = 0;
 var Str_profile;
 var Str_queue;
 var category_profile;
+var index;
+var _arr_qloop = new Array();
+var _n_loop = 1;
+var _i_loop = 0;
+var _i_loop_newdate = 0;
+var _arr_queue_Today = new Array();
+var _arr_queue_add = new Array();
+var queuecount;
+var qcall;
+var queueqend;
+var qcancel;
+var qpause;
+var chkvisible = 0;
+var q_num_today = 0;
+
+var chartcategory = new Array();
+var chartcategory_queue = new Array();
+var chartcategory_queue_call = new Array();
+var chartcategory_queue_end = new Array();
+var q_num = 0;
 
 function acctoken() {
     return new Promise(resolve => {
@@ -28,35 +48,263 @@ function acctoken() {
         });
     });
 }
-function getqueueview(refresh_token) { ////// 
-    return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
-            var urlipaddress = data.substring(1, data.length - 1);
-            //    console.log(urlipaddress + 'queue/' + _objectId + '?_page=1&_limit=100&_sort=1')
-            axios.get(urlipaddress + 'queue/' + _objectId + '?_page=1&_limit=100&_sort=1', {
-                headers: {
-                    'Authorization': refresh_token
+
+async function view_datatable(response, q) {
+    //  console.log(response)
+    var datenew = await datenewToday();
+    if (response.data.message.values.length != 0) {
+        for (i = 0; i < response.data.message.values.length; i++) {
+            let date = new Date(response.data.message.values[i].timeAdd);
+            let options = { hour12: false };
+            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+            var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+            s_date = s_date.split(' ')
+            s_date = s_date[0].split('/')
+            var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
+            var _checkdate = dayjs(datenew).isSame(_date)
+            if (_checkdate == true) {
+                var _timeCall = '';
+                var _timesend = '';
+                var _timecancel = '';
+                var _timespause = '';
+                if (response.data.message.values[i].timeCall == undefined) {
+                    _timeCall = ''
+                } else {
+                    _timeCall = response.data.message.values[i].timeCall
                 }
-            }).then(function (response) {
-                $("#queue").text(response.data.message.total + " คิว");
-                resolve(response.data.message.values);
-            }).catch(function (res) {
-                const { response } = res
-            });
+                if (response.data.message.values[i].timeEnd == undefined) {
+                    _timesend = ''
+                } else {
+                    _timesend = response.data.message.values[i].timeEnd
+                }
+                if (response.data.message.values[i].timeCancel == undefined) {
+                    _timecancel = ''
+                } else {
+                    _timecancel = response.data.message.values[i].timeCancel
+                }
+                if (response.data.message.values[i].timeCall == undefined) {
+                    _timespause = ''
+                } else {
+                    _timespause = response.data.message.values[i].timeCall
+                }
+                _arr_qloop[_i_loop] = {
+                    num: _n_loop,
+                    category: response.data.message.values[i].category,
+                    cue: response.data.message.values[i].cue,
+                    serviceChannel: response.data.message.values[i].serviceChannel,
+                    name: response.data.message.values[i].name,
+                    tel: response.data.message.values[i].tel,
+                    timeAdd: response.data.message.values[i].timeAdd,
+                    timeCall: _timeCall,
+                    timeEnd: _timesend,
+                    timecancel: _timecancel,
+                    timepause: _timespause
+                }
+                _i_loop = _i_loop + 1
+                _n_loop = _n_loop + 1
+            }
+        }
+    }
+
+    console.log(_arr_qloop)
+    $('#tablequeue_view').DataTable().destroy();
+    var table = $('#tablequeue_view').DataTable({
+        "lengthMenu": [[25, 50, 100], [25, 50, 100]],
+        "pageLength": 25,
+        'data': [..._arr_qloop],
+        "responsive": true,
+        "autoWidth": false,
+        "order": [],
+        columns: [
+            { data: "num" },
+            { data: "category" },
+            { data: "cue" },
+            { data: "serviceChannel" },
+            { data: "name" },
+            { data: "tel" },
+            {
+                data: "timeAdd",
+                render: function (data) {
+                    let date = new Date(data);
+                    let options = { hour12: false };
+                    var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+                    if (date.toLocaleString('en-US', options).replace(',', '') == '') {
+                        return '-';
+                    }
+                    return sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2];
+                }
+            },
+            {
+                data: "timeCall",
+                render: function (data) {
+                    if (data != '') {
+                        let date = new Date(data);
+                        let options = { hour12: false };
+                        var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+                        if (date.toLocaleString('en-US', options).replace(',', '') == '') {
+                            return '-';
+                        }
+                        return sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2];
+                    } else { return '-' }
+                }
+            },
+            {
+                data: "timeEnd",
+                render: function (data) {
+                    if (data != '') {
+                        let date = new Date(data);
+                        let options = { hour12: false };
+                        var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+                        if (date.toLocaleString('en-US', options).replace(',', '') == '') {
+                            return '-';
+                        }
+                        return sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2];
+                    } else { return '-' }
+                }
+            },
+            {
+                data: "timecancel",
+                render: function (data) {
+                    if (data != '') {
+                        let date = new Date(data);
+                        let options = { hour12: false };
+                        var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+                        if (date.toLocaleString('en-US', options).replace(',', '') == '') {
+                            return '-';
+                        }
+                        return sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2];
+                    } else { return '-' }
+                }
+            }
+            ,
+            {
+                data: "timepause",
+                render: function (data) {
+                    if (data != '') {
+                        let date = new Date(data);
+                        let options = { hour12: false };
+                        var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+                        if (date.toLocaleString('en-US', options).replace(',', '') == '') {
+                            return '-';
+                        }
+                        return sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2];
+                    } else { return '-' }
+                }
+            }
+        ],
+        dom: 'lBfrtip',
+        buttons: [
+            {
+                title: document.getElementById('h_name_report').innerText,
+                text: 'Export <i class="fa fa-file-excel-o" style="font-size:30px"></i>',
+                extend: 'excel',
+            }
+        ],
+    });
+    table.buttons().container().appendTo($('#test1'));
+    // table.columns(7).visible(false);
+}
+const getqaddloop = async (refresh_token, _page, q) => {
+    //function getqaddloop(refresh_token, _page, q) {
+    //return new Promise(resolve => {
+    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        var urlipaddress = data.substring(1, data.length - 1);
+        axios.get(urlipaddress + q + _objectId + '?_page=' + _page + '&_limit=10&_sort=1', {
+            headers: {
+                'Authorization': refresh_token
+            }
+        }).then(function (response) {
+            for (i = 0; i < response.data.message.values.length; i++) {
+                _arr_queue_add[_i_loop_newdate] = {
+                    _id: response.data.message.values[i]._id,
+                    category: response.data.message.values[i].category,
+                    cue: response.data.message.values[i].cue,
+                    name: response.data.message.values[i].name,
+                    serviceChannel: response.data.message.values[i].serviceChannel,
+                    tel: response.data.message.values[i].tel,
+                    timeAdd: response.data.message.values[i].timeAdd
+                }
+                _i_loop_newdate = _i_loop_newdate + 1
+            }
+            //console.log(q)
+            //console.log(_arr_queue_add)
+        }).catch(function (res) {
+            const { response } = res
         });
     });
+    // });
+}
+const viewqueuetfootloop = async (refresh_token, _page, q) => {
+    //return new Promise(resolve => {
+    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        var urlipaddress = data.substring(1, data.length - 1);
+        axios.get(urlipaddress + q + _objectId + '?_page=' + _page + '&_limit=10&_sort=1', {
+            headers: {
+                'Authorization': refresh_token
+            }
+        }).then(function (response) {
+            if (response.data.message.values.length != 0) {
+                view_datatable(response, q)
+            }
+        }).catch(function (res) {
+            const { response } = res
+        });
+    });
+    // });
 }
 function getqadd(refresh_token) { ////// คิวที่รอทั้งหมด
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
-            axios.get(urlipaddress + 'qadd/' + _objectId + '?_page=1&_limit=100&_sort=1', {
+            axios.get(urlipaddress + 'qadd/' + _objectId + '?_page=1&_limit=10&_sort=1', {
                 headers: {
                     'Authorization': refresh_token
                 }
             }).then(function (response) {
-                $("#qadd").text(response.data.message.total + " คิว");
-                resolve(response.data.message);
+                _arr_queue_add = new Array()
+                _i_loop_newdate = 0;
+
+                if (index != undefined) {
+                    console.log(index)
+                    var totle = response.data.message.total
+                    var looptotle = Math.ceil(totle / 10)
+                    if (looptotle > 1) { ///// คิวมากกว่า loop 100
+                        var _page = 1;
+                        for (i = 0; i < looptotle; i++) {
+                            viewqueuetfootloop(refresh_token, _page, 'qadd/')
+                            _page = _page + 1
+                        }
+                    } else {
+                        view_datatable(response, 'qadd/')
+                        resolve(response.data.message);
+                    }
+                    return;
+                }
+                /////// ข้อมูลแสดง datatable
+                var totle = response.data.message.total
+                var looptotle = Math.ceil(totle / 10)
+                var _page = 1;
+                if (looptotle > 1) { ///// คิวมากกว่า loop 100
+                    for (i = 0; i < looptotle; i++) {
+                        getqaddloop(refresh_token, _page, 'qadd/');
+                        _page = _page + 1
+                    }
+                    resolve(_arr_queue_add)
+                } else {
+                    for (i = 0; i < response.data.message.values.length; i++) {
+                        _arr_queue_add[_i_loop_newdate] = {
+                            _id: response.data.message.values[i]._id,
+                            category: response.data.message.values[i].category,
+                            cue: response.data.message.values[i].cue,
+                            name: response.data.message.values[i].name,
+                            serviceChannel: response.data.message.values[i].serviceChannel,
+                            tel: response.data.message.values[i].tel,
+                            timeAdd: response.data.message.values[i].timeAdd
+                        }
+                        _i_loop_newdate = _i_loop_newdate + 1
+                    }
+                    resolve(_arr_queue_add);
+                }
             }).catch(function (res) {
                 const { response } = res
             });
@@ -67,13 +315,56 @@ function getqcall(refresh_token) { ////// คิวที่รอทั้ง�
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
-            axios.get(urlipaddress + 'qcall/' + _objectId + '?_page=1&_limit=100&_sort=1', {
+            axios.get(urlipaddress + 'qcall/' + _objectId + '?_page=1&_limit=10&_sort=1', {
                 headers: {
                     'Authorization': refresh_token
                 }
             }).then(function (response) {
-                $("#qcall").text(response.data.message.total + " คิว");
-                resolve(response.data.message);
+                _arr_queue_add = new Array()
+                _i_loop_newdate = 0;
+
+                if (index != undefined) {
+                    var totle = response.data.message.total
+                    var looptotle = Math.ceil(totle / 10)
+                    if (looptotle > 1) { ///// คิวมากกว่า loop 100
+                        var _page = 1;
+                        for (i = 0; i < looptotle; i++) {
+                            viewqueuetfootloop(refresh_token, _page, 'qcall/')
+                            _page = _page + 1
+                        }
+                    } else {
+                        console.log(response)
+                        view_datatable(response, 'qcall/')
+                        resolve(response.data.message);
+                    }
+                    return;
+                }
+                /////// ข้อมูลแสดง datatable
+                var totle = response.data.message.total
+                var looptotle = Math.ceil(totle / 10)
+                var _page = 1;
+                if (looptotle > 1) { ///// คิวมากกว่า loop 100
+                    for (i = 0; i < looptotle; i++) {
+                        getqaddloop(refresh_token, _page, 'qcall/');
+                        _page = _page + 1
+                    }
+                    resolve(_arr_queue_add)
+                } else {
+                    for (i = 0; i < response.data.message.values.length; i++) {
+                        _arr_queue_add[_i_loop_newdate] = {
+                            _id: response.data.message.values[i]._id,
+                            category: response.data.message.values[i].category,
+                            cue: response.data.message.values[i].cue,
+                            name: response.data.message.values[i].name,
+                            serviceChannel: response.data.message.values[i].serviceChannel,
+                            tel: response.data.message.values[i].tel,
+                            timeAdd: response.data.message.values[i].timeAdd
+                        }
+                        _i_loop_newdate = _i_loop_newdate + 1
+                    }
+                    resolve(_arr_queue_add);
+                }
+
             }).catch(function (res) {
                 const { response } = res
             });
@@ -84,13 +375,173 @@ function getqend(refresh_token) { ////// คิวที่เสร็จ
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
-            axios.get(urlipaddress + 'qend/' + _objectId + '?_page=1&_limit=100&_sort=1', {
+            axios.get(urlipaddress + 'qend/' + _objectId + '?_page=1&_limit=10&_sort=1', {
                 headers: {
                     'Authorization': refresh_token
                 }
             }).then(function (response) {
-                $("#qend").text(response.data.message.total + " คิว");
-                resolve(response.data.message);
+                //console.log(response.data.message)
+                _arr_queue_add = new Array()
+                _i_loop_newdate = 0;
+                //  console.log(index)
+                if (index != undefined) {
+                    var totle = response.data.message.total
+                    var looptotle = Math.ceil(totle / 10)
+                    if (looptotle > 1) { ///// คิวมากกว่า loop 100
+                        var _page = 1;
+                        for (i = 0; i < looptotle; i++) {
+                            viewqueuetfootloop(refresh_token, _page, 'qend/')
+                            _page = _page + 1
+                        }
+                    } else {
+                        view_datatable(response, 'qend/')
+                        resolve(response.data.message);
+                    }
+                    return;
+                }
+                /////// ข้อมูลแสดง datatable
+                var totle = response.data.message.total
+                var looptotle = Math.ceil(totle / 10)
+                var _page = 1;
+                if (looptotle > 1) { ///// คิวมากกว่า loop 100
+                    for (i = 0; i < looptotle; i++) {
+                        getqaddloop(refresh_token, _page, 'qend/');
+                        _page = _page + 1
+                    }
+                    resolve(_arr_queue_add)
+                } else {
+                    for (i = 0; i < response.data.message.values.length; i++) {
+                        _arr_queue_add[_i_loop_newdate] = {
+                            _id: response.data.message.values[i]._id,
+                            category: response.data.message.values[i].category,
+                            cue: response.data.message.values[i].cue,
+                            name: response.data.message.values[i].name,
+                            serviceChannel: response.data.message.values[i].serviceChannel,
+                            tel: response.data.message.values[i].tel,
+                            timeAdd: response.data.message.values[i].timeAdd
+                        }
+                        _i_loop_newdate = _i_loop_newdate + 1
+                    }
+                    resolve(_arr_queue_add);
+                }
+            }).catch(function (res) {
+                const { response } = res
+            });
+        });
+    });
+}
+function getqcancel(refresh_token) { ////// คิวที่ถูกยกเลิก
+    return new Promise(resolve => {
+        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+            var urlipaddress = data.substring(1, data.length - 1);
+            axios.get(urlipaddress + 'qcancel/' + _objectId + '?_page=1&_limit=10&_sort=1', {
+                headers: {
+                    'Authorization': refresh_token
+                }
+            }).then(function (response) {
+                //console.log(response.data.message)
+                _arr_queue_add = new Array()
+                _i_loop_newdate = 0;
+                //  console.log(index)
+                if (index != undefined) {
+                    var totle = response.data.message.total
+                    var looptotle = Math.ceil(totle / 10)
+                    if (looptotle > 1) { ///// คิวมากกว่า loop 100
+                        var _page = 1;
+                        for (i = 0; i < looptotle; i++) {
+                            viewqueuetfootloop(refresh_token, _page, 'qcancel/')
+                            _page = _page + 1
+                        }
+                    } else {
+                        view_datatable(response, 'qcancel/')
+                        resolve(response.data.message);
+                    }
+                    return;
+                }
+                /////// ข้อมูลแสดง datatable
+                var totle = response.data.message.total
+                var looptotle = Math.ceil(totle / 10)
+                var _page = 1;
+                if (looptotle > 1) { ///// คิวมากกว่า loop 100
+                    for (i = 0; i < looptotle; i++) {
+                        getqaddloop(refresh_token, _page, 'qcancel/');
+                        _page = _page + 1
+                    }
+                    resolve(_arr_queue_add)
+                } else {
+                    for (i = 0; i < response.data.message.values.length; i++) {
+                        _arr_queue_add[_i_loop_newdate] = {
+                            _id: response.data.message.values[i]._id,
+                            category: response.data.message.values[i].category,
+                            cue: response.data.message.values[i].cue,
+                            name: response.data.message.values[i].name,
+                            serviceChannel: response.data.message.values[i].serviceChannel,
+                            tel: response.data.message.values[i].tel,
+                            timeAdd: response.data.message.values[i].timeAdd
+                        }
+                        _i_loop_newdate = _i_loop_newdate + 1
+                    }
+                    resolve(_arr_queue_add);
+                }
+            }).catch(function (res) {
+                const { response } = res
+            });
+        });
+    });
+}
+function getqpause(refresh_token) { ////// คิวที่ัพก
+    return new Promise(resolve => {
+        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+            var urlipaddress = data.substring(1, data.length - 1);
+            axios.get(urlipaddress + 'qpause/' + _objectId + '?_page=1&_limit=10&_sort=1', {
+                headers: {
+                    'Authorization': refresh_token
+                }
+            }).then(function (response) {
+                //console.log(response.data.message)
+                _arr_queue_add = new Array()
+                _i_loop_newdate = 0;
+                //  console.log(index)
+                if (index != undefined) {
+                    var totle = response.data.message.total
+                    var looptotle = Math.ceil(totle / 10)
+                    if (looptotle > 1) { ///// คิวมากกว่า loop 100
+                        var _page = 1;
+                        for (i = 0; i < looptotle; i++) {
+                            viewqueuetfootloop(refresh_token, _page, 'qpause/')
+                            _page = _page + 1
+                        }
+                    } else {
+                        view_datatable(response, 'qpause/')
+                        resolve(response.data.message);
+                    }
+                    return;
+                }
+                /////// ข้อมูลแสดง datatable
+                var totle = response.data.message.total
+                var looptotle = Math.ceil(totle / 10)
+                var _page = 1;
+                if (looptotle > 1) { ///// คิวมากกว่า loop 100
+                    for (i = 0; i < looptotle; i++) {
+                        getqaddloop(refresh_token, _page, 'qpause/');
+                        _page = _page + 1
+                    }
+                    resolve(_arr_queue_add)
+                } else {
+                    for (i = 0; i < response.data.message.values.length; i++) {
+                        _arr_queue_add[_i_loop_newdate] = {
+                            _id: response.data.message.values[i]._id,
+                            category: response.data.message.values[i].category,
+                            cue: response.data.message.values[i].cue,
+                            name: response.data.message.values[i].name,
+                            serviceChannel: response.data.message.values[i].serviceChannel,
+                            tel: response.data.message.values[i].tel,
+                            timeAdd: response.data.message.values[i].timeAdd
+                        }
+                        _i_loop_newdate = _i_loop_newdate + 1
+                    }
+                    resolve(_arr_queue_add);
+                }
             }).catch(function (res) {
                 const { response } = res
             });
@@ -132,238 +583,55 @@ function getcategoryview(refresh_token) {
         });
     });
 }
-var _arr_qloop = new Array();
-var _n_loop = 1;
-var _i_loop = 0;
 const queueloop = async (refresh_token, prm, _page, q) => {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-        axios.get(urlipaddress + q + _objectId + '?' + prm + '_page=' + _page + '&_limit=100&_sort=1', {
+        axios.get(urlipaddress + q + _objectId + '?' + prm + '_page=' + _page + '&_limit=10&_sort=1', {
             headers: {
                 'Authorization': refresh_token
             }
         }).then(function (response) {
             if (response.data.message.values.length != 0) {
-                for (i = 0; i < response.data.message.values.length; i++) {
-                    var _timesCall = '';
-                    var _timesend = '';
-                    if (response.data.message.values[i].timesCall == undefined) {
-                        _timesCall = ''
-                    } else {
-                        _timesCall = response.data.message.values[i].timesCall
-                    }
-                    if (response.data.message.values[i].timeEnd == undefined) {
-                        _timesend = ''
-                    } else {
-                        _timesend = response.data.message.values[i].timeEnd
-                    }
-                    _arr_qloop[_i_loop] = {
-                        num: _n_loop,
-                        category: response.data.message.values[i].category,
-                        cue: response.data.message.values[i].cue,
-                        serviceChannel: response.data.message.values[i].serviceChannel,
-                        name: response.data.message.values[i].name,
-                        tel: response.data.message.values[i].tel,
-                        timeAdd: response.data.message.values[i].timeAdd,
-                        timesCall: _timesCall,
-                        timeEnd: _timesend
-                    }
-                    _i_loop = _i_loop + 1
-                    _n_loop = _n_loop + 1
-                }
-            }
-
-            $('#tablequeue_view').DataTable().destroy();
-            var table = $('#tablequeue_view').DataTable({
-                "lengthMenu": [[25, 50, 100], [25, 50, 100]],
-                "pageLength": 25,
-                'data': [..._arr_qloop],
-                "responsive": true,
-                "autoWidth": false,
-                "order": [],
-                columns: [
-                    { data: "num" },
-                    { data: "category" },
-                    { data: "cue" },
-                    { data: "serviceChannel" },
-                    { data: "name" },
-                    { data: "tel" },
-                    {
-                        data: "timeAdd",
-                        render: function (data) {
-                            let date = new Date(data);
-                            let options = { hour12: false };
-                            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
-                            if (date.toLocaleString('en-US', options).replace(',', '') == '') {
-                                return '-';
-                            }
-                            return sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2];
-                        }
-                    },
-                    {
-                        data: "timesCall",
-                        render: function (data) {
-                            if (data != '') {
-                                let date = new Date(data);
-                                let options = { hour12: false };
-                                var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
-                                if (date.toLocaleString('en-US', options).replace(',', '') == '') {
-                                    return '-';
-                                }
-                                return sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2];
-                            } else {
-                                return false
-                            }
-                        }
-                    },
-                    {
-                        data: "timeEnd",
-                        render: function (data) {
-                            if (data != '') {
-                                let date = new Date(data);
-                                let options = { hour12: false };
-                                var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
-                                if (date.toLocaleString('en-US', options).replace(',', '') == '') {
-                                    return '-';
-                                }
-                                return sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2];
-                            } else {
-                                return false
-                            }
-                        }
-                    }
-                ]
-            });
-            if (q == 'qadd/') {
-                table.columns([7, 8]).visible(false);
-            }
-            if (q == 'qcall/') {
-                table.columns([8, 9]).visible(false);
+                view_datatable(response, q)
             }
         });
     });
-
 }
 function Getqueueviewcategory(categoryqueue, refresh_token, q) {
+
     var prm = 'category=' + categoryqueue + '&'
     var _arr = new Array();
     var _n = 1;
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-        axios.get(urlipaddress + q + _objectId + '?' + prm + '_page=1&_limit=100&_sort=1', {
+        axios.get(urlipaddress + q + _objectId + '?' + prm + '_page=1&_limit=10&_sort=1', {
             headers: {
                 'Authorization': refresh_token
             }
         }).then(function (response) {
-
+            console.log(response)
             var totle = response.data.message.total
-            var looptotle = Math.ceil(totle / 100)
+            var looptotle = Math.ceil(totle / 10)
             if (looptotle > 1) { ///// คิวมากกว่า loop 100
                 var _page = 1;
                 for (i = 0; i < looptotle; i++) {
+
                     queueloop(refresh_token, prm, _page, q)
                     _page = _page + 1
                 }
-                
             } else {   ////// น้อยกว่า 100
                 if (response.data.message.values.length != 0) {
-                    for (i = 0; i < response.data.message.values.length; i++) {
-                        var _timesCall = '';
-                        var _timesend = '';
-                        if (response.data.message.values[i].timesCall == undefined) {
-                            _timesCall = ''
-                        } else {
-                            _timesCall = response.data.message.values[i].timesCall
-                        }
-                        if (response.data.message.values[i].timeEnd == undefined) {
-                            _timesend = ''
-                        } else {
-                            _timesend = response.data.message.values[i].timeEnd
-                        }
-                        _arr[i] = {
-                            num: _n,
-                            category: response.data.message.values[i].category,
-                            cue: response.data.message.values[i].cue,
-                            serviceChannel: response.data.message.values[i].serviceChannel,
-                            name: response.data.message.values[i].name,
-                            tel: response.data.message.values[i].tel,
-                            timeAdd: response.data.message.values[i].timeAdd,
-                            timesCall: _timesCall,
-                            timeEnd: _timesend
-                        }
-                        _n = _n + 1
-                    }
-
-                    $('#tablequeue_view').DataTable().destroy();
-                    var table = $('#tablequeue_view').DataTable({
-                        "lengthMenu": [[25, 50, 100], [25, 50, 100]],
-                        "pageLength": 25,
-                        'data': [..._arr],
-                        "responsive": true,
-                        "autoWidth": false,
-                        "order": [],
-                        columns: [
-                            { data: "num" },
-                            { data: "category" },
-                            { data: "cue" },
-                            { data: "serviceChannel" },
-                            { data: "name" },
-                            { data: "tel" },
-                            {
-                                data: "timeAdd",
-                                render: function (data) {
-                                    let date = new Date(data);
-                                    let options = { hour12: false };
-                                    var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
-                                    if (date.toLocaleString('en-US', options).replace(',', '') == '') {
-                                        return '-';
-                                    }
-                                    return sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2];
-                                }
-                            },
-                            {
-                                data: "timesCall",
-                                render: function (data) {
-                                    if (data != '') {
-                                        let date = new Date(data);
-                                        let options = { hour12: false };
-                                        var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
-                                        if (date.toLocaleString('en-US', options).replace(',', '') == '') {
-                                            return '-';
-                                        }
-                                        return sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2];
-                                    } else {
-                                        return false
-                                    }
-                                }
-                            },
-                            {
-                                data: "timeEnd",
-                                render: function (data) {
-                                    if (data != '') {
-                                        let date = new Date(data);
-                                        let options = { hour12: false };
-                                        var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
-                                        if (date.toLocaleString('en-US', options).replace(',', '') == '') {
-                                            return '-';
-                                        }
-                                        return sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2];
-                                    } else {
-                                        return false
-                                    }
-                                }
-                            }
-                        ]
-                    });
-                    if (q == 'qadd/') {
-                        table.columns([7, 8]).visible(false);
-                    }
-                    if (q == 'qcall/') {
-                        table.columns([8, 9]).visible(false);
-                    }
+                    view_datatable(response, q)
                 }
             }
 
+            // var table = $('#tablequeue_view').DataTable();
+            // if (q == 'qadd/') {
+            //     table.columns([7, 8]).visible(false);
+            // }
+            // if (q == 'qcall/') {
+            //     table.columns([8, 9]).visible(false);
+            // }
         }).catch(function (res) {
             const { response } = res
         });
@@ -371,67 +639,315 @@ function Getqueueviewcategory(categoryqueue, refresh_token, q) {
 
 }
 
+$.getScript("ip.js", async function (data, textStatus, jqxhr) {
+    var urlipaddress = data.substring(1, data.length - 1);
+    const socket = io(urlipaddress);
+    const result = await acctoken();
+    socket.on('sentServiceChannel', async function (data) {
+        console.log(data)
+        //  v_socketio();
+    });
+    socket.on('sentEndQueue', async function (data) {
+        console.log(data)
+        //  v_socketio();
+    });
+});
+
+
+
+async function datenewToday() {
+    var today = new Date();
+    var n_date = today.toISOString();
+    let date = new Date(n_date);
+    let options = { hour12: false };
+    var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+    var chk_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+    chk_date = chk_date.split(' ')
+    chk_date = chk_date[0].split('/')
+    var datenew = chk_date[2] + '/' + chk_date[0] + '/' + chk_date[1]
+    return datenew;
+}
+var arr_datesearch = new Array()
+async function dateSearch() {
+    var timeStart = document.getElementById('startdate').value.split('/');
+    var timeStop = document.getElementById('enddate').value.split('/');
+    var s_time = document.getElementById('txttimestart').value;
+    var e_time = document.getElementById('txttimestop').value;
+    // var datenew = await datenewToday();
+    // console.log(datenew)
+    //////// ปี/เดือน/วัน
+    if (timeStart[0] == '' || timeStop[0] == '' || s_time == '' || e_time == '') {
+        showCancelMessagesearch('กรุณาเลือกวันที่', 'เลือกวันที่เริ่มต้น เวลาเริ่มต้น และ วันที่สิ้นสุด เวลาสิ้นสุด')
+        return;
+    }
+    var StartisoDate = (`${timeStart[2] + '/' + timeStart[1] + '/' + timeStart[0] + ' ' + s_time + ':00'}`)
+    var StopisoDate = (`${timeStop[2] + '/' + timeStop[1] + '/' + timeStop[0] + ' ' + e_time + ':00'}`)
+    arr_datesearch[0] = StartisoDate
+    arr_datesearch[1] = StopisoDate
+
+    for (let i in arr_datesearch) {
+        console.log('sdsdsd')
+    }
+
+    return arr_datesearch
+
+}
 $(async function () {
+    v_socketio();
+    $('#submitqueueReport').on('click', async function (e) {
+        var d_search = await dateSearch()
+        console.log(d_search)
+    });
+    $('#a_back').on('click', async function (e) {
+      
+        document.getElementById("div_qall").style.display = 'block'
+        document.getElementById("div_qdisplay").style.display = 'none'
+    });
+});
+
+function showCancelMessagesearch(title, text) {
+    swal({
+        title: title,
+        text: text,
+        type: "error",
+    }, function (isConfirm) {
+        swal("Cancelled", "Your imaginary file is safe :)", "error");
+    });
+}
+function showSuccessMessage(text) {
+    swal({
+        title: "สำเร็จ",
+        text: text,
+        type: "success",
+    }, function (isConfirm) {
+        if (isConfirm) {
+            //  location.href = "queuedashboard.html";
+        }
+    });
+}
+
+async function v_socketio() {
     const result = await acctoken();
     var _arrdataqueue = new Array();
     var _n = 0
-    /////// กราฟ
-    const queueview = await getqueueview(result);
     const fileview = await getprofileview(result);
     const categoryview = await getcategoryview(result);
 
-    // console.log(queueview)
     //////ตาราง
-    const queuecount = await getqadd(result); ////คิวรอรับบริการ
-    const qcall = await getqcall(result); ////คิวกำลังรับบริการ
-    const qend = await getqend(result);   ////คิวรับบริการแล้ว
+    queuecount = await getqadd(result); ////คิวรอรับบริการ
+    queueqend = await getqend(result);   ////คิวรับบริการแล้ว
+    qcall = await getqcall(result); ////คิวกำลังรับบริการ
 
-    // console.log(categoryview)
+    qcancel = await getqcancel(result);   ////คิวที่ถูกยกเลิก
+    qpause = await getqpause(result); ////คิวที่ถูกพัก
 
-    // console.log(queuecount)
-    // console.log(qcall)
-    // console.log(qend)
+    var datenew = await datenewToday();
+
     var view_queue = 0;
     var view_qcall = 0;
     var view_qend = 0;
+    var view_qcancel = 0;
+    var view_qpause = 0;
 
-    for (i = 0; i < categoryview.length; i++) {
-        if (queuecount.values.length != 0) {
-            for (i_queue = 0; i_queue < queuecount.category.length; i_queue++) {////คิวรอรับบริการ
-                if (categoryview[i].category == queuecount.category[i_queue]._id) {
-                    view_queue = queuecount.category[i_queue].count
+
+    var count_qadd = 0;
+    var btn_q_add = 0;
+    var btn_q_call = 0;
+    var btn_q_end = 0;
+    var btn_q_cancel = 0;
+    var btn_q_pause = 0;
+    var count_qcall = 0;
+    var count_qend = 0;
+    var count_qcancel = 0;
+    var count_qpause = 0;
+
+    for (let i_category in categoryview) {
+        chartcategory[i_category] = categoryview[i_category].category
+
+        /////// คิวผู้รอรับบริการ
+        for (let i_qadd in queuecount) {
+            console.log(queuecount[i_qadd].timeAdd)
+            let date = new Date(queuecount[i_qadd].timeAdd);
+            let options = { hour12: false };
+            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+            var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+            s_date = s_date.split(' ')
+            s_date = s_date[0].split('/')
+            var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
+            var _checkdate = dayjs(datenew).isSame(_date)
+            if (_checkdate == true) {
+                if (categoryview[i_category].category == queuecount[i_qadd].category) {
+                    count_qadd = count_qadd + 1
+                    ////// กราฟ
+                    q_num = q_num + 1;
+                    chartcategory_queue[i_category] = q_num
+                } else {
+                    if (q_num == 0) {  ////// กราฟ
+                        chartcategory_queue[i_category] = 0
+                    }
+                }
+            }
+        }
+        view_queue = count_qadd
+        btn_q_add = btn_q_add + count_qadd
+
+        /////// ผู้กำลังรับบริการ
+        q_num = 0;
+        for (let i_qcall in qcall) {
+            let date = new Date(qcall[i_qcall].timeAdd);
+            let options = { hour12: false };
+            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+            var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+            s_date = s_date.split(' ')
+            s_date = s_date[0].split('/')
+            var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
+            var _checkdate = dayjs(datenew).isSame(_date)
+
+            if (_checkdate == true) {
+                if (categoryview[i_category].category == qcall[i_qcall].category) {
+                    count_qcall = count_qcall + 1
+                    $("#qcall").text((count_qadd) + " คิว");
+                    ////// กราฟ
+                    q_num = q_num + 1;
+                    chartcategory_queue_call[i_category] = q_num
+                } else {
+                    if (q_num == 0) {  ////// กราฟ
+                        chartcategory_queue_call[i_category] = 0
+                    }
+                }
+            }
+        }
+        view_qcall = count_qcall
+        btn_q_call = btn_q_call + view_qcall
+        q_num = 0;
+        /////// ผู้รับบริการแล้ว
+        for (let i_qend in queueqend) {
+            let date = new Date(queueqend[i_qend].timeAdd);
+            let options = { hour12: false };
+            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+            var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+            s_date = s_date.split(' ')
+            s_date = s_date[0].split('/')
+            var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
+            var _checkdate = dayjs(datenew).isSame(_date)
+
+            if (_checkdate == true) {
+                //   console.log(_checkdate)
+                if (categoryview[i_category].category == queueqend[i_qend].category) {
+                    count_qend = count_qend + 1
+                    $("#qend").text((count_qadd) + " คิว");
+                    ////// กราฟ
+                    q_num = q_num + 1;
+                    chartcategory_queue_end[i_category] = q_num
+                } else {
+                    if (q_num == 0) {  ////// กราฟ
+                        chartcategory_queue_end[i_category] = 0
+                    }
                 }
             }
         }
 
-        if (qcall.values.length != 0) {
-            for (i_queue = 0; i_queue < qcall.category.length; i_queue++) {////คิวกำลังรับบริการ
-                if (categoryview[i].category == qcall.category[i_queue]._id) {
-                    view_qcall = qcall.category[i_queue].count
+        view_qend = count_qend
+        btn_q_end = btn_q_end + view_qend
+
+
+        q_num = 0;
+        /////// คิวที่ถูกยกเลิก
+        for (let i_qend in qcancel) {
+            let date = new Date(qcancel[i_qend].timeAdd);
+            let options = { hour12: false };
+            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+            var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+            s_date = s_date.split(' ')
+            s_date = s_date[0].split('/')
+            var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
+            var _checkdate = dayjs(datenew).isSame(_date)
+
+            if (_checkdate == true) {
+                //   console.log(_checkdate)
+                if (categoryview[i_category].category == qcancel[i_qend].category) {
+                    count_qcancel = count_qcancel + 1
+                    $("#qcancel").text((count_qcancel) + " คิว");
+                    ////// กราฟ
+                    q_num = q_num + 1;
+                    chartcategory_queue_end[i_category] = q_num
+                } else {
+                    if (q_num == 0) {  ////// กราฟ
+                        chartcategory_queue_end[i_category] = 0
+                    }
                 }
             }
         }
+        view_qcancel = count_qcancel
+        btn_q_cancel = btn_q_cancel + view_qcancel
+        q_num = 0;
 
-        if (qend.values.length != 0) {
-            for (i_queue = 0; i_queue < qend.category.length; i_queue++) {////////คิวรับบริการแล้ว จบ คิว
-                if (categoryview[i].category == qend.category[i_queue]._id) {
-                    view_qend = qend.category[i_queue].count
+        /////// คิวที่ถูกพัก
+        for (let i_qend in qpause) {
+            let date = new Date(qpause[i_qend].timeAdd);
+            let options = { hour12: false };
+            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+            var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+            s_date = s_date.split(' ')
+            s_date = s_date[0].split('/')
+            var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
+            var _checkdate = dayjs(datenew).isSame(_date)
+
+            if (_checkdate == true) {
+                //   console.log(_checkdate)
+                if (categoryview[i_category].category == qpause[i_qend].category) {
+                    count_qpause = count_qpause + 1
+                    $("#qpause").text((count_qpause) + " คิว");
+                    ////// กราฟ
+                    q_num = q_num + 1;
+                    chartcategory_queue_end[i_category] = q_num
+                } else {
+                    if (q_num == 0) {  ////// กราฟ
+                        chartcategory_queue_end[i_category] = 0
+                    }
                 }
             }
         }
+        view_qpause = count_qpause
+        btn_q_pause = btn_q_pause + view_qpause
+        q_num = 0;
 
-        _arrdataqueue[i] = {
-            category: categoryview[i].category,
+        _arrdataqueue[i_category] = {
+            category: categoryview[i_category].category,
             queue: view_queue,
             qcall: view_qcall,
-            qend: view_qend
+            qend: view_qend,
+            qcancel: view_qcancel,
+            qpause: view_qpause
         }
         view_qcall = 0
         view_queue = 0
         view_qend = 0
+        count_qadd = 0
+        count_qcall = 0
+        count_qend = 0
+        count_qcancel = 0
+        count_qpause = 0
+        q_num = 0;
+        view_qcancel = 0
+        view_qpause = 0
     }
 
-    $('#tablequeue').DataTable({
+    console.log(_arrdataqueue)
+
+    $("#qadd").text((btn_q_add) + " คิว");
+    $("#qcall").text((btn_q_call) + " คิว");
+    $("#qend").text((btn_q_end) + " คิว");
+    $("#queue").text((btn_q_add + btn_q_call + btn_q_end) + " คิว");
+
+    var header = [];
+    header.push("แผนก");
+    header.push("ผู้รอรับบริการ");
+    header.push("ผู้กำลังรับบริการ");
+    header.push("ผู้รับบริการแล้ว");
+    header.push("การยกเลิก");
+    $('#tablequeue').DataTable().destroy();
+    var table = $('#tablequeue').DataTable({
         "pageLength": 20,
         "bPaginate": false,
         "bLengthChange": false,
@@ -450,9 +966,8 @@ $(async function () {
                     if (data != 0) {
                         return '<u><a class="queue" style="color:blue; cursor: pointer;">' + data + '</a></u>';
                     } else {
-                        return data = 0
+                        return data = '0'
                     }
-
                 }
             },
             {
@@ -461,9 +976,8 @@ $(async function () {
                     if (data != 0) {
                         return '<u><a class="qcall" style="color:blue; cursor: pointer;">' + data + '</a></u>';
                     } else {
-                        return data = 0
+                        return data = '0'
                     }
-
                 }
             },
             {
@@ -472,11 +986,48 @@ $(async function () {
                     if (data != 0) {
                         return '<u><a class="qend" style="color:blue; cursor: pointer;">' + data + '</a></u>';
                     } else {
-                        return data = 0
+                        return data = '0'
                     }
-
                 }
             },
+            {
+                data: "qcancel",
+                render: function (data) {
+                    if (data != 0) {
+                        return '<u><a class="qcancel" style="color:blue; cursor: pointer;">' + data + '</a></u>';
+                    } else {
+                        return data = '0'
+                    }
+                }
+            },
+            {
+                data: "qpause",
+                render: function (data) {
+                    if (data != 0) {
+                        return '<u><a class="qpause" style="color:blue; cursor: pointer;">' + data + '</a></u>';
+                    } else {
+                        return data = '0'
+                    }
+                }
+            },
+        ],
+        dom: 'lBfrtip',
+        buttons: [
+            {
+                title: 'queueexport',
+                text: 'Export <i class="fa fa-file-excel-o" style="font-size:30px"></i>',
+                extend: 'excel',
+                footer: true,
+                exportOptions: {
+                    format: {
+                        header: function (data, column, row) {
+                            return header[column]; //header is the array I used to store header texts
+                        }
+                    },
+                    columns: [0, 1, 2, 3, 4, 5]
+                }
+            }
+
         ],
         "footerCallback": function (row, data, start, end, display) {
             var api = this.api(),
@@ -490,7 +1041,7 @@ $(async function () {
                         i : 0;
             };
             // Total over all pages
-            for (i = 1; i < 4; i++) {
+            for (i = 1; i < 6; i++) {
                 total = api
                     .column(i)
                     .data()
@@ -520,8 +1071,7 @@ $(async function () {
             }
         }
     });
-
-
+    table.buttons().container().appendTo($('#test'));
     $(document).ready(function () {
         var data;
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
@@ -540,9 +1090,13 @@ $(async function () {
                 document.getElementById("h_name_report").innerText = 'ผู้รอรับบริการ ' + data.category
                 document.getElementById("div_qall").style.display = 'none'
                 document.getElementById("div_qdisplay").style.display = 'block'
+
                 Getqueueviewcategory(data.category, result, 'qadd/')
+
+
             });
             $('#tablequeue').on('click', 'a.qcall', function (e) { /////ผู้กำลังรับบริการ แผนก
+
                 var table = $('#tablequeue').DataTable();
                 e.preventDefault();
                 var _ro = table.row($(this).parents('tr'));
@@ -553,7 +1107,7 @@ $(async function () {
                 _arr_qloop = new Array();
                 _n_loop = 1;
                 _i_loop = 0;
-                document.getElementById("h_name_report").innerText = 'ผู้กำลังรับบริการ'
+                document.getElementById("h_name_report").innerText = 'ผู้กำลังรับบริการ ' + data.category
                 document.getElementById("div_qall").style.display = 'none'
                 document.getElementById("div_qdisplay").style.display = 'block'
                 Getqueueviewcategory(data.category, result, 'qcall/')
@@ -570,84 +1124,147 @@ $(async function () {
                 _arr_qloop = new Array();
                 _n_loop = 1;
                 _i_loop = 0;
-                document.getElementById("h_name_report").innerText = 'ผู้รับบริการแล้ว'
+                document.getElementById("h_name_report").innerText = 'ผู้รับบริการแล้ว ' + data.category
                 document.getElementById("div_qall").style.display = 'none'
                 document.getElementById("div_qdisplay").style.display = 'block'
                 Getqueueviewcategory(data.category, result, 'qend/')
             });
+            $('#tablequeue').on('click', 'a.qcancel', function (e) { /////คิวที่ถูกยกเลิก แผนก
+                var table = $('#tablequeue').DataTable();
+                e.preventDefault();
+                var _ro = table.row($(this).parents('tr'));
+                data = _ro.data();
+
+                if (data == undefined) {
+                    data = table.row(this).data();
+                }
+                _arr_qloop = new Array();
+                _n_loop = 1;
+                _i_loop = 0;
+                document.getElementById("h_name_report").innerText = 'คิวที่ถูกยกเลิก ' + data.category
+                document.getElementById("div_qall").style.display = 'none'
+                document.getElementById("div_qdisplay").style.display = 'block'
+                Getqueueviewcategory(data.category, result, 'qcancel/')
+            });
+            $('#tablequeue').on('click', 'a.qpause', function (e) { /////คิวที่ถูกพัก แผนก
+                var table = $('#tablequeue').DataTable();
+                e.preventDefault();
+                var _ro = table.row($(this).parents('tr'));
+                data = _ro.data();
+
+                if (data == undefined) {
+                    data = table.row(this).data();
+                }
+                _arr_qloop = new Array();
+                _n_loop = 1;
+                _i_loop = 0;
+                document.getElementById("h_name_report").innerText = 'คิวที่ถูกพัก ' + data.category
+                document.getElementById("div_qall").style.display = 'none'
+                document.getElementById("div_qdisplay").style.display = 'block'
+                Getqueueviewcategory(data.category, result, 'qpause/')
+            });
             $('#tablequeue').on('click', 'tfoot th', function () {  /////ผู้รอรับบริการ ทั้งหมด
                 var table = $('#tablequeue').DataTable();
-                var index = table.column($(this).index() + ':visible').index();
-                console.log(index)
+                index = table.column($(this).index() + ':visible').index();
+                // console.log(index)
+
                 switch (index) {
                     case 1:
-                        // _arr_qloop = new Array();
-                        // _n_loop = 1;
-                        // _i_loop = 0;
-                        // document.getElementById("h_name_report").innerText = 'ผู้รอรับบริการทั้งหมด'
-                        // document.getElementById("div_qall").style.display = 'none'
-                        // document.getElementById("div_qdisplay").style.display = 'block'
-
+                        _arr_qloop = new Array();
+                        _arr_queue_add = new Array();
+                        _n_loop = 1;
+                        _i_loop = 0;
+                        getqadd(result)
+                        document.getElementById("h_name_report").innerText = 'ผู้รอรับบริการทั้งหมด'
+                        document.getElementById("div_qall").style.display = 'none'
+                        document.getElementById("div_qdisplay").style.display = 'block'
                         break;
                     case 2:
-
+                        _arr_qloop = new Array();
+                        _arr_queue_add = new Array();
+                        _n_loop = 1;
+                        _i_loop = 0;
+                        console.log('call')
+                        getqcall(result)
+                        document.getElementById("h_name_report").innerText = 'ผู้กำลังรับบริการทั้งหมด'
+                        document.getElementById("div_qall").style.display = 'none'
+                        document.getElementById("div_qdisplay").style.display = 'block'
                         break;
                     case 3:
-                     
+                        console.log('end')
+                        _arr_qloop = new Array();
+                        _arr_queue_add = new Array();
+                        _n_loop = 1;
+                        _i_loop = 0;
+                        getqend(result)
+                        document.getElementById("h_name_report").innerText = 'ผู้รับบริการทั้งหมด'
+                        document.getElementById("div_qall").style.display = 'none'
+                        document.getElementById("div_qdisplay").style.display = 'block'
                         break;
                     case 4:
-
+                        console.log('cancel')
+                        _arr_qloop = new Array();
+                        _arr_queue_add = new Array();
+                        _n_loop = 1;
+                        _i_loop = 0;
+                        getqcancel(result)
+                        document.getElementById("h_name_report").innerText = 'คิวที่ถูกยกเลิกทั้งหมด'
+                        document.getElementById("div_qall").style.display = 'none'
+                        document.getElementById("div_qdisplay").style.display = 'block'
                         break;
                     case 5:
-
+                        console.log('pause')
+                        _arr_qloop = new Array();
+                        _arr_queue_add = new Array();
+                        _n_loop = 1;
+                        _i_loop = 0;
+                        getqpause(result)
+                        document.getElementById("h_name_report").innerText = 'คิวที่ถูกพักทั้งหมด'
+                        document.getElementById("div_qall").style.display = 'none'
+                        document.getElementById("div_qdisplay").style.display = 'block'
                         break;
                     case 6:
-
                         break;
                     default:
-
                 }
+
+                // console.log(index)
+                //                 var table = $('#tablequeue_view').DataTable();
+                //                 if (index == '1') {
+                //                     table.columns([7, 8]).visible(false);
+                //                 }
+                //                 if (index == '2') {
+                //                     table.columns([8]).visible(false);
+                //                 }
+                // if (q == 'qadd/') {
+                //   table.columns([7, 8]).visible(false);
+                // }
+                // if (q == 'qcall/') {
+                //    table.columns([8]).visible(false);
+                // }
             });
 
         });
+
+
+
+
+
+
+
     });
-
-
-
-    /////กราฟ
-    var chartcategory = new Array();
-    var chartcategory_queue = new Array();
-    var q_num = 0;
-    for (i = 0; i < categoryview.length; i++) {  /////แผนก
-        chartcategory[i] = categoryview[i].category
-        for (i_q = 0; i_q < queueview.length; i_q++) {  ////คิวทั้งหมด
-            if (queueview[i_q].category == categoryview[i].category) {
-                chartcategory_queue[i] = q_num
-                q_num = q_num + 1;
-            } else {
-                if (q_num == 0) {
-                    chartcategory_queue[i] = 0
-                }
-            }
-        }
-        q_num = 0;
-    }
 
     q_num = 0;
     var chartprofile = new Array();
     var chartprofile_num = new Array();
-    var chartprofile_queue2 = new Array();
-    var chart_category = new Array();
-    var xxx;
-    var aa = 0;
     for (i = 0; i < fileview.length; i++) {  /////โปรไฟล์
         chartprofile[i] = fileview[i].name
         chartprofile_num[i] = fileview[i].category.length
-
     }
-
-
+    console.log(chartprofile)
+    console.log(chartprofile_num)
     $(function () {
+
         new Chart(document.getElementById("bar_queuecategory").getContext("2d"), getChartJs('bar'));
         //  new Chart(document.getElementById("bar_queueprofile").getContext("2d"), getChartJs('bar2'));
         new Chart(document.getElementById("donut_chart_category").getContext("2d"), getChartJs('piecategory'));
@@ -683,94 +1300,63 @@ $(async function () {
                 },
                 options: {
                     responsive: true,
-                    legend: false
+                    //legend: true
+                    legend: {
+                        position: 'right',
+                    },
                 }
             }
         }
         else if (type === 'bar') {
+            if (chartcategory_queue.length == 0) {
+                for (i = 0; i < chartcategory.length; i++) {
+                    chartcategory_queue[i] = 0
+                }
+            }
+            if (chartcategory_queue_call.length == 0) {
+                for (i = 0; i < chartcategory.length; i++) {
+                    chartcategory_queue_call[i] = 0
+                }
+            }
+            if (chartcategory_queue_end.length == 0) {
+                for (i = 0; i < chartcategory.length; i++) {
+                    chartcategory_queue_end[i] = 0
+                }
+            }
+            console.log(chartcategory)
+            console.log(chartcategory_queue_call)
+            console.log(chartcategory_queue_end)
+            console.log(chartcategory_queue)
             config = {
                 type: 'bar',
                 data: {
                     labels: chartcategory,
                     datasets: [{
-                        label: 'จำนวนคิว',
+                        label: 'ผู้รอรับบริการ',
                         data: chartcategory_queue,
                         backgroundColor: 'rgba(139, 195, 74)'
+                    }
+                        , {
+                        label: "ผู้กำลังรับบริการ",
+                        data: chartcategory_queue_call,
+                        backgroundColor: 'rgba(233, 30, 99, 0.8)'
+                    }, {
+                        label: "ผู้รับบริการแล้ว",
+                        data: chartcategory_queue_end,
+                        backgroundColor: 'rgba(0, 188, 212, 0.8)'
                     }
                     ]
                 },
                 options: {
                     responsive: true,
-                    legend: false
-                    // legend: {
-                    //     // position: 'right',
-                    // },
+                    legend: true,
+                    legend: {
+                        position: 'right',
+                    },
                 }
             }
         }
         else if (type === 'bar2') {
-
-            // config = {
-            //     type: 'bar',
-            //     data: {
-            //         labels: chartprofile,
-            //         datasets: [{
-            //             label: chart_category,
-            //             backgroundColor: 'rgba(0, 188, 212, 0.8)',
-            //             data: chartprofile_queue,
-            //         }
-            //         ]
-            //     },
-            //     options: {
-            //         responsive: true,
-            //         legend: false
-            //     }
-            // }
-            // config = {
-            //     type: 'bar',
-            //     data: {
-            //         labels: chartprofile,
-            //         datasets: [{
-            //             label: chart_category,
-            //             backgroundColor: 'rgba(0, 188, 212, 0.8)',
-            //             data: [36, 0, 0, 0, 22],
-            //         }
-            //             , {
-            //             label: chart_category,
-            //             data: [0, 0, 0, 0, 22],
-            //             backgroundColor: 'rgba(233, 30, 99, 0.8)'
-            //         }
-            //             , {
-            //             label: chart_category,
-            //             data: [0, 44, 0, 0, 2],
-            //             backgroundColor: 'rgba(139, 195, 74)'
-            //         }
-            //             , {
-            //             label: chart_category,
-            //             data: [0, 0, 0, 0, 0],
-            //             backgroundColor: 'rgb(0, 0, 255)'
-            //         }, {
-            //             label: chart_category,
-            //             data: [0, 0, 0, 0, 0],
-            //             backgroundColor: 'rgb(127, 0, 255)'
-            //         }
-            //             , {
-            //             label: chart_category,
-            //             data: [0, 0, 0, 0, 0],
-            //             backgroundColor: 'rgb(25,25,112)'
-            //         }
-            //             , {
-            //             label: chart_category,
-            //             data: [0, 0, 0, 0, 0],
-            //             backgroundColor: 'rgb(210,105,30)'
-            //         }
-            //         ]
-            //     },
-            //     options: {
-            //         responsive: true,
-            //         legend: false
-            //     }
-            // }
 
         }
         else if (type === 'piecategory') {
@@ -853,6 +1439,4 @@ $(async function () {
         }
         return config;
     }
-});
-
-
+}

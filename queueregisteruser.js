@@ -128,13 +128,13 @@ $(async function () {
     /////////////////////////////////// เพิ่มผู้ใช้งาน
     $('#submitvisitorRegis').on('click', async function (e) {
         if(document.getElementById("user").value == '' || document.getElementById("passuser").value ==''){
-            showCancelMessageregisteruser('กรอกข้อมูลให้ครับ', '')
+            showCancelMessageregisteruser('กรอกข้อมูลให้ครบ', '')
             return;
         }
-        var chk_pass = validateUsernameUSER();
-        if (chk_pass == false) {
-            return;
-        }
+        // var chk_pass = validateUsernameUSER();
+        // if (chk_pass == false) {
+        //     return;
+        // }
         document.getElementById("save").innerText = "";
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
