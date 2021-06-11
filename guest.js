@@ -1,4 +1,7 @@
-
+var _arr_qloop = new Array();
+var _n_loop = 1;
+var _i_loop = 0;
+var q_count = 0;
 var _objectId;
 function acctoken(obj) {
     return new Promise(resolve => {
@@ -21,49 +24,68 @@ function acctoken(obj) {
         });
     });
 }
-var _arr_qloop = new Array();
-var _n_loop = 1;
-var _i_loop = 0;
+
 const queueloop = async (refresh_token, _page) => {
+    var today = new Date();
+    var n_date = today.toISOString();
+    let date = new Date(n_date);
+    let options = { hour12: false };
+    var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+    var chk_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+    chk_date = chk_date.split(' ')
+    chk_date = chk_date[0].split('/')
+    var datenew = chk_date[2] + '/' + chk_date[0] + '/' + chk_date[1]
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-        axios.get(urlipaddress + 'queue/' + _objectId + '?_page=' + _page + '&_limit=100&_sort=1', {
+        axios.get(urlipaddress + 'queue/' + _objectId + '?_page=' + _page + '&_limit=10&_sort=1', {
             headers: {
                 'Authorization': refresh_token
             }
         }).then(function (response) {
-            // console.log(response.data.message.values)
-            //  $('#table_view').DataTable().destroy();
-            //  $("#table_view").empty();
+
             var _collor = ["bg-red", "bg-pink", "bg-blue", "bg-amber", "bg-orange", "bg-teal", "bg-green", "bg-purple"];
             var _num = 0;
 
             for (i = 0; i < response.data.message.values.length; i++) {
-                $("#table_view").append(`
-                <tr>
-                    <td>
-                        <div class="info-box ${_collor[_num]} 
-                         hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid;">
-                         <div class="content">
-                                <div style="font-size: 28px;" >${response.data.message.values[i].cue}</div>
-                            </div>
-                        </div>
-                     </td>
-                    <td>
-                        <div class="info-box ${_collor[_num]}
-                      hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid; ">
-                            <div class="content">
-                                <div style="font-size: 28px;">${response.data.message.values[i].serviceChannel}</div>
-                            </div>
-                        </div>
-                 </td>
-                </tr>
-            `);
+                let date = new Date(response.data.message.values[i].timeAdd);
+                let options = { hour12: false };
+                var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+                var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+                s_date = s_date.split(' ')
+                s_date = s_date[0].split('/')
+                var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
+                var _checkdate = dayjs(datenew).isSame(_date)
+                if (_checkdate == true) {
+                    q_count = q_count + 1
+                    $("#table_view").append(`
+                        <tr>
+                            <td>
+                                <div class="info-box ${_collor[_num]} 
+                                 hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid;">
+                                 <div class="content">
+                                        <div style="font-size: 28px;" >${response.data.message.values[i].cue}</div>
+                                    </div>
+                                </div>
+                             </td>
+                            <td>
+                                <div class="info-box ${_collor[_num]}
+                              hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid; ">
+                                    <div class="content">
+                                        <div style="font-size: 28px;">${response.data.message.values[i].serviceChannel}</div>
+                                    </div>
+                                </div>
+                         </td>
+                        </tr>
+                    `);
+                }
+
                 _num = _num + 1;
                 if (_collor.length == _num) {
                     _num = 0;
                 }
             }
+
+            document.getElementById('count_queuetoday').innerText = 'คิวทั้งหมดของวันนี้ จำนวน ' + q_count + ' คิว'
 
         });
     });
@@ -72,15 +94,26 @@ const queueloop = async (refresh_token, _page) => {
 function getqueueview(refresh_token) {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-        axios.get(urlipaddress + 'queue/' + _objectId + '?_page=1&_limit=100&_sort=1', {
+        axios.get(urlipaddress + 'queue/' + _objectId + '?_page=1&_limit=10&_sort=1', {
             headers: {
                 'Authorization': refresh_token
             }
         }).then(function (response) {
+
+            var today = new Date();
+            var n_date = today.toISOString();
+            let date = new Date(n_date);
+            let options = { hour12: false };
+            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+            var chk_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+            chk_date = chk_date.split(' ')
+            chk_date = chk_date[0].split('/')
+            var datenew = chk_date[2] + '/' + chk_date[0] + '/' + chk_date[1]
+
             // console.log(response.data.message)
             var totle = response.data.message.total
             //  console.log(totle)
-            var looptotle = Math.ceil(totle / 100)
+            var looptotle = Math.ceil(totle / 10)
             // console.log(looptotle)
             if (looptotle > 1) { ///// คิวมากกว่า loop 100
                 var _page = 1;
@@ -110,35 +143,44 @@ function getqueueview(refresh_token) {
             </thead>
             `);
                 for (i = 0; i < response.data.message.values.length; i++) {
-                    $("#table_view").append(`
-                    <tr>
-                        <td>
-                            <div class="info-box ${_collor[_num]} 
-                             hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid;">
-                             <div class="content">
-                                    <div style="font-size: 28px;" >${response.data.message.values[i].cue}</div>
+                    let date = new Date(response.data.message.values[i].timeAdd);
+                    let options = { hour12: false };
+                    var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+                    var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+                    s_date = s_date.split(' ')
+                    s_date = s_date[0].split('/')
+                    var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
+                    var _checkdate = dayjs(datenew).isSame(_date)
+                    if (_checkdate == true) {
+                        q_count = q_count + 1
+                        $("#table_view").append(`
+                        <tr>
+                            <td>
+                                <div class="info-box ${_collor[_num]} 
+                                 hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid;">
+                                 <div class="content">
+                                        <div style="font-size: 28px;" >${response.data.message.values[i].cue}</div>
+                                    </div>
                                 </div>
-                            </div>
+                             </td>
+                            <td>
+                                <div class="info-box ${_collor[_num]}
+                              hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid; ">
+                                    <div class="content">
+                                        <div style="font-size: 28px;">${response.data.message.values[i].serviceChannel}</div>
+                                    </div>
+                                </div>
                          </td>
-                        <td>
-                            <div class="info-box ${_collor[_num]}
-                          hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid; ">
-                                <div class="content">
-                                    <div style="font-size: 28px;">${response.data.message.values[i].serviceChannel}</div>
-                                </div>
-                            </div>
-                     </td>
-                    </tr>
-                `);
+                        </tr>
+                    `);
+                    }
                     _num = _num + 1;
                     if (_collor.length == _num) {
                         _num = 0;
                     }
                 }
+                document.getElementById('count_queuetoday').innerText = 'คิวทั้งหมดของวันนี้ จำนวน ' + q_count + ' คิว'
             }
-
-
-
         }).catch(function (res) {
             const { response } = res
         });
@@ -165,10 +207,10 @@ function getcategoryview(refresh_token) {
         });
     });
 }
-function getqrcode(refresh_token) {
+function getqrcode(refresh_token,nameqr) {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-        axios.get(urlipaddress + "images/qrcode/" + _objectId + '.qr1', {
+        axios.get(urlipaddress + "file/qrcode/" + nameqr, {
             responseType: 'arraybuffer',
             headers: {
                 'Authorization': refresh_token
@@ -192,6 +234,28 @@ function getqrcode(refresh_token) {
         });
     });
 }
+
+function getqrcode_List(refresh_token) {
+    return new Promise(resolve => {
+        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+            var urlipaddress = data.substring(1, data.length - 1);
+            axios.get(urlipaddress + "qrList/" + _objectId, {
+                headers: {
+                    'Authorization': refresh_token
+                }
+            }).then(function (response) {
+                console.log(response.data.message.qrList.length)
+                // Genqrcode(refresh_token)
+                if (response.data.message.qrList.length == 0) {
+                    resolve('true')
+                } else {
+
+                    resolve(response.data.message.qrList[0])
+                }
+            });
+        });
+    });
+}
 $(async function () {
     const urlParams = new URLSearchParams(window.location.search);
     let myParam = urlParams.toString();
@@ -210,8 +274,12 @@ $(async function () {
                 //  console.log(result)
                 getqueueview(result);
                 _category = await getcategoryview(result);
-                getqrcode(result);
+
+                var nameqr = await getqrcode_List(result)
+                console.log(nameqr)
+                getqrcode(result, nameqr);
                 // return res.data.message;
+
             } catch (err) {
                 throw err.response.data.message;
             }
@@ -258,7 +326,7 @@ $(async function () {
                     document.getElementById('q_no').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  คิวที่ No. ' + response.data.message.queue
 
                     $("#_viewlog").show();
-                 
+
 
                     html2canvas($("#createImg"), {
                         onrendered: function (canvas) {
@@ -300,7 +368,7 @@ $(async function () {
                         Cookies.remove('_objectIdOnline');
                         document.getElementById('add_q_online').style.display = 'none'
                         document.getElementById('submit_q_login').style.display = 'block'
-
+                        document.getElementById('div_tabadd').style.display = 'none'
                         showSuccessMessage_register('ออกจากระบบ', '')
                     }
                 }).catch(function (res) {
@@ -346,6 +414,8 @@ $(async function () {
                 });
             });
         });
+
+
     });
     function showCancelMessage_queue(title, text) {
         swal({

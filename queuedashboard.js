@@ -27,6 +27,7 @@ var chartcategory_queue = new Array();
 var chartcategory_queue_call = new Array();
 var chartcategory_queue_end = new Array();
 var q_num = 0;
+var check_table_clack = '';
 
 function acctoken() {
     return new Promise(resolve => {
@@ -644,11 +645,19 @@ $.getScript("ip.js", async function (data, textStatus, jqxhr) {
     const socket = io(urlipaddress);
     const result = await acctoken();
     socket.on('sentServiceChannel', async function (data) {
-        console.log(data)
+
+        if (check_table_clack == '') {
+            console.log(data)
+            v_socketio();
+        }
         //  v_socketio();
     });
     socket.on('sentEndQueue', async function (data) {
-        console.log(data)
+
+        if (check_table_clack == '') {
+            console.log(data)
+            v_socketio();
+        }
         //  v_socketio();
     });
 });
@@ -671,38 +680,53 @@ var arr_datesearch = new Array()
 async function dateSearch() {
     var timeStart = document.getElementById('startdate').value.split('/');
     var timeStop = document.getElementById('enddate').value.split('/');
-    var s_time = document.getElementById('txttimestart').value;
-    var e_time = document.getElementById('txttimestop').value;
+    // var s_time = document.getElementById('txttimestart').value;
+    // var e_time = document.getElementById('txttimestop').value;
     // var datenew = await datenewToday();
     // console.log(datenew)
     //////// ปี/เดือน/วัน
-    if (timeStart[0] == '' || timeStop[0] == '' || s_time == '' || e_time == '') {
+    if (timeStart[0] == '' || timeStop[0] == '') {
         showCancelMessagesearch('กรุณาเลือกวันที่', 'เลือกวันที่เริ่มต้น เวลาเริ่มต้น และ วันที่สิ้นสุด เวลาสิ้นสุด')
         return;
     }
-    var StartisoDate = (`${timeStart[2] + '/' + timeStart[1] + '/' + timeStart[0] + ' ' + s_time + ':00'}`)
-    var StopisoDate = (`${timeStop[2] + '/' + timeStop[1] + '/' + timeStop[0] + ' ' + e_time + ':00'}`)
+    var StartisoDate = (`${timeStart[2] + '/' + timeStart[1] + '/' + timeStart[0]}`)
+    var StopisoDate = (`${timeStop[2] + '/' + timeStop[1] + '/' + timeStop[0]}`)
     arr_datesearch[0] = StartisoDate
     arr_datesearch[1] = StopisoDate
 
-    for (let i in arr_datesearch) {
-        console.log('sdsdsd')
-    }
+
+    // for (let i in arr_datesearch) {
+    //     console.log('sdsdsd')
+    // }
 
     return arr_datesearch
 
 }
+
 $(async function () {
+
     v_socketio();
+
     $('#submitqueueReport').on('click', async function (e) {
         var d_search = await dateSearch()
-        console.log(d_search)
+        document.getElementById("btn_cancel").style.display = 'block'
+
+        v_socketio();
+    });
+    $('#btn_cancel').on('click', async function (e) {
+        arr_datesearch = new Array()
+      document.getElementById('startdate').value = '';
+       document.getElementById('enddate').value = '';
+        document.getElementById("btn_cancel").style.display = 'none'
+
+        v_socketio();
     });
     $('#a_back').on('click', async function (e) {
-      
+        check_table_clack = ''
         document.getElementById("div_qall").style.display = 'block'
         document.getElementById("div_qdisplay").style.display = 'none'
     });
+
 });
 
 function showCancelMessagesearch(title, text) {
@@ -727,6 +751,9 @@ function showSuccessMessage(text) {
 }
 
 async function v_socketio() {
+
+    console.log(arr_datesearch.length)
+
     const result = await acctoken();
     var _arrdataqueue = new Array();
     var _n = 0
@@ -766,7 +793,7 @@ async function v_socketio() {
 
         /////// คิวผู้รอรับบริการ
         for (let i_qadd in queuecount) {
-            console.log(queuecount[i_qadd].timeAdd)
+            //    console.log(queuecount[i_qadd].timeAdd)
             let date = new Date(queuecount[i_qadd].timeAdd);
             let options = { hour12: false };
             var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
@@ -774,7 +801,20 @@ async function v_socketio() {
             s_date = s_date.split(' ')
             s_date = s_date[0].split('/')
             var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
-            var _checkdate = dayjs(datenew).isSame(_date)
+            // var _checkdate; = dayjs(datenew).isSame(_date)
+            var _checkdate;
+
+            if (arr_datesearch.length != 0) {
+                const isBetween = window.dayjs_plugin_isBetween;
+                dayjs.extend(isBetween);
+
+                _checkdate = dayjs(_date).isBetween(arr_datesearch[0], arr_datesearch[1], undefined, '[]');
+
+                console.log(_checkdate)
+            } else {
+                _checkdate = dayjs(datenew).isSame(_date)
+            }
+
             if (_checkdate == true) {
                 if (categoryview[i_category].category == queuecount[i_qadd].category) {
                     count_qadd = count_qadd + 1
@@ -801,7 +841,21 @@ async function v_socketio() {
             s_date = s_date.split(' ')
             s_date = s_date[0].split('/')
             var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
-            var _checkdate = dayjs(datenew).isSame(_date)
+            // var _checkdate = dayjs(datenew).isSame(_date)
+
+            var _checkdate;
+
+            if (arr_datesearch.length != 0) {
+                const isBetween = window.dayjs_plugin_isBetween;
+                dayjs.extend(isBetween);
+
+                _checkdate = dayjs(_date).isBetween(arr_datesearch[0], arr_datesearch[1], undefined, '[]');
+
+                console.log(_checkdate)
+            } else {
+                _checkdate = dayjs(datenew).isSame(_date)
+            }
+
 
             if (_checkdate == true) {
                 if (categoryview[i_category].category == qcall[i_qcall].category) {
@@ -829,7 +883,16 @@ async function v_socketio() {
             s_date = s_date.split(' ')
             s_date = s_date[0].split('/')
             var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
-            var _checkdate = dayjs(datenew).isSame(_date)
+            // var _checkdate = dayjs(datenew).isSame(_date)
+            var _checkdate;
+            if (arr_datesearch.length != 0) {
+                const isBetween = window.dayjs_plugin_isBetween;
+                dayjs.extend(isBetween);
+                _checkdate = dayjs(_date).isBetween(arr_datesearch[0], arr_datesearch[1], undefined, '[]');
+                console.log(_checkdate)
+            } else {
+                _checkdate = dayjs(datenew).isSame(_date)
+            }
 
             if (_checkdate == true) {
                 //   console.log(_checkdate)
@@ -1077,6 +1140,7 @@ async function v_socketio() {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             $('#tablequeue').on('click', 'a.queue', function (e) { /////ผู้รอรับบริการ แผนก
+                check_table_clack = 'true';
                 var table = $('#tablequeue').DataTable();
                 e.preventDefault();
                 var _ro = table.row($(this).parents('tr'));
@@ -1096,7 +1160,7 @@ async function v_socketio() {
 
             });
             $('#tablequeue').on('click', 'a.qcall', function (e) { /////ผู้กำลังรับบริการ แผนก
-
+                check_table_clack = 'true';
                 var table = $('#tablequeue').DataTable();
                 e.preventDefault();
                 var _ro = table.row($(this).parents('tr'));
@@ -1113,6 +1177,7 @@ async function v_socketio() {
                 Getqueueviewcategory(data.category, result, 'qcall/')
             });
             $('#tablequeue').on('click', 'a.qend', function (e) { /////ผู้รับบริการแล้ว แผนก
+                check_table_clack = 'true';
                 var table = $('#tablequeue').DataTable();
                 e.preventDefault();
                 var _ro = table.row($(this).parents('tr'));
@@ -1130,6 +1195,7 @@ async function v_socketio() {
                 Getqueueviewcategory(data.category, result, 'qend/')
             });
             $('#tablequeue').on('click', 'a.qcancel', function (e) { /////คิวที่ถูกยกเลิก แผนก
+                check_table_clack = 'true';
                 var table = $('#tablequeue').DataTable();
                 e.preventDefault();
                 var _ro = table.row($(this).parents('tr'));
@@ -1147,6 +1213,7 @@ async function v_socketio() {
                 Getqueueviewcategory(data.category, result, 'qcancel/')
             });
             $('#tablequeue').on('click', 'a.qpause', function (e) { /////คิวที่ถูกพัก แผนก
+                check_table_clack = 'true';
                 var table = $('#tablequeue').DataTable();
                 e.preventDefault();
                 var _ro = table.row($(this).parents('tr'));
@@ -1164,6 +1231,7 @@ async function v_socketio() {
                 Getqueueviewcategory(data.category, result, 'qpause/')
             });
             $('#tablequeue').on('click', 'tfoot th', function () {  /////ผู้รอรับบริการ ทั้งหมด
+                check_table_clack = 'true';
                 var table = $('#tablequeue').DataTable();
                 index = table.column($(this).index() + ':visible').index();
                 // console.log(index)
@@ -1323,10 +1391,10 @@ async function v_socketio() {
                     chartcategory_queue_end[i] = 0
                 }
             }
-            console.log(chartcategory)
-            console.log(chartcategory_queue_call)
-            console.log(chartcategory_queue_end)
-            console.log(chartcategory_queue)
+            //  console.log(chartcategory)
+            // console.log(chartcategory_queue_call)
+            // console.log(chartcategory_queue_end)
+            //  console.log(chartcategory_queue)
             config = {
                 type: 'bar',
                 data: {

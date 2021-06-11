@@ -4,7 +4,8 @@
 <head>
     <!-- <meta charset="UTF-8"> -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
+        
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,7 @@
 
     <!-- Load paper.css for happy printing -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">
-    
+
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <title>WAC</title>
     <!-- Favicon-->
@@ -55,7 +56,7 @@
         rel="stylesheet" />
 
     <!-- Bootstrap DatePicker Css -->
-  
+
 
     <link href="../../plugins/light-gallery/css/lightgallery.css" rel="stylesheet">
 
@@ -89,15 +90,18 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script> -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-       <!-- modal  -->
+    <!-- modal  -->
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script> -->
-    <script type="text/javascript" src="https://github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
+    <script type="text/javascript"
+        src="https://github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/dayjs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/utc.min.js"></script>
 
     <script src="./guest.js"></script>
 </head>
@@ -105,12 +109,12 @@
 <style>
     body h1 h2 h3 h4 h5 h6 ul li a p {
         font-family: 'Kanit', sans-serif;
-        
+
     }
 
     div {
         font-family: 'Kanit', sans-serif;
-       
+
     }
 
     .i:read-only {
@@ -193,14 +197,14 @@
             </div>
             <div style="display: none;" class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                  
+
                     <li></li>
 
                 </ul>
             </div>
         </div>
     </nav>
-   
+
     <!-- #Top Bar -->
     <section class="">
         <div class="container-fluid">
@@ -212,25 +216,161 @@
                             <h2>จองคิวออนไลน์ วันที่ <font style="font-size: 13px; text-align: right;" id="_time">
                                 </font>
                             </h2>
-                            <div class="form-group">
-                              
-                            </div>
-
+                            <br>
                             <div class="form-group">
                                 <input type="button" value="จองคิวออนไลน์" onclick="modalLogin()"
                                     class="btn btn-primary waves-effect" id="submit_q_login" class="primary" />
                             </div>
+                            <div>
+                                <div class="">
+                                    <form id="div_tabadd" style="display: none;">
+                                        <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                                            <li role="presentation" class="active"><a href="#home"
+                                                    style="font-size: 18px;" data-toggle="tab">จองคิวออนไลน์</a>
+                                            </li>
+                                            <li role="presentation" class=""><a href="#import" style="font-size: 18px;"
+                                                    data-toggle="tab">คิวที่จองออนไลน์ </a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade in active" id="home">
+                                                <div class="body">
+                                                    <div id="add_q_online" style="display: none;">
+                                                        <div class="form-group">
+                                                            <div class="form-line">
+                                                                <select class="form-control show-tick"
+                                                                    placeholder="กรุณาเลือกแผนก"
+                                                                    onchange="selectcategory()" name="qr_category"
+                                                                    id="qr_category">
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="form-line">
+                                                                <input type="text" class="form-control" name="username"
+                                                                    id="username" value="" autocomplete="off"
+                                                                    placeholder="ชื่อ-สกุล" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="form-line">
+                                                                <input type="text" class="form-control" name="tel"
+                                                                    id="tel" value="" autocomplete="off"
+                                                                    placeholder="เบอร์โทร" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="button" value="จองคิว"
+                                                                class="btn btn-primary waves-effect" id="submitaddqueue"
+                                                                class="primary" />
+                                                        </div>
+                                                        <a onclick="_cviewqrcode()"> >>คิวอาร์โค้ดจองคิวออนไลน์<< </a>
+                                                                <script>
+                                                                    function _cviewqrcode() {
+                                                                        document.getElementById("div_qrcode").style.display = 'block'
+                                                                    }
+                                                                    function _cviewqrcodenone() {
+                                                                        document.getElementById("div_qrcode").style.display = 'none'
+                                                                    }
+                                                                </script>
+                                                                <div id="div_qrcode" style="display: none;"
+                                                                    class="form-group">
+                                                                    <div class="list-unstyled row clearfix">
+                                                                        <div id="Imageqrcode">
+                                                                        </div>
+                                                                    </div>
+                                                                    <a onclick="_cviewqrcodenone()">ย่อ</a>
+                                                                </div>
+                                                                <div></div>
+                                                                <br />
+                                                                <script>
+
+                                                                    function selectcategory() {
+                                                                        $(function () {
+                                                                            document.getElementById('q_category').innerHTML = '<b>แผนก </b> ' + document.getElementById("qr_category").value;
+                                                                        });
+                                                                    }
+                                                                    // $(function () {
+                                                                    //     $("#btn-Convert-Html2Image").on('click', function () {
+                                                                    //         html2canvas($("#createImg"), {
+                                                                    //             onrendered: function (canvas) {
+                                                                    //                 var imgageData = canvas.toDataURL("image/png");
+                                                                    //                 var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
+                                                                    //              console.log(newData)
+                                                                    //                $("#btn-Convert-Html2Image").attr("download", "queue.png").attr("href", newData);
+                                                                    //             }
+                                                                    //         });
+                                                                    //     });
+                                                                    // });
+
+                                                                </script>
+
+                                                                <div id='a_load'>
+                                                                </div>
+                                                                <!-- <a id="btn-Convert-Html2Image" href="#">Download</a> -->
+                                                                <div id="_viewlog"
+                                                                    style="display: none; text-align: justify;"
+                                                                    contenteditable="false" class="form-group">
+                                                                    <div id="createImg">
+                                                                        <p id="number_queue"
+                                                                            style="text-align: center;">
+                                                                        <div>
+                                                                            <b>
+                                                                                <h3 style="text-align:justify; font-size: 24px;"
+                                                                                    id="q_no"></h3>
+                                                                            </b>
+                                                                        </div>
+
+                                                                        </p>
+                                                                        <hr />
+                                                                        <p id="q_category">
+                                                                        </p>
+                                                                        <p id="q_day">
+                                                                        </p>
+                                                                        <hr />
+                                                                        <div style="text-align:center;">
+                                                                            <img id='Imageqrcode_view' />
+                                                                        </div>
+                                                                        <br />
+                                                                    </div>
+                                                                </div>
+                                                                <div id="img" style="display:none;">
+                                                                    <img id="newimg" />
+                                                                </div>
+                                                                <ul class="header-dropdown m-r--5">
+                                                                    <a id='logout_online' style="cursor: pointer;"
+                                                                        data-close="true">[ออกจากระบบ]</a>
+                                                                </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div role="tabpanel" class="tab-pane fade in" id="import">
+                                                <div class="body">
+                                                    <div class="table-responsive">
+                                                        <table
+                                                            class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
+                                                            style="border: none;  " id="table_queueonline">
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </form>
+                                </div>
+                            </div>
                             <script type="text/javascript">
                                 function modalLogin() {
-                                //    $("#exampleModalCenterImage").empty();
+                                    //    $("#exampleModalCenterImage").empty();
                                     // document.getElementById('add_q_online').style.display = 'block'
                                     document.getElementById('div_register').style.display = 'none'
-
-                                    $("#exampleModalCenterImage").modal();
+                                    //  document.getElementById('div_tab').style.display = 'block'
+                                    $("#exampleModalCenterImage").modal('hide');
+                                    $("#exampleModalCenterImage").modal('show');
+                                    //  $("#exampleModalCenterImage").modal();
                                 }
                             </script>
-                            <div class="modal fade col-lg-6 col-md-6 col-sm-6" id="exampleModalCenterImage" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal fade col-lg-6 col-md-6 col-sm-6" id="exampleModalCenterImage"
+                                tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content ">
                                         <div class="">
@@ -270,10 +410,13 @@
                                                         <td>
                                                             <script>
                                                                 function regis() {
+
                                                                     document.getElementById('div_login').style.display = 'none'
                                                                     document.getElementById('div_register').style.display = 'block'
                                                                 }
                                                                 function login() {
+                                                                    //$("#exampleModalCenterImage").modal('hide');
+                                                                    //   $("#exampleModalCenterImage").modal('show');
                                                                     document.getElementById('div_login').style.display = 'block'
                                                                     document.getElementById('div_register').style.display = 'none'
                                                                 }
@@ -290,7 +433,7 @@
                                                             <input type="hidden" id="userName">
                                                             <div class="row m-t-15 m-b--20">
                                                                 <div class="col-xs-6">
-                                                                    <a style="text-align: right; cursor: pointer;" 
+                                                                    <a style="text-align: right; cursor: pointer;"
                                                                         onclick="regis()">ลงทะเบียน</a>
                                                                 </div>
                                                             </div>
@@ -307,7 +450,7 @@
                                                                 }
                                                             });
                                                             function SUBMITLOGIN() {
-                                                              //  console.log(document.getElementById("member_login_user").value)
+                                                                //  console.log(document.getElementById("member_login_user").value)
                                                                 document.getElementById("lbCheck").innerText = ""
                                                                 if (document.getElementById("member_login_user").value == "" || document.getElementById("member_login_pass").value == "") {
                                                                     document.getElementById("lbCheck").innerText = "กรุณากรอก USER ID และ PASSWORD";
@@ -320,7 +463,7 @@
                                                                         password: document.getElementById("member_login_pass").value,
                                                                     }
                                                                     axios.post(urlipaddress + 'login', dataUser).then(function (response) {
-                                                                      //  console.log(response.data.message.refresh_token)
+                                                                        //  console.log(response.data.message.refresh_token)
                                                                         var decodejwt = parseJwt(response.data.message.refresh_token);
                                                                         document.getElementById("objid").value = decodejwt.userId;
                                                                         axios.post(urlipaddress + 'token', data, {
@@ -329,7 +472,7 @@
                                                                             }
                                                                         }).then(function (tokenresponse) {
                                                                             getuser(tokenresponse, urlipaddress, decodejwt);
-                                                                          //  $("#exampleModalCenterImage").empty();
+                                                                            //  $("#exampleModalCenterImage").empty();
                                                                         }).catch(function (res) {
                                                                             const { response } = res
                                                                         });
@@ -357,9 +500,9 @@
                                                                     var n = 0;
                                                                     var _arr = new Array();
                                                                     for (i = 0; i < cnt; i++) {
-                                                                       // console.log(response.data.message)
+                                                                        // console.log(response.data.message)
                                                                         if (response.data.message.data[i].user == document.getElementById("member_login_user").value) {
-                                                                         
+
                                                                             document.getElementById("lbCheck").innerText = "";
                                                                             Cookies.set('dataUserOnline', JSON.stringify(response.data.message.data[i]), { expires: 1 })
 
@@ -370,6 +513,8 @@
                                                                                 $("#exampleModalCenterImage").modal('hide');
                                                                                 document.getElementById('add_q_online').style.display = 'block'
                                                                                 document.getElementById('submit_q_login').style.display = 'none'
+                                                                                document.getElementById('div_tabadd').style.display = 'block'
+
                                                                                 console.log(document.getElementById("objid").value)
                                                                             }
                                                                             break;
@@ -452,7 +597,7 @@
                                                     </tr>
 
                                                 </table>
-                                              
+
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
@@ -462,128 +607,15 @@
                                     </div>
                                 </div>
                             </div>
-
-
-                            
-
-                            <div id="add_q_online" style="display: none;">
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <select class="form-control show-tick" placeholder="กรุณาเลือกแผนก"
-                                            onchange="selectcategory()" name="qr_category" id="qr_category">
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" class="form-control" name="username" id="username" value=""
-                                            autocomplete="off" placeholder="ชื่อ-สกุล" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" class="form-control" name="tel" id="tel" value=""
-                                            autocomplete="off" placeholder="เบอร์โทร" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <input type="button" value="จองคิว" class="btn btn-primary waves-effect"
-                                        id="submitaddqueue" class="primary" />
-                                </div>
-                                <a onclick="_cviewqrcode()"> >>คิวอาร์โค้ดจองคิวออนไลน์<< </a>
-                                        <script>
-                                            function _cviewqrcode() {
-                                                document.getElementById("div_qrcode").style.display = 'block'
-                                            }
-                                            function _cviewqrcodenone() {
-                                                document.getElementById("div_qrcode").style.display = 'none'
-                                            }
-                                        </script>
-                                        <div id="div_qrcode" style="display: none;" class="form-group">
-                                            <div class="list-unstyled row clearfix">
-                                                <div id="Imageqrcode">
-                                                </div>
-                                            </div>
-                                            <a onclick="_cviewqrcodenone()">ย่อ</a>
-                                        </div>
-                                        <div></div>
-                                        <br />
-                                        <script>
-
-                                            function selectcategory() {
-                                                $(function () {
-                                                    document.getElementById('q_category').innerHTML = '<b>แผนก </b> ' + document.getElementById("qr_category").value;
-                                                });
-                                            }
-                                            // $(function () {
-                                            //     $("#btn-Convert-Html2Image").on('click', function () {
-                                            //         html2canvas($("#createImg"), {
-                                            //             onrendered: function (canvas) {
-                                            //                 var imgageData = canvas.toDataURL("image/png");
-                                            //                 var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
-                                            //              console.log(newData)
-                                            //                $("#btn-Convert-Html2Image").attr("download", "queue.png").attr("href", newData);
-                                            //             }
-                                            //         });
-                                            //     });
-                                            // });
-
-                                        </script>
-
-                                        <div id='a_load'>
-                                        </div>
-                                        <!-- <a id="btn-Convert-Html2Image" href="#">Download</a> -->
-                                        <div id="_viewlog" style="display: none; text-align: justify;" contenteditable="false" class="form-group">
-                                            <div id="createImg">
-                                                <p id="number_queue" style="text-align: center;">
-                                                    <div >
-                                                   <b><h3 style="text-align:justify; font-size: 24px;" id="q_no"></h3> </b>  
-                                                    </div>
-                                                  
-                                                </p>
-                                                <hr />
-                                                <p id="q_category">
-                                                </p>
-                                                <p id="q_day">
-                                                </p>
-                                                <hr />
-                                                <div style="text-align:center;">
-                                                    <img id='Imageqrcode_view' />
-                                                </div>
-                                                <br />
-                                            </div>
-                                        </div>
-                                        <div id="img" style="display:none;">
-                                            <img id="newimg" />
-                                        </div>
-
-                                        <ul class="header-dropdown m-r--5">
-                                            <a id='logout_online' style="cursor: pointer;"
-                                                            data-close="true">[ออกจากระบบ]</a>
-                                            <!-- <li class="dropdown">
-                                                <a href="javascript:void(0);" class="dropdown-toggle"
-                                                    data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                    <i class="material-icons">more_vert</i>
-                                                </a>
-                                                <ul class="dropdown-menu pull-right" id="ul_profile">
-                                                    <li><a id='logoutsss' style="cursor: pointer;"
-                                                            data-close="true">[ออกจากระบบ]</a></li>
-                                                </ul>
-
-                                            </li> -->
-                                        </ul>
-                            </div>
-
                         </div>
-                        <div class="body">
-                            <div class="table-responsive">
-                                <table
-                                    class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
-                                    style="border: none;  " id="table_view">
-                                </table>
-                            </div>
-
+                    </div>
+                    <div class="body">
+                     <u><h3 id="count_queuetoday"></h3></u>   
+                        <div class="table-responsive">
+                            <table
+                                class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
+                                style="border: none;  " id="table_view">
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -592,35 +624,6 @@
     </section>
 
 
-    <!-- <div class="container">
-        <div class="modal fade" id="myModalqueue" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 id="title_dalete_official" class="modal-title">
-                            จองคิวออนไลน์</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-20">
-                                    <i class="material-icons" id="lbl_completed_official"
-                                        style="font-size:58px;color:green;">check_circle</i>
-                                </div>
-                                <div>
-                                    <label id="lbl_dalete" for="fname">aasasas </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer" id='a_load'>
-                      
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div> -->
 
 
 

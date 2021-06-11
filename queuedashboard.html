@@ -72,6 +72,7 @@
     <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.1.2/dist/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/dayjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/utc.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/isBetween.min.js"></script>
 
     <link href="../../plugins/sweetalert/sweetalert.css" rel="stylesheet" />
 
@@ -91,6 +92,11 @@
         font-family: 'Kanit', sans-serif;
     }
 </style>
+<script>
+    // const isBetween = window.dayjs_plugin_isBetween;
+    // dayjs.extend(isBetween);
+    // console.log(dayjs("2021-06-10").isBetween("2021-06-11", "2021-06-15", undefined, '[]'));
+</script>
 
 <body class="theme-red">
     <!-- Page Loader -->
@@ -446,28 +452,52 @@
                         </h2>
                     </div>
                     <div class="body">
-                        <div class="row clearfix" style="display: none;">
-                            <table>
+                        <div class="row clearfix" style="display: block;">
+                            <div class="col-xs-4 form-group">
+                                <div class="input-group date" id="bs_datepicker_component_container">
+                                    <div class="form-line">
+                                        <input type="text" id="startdate" autocomplete=off
+                                            class="form-control" placeholder="วันที่เริ่มต้น">
+                                    </div>
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 form-group">
+                                <div class="input-group date" id="bs_datepicker_range_container">
+                                    <div class="form-line">
+                                        <input type="text" id="enddate" autocomplete=off
+                                            class="form-control" placeholder="วันที่สิ้นสุด">
+                                    </div>
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 form-group">
+                                <button class="btn btn-primary waves-effect" id="submitqueueReport"
+                                    class="primary" type="button">ค้นหา</button>
+
+                                    
+                            </div>
+                            <div class="col-xs-4 form-group">
+                                <button class="btn btn-primary waves-effect" style="display: none;" id="btn_cancel"
+                                    class="primary" type="button">ยกเลิก</button>
+                            </div>
+                            <table style="display: none;">
                                 <tr>
                                     <td>
-                                        <div class="col-xs-4 form-group"><h5>ค้นหาคิวตามช่วงเวลา</h5></div>
+                                        <div class="col-xs-4 form-group">
+                                            <h5>ค้นหา</h5>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <div class="col-xs-4 form-group">
-                                            <div class="input-group date" id="bs_datepicker_component_container">
-                                                <div class="form-line">
-                                                    <input type="text" id="startdate" autocomplete=off
-                                                        class="form-control" placeholder="วันที่เริ่มต้น">
-                                                </div>
-                                                <span class="input-group-addon">
-                                                    <i class="material-icons">date_range</i>
-                                                </span>
-                                            </div>
-                                        </div>
+                                       
                                     </td>
-                                    <td>
+                                    <td style="display: none;">
                                         <div class="col-xs-4 form-group">
                                             <div class="input-daterange input-group" id="timestart">
                                                 <div class="form-line">
@@ -482,19 +512,9 @@
                                     </td>
                                     <td></td>
                                     <td>
-                                        <div class="col-xs-4 form-group">
-                                            <div class="input-group date" id="bs_datepicker_range_container">
-                                                <div class="form-line">
-                                                    <input type="text" id="enddate" autocomplete=off
-                                                        class="form-control" placeholder="วันที่สิ้นสุด">
-                                                </div>
-                                                <span class="input-group-addon">
-                                                    <i class="material-icons">date_range</i>
-                                                </span>
-                                            </div>
-                                        </div>
+                                       
                                     </td>
-                                    <td>
+                                    <td style="display: none;">
                                         <div class="col-xs-4 form-group">
                                             <div class="input-daterange input-group" id="timerange">
                                                 <div class="form-line">
@@ -508,10 +528,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="col-xs-4 form-group">
-                                            <button class="btn btn-primary waves-effect" id="submitqueueReport"
-                                                class="primary" type="button">ค้นหาตามช่วงเวลา</button>
-                                        </div>
+                                       
                                     </td>
                                 </tr>
                             </table>
@@ -519,7 +536,9 @@
                         <!-- <hr> -->
                         <div id="test" style="float:right;">
                         </div>
-                     <u><h4> ตารางแสดงคิววันนี้ </h4></u>   
+                        <u>
+                            <h4> ตารางแสดงคิววันนี้ </h4>
+                        </u>
                         <div class="table-responsive">
                             <table
                                 class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
@@ -553,7 +572,7 @@
                 <div class="card">
                     <div class="header header-new">
                         <h2>
-                            <a  id="a_back" style="color: white; cursor: pointer;">
+                            <a id="a_back" style="color: white; cursor: pointer;">
                                 < ย้อนกลับ</a>
                                     <script>
                                         function a_back() {

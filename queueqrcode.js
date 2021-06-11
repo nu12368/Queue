@@ -4,6 +4,7 @@ var userId = Cookies.get('dataUser');
 var _objectId = Cookies.get('_objectId');
 var _arr = new Array();
 var n = 0;
+
 function acctoken() {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
@@ -25,12 +26,10 @@ function acctoken() {
     });
 }
 
-
-
-function getqrcode(refresh_token) {
+function getqrcode(refresh_token, nameqr) {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-        axios.get(urlipaddress + "images/qrcode/" + _objectId + '.qr1', {
+        axios.get(urlipaddress + "file/qrcode/" + nameqr, {
             responseType: 'arraybuffer',
             headers: {
                 'Authorization': refresh_token
@@ -43,44 +42,116 @@ function getqrcode(refresh_token) {
             // $("#Imageqrcode").append(`
             //    <img name="${b64encoded}"  src="${"data:" + mimetype + ";base64," + b64encoded}">`);
 
-               $('#Imageqrcode').attr('src', `${"data:" + mimetype + ";base64," + b64encoded}`)
+            $('#Imageqrcode').attr('src', `${"data:" + mimetype + ";base64," + b64encoded}`)
 
-                 $("#a_load").append(`
-                    <a id="btn-Convert-Html2Image" href="#">Download</a>`);
+            $("#a_load").append(`
+                    <a id="btn-Convert-Html2Image" href="#">ดาวน์โหลด</a>`);
 
-                  var imgsrc;
-                    var dataURL;
-                    html2canvas($("#createImg"), {
-                        onrendered: function (canvas) {
-                            imgsrc = canvas.toDataURL("image/png");
-                            
-                            dataURL = canvas.toDataURL();
-                            var newData = imgsrc.replace(/^data:image\/png/, "data:application/octet-stream");
-                        $("#btn-Convert-Html2Image").attr("download", "queue.png").attr("href", newData);
-                        }
-                    });
+            var imgsrc;
+            var dataURL;
+            html2canvas($("#createImg"), {
+                onrendered: function (canvas) {
+                    imgsrc = canvas.toDataURL("image/png");
+
+                    dataURL = canvas.toDataURL();
+                    var newData = imgsrc.replace(/^data:image\/png/, "data:application/octet-stream");
+                    $("#btn-Convert-Html2Image").attr("download", "queue.png").attr("href", newData);
+                }
+            });
         });
-        // axios.get(urlipaddress + 'message/' + _objectId, {
-        //     headers: {
-        //         'Authorization': refresh_token
-        //     }
-        // }).then(function (response) {
 
-        //     console.log(response.data.message.values)
-
-
-        // }).catch(function (res) {
-        //     const { response } = res
-        // });
     });
 }
 
+function Genqrcode(refresh_token) {
+    return new Promise(resolve => {
+        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+            var urlipaddress = data.substring(1, data.length - 1);
+            var ipclientUrl;
+            $.getScript("ipclient.js", function (dataipclient, textStatus, jqxhr) {
+                ipclientUrl = dataipclient.substring(1, dataipclient.length - 1);
+                const dataqr = {
+                    mId: _objectId,
+                    clientUrl: ipclientUrl.substring(0, ipclientUrl.length - 1),
+                }
+                axios.post(urlipaddress + 'qrGen', dataqr, {
+                    headers: {
+                        'Authorization': refresh_token
+                    }
+                }).then(function (response) {
+                    resolve(response.data.message)
+                });
+            });
+        });
+    });
+}
+
+function getqrcode_List(refresh_token) {
+    return new Promise(resolve => {
+        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+            var urlipaddress = data.substring(1, data.length - 1);
+            axios.get(urlipaddress + "qrList/" + _objectId, {
+                headers: {
+                    'Authorization': refresh_token
+                }
+            }).then(function (response) {
+                console.log(response.data.message.qrList.length)
+                // Genqrcode(refresh_token)
+                if (response.data.message.qrList.length == 0) {
+                    resolve('true')
+                } else {
+
+                    resolve(response.data.message.qrList[0])
+                }
+            });
+        });
+    });
+}
 $(async function () {
     const result = await acctoken();
-    await getqrcode(result);
+    // var checkGen = Genqrcode(result)
 
+    var autogen = await getqrcode_List(result)
+ 
+    var c;
+    var nameqrcode;
+    if (autogen == 'true') {
+        c = await Genqrcode(result)
+    } else {
+        nameqrcode = autogen
+    }
+  
+    nameqrcode = await getqrcode_List(result)
+ 
+    // te = nameqrcode;
+    await getqrcode(result, nameqrcode);
 
+    $('#i_regen').on('click', async function (e) {
+        var dataqrlist = await getqrcode_List(result)
+        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+            var urlipaddress = data.substring(1, data.length - 1);
+            var ipclientUrl;
+            $.getScript("ipclient.js", function (dataipclient, textStatus, jqxhr) {
+                ipclientUrl = dataipclient.substring(1, dataipclient.length - 1);
+                const dataqr = {
+                    mId: _objectId,
+                    clientUrl: ipclientUrl.substring(0, ipclientUrl.length - 1),
+                    type: 'qrcode',
+                    name: dataqrlist
+                }
+                console.log(dataqr)
+                // return
+                axios.post(urlipaddress + 'reGen', dataqr, {
+                    headers: {
+                        'Authorization': result
+                    }
+                }).then(function (response) {
+                    console.log(response.data.message)
+                });
+            });
 
+        });
+    });
 });
 
 

@@ -694,9 +694,9 @@
                                                                     return;
                                                                 }
                                                                 $.getScript("ip.js", function (data, textStatus, jqxhr) {
-                                                                    var ipclientUrl;
-                                                                    $.getScript("ipclient.js", function (dataipclient, textStatus, jqxhr) {
-                                                                        ipclientUrl = dataipclient.substring(1, dataipclient.length - 1);
+                                                                    //var ipclientUrl;
+                                                                   // $.getScript("ipclient.js", function (dataipclient, textStatus, jqxhr) {
+                                                                       // ipclientUrl = dataipclient.substring(1, dataipclient.length - 1);
                                                                     
                                                                         var urlipaddress = data.substring(1, data.length - 1);
                                                                         const dataUser = {
@@ -706,7 +706,7 @@
                                                                             company: document.getElementById("COMPANY").value,
                                                                             phone: document.getElementById("PHONE").value,
                                                                             serialKey: document.getElementById("CODE").value,
-                                                                            clientUrl: ipclientUrl.substring(0, ipclientUrl.length - 1),
+                                                                            // clientUrl: ipclientUrl.substring(0, ipclientUrl.length - 1),
                                                                         };
                                                                         axios.post(urlipaddress + 'regis', dataUser).then(function (response) {
                                                                         }).then(function (response) {
@@ -728,7 +728,7 @@
                                                                                 }
                                                                         });
 
-                                                                    });
+                                                                  //  });
 
                                                                 });
                                                             }
