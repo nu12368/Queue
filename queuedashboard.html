@@ -92,11 +92,6 @@
         font-family: 'Kanit', sans-serif;
     }
 </style>
-<script>
-    // const isBetween = window.dayjs_plugin_isBetween;
-    // dayjs.extend(isBetween);
-    // console.log(dayjs("2021-06-10").isBetween("2021-06-11", "2021-06-15", undefined, '[]'));
-</script>
 
 <body class="theme-red">
     <!-- Page Loader -->
@@ -451,8 +446,11 @@
                             </font>
                         </h2>
                     </div>
+                
                     <div class="body">
-                        <div class="row clearfix" style="display: block;">
+
+                        <div class="row clearfix" id='did_search' style="display: block;">
+                            <div class="col-xs-4 form-group"><h4>ค้นหาคิว</h4></div>
                             <div class="col-xs-4 form-group">
                                 <div class="input-group date" id="bs_datepicker_component_container">
                                     <div class="form-line">
@@ -475,70 +473,28 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-xs-4 form-group">
-                                <button class="btn btn-primary waves-effect" id="submitqueueReport"
-                                    class="primary" type="button">ค้นหา</button>
-
-                                    
-                            </div>
-                            <div class="col-xs-4 form-group">
-                                <button class="btn btn-primary waves-effect" style="display: none;" id="btn_cancel"
-                                    class="primary" type="button">ยกเลิก</button>
-                            </div>
-                            <table style="display: none;">
+                            <table>
                                 <tr>
+                                    <td>&nbsp;</td>
                                     <td>
-                                        <div class="col-xs-4 form-group">
-                                            <h5>ค้นหา</h5>
-                                        </div>
+                                        <button class="btn btn-primary waves-effect" id="submitqueueReport"
+                                        class="primary" type="button">ค้นหา</button>
                                     </td>
-                                </tr>
-                                <tr>
+                                    <td>&nbsp;</td>
                                     <td>
-                                       
-                                    </td>
-                                    <td style="display: none;">
-                                        <div class="col-xs-4 form-group">
-                                            <div class="input-daterange input-group" id="timestart">
-                                                <div class="form-line">
-                                                    <input type="text" id="txttimestart" class="timepicker form-control"
-                                                        placeholder="เวลาเริ่มต้น">
-                                                </div>
-                                                <span class="input-group-addon">
-                                                    <i class="material-icons" style="cursor: pointer;">access_time</i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                       
-                                    </td>
-                                    <td style="display: none;">
-                                        <div class="col-xs-4 form-group">
-                                            <div class="input-daterange input-group" id="timerange">
-                                                <div class="form-line">
-                                                    <input type="text" id="txttimestop" class="timepicker form-control"
-                                                        placeholder="เวลาสิ้นสุด">
-                                                </div>
-                                                <span class="input-group-addon">
-                                                    <i class="material-icons" style="cursor: pointer;">access_time</i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                       
+                                        <button class="btn btn-primary waves-effect" style="display: none;" id="btn_cancel"
+                                        class="primary" type="button">ยกเลิก</button>
                                     </td>
                                 </tr>
                             </table>
+                            <div class="col-xs-4 form-group">
+                               
+                            </div>
                         </div>
                         <!-- <hr> -->
                         <div id="test" style="float:right;">
                         </div>
-                        <u>
-                            <h4> ตารางแสดงคิววันนี้ </h4>
-                        </u>
+                     <u><h4> ตารางแสดงคิววันนี้ </h4></u>   
                         <div class="table-responsive">
                             <table
                                 class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
@@ -572,13 +528,14 @@
                 <div class="card">
                     <div class="header header-new">
                         <h2>
-                            <a id="a_back" style="color: white; cursor: pointer;">
+                            <a id='a_back' style="color: white; cursor: pointer;">
                                 < ย้อนกลับ</a>
                                     <script>
                                         function a_back() {
 
                                             document.getElementById("div_qall").style.display = 'block'
                                             document.getElementById("div_qdisplay").style.display = 'none'
+                                            document.getElementById("did_search").style.display = 'block'
                                         }
                                     </script>
 

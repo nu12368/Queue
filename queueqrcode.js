@@ -4,7 +4,7 @@ var userId = Cookies.get('dataUser');
 var _objectId = Cookies.get('_objectId');
 var _arr = new Array();
 var n = 0;
-
+console.log(_objectId)
 function acctoken() {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
@@ -64,6 +64,7 @@ function getqrcode(refresh_token, nameqr) {
 }
 
 function Genqrcode(refresh_token) {
+   console.log('sdsds')
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
@@ -79,14 +80,19 @@ function Genqrcode(refresh_token) {
                         'Authorization': refresh_token
                     }
                 }).then(function (response) {
+                    console.log(response.data.message)
                     resolve(response.data.message)
-                });
+                }).catch(function (res) {
+                      const { response } = res
+                      console.log(response)
+                  });
             });
         });
     });
 }
 
 function getqrcode_List(refresh_token) {
+    console.log(_objectId)
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
@@ -95,24 +101,32 @@ function getqrcode_List(refresh_token) {
                     'Authorization': refresh_token
                 }
             }).then(function (response) {
-                console.log(response.data.message.qrList.length)
+               console.log(response.data.message)
                 // Genqrcode(refresh_token)
-                if (response.data.message.qrList.length == 0) {
+                if (response.data.message == 'directory not found') {
                     resolve('true')
                 } else {
-
                     resolve(response.data.message.qrList[0])
                 }
+            }).catch(function (res) {
+              //  console.log(res)
+                const { response } = res
+               // console.log('dsdsdsdssdsds')
+              //  resolve('true')
+                //console.log(response.data.message)
             });
         });
     });
 }
 $(async function () {
     const result = await acctoken();
-    // var checkGen = Genqrcode(result)
+     //var checkGen = Genqrcode(result)
 
+
+  //  return
     var autogen = await getqrcode_List(result)
- 
+ console.log(autogen)
+  //  return
     var c;
     var nameqrcode;
     if (autogen == 'true') {

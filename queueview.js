@@ -119,7 +119,7 @@ function getvdoview(refresh_token) {
             $("#view_video").empty();
             $("#view_video").append(`<iframe
                   width="100%" height="390"  
-                  src="https://www.youtube.com/embed/${v}?feature=oembed&autoplay=1&mute=1" 
+                  src="https://www.youtube.com/embed/${v}?feature=oembed&autoplay=1&mute=1&loop=1&playlist=${v}" 
                   allowfullscreen></iframe>`);
             //mute=1 ปิดเสียง
         }).catch(function (res) {

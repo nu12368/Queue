@@ -100,8 +100,8 @@
     <script type="text/javascript"
         src="https://github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/dayjs.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/utc.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/dayjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/utc.min.js"></script>
 
     <script src="./guest.js"></script>
 </head>
@@ -502,7 +502,7 @@
                                                                     for (i = 0; i < cnt; i++) {
                                                                         // console.log(response.data.message)
                                                                         if (response.data.message.data[i].user == document.getElementById("member_login_user").value) {
-
+                                                                            console.log(response.data.message.data[i])
                                                                             document.getElementById("lbCheck").innerText = "";
                                                                             Cookies.set('dataUserOnline', JSON.stringify(response.data.message.data[i]), { expires: 1 })
 
@@ -610,7 +610,9 @@
                         </div>
                     </div>
                     <div class="body">
-                     <u><h3 id="count_queuetoday"></h3></u>   
+                        <u>
+                            <h3 id="count_queuetoday"></h3>
+                        </u>
                         <div class="table-responsive">
                             <table
                                 class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"

@@ -1,4 +1,3 @@
-
 var obj = JSON.parse(Cookies.get('refresh_token'));
 var userId = Cookies.get('dataUser');
 var _objectId = Cookies.get('_objectId');
@@ -21,14 +20,13 @@ var qcancel;
 var qpause;
 var chkvisible = 0;
 var q_num_today = 0;
-
 var chartcategory = new Array();
 var chartcategory_queue = new Array();
 var chartcategory_queue_call = new Array();
 var chartcategory_queue_end = new Array();
 var q_num = 0;
 var check_table_clack = '';
-
+var _id_q = '';
 function acctoken() {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
@@ -49,66 +47,70 @@ function acctoken() {
         });
     });
 }
-
-async function view_datatable(response, q) {
-    //  console.log(response)
-    var datenew = await datenewToday();
-    if (response.data.message.values.length != 0) {
-        for (i = 0; i < response.data.message.values.length; i++) {
-            let date = new Date(response.data.message.values[i].timeAdd);
+const view_datatable = async (responsedataview, q) => {
+    $('#tablequeue_view').DataTable().destroy();
+    if (responsedataview.data.message.values.length != 0) {
+        for (i = 0; i < responsedataview.data.message.values.length; i++) {
+            let date = new Date(responsedataview.data.message.values[i].timeAdd);
             let options = { hour12: false };
             var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
             var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
             s_date = s_date.split(' ')
             s_date = s_date[0].split('/')
             var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
-            var _checkdate = dayjs(datenew).isSame(_date)
+            var _checkdate;
+            if (arr_datesearch.length != 0) {
+                const isBetween = window.dayjs_plugin_isBetween;
+                dayjs.extend(isBetween);
+                _checkdate = dayjs(_date).isBetween(arr_datesearch[0], arr_datesearch[1], undefined, '[]');
+            } else {
+                var datenew = await datenewToday();
+                _checkdate = dayjs(datenew).isSame(_date)
+            }
             if (_checkdate == true) {
                 var _timeCall = '';
                 var _timesend = '';
                 var _timecancel = '';
                 var _timespause = '';
-                if (response.data.message.values[i].timeCall == undefined) {
+                if (responsedataview.data.message.values[i].timeCall == undefined) {
                     _timeCall = ''
                 } else {
-                    _timeCall = response.data.message.values[i].timeCall
+                    _timeCall = responsedataview.data.message.values[i].timeCall
                 }
-                if (response.data.message.values[i].timeEnd == undefined) {
+                if (responsedataview.data.message.values[i].timeEnd == undefined) {
                     _timesend = ''
                 } else {
-                    _timesend = response.data.message.values[i].timeEnd
+                    _timesend = responsedataview.data.message.values[i].timeEnd
                 }
-                if (response.data.message.values[i].timeCancel == undefined) {
+                if (responsedataview.data.message.values[i].timeCancel == undefined) {
                     _timecancel = ''
                 } else {
-                    _timecancel = response.data.message.values[i].timeCancel
+                    _timecancel = responsedataview.data.message.values[i].timeCancel
                 }
-                if (response.data.message.values[i].timeCall == undefined) {
+                if (responsedataview.data.message.values[i].timeCall == undefined) {
                     _timespause = ''
                 } else {
-                    _timespause = response.data.message.values[i].timeCall
+                    _timespause = responsedataview.data.message.values[i].timeCall
                 }
                 _arr_qloop[_i_loop] = {
                     num: _n_loop,
-                    category: response.data.message.values[i].category,
-                    cue: response.data.message.values[i].cue,
-                    serviceChannel: response.data.message.values[i].serviceChannel,
-                    name: response.data.message.values[i].name,
-                    tel: response.data.message.values[i].tel,
-                    timeAdd: response.data.message.values[i].timeAdd,
+                    category: responsedataview.data.message.values[i].category,
+                    cue: responsedataview.data.message.values[i].cue,
+                    serviceChannel: responsedataview.data.message.values[i].serviceChannel,
+                    name: responsedataview.data.message.values[i].name,
+                    tel: responsedataview.data.message.values[i].tel,
+                    timeAdd: responsedataview.data.message.values[i].timeAdd,
                     timeCall: _timeCall,
                     timeEnd: _timesend,
                     timecancel: _timecancel,
-                    timepause: _timespause
+                    timepause: _timespause,
+                    _id: responsedataview.data.message.values[i]._id
                 }
                 _i_loop = _i_loop + 1
                 _n_loop = _n_loop + 1
             }
         }
     }
-
-    console.log(_arr_qloop)
-    $('#tablequeue_view').DataTable().destroy();
     var table = $('#tablequeue_view').DataTable({
         "lengthMenu": [[25, 50, 100], [25, 50, 100]],
         "pageLength": 25,
@@ -203,9 +205,9 @@ async function view_datatable(response, q) {
         ],
     });
     table.buttons().container().appendTo($('#test1'));
-    // table.columns(7).visible(false);
 }
-const getqaddloop = async (refresh_token, _page, q) => {
+//const getqaddloop = async (refresh_token, _page, q) => {
+function getqaddloop(refresh_token, _page, q) {
     //function getqaddloop(refresh_token, _page, q) {
     //return new Promise(resolve => {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
@@ -215,6 +217,7 @@ const getqaddloop = async (refresh_token, _page, q) => {
                 'Authorization': refresh_token
             }
         }).then(function (response) {
+            console.log('hhhhhhhhhhhh')
             for (i = 0; i < response.data.message.values.length; i++) {
                 _arr_queue_add[_i_loop_newdate] = {
                     _id: response.data.message.values[i]._id,
@@ -245,6 +248,7 @@ const viewqueuetfootloop = async (refresh_token, _page, q) => {
             }
         }).then(function (response) {
             if (response.data.message.values.length != 0) {
+
                 view_datatable(response, q)
             }
         }).catch(function (res) {
@@ -266,9 +270,13 @@ function getqadd(refresh_token) { ////// คิวที่รอทั้งห
                 _i_loop_newdate = 0;
 
                 if (index != undefined) {
+                    _arr_qloop = new Array();
+                    _n_loop = 1;
+                    _i_loop = 0;
                     console.log(index)
                     var totle = response.data.message.total
                     var looptotle = Math.ceil(totle / 10)
+                    console.log(looptotle)
                     if (looptotle > 1) { ///// คิวมากกว่า loop 100
                         var _page = 1;
                         for (i = 0; i < looptotle; i++) {
@@ -576,6 +584,7 @@ function getcategoryview(refresh_token) {
                     'Authorization': refresh_token
                 }
             }).then(function (response) {
+
                 resolve(response.data.message.category);
 
             }).catch(function (res) {
@@ -594,15 +603,13 @@ const queueloop = async (refresh_token, prm, _page, q) => {
         }).then(function (response) {
             if (response.data.message.values.length != 0) {
                 view_datatable(response, q)
+
             }
         });
     });
 }
-function Getqueueviewcategory(categoryqueue, refresh_token, q) {
-
+const Getqueueviewcategory = async (categoryqueue, refresh_token, q) => {
     var prm = 'category=' + categoryqueue + '&'
-    var _arr = new Array();
-    var _n = 1;
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
         axios.get(urlipaddress + q + _objectId + '?' + prm + '_page=1&_limit=10&_sort=1', {
@@ -610,59 +617,61 @@ function Getqueueviewcategory(categoryqueue, refresh_token, q) {
                 'Authorization': refresh_token
             }
         }).then(function (response) {
-            console.log(response)
+            _arr_queue_add = new Array()
+            _i_loop_newdate = 0;
+            if (index != undefined) {
+                var totle = response.data.message.total
+                var looptotle = Math.ceil(totle / 10)
+                if (looptotle > 1) { ///// คิวมากกว่า loop 100
+                    var _page = 1;
+                    for (i = 0; i < looptotle; i++) {
+                        console.log(_page)
+                        queueloop(refresh_token, prm, _page, q)
+                        _page = _page + 1
+                    }
+                } else {
+                    view_datatable(response, q)
+                }
+                return;
+            }
+            /////// ข้อมูลแสดง datatable
             var totle = response.data.message.total
             var looptotle = Math.ceil(totle / 10)
+            var _page = 1;
             if (looptotle > 1) { ///// คิวมากกว่า loop 100
-                var _page = 1;
                 for (i = 0; i < looptotle; i++) {
-
+                    console.log(_page)
                     queueloop(refresh_token, prm, _page, q)
                     _page = _page + 1
                 }
-            } else {   ////// น้อยกว่า 100
-                if (response.data.message.values.length != 0) {
-                    view_datatable(response, q)
-                }
-            }
 
-            // var table = $('#tablequeue_view').DataTable();
-            // if (q == 'qadd/') {
-            //     table.columns([7, 8]).visible(false);
-            // }
-            // if (q == 'qcall/') {
-            //     table.columns([8, 9]).visible(false);
-            // }
+            } else {
+                view_datatable(response, q)
+
+            }
         }).catch(function (res) {
             const { response } = res
         });
     });
-
 }
-
 $.getScript("ip.js", async function (data, textStatus, jqxhr) {
     var urlipaddress = data.substring(1, data.length - 1);
     const socket = io(urlipaddress);
     const result = await acctoken();
     socket.on('sentServiceChannel', async function (data) {
-
+      
         if (check_table_clack == '') {
             console.log(data)
-            v_socketio();
+            await v_socketio();
         }
-        //  v_socketio();
     });
     socket.on('sentEndQueue', async function (data) {
-
         if (check_table_clack == '') {
             console.log(data)
-            v_socketio();
+            await v_socketio();
         }
-        //  v_socketio();
     });
 });
-
-
 
 async function datenewToday() {
     var today = new Date();
@@ -694,39 +703,227 @@ async function dateSearch() {
     arr_datesearch[0] = StartisoDate
     arr_datesearch[1] = StopisoDate
 
-
     // for (let i in arr_datesearch) {
     //     console.log('sdsdsd')
     // }
-
+    $('#tablequeue_view').DataTable().destroy();
     return arr_datesearch
 
 }
 
 $(async function () {
+   
+    const result = await acctoken();
+   
+    await v_socketio();
+    $(document).ready(function () {
+        $('#submitqueueReport').on('click', async function (e) {
+            check_table_clack = 'true';
+            _arr_qloop = new Array();
+            console.log(_arr_qloop)
+            _n_loop = 1;
+            _i_loop = 0;
+            document.getElementById("btn_cancel").style.display = 'block'
+            _arr_queue_add = new Array();
+            _i_loop_newdate = 0;
+            await dateSearch()
+            await v_socketio();
+        });
+        $('#btn_cancel').on('click', async function (e) {
+            check_table_clack = 'true';
+            arr_datesearch = new Array()
+            _arr_qloop = new Array();
+            _n_loop = 1;
+            _i_loop = 0;
+            document.getElementById('startdate').value = '';
+            document.getElementById('enddate').value = '';
+            document.getElementById("btn_cancel").style.display = 'none'
+            await v_socketio();
+        });
+        $('#a_back').on('click', async function (e) {
+            check_table_clack = ''
+            document.getElementById("div_qall").style.display = 'block'
+            document.getElementById("div_qdisplay").style.display = 'none'
+            document.getElementById("did_search").style.display = 'block'
+        });
+        $(document).ready(function () {
+            var data;
+            $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                var urlipaddress = data.substring(1, data.length - 1);
+                $('#tablequeue').on('click', 'a.queue', function (e) { /////ผู้รอรับบริการ แผนก
+                    check_table_clack = 'true';
+                    var table = $('#tablequeue').DataTable();
+                    e.preventDefault();
+                    var _ro = table.row($(this).parents('tr'));
+                    data = _ro.data();
+                    if (data == undefined) {
+                        data = table.row(this).data();
+                    }
+                    _arr_qloop = new Array();
+                    _n_loop = 1;
+                    _i_loop = 0;
+                    document.getElementById("h_name_report").innerText = 'ผู้รอรับบริการ ' + data.category
+                    document.getElementById("div_qall").style.display = 'none'
+                    document.getElementById("div_qdisplay").style.display = 'block'
+                    document.getElementById("did_search").style.display = 'none'
 
-    v_socketio();
+                    console.log('tableclick')
+                    Getqueueviewcategory(data.category, result, 'qadd/')
 
-    $('#submitqueueReport').on('click', async function (e) {
-        var d_search = await dateSearch()
-        document.getElementById("btn_cancel").style.display = 'block'
 
-        v_socketio();
+                });
+                $('#tablequeue').on('click', 'a.qcall', function (e) { /////ผู้กำลังรับบริการ แผนก
+                    check_table_clack = 'true';
+                    var table = $('#tablequeue').DataTable();
+                    e.preventDefault();
+                    var _ro = table.row($(this).parents('tr'));
+                    data = _ro.data();
+                    if (data == undefined) {
+                        data = table.row(this).data();
+                    }
+                    _arr_qloop = new Array();
+                    _n_loop = 1;
+                    _i_loop = 0;
+                    document.getElementById("h_name_report").innerText = 'ผู้กำลังรับบริการ ' + data.category
+                    document.getElementById("div_qall").style.display = 'none'
+                    document.getElementById("div_qdisplay").style.display = 'block'
+                    document.getElementById("did_search").style.display = 'none'
+                    Getqueueviewcategory(data.category, result, 'qcall/')
+                });
+                $('#tablequeue').on('click', 'a.qend', function (e) { /////ผู้รับบริการแล้ว แผนก
+                    check_table_clack = 'true';
+                    var table = $('#tablequeue').DataTable();
+                    e.preventDefault();
+                    var _ro = table.row($(this).parents('tr'));
+                    data = _ro.data();
+
+                    if (data == undefined) {
+                        data = table.row(this).data();
+                    }
+                    _arr_qloop = new Array();
+                    _n_loop = 1;
+                    _i_loop = 0;
+                    document.getElementById("h_name_report").innerText = 'ผู้รับบริการแล้ว ' + data.category
+                    document.getElementById("div_qall").style.display = 'none'
+                    document.getElementById("div_qdisplay").style.display = 'block'
+                    document.getElementById("did_search").style.display = 'none'
+                    Getqueueviewcategory(data.category, result, 'qend/')
+                });
+                $('#tablequeue').on('click', 'a.qcancel', function (e) { /////คิวที่ถูกยกเลิก แผนก
+                    check_table_clack = 'true';
+                    var table = $('#tablequeue').DataTable();
+                    e.preventDefault();
+                    var _ro = table.row($(this).parents('tr'));
+                    data = _ro.data();
+
+                    if (data == undefined) {
+                        data = table.row(this).data();
+                    }
+                    _arr_qloop = new Array();
+                    _n_loop = 1;
+                    _i_loop = 0;
+                    document.getElementById("h_name_report").innerText = 'คิวที่ถูกยกเลิก ' + data.category
+                    document.getElementById("div_qall").style.display = 'none'
+                    document.getElementById("div_qdisplay").style.display = 'block'
+                    document.getElementById("did_search").style.display = 'none'
+                    Getqueueviewcategory(data.category, result, 'qcancel/')
+                });
+                $('#tablequeue').on('click', 'a.qpause', function (e) { /////คิวที่ถูกพัก แผนก
+                    check_table_clack = 'true';
+                    var table = $('#tablequeue').DataTable();
+                    e.preventDefault();
+                    var _ro = table.row($(this).parents('tr'));
+                    data = _ro.data();
+
+                    if (data == undefined) {
+                        data = table.row(this).data();
+                    }
+                    _arr_qloop = new Array();
+                    _n_loop = 1;
+                    _i_loop = 0;
+                    document.getElementById("h_name_report").innerText = 'คิวที่ถูกพัก ' + data.category
+                    document.getElementById("div_qall").style.display = 'none'
+                    document.getElementById("div_qdisplay").style.display = 'block'
+                    document.getElementById("did_search").style.display = 'none'
+                    Getqueueviewcategory(data.category, result, 'qpause/')
+                });
+                $('#tablequeue').on('click', 'tfoot th', function () {  /////ผู้รอรับบริการ ทั้งหมด
+                    check_table_clack = 'true';
+                    var table = $('#tablequeue').DataTable();
+                    index = table.column($(this).index() + ':visible').index();
+                    // console.log(index)
+
+                    switch (index) {
+                        case 1:
+                            _arr_qloop = new Array();
+                            _arr_queue_add = new Array();
+                            _n_loop = 1;
+                            _i_loop = 0;
+                            getqadd(result)
+                            document.getElementById("h_name_report").innerText = 'ผู้รอรับบริการทั้งหมด'
+                            document.getElementById("div_qall").style.display = 'none'
+                            document.getElementById("div_qdisplay").style.display = 'block'
+                            document.getElementById("did_search").style.display = 'none'
+                            break;
+                        case 2:
+                            _arr_qloop = new Array();
+                            _arr_queue_add = new Array();
+                            _n_loop = 1;
+                            _i_loop = 0;
+                            console.log('call')
+                            getqcall(result)
+                            document.getElementById("h_name_report").innerText = 'ผู้กำลังรับบริการทั้งหมด'
+                            document.getElementById("div_qall").style.display = 'none'
+                            document.getElementById("div_qdisplay").style.display = 'block'
+                            document.getElementById("did_search").style.display = 'none'
+                            break;
+                        case 3:
+                            console.log('end')
+                            _arr_qloop = new Array();
+                            _arr_queue_add = new Array();
+                            _n_loop = 1;
+                            _i_loop = 0;
+                            getqend(result)
+                            document.getElementById("h_name_report").innerText = 'ผู้รับบริการทั้งหมด'
+                            document.getElementById("div_qall").style.display = 'none'
+                            document.getElementById("div_qdisplay").style.display = 'block'
+                            document.getElementById("did_search").style.display = 'none'
+                            break;
+                        case 4:
+                            console.log('cancel')
+                            _arr_qloop = new Array();
+                            _arr_queue_add = new Array();
+                            _n_loop = 1;
+                            _i_loop = 0;
+                            getqcancel(result)
+                            document.getElementById("h_name_report").innerText = 'คิวที่ถูกยกเลิกทั้งหมด'
+                            document.getElementById("div_qall").style.display = 'none'
+                            document.getElementById("div_qdisplay").style.display = 'block'
+                            document.getElementById("did_search").style.display = 'none'
+                            break;
+                        case 5:
+                            console.log('pause')
+                            _arr_qloop = new Array();
+                            _arr_queue_add = new Array();
+                            _n_loop = 1;
+                            _i_loop = 0;
+                            getqpause(result)
+                            document.getElementById("h_name_report").innerText = 'คิวที่ถูกพักทั้งหมด'
+                            document.getElementById("div_qall").style.display = 'none'
+                            document.getElementById("div_qdisplay").style.display = 'block'
+                            document.getElementById("did_search").style.display = 'none'
+                            break;
+                        case 6:
+                            break;
+                        default:
+                    }
+
+                });
+
+            });
+
+        });
     });
-    $('#btn_cancel').on('click', async function (e) {
-        arr_datesearch = new Array()
-      document.getElementById('startdate').value = '';
-       document.getElementById('enddate').value = '';
-        document.getElementById("btn_cancel").style.display = 'none'
-
-        v_socketio();
-    });
-    $('#a_back').on('click', async function (e) {
-        check_table_clack = ''
-        document.getElementById("div_qall").style.display = 'block'
-        document.getElementById("div_qdisplay").style.display = 'none'
-    });
-
 });
 
 function showCancelMessagesearch(title, text) {
@@ -749,25 +946,20 @@ function showSuccessMessage(text) {
         }
     });
 }
-
+//const v_socketio = async () => {
 async function v_socketio() {
-
-    console.log(arr_datesearch.length)
-
+    console.log(check_table_clack)
     const result = await acctoken();
     var _arrdataqueue = new Array();
     var _n = 0
     const fileview = await getprofileview(result);
     const categoryview = await getcategoryview(result);
-
     //////ตาราง
-    queuecount = await getqadd(result); ////คิวรอรับบริการ
-    queueqend = await getqend(result);   ////คิวรับบริการแล้ว
-    qcall = await getqcall(result); ////คิวกำลังรับบริการ
-
-    qcancel = await getqcancel(result);   ////คิวที่ถูกยกเลิก
-    qpause = await getqpause(result); ////คิวที่ถูกพัก
-
+    const queuecount = await getqadd(result); ////คิวรอรับบริการ
+    const queueqend = await getqend(result);   ////คิวรับบริการแล้ว
+    const qcall = await getqcall(result); ////คิวกำลังรับบริการ
+    const qcancel = await getqcancel(result);   ////คิวที่ถูกยกเลิก
+    const qpause = await getqpause(result); ////คิวที่ถูกพัก
     var datenew = await datenewToday();
 
     var view_queue = 0;
@@ -775,8 +967,6 @@ async function v_socketio() {
     var view_qend = 0;
     var view_qcancel = 0;
     var view_qpause = 0;
-
-
     var count_qadd = 0;
     var btn_q_add = 0;
     var btn_q_call = 0;
@@ -803,18 +993,14 @@ async function v_socketio() {
             var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
             // var _checkdate; = dayjs(datenew).isSame(_date)
             var _checkdate;
-
             if (arr_datesearch.length != 0) {
                 const isBetween = window.dayjs_plugin_isBetween;
                 dayjs.extend(isBetween);
-
                 _checkdate = dayjs(_date).isBetween(arr_datesearch[0], arr_datesearch[1], undefined, '[]');
-
-                console.log(_checkdate)
+                // console.log(_checkdate)
             } else {
                 _checkdate = dayjs(datenew).isSame(_date)
             }
-
             if (_checkdate == true) {
                 if (categoryview[i_category].category == queuecount[i_qadd].category) {
                     count_qadd = count_qadd + 1
@@ -842,20 +1028,15 @@ async function v_socketio() {
             s_date = s_date[0].split('/')
             var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
             // var _checkdate = dayjs(datenew).isSame(_date)
-
             var _checkdate;
-
             if (arr_datesearch.length != 0) {
                 const isBetween = window.dayjs_plugin_isBetween;
                 dayjs.extend(isBetween);
+                _checkdate = dayjs(_date).isBetween(arr_datesearch[0], arr_datesearch[1], undefined, '[]')
 
-                _checkdate = dayjs(_date).isBetween(arr_datesearch[0], arr_datesearch[1], undefined, '[]');
-
-                console.log(_checkdate)
             } else {
                 _checkdate = dayjs(datenew).isSame(_date)
             }
-
 
             if (_checkdate == true) {
                 if (categoryview[i_category].category == qcall[i_qcall].category) {
@@ -924,10 +1105,17 @@ async function v_socketio() {
             s_date = s_date.split(' ')
             s_date = s_date[0].split('/')
             var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
-            var _checkdate = dayjs(datenew).isSame(_date)
-
+            // var _checkdate = dayjs(datenew).isSame(_date)
+            var _checkdate;
+            if (arr_datesearch.length != 0) {
+                const isBetween = window.dayjs_plugin_isBetween;
+                dayjs.extend(isBetween);
+                _checkdate = dayjs(_date).isBetween(arr_datesearch[0], arr_datesearch[1], undefined, '[]');
+                console.log(_checkdate)
+            } else {
+                _checkdate = dayjs(datenew).isSame(_date)
+            }
             if (_checkdate == true) {
-                //   console.log(_checkdate)
                 if (categoryview[i_category].category == qcancel[i_qend].category) {
                     count_qcancel = count_qcancel + 1
                     $("#qcancel").text((count_qcancel) + " คิว");
@@ -944,7 +1132,6 @@ async function v_socketio() {
         view_qcancel = count_qcancel
         btn_q_cancel = btn_q_cancel + view_qcancel
         q_num = 0;
-
         /////// คิวที่ถูกพัก
         for (let i_qend in qpause) {
             let date = new Date(qpause[i_qend].timeAdd);
@@ -954,10 +1141,17 @@ async function v_socketio() {
             s_date = s_date.split(' ')
             s_date = s_date[0].split('/')
             var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
-            var _checkdate = dayjs(datenew).isSame(_date)
-
+            // var _checkdate = dayjs(datenew).isSame(_date)
+            var _checkdate;
+            if (arr_datesearch.length != 0) {
+                const isBetween = window.dayjs_plugin_isBetween;
+                dayjs.extend(isBetween);
+                _checkdate = dayjs(_date).isBetween(arr_datesearch[0], arr_datesearch[1], undefined, '[]');
+                console.log(_checkdate)
+            } else {
+                _checkdate = dayjs(datenew).isSame(_date)
+            }
             if (_checkdate == true) {
-                //   console.log(_checkdate)
                 if (categoryview[i_category].category == qpause[i_qend].category) {
                     count_qpause = count_qpause + 1
                     $("#qpause").text((count_qpause) + " คิว");
@@ -995,8 +1189,6 @@ async function v_socketio() {
         view_qcancel = 0
         view_qpause = 0
     }
-
-    console.log(_arrdataqueue)
 
     $("#qadd").text((btn_q_add) + " คิว");
     $("#qcall").text((btn_q_call) + " คิว");
@@ -1109,7 +1301,6 @@ async function v_socketio() {
                     .column(i)
                     .data()
                     .reduce(function (a, b) {
-                        //     console.log(intVal(a) + intVal(b))
                         return intVal(a) + intVal(b);
                     }, 0);
 
@@ -1135,192 +1326,7 @@ async function v_socketio() {
         }
     });
     table.buttons().container().appendTo($('#test'));
-    $(document).ready(function () {
-        var data;
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
-            var urlipaddress = data.substring(1, data.length - 1);
-            $('#tablequeue').on('click', 'a.queue', function (e) { /////ผู้รอรับบริการ แผนก
-                check_table_clack = 'true';
-                var table = $('#tablequeue').DataTable();
-                e.preventDefault();
-                var _ro = table.row($(this).parents('tr'));
-                data = _ro.data();
-                if (data == undefined) {
-                    data = table.row(this).data();
-                }
-                _arr_qloop = new Array();
-                _n_loop = 1;
-                _i_loop = 0;
-                document.getElementById("h_name_report").innerText = 'ผู้รอรับบริการ ' + data.category
-                document.getElementById("div_qall").style.display = 'none'
-                document.getElementById("div_qdisplay").style.display = 'block'
 
-                Getqueueviewcategory(data.category, result, 'qadd/')
-
-
-            });
-            $('#tablequeue').on('click', 'a.qcall', function (e) { /////ผู้กำลังรับบริการ แผนก
-                check_table_clack = 'true';
-                var table = $('#tablequeue').DataTable();
-                e.preventDefault();
-                var _ro = table.row($(this).parents('tr'));
-                data = _ro.data();
-                if (data == undefined) {
-                    data = table.row(this).data();
-                }
-                _arr_qloop = new Array();
-                _n_loop = 1;
-                _i_loop = 0;
-                document.getElementById("h_name_report").innerText = 'ผู้กำลังรับบริการ ' + data.category
-                document.getElementById("div_qall").style.display = 'none'
-                document.getElementById("div_qdisplay").style.display = 'block'
-                Getqueueviewcategory(data.category, result, 'qcall/')
-            });
-            $('#tablequeue').on('click', 'a.qend', function (e) { /////ผู้รับบริการแล้ว แผนก
-                check_table_clack = 'true';
-                var table = $('#tablequeue').DataTable();
-                e.preventDefault();
-                var _ro = table.row($(this).parents('tr'));
-                data = _ro.data();
-
-                if (data == undefined) {
-                    data = table.row(this).data();
-                }
-                _arr_qloop = new Array();
-                _n_loop = 1;
-                _i_loop = 0;
-                document.getElementById("h_name_report").innerText = 'ผู้รับบริการแล้ว ' + data.category
-                document.getElementById("div_qall").style.display = 'none'
-                document.getElementById("div_qdisplay").style.display = 'block'
-                Getqueueviewcategory(data.category, result, 'qend/')
-            });
-            $('#tablequeue').on('click', 'a.qcancel', function (e) { /////คิวที่ถูกยกเลิก แผนก
-                check_table_clack = 'true';
-                var table = $('#tablequeue').DataTable();
-                e.preventDefault();
-                var _ro = table.row($(this).parents('tr'));
-                data = _ro.data();
-
-                if (data == undefined) {
-                    data = table.row(this).data();
-                }
-                _arr_qloop = new Array();
-                _n_loop = 1;
-                _i_loop = 0;
-                document.getElementById("h_name_report").innerText = 'คิวที่ถูกยกเลิก ' + data.category
-                document.getElementById("div_qall").style.display = 'none'
-                document.getElementById("div_qdisplay").style.display = 'block'
-                Getqueueviewcategory(data.category, result, 'qcancel/')
-            });
-            $('#tablequeue').on('click', 'a.qpause', function (e) { /////คิวที่ถูกพัก แผนก
-                check_table_clack = 'true';
-                var table = $('#tablequeue').DataTable();
-                e.preventDefault();
-                var _ro = table.row($(this).parents('tr'));
-                data = _ro.data();
-
-                if (data == undefined) {
-                    data = table.row(this).data();
-                }
-                _arr_qloop = new Array();
-                _n_loop = 1;
-                _i_loop = 0;
-                document.getElementById("h_name_report").innerText = 'คิวที่ถูกพัก ' + data.category
-                document.getElementById("div_qall").style.display = 'none'
-                document.getElementById("div_qdisplay").style.display = 'block'
-                Getqueueviewcategory(data.category, result, 'qpause/')
-            });
-            $('#tablequeue').on('click', 'tfoot th', function () {  /////ผู้รอรับบริการ ทั้งหมด
-                check_table_clack = 'true';
-                var table = $('#tablequeue').DataTable();
-                index = table.column($(this).index() + ':visible').index();
-                // console.log(index)
-
-                switch (index) {
-                    case 1:
-                        _arr_qloop = new Array();
-                        _arr_queue_add = new Array();
-                        _n_loop = 1;
-                        _i_loop = 0;
-                        getqadd(result)
-                        document.getElementById("h_name_report").innerText = 'ผู้รอรับบริการทั้งหมด'
-                        document.getElementById("div_qall").style.display = 'none'
-                        document.getElementById("div_qdisplay").style.display = 'block'
-                        break;
-                    case 2:
-                        _arr_qloop = new Array();
-                        _arr_queue_add = new Array();
-                        _n_loop = 1;
-                        _i_loop = 0;
-                        console.log('call')
-                        getqcall(result)
-                        document.getElementById("h_name_report").innerText = 'ผู้กำลังรับบริการทั้งหมด'
-                        document.getElementById("div_qall").style.display = 'none'
-                        document.getElementById("div_qdisplay").style.display = 'block'
-                        break;
-                    case 3:
-                        console.log('end')
-                        _arr_qloop = new Array();
-                        _arr_queue_add = new Array();
-                        _n_loop = 1;
-                        _i_loop = 0;
-                        getqend(result)
-                        document.getElementById("h_name_report").innerText = 'ผู้รับบริการทั้งหมด'
-                        document.getElementById("div_qall").style.display = 'none'
-                        document.getElementById("div_qdisplay").style.display = 'block'
-                        break;
-                    case 4:
-                        console.log('cancel')
-                        _arr_qloop = new Array();
-                        _arr_queue_add = new Array();
-                        _n_loop = 1;
-                        _i_loop = 0;
-                        getqcancel(result)
-                        document.getElementById("h_name_report").innerText = 'คิวที่ถูกยกเลิกทั้งหมด'
-                        document.getElementById("div_qall").style.display = 'none'
-                        document.getElementById("div_qdisplay").style.display = 'block'
-                        break;
-                    case 5:
-                        console.log('pause')
-                        _arr_qloop = new Array();
-                        _arr_queue_add = new Array();
-                        _n_loop = 1;
-                        _i_loop = 0;
-                        getqpause(result)
-                        document.getElementById("h_name_report").innerText = 'คิวที่ถูกพักทั้งหมด'
-                        document.getElementById("div_qall").style.display = 'none'
-                        document.getElementById("div_qdisplay").style.display = 'block'
-                        break;
-                    case 6:
-                        break;
-                    default:
-                }
-
-                // console.log(index)
-                //                 var table = $('#tablequeue_view').DataTable();
-                //                 if (index == '1') {
-                //                     table.columns([7, 8]).visible(false);
-                //                 }
-                //                 if (index == '2') {
-                //                     table.columns([8]).visible(false);
-                //                 }
-                // if (q == 'qadd/') {
-                //   table.columns([7, 8]).visible(false);
-                // }
-                // if (q == 'qcall/') {
-                //    table.columns([8]).visible(false);
-                // }
-            });
-
-        });
-
-
-
-
-
-
-
-    });
 
     q_num = 0;
     var chartprofile = new Array();
@@ -1329,15 +1335,11 @@ async function v_socketio() {
         chartprofile[i] = fileview[i].name
         chartprofile_num[i] = fileview[i].category.length
     }
-    console.log(chartprofile)
-    console.log(chartprofile_num)
     $(function () {
 
         new Chart(document.getElementById("bar_queuecategory").getContext("2d"), getChartJs('bar'));
-        //  new Chart(document.getElementById("bar_queueprofile").getContext("2d"), getChartJs('bar2'));
         new Chart(document.getElementById("donut_chart_category").getContext("2d"), getChartJs('piecategory'));
         new Chart(document.getElementById("donut_chart_profile").getContext("2d"), getChartJs('pieprofile'));
-        // new Chart(document.getElementById("pie_chartbalance").getContext("2d"), getChartJs('pieBalance'));
     });
     function getChartJs(type) {
         if (type === 'line') {
@@ -1391,10 +1393,6 @@ async function v_socketio() {
                     chartcategory_queue_end[i] = 0
                 }
             }
-            //  console.log(chartcategory)
-            // console.log(chartcategory_queue_call)
-            // console.log(chartcategory_queue_end)
-            //  console.log(chartcategory_queue)
             config = {
                 type: 'bar',
                 data: {
@@ -1499,9 +1497,7 @@ async function v_socketio() {
                             display: true,
                             position: 'right',
                         },
-
                     },
-
                 }
             }
         }

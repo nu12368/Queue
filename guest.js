@@ -207,7 +207,7 @@ function getcategoryview(refresh_token) {
         });
     });
 }
-function getqrcode(refresh_token,nameqr) {
+function getqrcode(refresh_token, nameqr) {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
         axios.get(urlipaddress + "file/qrcode/" + nameqr, {
@@ -289,16 +289,18 @@ $(async function () {
         $('#submitaddqueue').on('click', async function (e) {
 
             var obj = JSON.parse(Cookies.get('refresh_tokenOnline'));
-            //  var userId = Cookies.get('dataUserOnline');
+            var userId = JSON.parse(Cookies.get('dataUserOnline'));
             var _objectId_online = Cookies.get('_objectIdOnline');
 
             const result_online = await acctoken(obj);
 
 
-            //  console.log(result_online)
-            // console.log(userId)
-            // console.log(_objectId_online)
+           // console.log(result_online)
+            console.log(userId)
+            console.log(_objectId_online)
 
+
+            // return;
             var select_category = document.getElementById("qr_category").value
             var post_catery;
             for (i = 0; i < _category.length; i++) {
@@ -309,6 +311,7 @@ $(async function () {
             const socket = io(urlipaddress);
             socket.emit('addQueue', { addQueue: 'Updated' });
             const dataaddQueue = {
+                uId: userId.userId,
                 values: post_catery.category,
                 tel: document.getElementById("tel").value,
                 name: document.getElementById("username").value,
@@ -408,6 +411,7 @@ $(async function () {
                     }
                 }).catch(function (res) {
                     const { response } = res
+                    console.log(response.data.message)
                     if (response.data.message == 'This user has already been used.') {
                         showCancelMessage_queue('มีข้อมูลในระบบแล้ว', '')
                     }
