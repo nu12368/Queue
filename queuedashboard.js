@@ -48,25 +48,11 @@ function acctoken() {
     });
 }
 const view_datatable = async (responsedataview, q) => {
+    var datenew = await datenewToday();
     $('#tablequeue_view').DataTable().destroy();
     if (responsedataview.data.message.values.length != 0) {
         for (i = 0; i < responsedataview.data.message.values.length; i++) {
-            let date = new Date(responsedataview.data.message.values[i].timeAdd);
-            let options = { hour12: false };
-            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
-            var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
-            s_date = s_date.split(' ')
-            s_date = s_date[0].split('/')
-            var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
-            var _checkdate;
-            if (arr_datesearch.length != 0) {
-                const isBetween = window.dayjs_plugin_isBetween;
-                dayjs.extend(isBetween);
-                _checkdate = dayjs(_date).isBetween(arr_datesearch[0], arr_datesearch[1], undefined, '[]');
-            } else {
-                var datenew = await datenewToday();
-                _checkdate = dayjs(datenew).isSame(_date)
-            }
+            var _checkdate = await chechdate_Time(responsedataview.data.message.values[i].timeAdd, datenew)
             if (_checkdate == true) {
                 var _timeCall = '';
                 var _timesend = '';
@@ -87,11 +73,15 @@ const view_datatable = async (responsedataview, q) => {
                 } else {
                     _timecancel = responsedataview.data.message.values[i].timeCancel
                 }
-                if (responsedataview.data.message.values[i].timeCall == undefined) {
-                    _timespause = ''
-                } else {
-                    _timespause = responsedataview.data.message.values[i].timeCall
+                
+                if(_timecancel == ''){
+                    if (responsedataview.data.message.values[i].timeCall == undefined) {
+                        _timespause = ''
+                    } else {
+                        _timespause = responsedataview.data.message.values[i].timeCall
+                    }
                 }
+                
                 _arr_qloop[_i_loop] = {
                     num: _n_loop,
                     category: responsedataview.data.message.values[i].category,
@@ -230,8 +220,6 @@ function getqaddloop(refresh_token, _page, q) {
                 }
                 _i_loop_newdate = _i_loop_newdate + 1
             }
-            //console.log(q)
-            //console.log(_arr_queue_add)
         }).catch(function (res) {
             const { response } = res
         });
@@ -248,7 +236,6 @@ const viewqueuetfootloop = async (refresh_token, _page, q) => {
             }
         }).then(function (response) {
             if (response.data.message.values.length != 0) {
-
                 view_datatable(response, q)
             }
         }).catch(function (res) {
@@ -268,7 +255,6 @@ function getqadd(refresh_token) { ////// คิวที่รอทั้งห
             }).then(function (response) {
                 _arr_queue_add = new Array()
                 _i_loop_newdate = 0;
-
                 if (index != undefined) {
                     _arr_qloop = new Array();
                     _n_loop = 1;
@@ -373,7 +359,6 @@ function getqcall(refresh_token) { ////// คิวที่รอทั้ง�
                     }
                     resolve(_arr_queue_add);
                 }
-
             }).catch(function (res) {
                 const { response } = res
             });
@@ -389,10 +374,8 @@ function getqend(refresh_token) { ////// คิวที่เสร็จ
                     'Authorization': refresh_token
                 }
             }).then(function (response) {
-                //console.log(response.data.message)
                 _arr_queue_add = new Array()
                 _i_loop_newdate = 0;
-                //  console.log(index)
                 if (index != undefined) {
                     var totle = response.data.message.total
                     var looptotle = Math.ceil(totle / 10)
@@ -448,10 +431,8 @@ function getqcancel(refresh_token) { ////// คิวที่ถูกยกเ
                     'Authorization': refresh_token
                 }
             }).then(function (response) {
-                //console.log(response.data.message)
                 _arr_queue_add = new Array()
                 _i_loop_newdate = 0;
-                //  console.log(index)
                 if (index != undefined) {
                     var totle = response.data.message.total
                     var looptotle = Math.ceil(totle / 10)
@@ -507,10 +488,8 @@ function getqpause(refresh_token) { ////// คิวที่ัพก
                     'Authorization': refresh_token
                 }
             }).then(function (response) {
-                //console.log(response.data.message)
                 _arr_queue_add = new Array()
                 _i_loop_newdate = 0;
-                //  console.log(index)
                 if (index != undefined) {
                     var totle = response.data.message.total
                     var looptotle = Math.ceil(totle / 10)
@@ -573,7 +552,6 @@ function getprofileview(refresh_token) {
             });
         });
     });
-
 }
 function getcategoryview(refresh_token) {
     return new Promise(resolve => {
@@ -584,9 +562,7 @@ function getcategoryview(refresh_token) {
                     'Authorization': refresh_token
                 }
             }).then(function (response) {
-
                 resolve(response.data.message.category);
-
             }).catch(function (res) {
                 const { response } = res
             });
@@ -603,7 +579,6 @@ const queueloop = async (refresh_token, prm, _page, q) => {
         }).then(function (response) {
             if (response.data.message.values.length != 0) {
                 view_datatable(response, q)
-
             }
         });
     });
@@ -644,10 +619,8 @@ const Getqueueviewcategory = async (categoryqueue, refresh_token, q) => {
                     queueloop(refresh_token, prm, _page, q)
                     _page = _page + 1
                 }
-
             } else {
                 view_datatable(response, q)
-
             }
         }).catch(function (res) {
             const { response } = res
@@ -659,7 +632,6 @@ $.getScript("ip.js", async function (data, textStatus, jqxhr) {
     const socket = io(urlipaddress);
     const result = await acctoken();
     socket.on('sentServiceChannel', async function (data) {
-      
         if (check_table_clack == '') {
             console.log(data)
             await v_socketio();
@@ -689,32 +661,23 @@ var arr_datesearch = new Array()
 async function dateSearch() {
     var timeStart = document.getElementById('startdate').value.split('/');
     var timeStop = document.getElementById('enddate').value.split('/');
-    // var s_time = document.getElementById('txttimestart').value;
-    // var e_time = document.getElementById('txttimestop').value;
-    // var datenew = await datenewToday();
-    // console.log(datenew)
+    var s_time = document.getElementById('txttimestart').value;
+    var e_time = document.getElementById('txttimestop').value;
     //////// ปี/เดือน/วัน
     if (timeStart[0] == '' || timeStop[0] == '') {
         showCancelMessagesearch('กรุณาเลือกวันที่', 'เลือกวันที่เริ่มต้น เวลาเริ่มต้น และ วันที่สิ้นสุด เวลาสิ้นสุด')
         return;
     }
-    var StartisoDate = (`${timeStart[2] + '/' + timeStart[1] + '/' + timeStart[0]}`)
-    var StopisoDate = (`${timeStop[2] + '/' + timeStop[1] + '/' + timeStop[0]}`)
+    var StartisoDate = (`${timeStart[2] + '/' + timeStart[1] + '/' + timeStart[0] + ' ' + s_time + ':00'}`)
+    var StopisoDate = (`${timeStop[2] + '/' + timeStop[1] + '/' + timeStop[0] + ' ' + e_time + ':59'}`)
     arr_datesearch[0] = StartisoDate
     arr_datesearch[1] = StopisoDate
-
-    // for (let i in arr_datesearch) {
-    //     console.log('sdsdsd')
-    // }
     $('#tablequeue_view').DataTable().destroy();
     return arr_datesearch
-
 }
 
 $(async function () {
-   
     const result = await acctoken();
-   
     await v_socketio();
     $(document).ready(function () {
         $('#submitqueueReport').on('click', async function (e) {
@@ -766,11 +729,8 @@ $(async function () {
                     document.getElementById("div_qall").style.display = 'none'
                     document.getElementById("div_qdisplay").style.display = 'block'
                     document.getElementById("did_search").style.display = 'none'
-
                     console.log('tableclick')
                     Getqueueviewcategory(data.category, result, 'qadd/')
-
-
                 });
                 $('#tablequeue').on('click', 'a.qcall', function (e) { /////ผู้กำลังรับบริการ แผนก
                     check_table_clack = 'true';
@@ -815,7 +775,6 @@ $(async function () {
                     e.preventDefault();
                     var _ro = table.row($(this).parents('tr'));
                     data = _ro.data();
-
                     if (data == undefined) {
                         data = table.row(this).data();
                     }
@@ -834,7 +793,6 @@ $(async function () {
                     e.preventDefault();
                     var _ro = table.row($(this).parents('tr'));
                     data = _ro.data();
-
                     if (data == undefined) {
                         data = table.row(this).data();
                     }
@@ -852,7 +810,6 @@ $(async function () {
                     var table = $('#tablequeue').DataTable();
                     index = table.column($(this).index() + ':visible').index();
                     // console.log(index)
-
                     switch (index) {
                         case 1:
                             _arr_qloop = new Array();
@@ -917,11 +874,8 @@ $(async function () {
                             break;
                         default:
                     }
-
                 });
-
             });
-
         });
     });
 });
@@ -946,9 +900,30 @@ function showSuccessMessage(text) {
         }
     });
 }
+
+async function chechdate_Time(datadatetime, datenew) {
+    let date = new Date(datadatetime);
+    let options = { hour12: false };
+    var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+    var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+    var time = s_date.split(' ')
+    s_date = time[0].split('/')
+    var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1] + ' ' + time[1]
+    var _dateToday = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
+    var _checkdate;
+    if (arr_datesearch.length != 0) {
+        const isBetween = window.dayjs_plugin_isBetween;
+        dayjs.extend(isBetween);
+        _checkdate = dayjs(_date).isBetween(arr_datesearch[0], arr_datesearch[1], undefined, '[]');
+    } else {
+        _checkdate = dayjs(datenew).isSame(_dateToday)
+    }
+    return _checkdate;
+}
+
+
 //const v_socketio = async () => {
 async function v_socketio() {
-    console.log(check_table_clack)
     const result = await acctoken();
     var _arrdataqueue = new Array();
     var _n = 0
@@ -961,7 +936,6 @@ async function v_socketio() {
     const qcancel = await getqcancel(result);   ////คิวที่ถูกยกเลิก
     const qpause = await getqpause(result); ////คิวที่ถูกพัก
     var datenew = await datenewToday();
-
     var view_queue = 0;
     var view_qcall = 0;
     var view_qend = 0;
@@ -977,30 +951,11 @@ async function v_socketio() {
     var count_qend = 0;
     var count_qcancel = 0;
     var count_qpause = 0;
-
     for (let i_category in categoryview) {
         chartcategory[i_category] = categoryview[i_category].category
-
         /////// คิวผู้รอรับบริการ
         for (let i_qadd in queuecount) {
-            //    console.log(queuecount[i_qadd].timeAdd)
-            let date = new Date(queuecount[i_qadd].timeAdd);
-            let options = { hour12: false };
-            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
-            var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
-            s_date = s_date.split(' ')
-            s_date = s_date[0].split('/')
-            var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
-            // var _checkdate; = dayjs(datenew).isSame(_date)
-            var _checkdate;
-            if (arr_datesearch.length != 0) {
-                const isBetween = window.dayjs_plugin_isBetween;
-                dayjs.extend(isBetween);
-                _checkdate = dayjs(_date).isBetween(arr_datesearch[0], arr_datesearch[1], undefined, '[]');
-                // console.log(_checkdate)
-            } else {
-                _checkdate = dayjs(datenew).isSame(_date)
-            }
+            var _checkdate = await chechdate_Time(queuecount[i_qadd].timeAdd, datenew)
             if (_checkdate == true) {
                 if (categoryview[i_category].category == queuecount[i_qadd].category) {
                     count_qadd = count_qadd + 1
@@ -1016,28 +971,10 @@ async function v_socketio() {
         }
         view_queue = count_qadd
         btn_q_add = btn_q_add + count_qadd
-
         /////// ผู้กำลังรับบริการ
         q_num = 0;
         for (let i_qcall in qcall) {
-            let date = new Date(qcall[i_qcall].timeAdd);
-            let options = { hour12: false };
-            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
-            var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
-            s_date = s_date.split(' ')
-            s_date = s_date[0].split('/')
-            var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
-            // var _checkdate = dayjs(datenew).isSame(_date)
-            var _checkdate;
-            if (arr_datesearch.length != 0) {
-                const isBetween = window.dayjs_plugin_isBetween;
-                dayjs.extend(isBetween);
-                _checkdate = dayjs(_date).isBetween(arr_datesearch[0], arr_datesearch[1], undefined, '[]')
-
-            } else {
-                _checkdate = dayjs(datenew).isSame(_date)
-            }
-
+            var _checkdate = await chechdate_Time(qcall[i_qcall].timeAdd, datenew)
             if (_checkdate == true) {
                 if (categoryview[i_category].category == qcall[i_qcall].category) {
                     count_qcall = count_qcall + 1
@@ -1057,26 +994,8 @@ async function v_socketio() {
         q_num = 0;
         /////// ผู้รับบริการแล้ว
         for (let i_qend in queueqend) {
-            let date = new Date(queueqend[i_qend].timeAdd);
-            let options = { hour12: false };
-            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
-            var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
-            s_date = s_date.split(' ')
-            s_date = s_date[0].split('/')
-            var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
-            // var _checkdate = dayjs(datenew).isSame(_date)
-            var _checkdate;
-            if (arr_datesearch.length != 0) {
-                const isBetween = window.dayjs_plugin_isBetween;
-                dayjs.extend(isBetween);
-                _checkdate = dayjs(_date).isBetween(arr_datesearch[0], arr_datesearch[1], undefined, '[]');
-                console.log(_checkdate)
-            } else {
-                _checkdate = dayjs(datenew).isSame(_date)
-            }
-
+            var _checkdate = await chechdate_Time(queueqend[i_qend].timeAdd, datenew)
             if (_checkdate == true) {
-                //   console.log(_checkdate)
                 if (categoryview[i_category].category == queueqend[i_qend].category) {
                     count_qend = count_qend + 1
                     $("#qend").text((count_qadd) + " คิว");
@@ -1090,31 +1009,12 @@ async function v_socketio() {
                 }
             }
         }
-
         view_qend = count_qend
         btn_q_end = btn_q_end + view_qend
-
-
         q_num = 0;
         /////// คิวที่ถูกยกเลิก
         for (let i_qend in qcancel) {
-            let date = new Date(qcancel[i_qend].timeAdd);
-            let options = { hour12: false };
-            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
-            var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
-            s_date = s_date.split(' ')
-            s_date = s_date[0].split('/')
-            var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
-            // var _checkdate = dayjs(datenew).isSame(_date)
-            var _checkdate;
-            if (arr_datesearch.length != 0) {
-                const isBetween = window.dayjs_plugin_isBetween;
-                dayjs.extend(isBetween);
-                _checkdate = dayjs(_date).isBetween(arr_datesearch[0], arr_datesearch[1], undefined, '[]');
-                console.log(_checkdate)
-            } else {
-                _checkdate = dayjs(datenew).isSame(_date)
-            }
+            var _checkdate = await chechdate_Time(qcancel[i_qend].timeAdd, datenew)
             if (_checkdate == true) {
                 if (categoryview[i_category].category == qcancel[i_qend].category) {
                     count_qcancel = count_qcancel + 1
@@ -1134,23 +1034,7 @@ async function v_socketio() {
         q_num = 0;
         /////// คิวที่ถูกพัก
         for (let i_qend in qpause) {
-            let date = new Date(qpause[i_qend].timeAdd);
-            let options = { hour12: false };
-            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
-            var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
-            s_date = s_date.split(' ')
-            s_date = s_date[0].split('/')
-            var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
-            // var _checkdate = dayjs(datenew).isSame(_date)
-            var _checkdate;
-            if (arr_datesearch.length != 0) {
-                const isBetween = window.dayjs_plugin_isBetween;
-                dayjs.extend(isBetween);
-                _checkdate = dayjs(_date).isBetween(arr_datesearch[0], arr_datesearch[1], undefined, '[]');
-                console.log(_checkdate)
-            } else {
-                _checkdate = dayjs(datenew).isSame(_date)
-            }
+            var _checkdate = await chechdate_Time(qpause[i_qend].timeAdd, datenew)
             if (_checkdate == true) {
                 if (categoryview[i_category].category == qpause[i_qend].category) {
                     count_qpause = count_qpause + 1
@@ -1177,6 +1061,7 @@ async function v_socketio() {
             qcancel: view_qcancel,
             qpause: view_qpause
         }
+
         view_qcall = 0
         view_queue = 0
         view_qend = 0

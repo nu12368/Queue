@@ -93,6 +93,9 @@
     }
 </style>
 
+
+
+
 <body class="theme-red">
     <!-- Page Loader -->
     <div class="page-loader-wrapper">
@@ -448,9 +451,9 @@
                     </div>
                 
                     <div class="body">
-
                         <div class="row clearfix" id='did_search' style="display: block;">
                             <div class="col-xs-4 form-group"><h4>ค้นหาคิว</h4></div>
+
                             <div class="col-xs-4 form-group">
                                 <div class="input-group date" id="bs_datepicker_component_container">
                                     <div class="form-line">
@@ -463,6 +466,21 @@
                                 </div>
                             </div>
                             <div class="col-xs-4 form-group">
+                                <div class="input-daterange input-group"
+                                    id="timestart">
+                                    <div class="form-line">
+                                        <input type="text" id="txttimestart"
+                                            class="timepicker form-control"
+                                            placeholder="เวลาเริ่มต้น">
+                                    </div>
+                                    <span class="input-group-addon">
+                                        <i class="material-icons"
+                                            style="cursor: pointer;">access_time</i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4 form-group">
                                 <div class="input-group date" id="bs_datepicker_range_container">
                                     <div class="form-line">
                                         <input type="text" id="enddate" autocomplete=off
@@ -471,6 +489,21 @@
                                     <span class="input-group-addon">
                                         <i class="material-icons">date_range</i>
                                     </span>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 form-group">
+                                <div class="input-daterange input-group"
+                                    id="timerange">
+                                    <div class="form-line">
+                                        <input type="text" id="txttimestop"
+                                            class="timepicker form-control"
+                                            placeholder="เวลาสิ้นสุด">
+                                    </div>
+                                    <span class="input-group-addon">
+                                        <i class="material-icons"
+                                            style="cursor: pointer;">access_time</i>
+                                    </span>
+
                                 </div>
                             </div>
                             <table>
@@ -612,335 +645,6 @@
                     </div>
                 </div>
             </div>
-
-
-            <section class="" style="display: none;">
-                <div class="container-fluid">
-                    <!-- Input -->
-                    <div class="row clearfix">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="card">
-                                        <div class="header header-new">
-                                            <h2>
-                                                <font style=" color: white;">รายงานสถานะคิว
-                                                </font>
-                                            </h2>
-                                        </div>
-                                        <div class="body">
-                                            <form id="formElem">
-                                                <!-- Nav tabs -->
-                                                <ul class="nav nav-tabs tab-nav-right" role="tablist">
-                                                    <li role="presentation" class="active"><a href="tab1"
-                                                            style="font-size: 18px;"
-                                                            data-toggle="tab">ผู้รอรับบริการ</a>
-                                                    </li>
-
-                                                    <li role="presentation" class=""><a href="#tab2"
-                                                            style="font-size: 18px;" data-toggle="tab">ผู้กำลังรับบริการ
-                                                        </a>
-                                                    </li>
-                                                    <li role="presentation" class=""><a href="#tab3"
-                                                            style="font-size: 18px;" data-toggle="tab">ผู้รับบริการแล้ว
-                                                        </a>
-                                                    </li>
-                                                    <li role="presentation" class=""><a href="#tab4"
-                                                            style="font-size: 18px;" data-toggle="tab">การยกเลิก </a>
-                                                    </li>
-                                                </ul>
-                                                <!-- Tab panes -->
-                                                <div class="tab-content">
-                                                    <div role="tabpanel" class="tab-pane fade in active" id="tab1">
-                                                        <div class="body">
-
-                                                        </div>
-                                                        <div>&nbsp;</div>
-                                                        <div class="table-responsive">
-
-                                                            <table
-                                                                class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
-                                                                id="table1">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>ลำดับที่</th>
-                                                                        <th>หมายเลขคิว</th>
-                                                                        <th>ช่องบริการ</th>
-                                                                        <th>ชื่อ</th>
-                                                                        <th>เบอร์โทร</th>
-                                                                        <th>เวลา</th>
-                                                                    </tr>
-                                                                </thead>
-                                                            </table>
-                                                        </div>
-
-                                                    </div>
-                                                    <div role="tabpanel" class="tab-pane fade in " id="tab2">
-                                                        <div class="body">
-                                                            <div class="row clearfix">
-                                                                <div class="col-xs-4 form-group">
-                                                                    <div class="input-group date"
-                                                                        id="bs_datepicker_component_container">
-                                                                        <div class="form-line">
-                                                                            <input type="text" id="startdate"
-                                                                                autocomplete=off class="form-control"
-                                                                                placeholder="วันที่เริ่มต้น">
-                                                                        </div>
-                                                                        <span class="input-group-addon">
-                                                                            <i class="material-icons">date_range</i>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xs-4 form-group">
-                                                                    <div class="input-daterange input-group"
-                                                                        id="timestart">
-                                                                        <div class="form-line">
-                                                                            <input type="text" id="txttimestart"
-                                                                                class="timepicker form-control"
-                                                                                placeholder="เวลาเริ่มต้น">
-                                                                        </div>
-                                                                        <span class="input-group-addon">
-                                                                            <i class="material-icons"
-                                                                                style="cursor: pointer;">access_time</i>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-xs-4 form-group">
-                                                                    <div class="input-group date"
-                                                                        id="bs_datepicker_range_container">
-                                                                        <div class="form-line">
-                                                                            <input type="text" id="enddate"
-                                                                                autocomplete=off class="form-control"
-                                                                                placeholder="วันที่สิ้นสุด">
-                                                                        </div>
-                                                                        <span class="input-group-addon">
-                                                                            <i class="material-icons">date_range</i>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xs-4 form-group">
-                                                                    <div class="input-daterange input-group"
-                                                                        id="timerange">
-                                                                        <div class="form-line">
-                                                                            <input type="text" id="txttimestop"
-                                                                                class="timepicker form-control"
-                                                                                placeholder="เวลาสิ้นสุด">
-                                                                        </div>
-                                                                        <span class="input-group-addon">
-                                                                            <i class="material-icons"
-                                                                                style="cursor: pointer;">access_time</i>
-                                                                        </span>
-
-                                                                    </div>
-                                                                </div>
-                                                                <button class="btn btn-primary waves-effect"
-                                                                    id="submitqueueReport" class="primary"
-                                                                    type="button">ค้นหา</button>
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="table-responsive">
-                                                            <table
-                                                                class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
-                                                                id="table2">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>ลำดับที่</th>
-                                                                        <th>หมายเลขคิว</th>
-                                                                        <th>ช่องบริการ</th>
-                                                                        <th>ชื่อ</th>
-                                                                        <th>เบอร์โทร</th>
-                                                                        <th>เวลา</th>
-                                                                    </tr>
-                                                                </thead>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div role="tabpanel" class="tab-pane fade in " id="tab3">
-                                                        <div class="body">
-                                                            <div class="row clearfix">
-                                                                <div class="col-xs-4 form-group">
-                                                                    <div class="input-group date"
-                                                                        id="bs_datepicker_component_container">
-                                                                        <div class="form-line">
-                                                                            <input type="text" id="startdate"
-                                                                                autocomplete=off class="form-control"
-                                                                                placeholder="วันที่เริ่มต้น">
-                                                                        </div>
-                                                                        <span class="input-group-addon">
-                                                                            <i class="material-icons">date_range</i>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xs-4 form-group">
-                                                                    <div class="input-daterange input-group"
-                                                                        id="timestart">
-                                                                        <div class="form-line">
-                                                                            <input type="text" id="txttimestart"
-                                                                                class="timepicker form-control"
-                                                                                placeholder="เวลาเริ่มต้น">
-                                                                        </div>
-                                                                        <span class="input-group-addon">
-                                                                            <i class="material-icons"
-                                                                                style="cursor: pointer;">access_time</i>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-xs-4 form-group">
-                                                                    <div class="input-group date"
-                                                                        id="bs_datepicker_range_container">
-                                                                        <div class="form-line">
-                                                                            <input type="text" id="enddate"
-                                                                                autocomplete=off class="form-control"
-                                                                                placeholder="วันที่สิ้นสุด">
-                                                                        </div>
-                                                                        <span class="input-group-addon">
-                                                                            <i class="material-icons">date_range</i>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xs-4 form-group">
-                                                                    <div class="input-daterange input-group"
-                                                                        id="timerange">
-                                                                        <div class="form-line">
-                                                                            <input type="text" id="txttimestop"
-                                                                                class="timepicker form-control"
-                                                                                placeholder="เวลาสิ้นสุด">
-                                                                        </div>
-                                                                        <span class="input-group-addon">
-                                                                            <i class="material-icons"
-                                                                                style="cursor: pointer;">access_time</i>
-                                                                        </span>
-
-                                                                    </div>
-                                                                </div>
-                                                                <button class="btn btn-primary waves-effect"
-                                                                    id="submitqueueReport" class="primary"
-                                                                    type="button">ค้นหา</button>
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="table-responsive">
-                                                            <table
-                                                                class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
-                                                                id="table3">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>ลำดับที่</th>
-                                                                        <th>หมายเลขคิว</th>
-                                                                        <th>ช่องบริการ</th>
-                                                                        <th>ชื่อ</th>
-                                                                        <th>เบอร์โทร</th>
-                                                                        <th>เวลา</th>
-                                                                    </tr>
-                                                                </thead>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-
-                                                    <div role="tabpanel" class="tab-pane fade in " id="tab4">
-                                                        <div class="body">
-                                                            <div class="row clearfix">
-                                                                <div class="col-xs-4 form-group">
-                                                                    <div class="input-group date"
-                                                                        id="bs_datepicker_component_container">
-                                                                        <div class="form-line">
-                                                                            <input type="text" id="startdate"
-                                                                                autocomplete=off class="form-control"
-                                                                                placeholder="วันที่เริ่มต้น">
-                                                                        </div>
-                                                                        <span class="input-group-addon">
-                                                                            <i class="material-icons">date_range</i>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xs-4 form-group">
-                                                                    <div class="input-daterange input-group"
-                                                                        id="timestart">
-                                                                        <div class="form-line">
-                                                                            <input type="text" id="txttimestart"
-                                                                                class="timepicker form-control"
-                                                                                placeholder="เวลาเริ่มต้น">
-                                                                        </div>
-                                                                        <span class="input-group-addon">
-                                                                            <i class="material-icons"
-                                                                                style="cursor: pointer;">access_time</i>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-xs-4 form-group">
-                                                                    <div class="input-group date"
-                                                                        id="bs_datepicker_range_container">
-                                                                        <div class="form-line">
-                                                                            <input type="text" id="enddate"
-                                                                                autocomplete=off class="form-control"
-                                                                                placeholder="วันที่สิ้นสุด">
-                                                                        </div>
-                                                                        <span class="input-group-addon">
-                                                                            <i class="material-icons">date_range</i>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xs-4 form-group">
-                                                                    <div class="input-daterange input-group"
-                                                                        id="timerange">
-                                                                        <div class="form-line">
-                                                                            <input type="text" id="txttimestop"
-                                                                                class="timepicker form-control"
-                                                                                placeholder="เวลาสิ้นสุด">
-                                                                        </div>
-                                                                        <span class="input-group-addon">
-                                                                            <i class="material-icons"
-                                                                                style="cursor: pointer;">access_time</i>
-                                                                        </span>
-
-                                                                    </div>
-                                                                </div>
-                                                                <button class="btn btn-primary waves-effect"
-                                                                    id="submitqueueReport" class="primary"
-                                                                    type="button">ค้นหา</button>
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="table-responsive">
-                                                            <table
-                                                                class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
-                                                                id="table4">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>ลำดับที่</th>
-                                                                        <th>หมายเลขคิว</th>
-                                                                        <th>ช่องบริการ</th>
-                                                                        <th>ชื่อ</th>
-                                                                        <th>เบอร์โทร</th>
-                                                                        <th>เวลา</th>
-                                                                    </tr>
-                                                                </thead>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-
-
-
-
-
-
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
         </div>
     </section>
 
