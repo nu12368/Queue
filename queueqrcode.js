@@ -11,7 +11,7 @@ function acctoken() {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.post(urlipaddress + 'token', data, {
                 headers: {
-                    'Authorization': obj
+                    'Authorization': obj.refresh_token
                 }
             }).then(function (response) {
                 resolve(response.data.message.access_token);

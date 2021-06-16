@@ -466,7 +466,7 @@
                                                                         //  console.log(response.data.message.refresh_token)
                                                                         var decodejwt = parseJwt(response.data.message.refresh_token);
                                                                         document.getElementById("objid").value = decodejwt.userId;
-                                                                        axios.post(urlipaddress + 'token', data, {
+                                                                        axios.post(urlipaddress + 'token', '', {
                                                                             headers: {
                                                                                 'Authorization': response.data.message.refresh_token
                                                                             }

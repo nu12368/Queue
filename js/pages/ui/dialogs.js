@@ -13,7 +13,7 @@ $(function () {
         else if (type === 'confirm') {
             showConfirmMessage();
         }
-        else if (type === 'cancel') {
+        else if (type === 'ยกเลิก') {
             showCancelMessage();
         }
         else if (type === 'with-custom-icon') {

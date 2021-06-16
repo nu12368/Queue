@@ -70,36 +70,19 @@
 
     <link href="../../plugins/light-gallery/css/lightgallery.css" rel="stylesheet">
 
-    <script src="./pageTable.js"></script>
-
+    <script src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
+    <script src="https://pagination.js.org/dist/2.1.5/pagination.js"></script>
     <link href="./css-collor.css" rel="stylesheet">
-
     <link href="../../plugins/sweetalert/sweetalert.css" rel="stylesheet" />
     <script src="http://code.highcharts.com/highcharts.js"></script>
-
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../plugins2/responsive.bootstrap4.min.css">
+    <script src="./logout.js"></script>
+    <script src="./queuedelete.js"></script>
     <script src="./user.js"></script>
-    <script src="./queuevdo.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.1.2/dist/socket.io.js"></script>
-
 </head>
 
-<link href="./css-collor.css" rel="stylesheet">
 
-<script src="./logout.js"></script>
-<script></script>
-<style>
-    .intro {
-        display: block !important;
-    }
-
-    .intronone {
-        display: none !important;
-    }
-</style>
 <link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet' type='text/css'>
 <style>
     body h1 h2 h3 h4 h5 h6 ul li a p {
@@ -109,8 +92,29 @@
     div {
         font-family: 'Kanit', sans-serif;
     }
-</style>
 
+    .i:read-only {
+        background-color: yellow;
+    }
+</style>
+<style>
+    tr.group,
+    tr.group:hover {
+        /* background-color: rgb(235, 233, 233) !important; */
+        background-color: #fde4e4 !important;
+        color: blue;
+    }
+</style>
+<style>
+    .intro {
+        display: block !important;
+    }
+
+    .intronone {
+        display: none !important;
+    }
+
+</style>
 <body class="theme-red">
     <!-- Page Loader -->
     <div class="page-loader-wrapper">
@@ -159,7 +163,6 @@
                     <li><a id='logout' style="cursor: pointer;" data-close="true">[ออกจากระบบ]</a></li>
                     <!-- #END# Call Search -->
                     <!-- Notifications -->
-                  
                 </ul>
             </div>
         </div>
@@ -205,12 +208,6 @@
                             <span>รายงานการคิดเงิน</span>
                         </a>
                     </li> -->
-                    <!-- <li>
-                        <a href="memberlist.html">
-                            <i class="material-icons">account_circle</i>
-                            <span>รายชื่อผู้ลงทะเบียน</span>
-                        </a>
-                    </li> -->
                     <li id="queuedashboard">
                         <a href="queuedashboard.html">
                             <i class="material-icons">queue</i>
@@ -238,7 +235,7 @@
                                     <span>สร้างโปรไฟล์</span>
                                 </a>
                             </li>
-                            <li class="active">
+                            <li >
                                 <a href="queuevdo.html">
                                     <span>สร้างวีดีโอ</span>
                                 </a>
@@ -258,7 +255,7 @@
                                     <span>ตั้งค่า SMS</span>
                                 </a>
                             </li>
-                            <li>
+                            <li  class="active">
                                 <a href="queuedelete.html">
                                     <span>ลบคิว</span>
                                 </a>
@@ -430,7 +427,7 @@
                             <div class="card">
                                 <div class="header header-new">
                                     <h2>
-                                        <font style="color: white;">สร้างวีดีโอ
+                                        <font style=" color: white;">ลบคิวที่ค้าง
                                         </font>
                                     </h2>
                                 </div>
@@ -439,156 +436,86 @@
                                         <div class="tab-content">
                                             <div role="tabpanel" class="tab-pane fade in active" id="home">
                                                 <div class="body">
-                                                    <div class="row clearfix">
-                                                        <div class="col-sm-12">
-                                                            <div class="form-group">
-                                                                <div class="form-line">
-                                                                    <input type="text" class="form-control"
-                                                                        name="linkvdourl" id="linkvdourl" value=""
-                                                                        required autocomplete="off"
-                                                                        placeholder="ระบุลิงค์วีดีโอ ยูทูป" />
-                                                                </div>
-                                                            </div>
-                                                            <button class="btn btn-primary waves-effect" id="submitvdo"
-                                                                class="primary" type="button">บันทึก</button>
-                                                            <p id="save" style="font-size: 18px;"></p>
-                                                        </div>
-                                                    </div>
+                                               <h4>คิวที่ค้าง</h4>
+                                                </div>
+                                                <div class="table-responsive">
+                                                    <table
+                                                        class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
+                                                        id="table1">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    <!-- <table style="border: 0px;">
+                                                                        <tr style="border: 0px;">
+                                                                            <td style="border: 0px;">
+                                                                             
+                                                                            </td>
+                                                                            <td style="border: 0px;"></td>
+                                                                            <td style="border: 0px;">
+                                                                                
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table> -->
+                                                                    <div>
+                                                                     <i> </i>   <input type="checkbox" class="material-icons" id="All" class="select-checkbox filled-in chk-col-red" /><label for="All"> ทั้งหมด</label>
+                                                                   
+                                                                        <i id="deletequeue" style="cursor: pointer;" class="material-icons">delete_forever</i>
+                                                                    </div>
+                                                                   
+                                                                   
+                                                                 </th>
+                                                                <!-- <th>ลำดับที่</th> -->
+                                                                <th>หมายเลขคิว</th>
+                                                                <th>แผนก</th>
+                                                                <th>ชื่อ</th>
+                                                                <th>เบอร์โทร</th>
+                                                                <th>เวลา</th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                    <ul class="pagination" id="pagination2"></ul>
                                                 </div>
                                             </div>
-                                            <div class="table-responsive">
-                                                <table
-                                                    class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
-                                                    id="table1">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>ลิงค์ URL</th>
-                                                            <th>วีดีโอ</th>
-                                                        </tr>
-                                                    </thead>
-                                                </table>
-                                                <ul class="pagination" id="pagination2"></ul>
-                                            </div>
+                                        </div>
+                                        <!-- /// ลบ -->
+                                        <div class="container">
+                                            <div class="modal fade" id="myModaldelete" role="dialog">
+                                                <div class="modal-dialog" style="width: 300px; height: 200px;">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 id="title" class="modal-title">ลบข้อมูล</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="container">
+                                                                <div class="row">
+                                                                    <div class="col-20">
+                                                                        <i class="fa fa-exclamation-triangle"
+                                                                            id="c_delete"
+                                                                            style="font-size:48px;color:red"></i>
+                                                                        <i class="fa fa-check-circle" id="completed"
+                                                                            style="font-size:48px;color:green; display: none;"></i>
+                                                                    </div>
 
-
-                                            <!-- <script>
-                                                const url = "https://www.youtube.com/watch?v=6I42nXIqsOQ";
-                                                const v = new URL(url).searchParams.get('v');
-                                                document.currentScript.insertAdjacentHTML(
-                                                    'beforebegin',
-                                                    `<h1>Video id=${v}</h1>` +
-                                                    `<iframe
-                                                      width="480" height="270"
-                                                      src="https://www.youtube.com/embed/${v}?feature=oembed"
-                                                      allowfullscreen></iframe>`
-                                                );
-                                            </script> -->
-
-
-                                            <!-- /// ลบ -->
-                                            <div class="container">
-                                                <div class="modal fade" id="myModaldelete" role="dialog">
-                                                    <div class="modal-dialog" style="width: 300px; height: 200px;">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 id="title" class="modal-title">ลบข้อมูล</h4>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="container">
-                                                                    <div class="row">
-                                                                        <div class="col-20">
-                                                                            <i class="fa fa-exclamation-triangle"
-                                                                                id="c_delete"
-                                                                                style="font-size:48px;color:red"></i>
-                                                                            <i class="fa fa-check-circle" id="completed"
-                                                                                style="font-size:48px;color:green; display: none;"></i>
-                                                                        </div>
-
-                                                                        <div>
-                                                                            <label id="lbl_completed"
-                                                                                for="fname"></label>
-                                                                        </div>
+                                                                    <div>
+                                                                        <label id="lbl_completed" for="fname"></label>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="modal-footer">
-                                                                <input type="button" value="ตกลง" id="deleteprofile"
-                                                                    class="primary btn btn-default" />
-
-                                                                <button type="button" class="btn btn-default"
-                                                                    data-dismiss="modal">ปิด</button>
-                                                            </div>
                                                         </div>
+                                                        <div class="modal-footer">
+                                                            <input type="button" value="ตกลง" id="deleteUser"
+                                                                class="primary btn btn-default" />
 
+                                                            <button type="button" class="btn btn-default"
+                                                                data-dismiss="modal">ปิด</button>
+                                                        </div>
                                                     </div>
 
                                                 </div>
 
                                             </div>
 
-
-
-
-                                            <div class="container">
-                                                <div class="modal fade" id="myModaledit" role="dialog">
-                                                    <div class="modal-dialog">
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 id="title_dalete_official" class="modal-title">
-                                                                    แก้ไขประเภท Visitor</h4>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="container">
-                                                                    <table>
-                                                                        <tr>
-                                                                            <td> ประเภท Visitor (เดิม) :</td>
-                                                                            <td> <input type="text" id="oldvisitorType"
-                                                                                    readonly name="oldvisitorType"></td>
-
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>
-                                                                                <div>&nbsp;</div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>ประเภท Visitor (ใหม่) :</td>
-                                                                            <td> <input type="text" id="newvisitorType"
-                                                                                    name="newvisitorType"></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>
-                                                                                <div>&nbsp;</div>
-                                                                            </td>
-                                                                        </tr>
-
-                                                                        <tr>
-                                                                            <td></td>
-                                                                            <td>
-                                                                                <input type="button" value="อัพเดท"
-                                                                                    id="updatevisitorType"
-                                                                                    name="updatevisitorType"
-                                                                                    style="cursor: pointer;">
-                                                                                <p id="update"
-                                                                                    style="color: green; font-size: 18px;">
-                                                                                </p>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default"
-                                                                    data-dismiss="modal">ปิด</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -599,49 +526,16 @@
         </div>
 
 
-
-
-        <div class="container">
-            <div class="modal fade" id="myModaldont" role="dialog">
-                <div class="modal-dialog" style="width: 300px; height: 200px;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 id="title" class="modal-title">บันทึกข้อมูล</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-20">
-                                        <i class="fa fa-exclamation-triangle" id="c_delete"
-                                            style="font-size:48px;color:red"></i>
-                                        <i class="fa fa-check-circle" id="completed"
-                                            style="font-size:48px;color:green; display: none;"></i>
-                                    </div>
-                                    <div>
-                                        <label id="lbl_completed" for="fname"> </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">ตกลง</button>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
+       
+       
 
         </div>
     </section>
 
-
-    <!-- Jquery Core Js -->
-    <!-- <script src="../../plugins/jquery/jquery.min.js"></script> -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
 
     <!-- Bootstrap Core Js -->
-    <!-- <script src="../../plugins/bootstrap/js/bootstrap.js"></script> -->
+    <script src="../../plugins/bootstrap/js/bootstrap.js"></script>
 
     <!-- Select Plugin Js -->
     <!-- <script src="../../plugins/bootstrap-select/js/bootstrap-select.js"></script> -->
@@ -652,25 +546,21 @@
     <!-- Waves Effect Plugin Js -->
     <script src="../../plugins/node-waves/waves.js"></script>
 
-    <script src="../../plugins/light-gallery/js/lightgallery-all.js"></script>
-    <script src="../../js/pages/medias/image-gallery.js"></script>
-
+    <!-- Autosize Plugin Js -->
     <script src="../../plugins/autosize/autosize.js"></script>
 
+    <!-- Moment Plugin Js -->
     <script src="../../plugins/momentjs/moment.js"></script>
 
-
+    <!-- Bootstrap Material Datetime Picker Plugin Js -->
     <script src="../../plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
 
     <!-- Bootstrap Datepicker Plugin Js -->
     <script src="../../plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-    <!-- Bootstrap Material Datetime Picker Plugin Js -->
-
 
     <script src="../../plugins/sweetalert/sweetalert.min.js"></script>
     <script src="../../js/pages/ui/dialogs.js"></script>
 
-    <!-- Jquery DataTable Plugin Js -->
     <script src="../../plugins/jquery-datatable/jquery.dataTables.js"></script>
     <script src="../../plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
     <script src="../../plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
@@ -682,11 +572,22 @@
     <script src="../../plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
 
 
-    <script src="../../js/pages/forms/basic-form-elements.js"></script>
+
+
+
+    <script src="../../plugins/light-gallery/js/lightgallery-all.js"></script>
+    <script src="../../js/pages/medias/image-gallery.js"></script>
+
     <!-- Custom Js -->
     <script src="../../js/admin.js"></script>
+    <script src="../../js/pages/forms/basic-form-elements.js"></script>
+
+    <!-- Demo Js -->
     <script src="../../js/demo.js"></script>
     <script src="../../plugins2/dataTables.responsive.min.js"></script>
+
+
+
 </body>
 
 </html>

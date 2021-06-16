@@ -9,20 +9,21 @@ var arr_queue = new Array();
 var Str_queue;
 var category_profile;
 var queue_num = 0;
+console.log(obj)
 function acctoken() {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.post(urlipaddress + 'token', data, {
                 headers: {
-                    'Authorization': obj
+                    'Authorization': obj.refresh_token
                 }
             }).then(function (response) {
                 resolve(response.data.message.access_token);
             }).catch(function (res) {
                 const { response } = res
                 if (response.data.message == "Unauthorized") {
-                    location.href = "index.html";
+                  //  location.href = "index.html";
                     return;
                 }
 

@@ -11,7 +11,7 @@ $(document).ready(function () {
 
         $("#queueview").addClass('intronone');
     }
-    console.log(obj.refresh_token)
-    console.log(dataUser)
+   // console.log(obj.refresh_token)
+    //console.log(dataUser)
     console.log(_objectId)
 });

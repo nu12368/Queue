@@ -259,7 +259,7 @@ function getqrcode_List(refresh_token) {
 $(async function () {
     const urlParams = new URLSearchParams(window.location.search);
     let myParam = urlParams.toString();
-    // console.log(myParam)
+     console.log(myParam)
     let result;
     var _category;
     var _objid = myParam.split('=');
@@ -269,22 +269,20 @@ $(async function () {
         const authGuest = async () => {
             const url = `${urlipaddress}guest?${myParam}`;
             try {
+               // console.log(url)
                 const res = await axios.get(url);
+             // console.log(res.data.message.refresh_token)
                 result = await acctoken(res.data.message.refresh_token)
-                //  console.log(result)
                 getqueueview(result);
                 _category = await getcategoryview(result);
-
                 var nameqr = await getqrcode_List(result)
-                console.log(nameqr)
-                getqrcode(result, nameqr);
-                // return res.data.message;
+              await  getqrcode(result, nameqr);
 
             } catch (err) {
                 throw err.response.data.message;
             }
         };
-        authGuest();
+       authGuest();
 
         $('#submitaddqueue').on('click', async function (e) {
 

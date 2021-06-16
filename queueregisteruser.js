@@ -6,22 +6,24 @@ var _arr = new Array();
 var _arrInfo = new Array();
 var n = 0;
 var n_info = 0;
-
 function acctoken() {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.post(urlipaddress + 'token', data, {
                 headers: {
-                    'Authorization': obj
+                    'Authorization': obj.refresh_token
                 }
             }).then(function (response) {
                 resolve(response.data.message.access_token);
             }).catch(function (res) {
                 const { response } = res
+                console.log(response.data.message)
                 if (response.data.message == "Unauthorized") {
                     location.href = "index.html";
+                    return;
                 }
+
             });
         });
     });
