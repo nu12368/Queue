@@ -76,7 +76,6 @@
 
     <link rel="stylesheet" href="../../plugins2/responsive.bootstrap4.min.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.1.2/dist/socket.io.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -99,6 +98,10 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script> -->
     <script type="text/javascript"
         src="https://github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.1.2/dist/socket.io.js"></script>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/dayjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/utc.min.js"></script>
@@ -225,11 +228,11 @@
                                 <div class="">
                                     <form id="div_tabadd" style="display: none;">
                                         <ul class="nav nav-tabs tab-nav-right" role="tablist">
-                                            <li role="presentation" class="active"><a href="#home"
+                                            <li role="presentation" class="active"><a href="#home" id="tabhome"
                                                     style="font-size: 18px;" data-toggle="tab">จองคิวออนไลน์</a>
                                             </li>
-                                            <li role="presentation" class=""><a href="#import" style="font-size: 18px;"
-                                                    data-toggle="tab">คิวที่จองออนไลน์ </a>
+                                            <li role="presentation" class=""><a href="#import" id="tab_qonline"
+                                                    style="font-size: 18px;" data-toggle="tab">คิวที่จองออนไลน์ </a>
                                             </li>
                                         </ul>
                                         <div class="tab-content">
@@ -346,12 +349,39 @@
                                             </div>
                                             <div role="tabpanel" class="tab-pane fade in" id="import">
                                                 <div class="body">
-                                                    <div class="table-responsive">
+                                                    <div class="table-responsive" style="border: none;">
+
                                                         <table
                                                             class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
-                                                            style="border: none;  " id="table_queueonline">
+                                                            style="border: none;" id="table_queueonline">
                                                         </table>
                                                     </div>
+                                                    <u>
+                                                        <h3 id="count_queuetoday_online"></h3>
+                                                    </u>
+                                                    <!-- <div class="table-responsive">
+                                                        <table
+                                                            class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
+                                                            id="table1">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>
+                                                                        <div>
+                                                                         <i> </i><input type="checkbox" class="material-icons" id="All" class="select-checkbox filled-in chk-col-red" /><label for="All"> ทั้งหมด</label>
+                                                                            <i id="deletequeue" style="cursor: pointer;" class="material-icons">delete_forever</i>
+                                                                        </div>
+                                                                     </th>
+                                                                    <th>หมายเลขคิว</th>
+                                                                    <th>แผนก</th>
+                                                                    <th>ชื่อ</th>
+                                                                    <th>เบอร์โทร</th>
+                                                                    <th>เวลา</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                        <ul class="pagination" id="pagination2"></ul>
+                                                    </div> -->
+
                                                 </div>
                                             </div>
                                     </form>
@@ -431,6 +461,7 @@
                                                             <input type="hidden" id="accesstoken">
                                                             <input type="hidden" id="refreshtoken">
                                                             <input type="hidden" id="userName">
+                                                            <input type="hidden" id="txtrefresh_token">
                                                             <div class="row m-t-15 m-b--20">
                                                                 <div class="col-xs-6">
                                                                     <a style="text-align: right; cursor: pointer;"
@@ -500,12 +531,12 @@
                                                                     var n = 0;
                                                                     var _arr = new Array();
                                                                     for (i = 0; i < cnt; i++) {
-                                                                        // console.log(response.data.message)
+                                                                       
                                                                         if (response.data.message.data[i].user == document.getElementById("member_login_user").value) {
-                                                                            console.log(response.data.message.data[i])
+                                                                         
                                                                             document.getElementById("lbCheck").innerText = "";
                                                                             Cookies.set('dataUserOnline', JSON.stringify(response.data.message.data[i]), { expires: 1 })
-
+                                                                        
                                                                             Cookies.set('refresh_tokenOnline', JSON.stringify(tokenresponse.data.message), { expires: 1 })
                                                                             Cookies.set('_objectIdOnline', document.getElementById("objid").value, { expires: 1 })
 
@@ -515,7 +546,6 @@
                                                                                 document.getElementById('submit_q_login').style.display = 'none'
                                                                                 document.getElementById('div_tabadd').style.display = 'block'
 
-                                                                                console.log(document.getElementById("objid").value)
                                                                             }
                                                                             break;
                                                                         }
@@ -609,7 +639,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="body">
+                    <div class="body" id="div_viwe">
                         <u>
                             <h3 id="count_queuetoday"></h3>
                         </u>

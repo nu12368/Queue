@@ -216,7 +216,7 @@
                                                 document.getElementById("objid").value = decodejwt.userId;
                                                 // console.log(response.data.message.refresh_token)
                                                 // console.log(urlipaddress + 'token')
-                                                // return
+                                               
                                                 axios.post(urlipaddress + 'token', data, {
                                                     headers: {
                                                         'Authorization': response.data.message.refresh_token
@@ -287,7 +287,7 @@
                                 </script>
                             </tr>
                             <tr>
-                                <td></td>
+                                <td ></td>
                                 <td>
                                     <div>
                                         <p id="lbCheck" style="color: red; font-size: 16px;"></p>

@@ -33,11 +33,9 @@ function acctoken() {
 }
 
 const getqueueview = async (refresh_token) => {
-
     //function getqueueview(refresh_token) {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-
         axios.get(urlipaddress + 'queue/' + _objectId + '?_page=1&_limit=10&_sort=1', {
             headers: {
                 'Authorization': refresh_token
@@ -63,7 +61,6 @@ const getqueueview = async (refresh_token) => {
                 </tr>
             </thead>
             `);
-
                 for (i = 0; i < response.data.message.values.length; i++) {
                     $("#table_view").append(`
                     <tr>
@@ -91,8 +88,6 @@ const getqueueview = async (refresh_token) => {
                     }
                 }
             }
-
-
         }).catch(function (res) {
             const { response } = res
         });

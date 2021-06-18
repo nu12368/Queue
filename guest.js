@@ -3,6 +3,7 @@ var _n_loop = 1;
 var _i_loop = 0;
 var q_count = 0;
 var _objectId;
+var str_io = '';
 function acctoken(obj) {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
@@ -24,7 +25,6 @@ function acctoken(obj) {
         });
     });
 }
-
 const queueloop = async (refresh_token, _page) => {
     var today = new Date();
     var n_date = today.toISOString();
@@ -41,8 +41,7 @@ const queueloop = async (refresh_token, _page) => {
             headers: {
                 'Authorization': refresh_token
             }
-        }).then(function (response) {
-
+        }).then(async function (response) {
             var _collor = ["bg-red", "bg-pink", "bg-blue", "bg-amber", "bg-orange", "bg-teal", "bg-green", "bg-purple"];
             var _num = 0;
 
@@ -77,16 +76,57 @@ const queueloop = async (refresh_token, _page) => {
                          </td>
                         </tr>
                     `);
+                   
+                    /////////////////// เฉพราะของตัวเอง
+                    if (Cookies.get('dataUserOnline') != undefined) {
+                        var userId = JSON.parse(Cookies.get('dataUserOnline'));
+                        if (str_io == '') {
+                            if (userId.userId == response.data.message.values[i].uId) {
+                                let date = new Date(response.data.message.values[i].timeAdd);
+                                let options = { hour12: false };
+                                var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+                             
+                                $("#table_queueonline").append(`
+                                <tr>
+                                    <td>
+                                    <div>
+                                    <p
+                                        style="text-align: center;">
+                                    <div>
+                                        <b>
+                                            <h3 style="text-align:justify; font-size: 24px;"
+                                            > คิวที่ No. ${response.data.message.values[i].cue}</h3>
+                                        </b>
+                                    </div>
+                                    </p>
+                                    <p >
+                                    แผนก ${response.data.message.values[i].category}
+                                    </p>
+                                    <p >
+                                    เวลา ${sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2]}
+                                    </p>
+                                    <p >
+                                    ชื่อ ${response.data.message.values[i].name}
+                                    </p>
+                                    <p >
+                                    เบอร์โทร ${response.data.message.values[i].tel}
+                                    </p>
+                                    <hr />
+                                    </div>
+                                 </td>
+                                 <td><a  class="q_delete"  id='${response.data.message.values[i]._id}' style="text-align:justify; color: red; font-size: 24px; cursor: pointer;">ลบ</a></td>                            
+                                </tr>
+                            `);
+                            }
+                        }
+                    }
                 }
-
                 _num = _num + 1;
                 if (_collor.length == _num) {
                     _num = 0;
                 }
             }
-
             document.getElementById('count_queuetoday').innerText = 'คิวทั้งหมดของวันนี้ จำนวน ' + q_count + ' คิว'
-
         });
     });
 
@@ -99,7 +139,7 @@ function getqueueview(refresh_token) {
                 'Authorization': refresh_token
             }
         }).then(function (response) {
-
+            console.log(response)
             var today = new Date();
             var n_date = today.toISOString();
             let date = new Date(n_date);
@@ -109,14 +149,11 @@ function getqueueview(refresh_token) {
             chk_date = chk_date.split(' ')
             chk_date = chk_date[0].split('/')
             var datenew = chk_date[2] + '/' + chk_date[0] + '/' + chk_date[1]
-
-            // console.log(response.data.message)
             var totle = response.data.message.total
-            //  console.log(totle)
             var looptotle = Math.ceil(totle / 10)
-            // console.log(looptotle)
             if (looptotle > 1) { ///// คิวมากกว่า loop 100
                 var _page = 1;
+                $("#table_view").empty();
                 $("#table_view").append(`
                 <thead>
                 <tr>
@@ -125,13 +162,17 @@ function getqueueview(refresh_token) {
                 </tr>
             </thead>
             `);
+
+                ///////////////// เฉพราะของตัวเอง
+                $("#table_queueonline").empty();
+
                 for (i = 0; i < looptotle; i++) {
                     queueloop(refresh_token, _page)
                     _page = _page + 1
                 }
 
             } else {
-                $("#table_view").empty();
+                //  $("#table_view").empty();
                 var _collor = ["bg-red", "bg-pink", "bg-blue", "bg-amber", "bg-orange", "bg-teal", "bg-green", "bg-purple"];
                 var _num = 0;
                 $("#table_view").append(`
@@ -142,7 +183,11 @@ function getqueueview(refresh_token) {
                 </tr>
             </thead>
             `);
+
+                $("#table_queueonline").empty();
+              
                 for (i = 0; i < response.data.message.values.length; i++) {
+                    console.log(response.data.message.values[i])
                     let date = new Date(response.data.message.values[i].timeAdd);
                     let options = { hour12: false };
                     var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
@@ -173,6 +218,53 @@ function getqueueview(refresh_token) {
                          </td>
                         </tr>
                     `);
+
+
+
+                        /////////////////// เฉพราะของตัวเอง
+                    if (Cookies.get('dataUserOnline') != undefined) {
+                        var userId = JSON.parse(Cookies.get('dataUserOnline'));
+                        if (str_io == '') {
+                            if (userId.userId == response.data.message.values[i].uId) {
+                                let date = new Date(response.data.message.values[i].timeAdd);
+                                let options = { hour12: false };
+                                var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+
+                                $("#table_queueonline").append(`
+                                <tr>
+                                    <td>
+                                    <div>
+                                    <p
+                                        style="text-align: center;">
+                                    <div>
+                                        <b>
+                                            <h3 style="text-align:justify; font-size: 24px;"
+                                            > คิวที่ No. ${response.data.message.values[i].cue}</h3>
+                                        </b>
+                                    </div>
+                                    </p>
+                                    <p >
+                                    แผนก ${response.data.message.values[i].category}
+                                    </p>
+                                    <p >
+                                    เวลา ${sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2]}
+                                    </p>
+                                    <p >
+                                    ชื่อ ${response.data.message.values[i].name}
+                                    </p>
+                                    <p >
+                                    เบอร์โทร ${response.data.message.values[i].tel}
+                                    </p>
+                                    <hr />
+                                    </div>
+                                 </td>
+                                 <td><a  class="q_delete"  id='${response.data.message.values[i]._id}' style="text-align:justify; color: red; font-size: 24px; cursor: pointer;">ลบ</a></td>                            
+                                </tr>
+                            `);
+                            }
+                        }
+                    }
+
                     }
                     _num = _num + 1;
                     if (_collor.length == _num) {
@@ -234,7 +326,6 @@ function getqrcode(refresh_token, nameqr) {
         });
     });
 }
-
 function getqrcode_List(refresh_token) {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
@@ -256,10 +347,120 @@ function getqrcode_List(refresh_token) {
         });
     });
 }
+
+
+
 $(async function () {
     const urlParams = new URLSearchParams(window.location.search);
     let myParam = urlParams.toString();
-     console.log(myParam)
+
+    $('#tabhome').on('click', async function () {
+        console.log('dddddd')
+        var obj_refresh = JSON.parse(Cookies.get('refresh_tokenOnline'));
+        var result_refresh = await acctoken(obj_refresh.refresh_token);
+        console.log(result_refresh)
+        await getqueueview(result_refresh)
+
+        document.getElementById('add_q_online').style.display = 'block'
+        document.getElementById('submit_q_login').style.display = 'none'
+        document.getElementById('div_tabadd').style.display = 'block'
+        document.getElementById('div_viwe').style.display = 'block'
+
+    });
+
+    $('#tab_qonline').on('click', async function () {
+        var obj_refresh = JSON.parse(Cookies.get('refresh_tokenOnline'));
+        var result_refresh = await acctoken(obj_refresh.refresh_token);
+        console.log(result_refresh)
+        await getqueueview(result_refresh)
+        console.log('222222222')
+        document.getElementById('div_viwe').style.display = 'none'
+
+    });
+
+
+
+    $('#table_queueonline').on('click', 'a.q_delete', function (e) {
+        var remove_qid = $(this).attr("id");
+        console.log(remove_qid)
+        swal({
+            title: "คุณต้องการลบข้อมูล ใช่หรือไม่?",
+            text: "",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonText: 'ยกเลิก',
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "ยืนยันการลบ",
+            closeOnConfirm: false
+        }, async function () {
+
+            var obj_refresh = JSON.parse(Cookies.get('refresh_tokenOnline'));
+            var result = await acctoken(obj_refresh.refresh_token);
+
+            $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                var urlipaddress = data.substring(1, data.length - 1);
+                var _objectId = Cookies.get('_objectIdOnline');
+
+                console.log(result)
+                console.log(remove_qid)
+                console.log(_objectId)
+
+                axios({
+                    url: urlipaddress + 'queue/' + _objectId,
+                    method: 'delete',
+                    data: {
+                        _id: remove_qid
+                    },
+                    headers: { 'Authorization': result }
+                }).then(function (response) {
+                    //console.log(response.data.message)
+                    if (response.data.message == "delete completed") {
+                     
+                    }
+                }).catch(function (res) {
+                    const { response } = res
+                    console.log(response.data.message)
+                    showCanceldeletequeue(response.data.message, '')
+                });
+            });
+            swal({
+                title: "ลบข้อมูลสำเร็จ",
+                text: 'คุณทำรายการสำเร็จแล้ว',
+                type: "success",
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    location.href = 'guest.html?' + myParam
+                }
+            });
+        });
+
+    });
+
+
+
+
+    if (Cookies.get('refresh_tokenOnline') != undefined) {
+        ////// refresh
+        var obj_refresh;
+        var result_refresh;
+        obj_refresh = JSON.parse(Cookies.get('refresh_tokenOnline'));
+        result_refresh = await acctoken(obj_refresh.refresh_token);
+
+        document.getElementById('add_q_online').style.display = 'block'
+        document.getElementById('submit_q_login').style.display = 'none'
+        document.getElementById('div_tabadd').style.display = 'block'
+    } else {
+
+        document.getElementById('add_q_online').style.display = 'none'
+        document.getElementById('submit_q_login').style.display = 'block'
+        document.getElementById('div_tabadd').style.display = 'none'
+
+    }
+
+
+
+
+    console.log(myParam)
     let result;
     var _category;
     var _objid = myParam.split('=');
@@ -269,20 +470,21 @@ $(async function () {
         const authGuest = async () => {
             const url = `${urlipaddress}guest?${myParam}`;
             try {
-               // console.log(url)
+                // console.log(url)
                 const res = await axios.get(url);
-             // console.log(res.data.message.refresh_token)
+                // console.log(res.data.message.refresh_token)
                 result = await acctoken(res.data.message.refresh_token)
-                getqueueview(result);
+                //  console.log(result)
+                await getqueueview(result);
                 _category = await getcategoryview(result);
                 var nameqr = await getqrcode_List(result)
-              await  getqrcode(result, nameqr);
+                await getqrcode(result, nameqr);
 
             } catch (err) {
                 throw err.response.data.message;
             }
         };
-       authGuest();
+        authGuest();
 
         $('#submitaddqueue').on('click', async function (e) {
 
@@ -290,15 +492,12 @@ $(async function () {
             var userId = JSON.parse(Cookies.get('dataUserOnline'));
             var _objectId_online = Cookies.get('_objectIdOnline');
 
-            const result_online = await acctoken(obj);
-
-
-           // console.log(result_online)
+            console.log(obj)
             console.log(userId)
             console.log(_objectId_online)
 
+            const result_online = await acctoken(obj.refresh_token);
 
-            // return;
             var select_category = document.getElementById("qr_category").value
             var post_catery;
             for (i = 0; i < _category.length; i++) {
@@ -333,7 +532,7 @@ $(async function () {
                         onrendered: function (canvas) {
                             var imgsrc = canvas.toDataURL("image/png");
                             $("#img").show();
-                            console.log(imgsrc)
+                            // console.log(imgsrc)
                         }
                     });
 
@@ -400,7 +599,7 @@ $(async function () {
                     }
                 }
                 ).then(function (response) {
-                    console.log(response.data.message)
+                    //  console.log(response.data.message)
                     if (response.data.message == "This user has already been used.") {
                         showCancelMessage_queue('มีข้อมูลในระบบแล้ว', 'กรุณาระชื่อผู้ใช้งานใหม่ อีกครั้ง')
                     } else {
@@ -409,15 +608,13 @@ $(async function () {
                     }
                 }).catch(function (res) {
                     const { response } = res
-                    console.log(response.data.message)
+                    // console.log(response.data.message)
                     if (response.data.message == 'This user has already been used.') {
                         showCancelMessage_queue('มีข้อมูลในระบบแล้ว', '')
                     }
                 });
             });
         });
-
-
     });
     function showCancelMessage_queue(title, text) {
         swal({
@@ -464,18 +661,43 @@ $(async function () {
                         // var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
                         // $("#btn-Convert-Html2Image").attr("download", "queue.png").attr("href", newData);
                     }
+
+
                 });
+
+
+                document.getElementById('add_q_online').style.display = 'block'
+                document.getElementById('submit_q_login').style.display = 'none'
+                document.getElementById('div_tabadd').style.display = 'block'
 
             }
         });
     }
-
-
-
-
-
 });
 
+$.getScript("ip.js", async function (data, textStatus, jqxhr) {
+    var urlipaddress = data.substring(1, data.length - 1);
+    const socket = io(urlipaddress);
+    var obj;
+    var result;
+    if (Cookies.get('refresh_tokenOnline') != undefined) {
+        obj = JSON.parse(Cookies.get('refresh_tokenOnline'));
+        result = await acctoken(obj.refresh_token);
+    }
+    //  console.log(result)
+    if (result != undefined) {
+        socket.on('sentServiceChannel', async function (data) {
+            //  console.log(data)
+            str_io = 'io'
+            await getqueueview(result);
+        });
+        socket.on('sentEndQueue', async function (data) {
+            str_io = 'io'
+            // console.log(data)
+            await getqueueview(result);
+        });
+    }
+});
 
 
 

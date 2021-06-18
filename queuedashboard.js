@@ -27,6 +27,7 @@ var chartcategory_queue_end = new Array();
 var q_num = 0;
 var check_table_clack = '';
 var _id_q = '';
+//console.log(obj)
 function acctoken() {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
@@ -678,6 +679,7 @@ async function dateSearch() {
 
 $(async function () {
     const result = await acctoken();
+    console.log(result)
     await v_socketio();
     $(document).ready(function () {
         $('#submitqueueReport').on('click', async function (e) {
