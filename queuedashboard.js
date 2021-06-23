@@ -74,15 +74,15 @@ const view_datatable = async (responsedataview, q) => {
                 } else {
                     _timecancel = responsedataview.data.message.values[i].timeCancel
                 }
-                
-                if(_timecancel == ''){
+
+                if (_timecancel == '') {
                     if (responsedataview.data.message.values[i].timeCall == undefined) {
                         _timespause = ''
                     } else {
                         _timespause = responsedataview.data.message.values[i].timeCall
                     }
                 }
-                
+
                 _arr_qloop[_i_loop] = {
                     num: _n_loop,
                     category: responsedataview.data.message.values[i].category,
@@ -203,12 +203,11 @@ function getqaddloop(refresh_token, _page, q) {
     //return new Promise(resolve => {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-        axios.get(urlipaddress + q + _objectId + '?_page=' + _page + '&_limit=10&_sort=1', {
+        axios.get(urlipaddress + q + _objectId + '?_page=' + _page + '&_limit=100&_sort=1', {
             headers: {
                 'Authorization': refresh_token
             }
         }).then(function (response) {
-            console.log('hhhhhhhhhhhh')
             for (i = 0; i < response.data.message.values.length; i++) {
                 _arr_queue_add[_i_loop_newdate] = {
                     _id: response.data.message.values[i]._id,
@@ -217,7 +216,10 @@ function getqaddloop(refresh_token, _page, q) {
                     name: response.data.message.values[i].name,
                     serviceChannel: response.data.message.values[i].serviceChannel,
                     tel: response.data.message.values[i].tel,
-                    timeAdd: response.data.message.values[i].timeAdd
+                    timeAdd: response.data.message.values[i].timeAdd,
+                    timeCall: response.data.message.values[i].timeCall,
+                    timeEnd: response.data.message.values[i].timeEnd,
+                    timeCancel: response.data.message.values[i].timeCancel
                 }
                 _i_loop_newdate = _i_loop_newdate + 1
             }
@@ -231,7 +233,7 @@ const viewqueuetfootloop = async (refresh_token, _page, q) => {
     //return new Promise(resolve => {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-        axios.get(urlipaddress + q + _objectId + '?_page=' + _page + '&_limit=10&_sort=1', {
+        axios.get(urlipaddress + q + _objectId + '?_page=' + _page + '&_limit=100&_sort=1', {
             headers: {
                 'Authorization': refresh_token
             }
@@ -249,7 +251,7 @@ function getqadd(refresh_token) { ////// คิวที่รอทั้งห
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
-            axios.get(urlipaddress + 'qadd/' + _objectId + '?_page=1&_limit=10&_sort=1', {
+            axios.get(urlipaddress + 'qadd/' + _objectId + '?_page=1&_limit=100&_sort=1', {
                 headers: {
                     'Authorization': refresh_token
                 }
@@ -262,7 +264,7 @@ function getqadd(refresh_token) { ////// คิวที่รอทั้งห
                     _i_loop = 0;
                     console.log(index)
                     var totle = response.data.message.total
-                    var looptotle = Math.ceil(totle / 10)
+                    var looptotle = Math.ceil(totle / 100)
                     console.log(looptotle)
                     if (looptotle > 1) { ///// คิวมากกว่า loop 100
                         var _page = 1;
@@ -311,7 +313,7 @@ function getqcall(refresh_token) { ////// คิวที่รอทั้ง�
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
-            axios.get(urlipaddress + 'qcall/' + _objectId + '?_page=1&_limit=10&_sort=1', {
+            axios.get(urlipaddress + 'qcall/' + _objectId + '?_page=1&_limit=100&_sort=1', {
                 headers: {
                     'Authorization': refresh_token
                 }
@@ -321,7 +323,7 @@ function getqcall(refresh_token) { ////// คิวที่รอทั้ง�
 
                 if (index != undefined) {
                     var totle = response.data.message.total
-                    var looptotle = Math.ceil(totle / 10)
+                    var looptotle = Math.ceil(totle / 100)
                     if (looptotle > 1) { ///// คิวมากกว่า loop 100
                         var _page = 1;
                         for (i = 0; i < looptotle; i++) {
@@ -354,7 +356,8 @@ function getqcall(refresh_token) { ////// คิวที่รอทั้ง�
                             name: response.data.message.values[i].name,
                             serviceChannel: response.data.message.values[i].serviceChannel,
                             tel: response.data.message.values[i].tel,
-                            timeAdd: response.data.message.values[i].timeAdd
+                            timeAdd: response.data.message.values[i].timeAdd,
+                            timeCall: response.data.message.values[i].timeCall
                         }
                         _i_loop_newdate = _i_loop_newdate + 1
                     }
@@ -370,7 +373,7 @@ function getqend(refresh_token) { ////// คิวที่เสร็จ
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
-            axios.get(urlipaddress + 'qend/' + _objectId + '?_page=1&_limit=10&_sort=1', {
+            axios.get(urlipaddress + 'qend/' + _objectId + '?_page=1&_limit=100&_sort=1', {
                 headers: {
                     'Authorization': refresh_token
                 }
@@ -379,7 +382,7 @@ function getqend(refresh_token) { ////// คิวที่เสร็จ
                 _i_loop_newdate = 0;
                 if (index != undefined) {
                     var totle = response.data.message.total
-                    var looptotle = Math.ceil(totle / 10)
+                    var looptotle = Math.ceil(totle / 100)
                     if (looptotle > 1) { ///// คิวมากกว่า loop 100
                         var _page = 1;
                         for (i = 0; i < looptotle; i++) {
@@ -411,7 +414,8 @@ function getqend(refresh_token) { ////// คิวที่เสร็จ
                             name: response.data.message.values[i].name,
                             serviceChannel: response.data.message.values[i].serviceChannel,
                             tel: response.data.message.values[i].tel,
-                            timeAdd: response.data.message.values[i].timeAdd
+                            timeAdd: response.data.message.values[i].timeAdd,
+                            timeEnd: response.data.message.values[i].timeEnd
                         }
                         _i_loop_newdate = _i_loop_newdate + 1
                     }
@@ -427,7 +431,7 @@ function getqcancel(refresh_token) { ////// คิวที่ถูกยกเ
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
-            axios.get(urlipaddress + 'qcancel/' + _objectId + '?_page=1&_limit=10&_sort=1', {
+            axios.get(urlipaddress + 'qcancel/' + _objectId + '?_page=1&_limit=100&_sort=1', {
                 headers: {
                     'Authorization': refresh_token
                 }
@@ -436,7 +440,7 @@ function getqcancel(refresh_token) { ////// คิวที่ถูกยกเ
                 _i_loop_newdate = 0;
                 if (index != undefined) {
                     var totle = response.data.message.total
-                    var looptotle = Math.ceil(totle / 10)
+                    var looptotle = Math.ceil(totle / 100)
                     if (looptotle > 1) { ///// คิวมากกว่า loop 100
                         var _page = 1;
                         for (i = 0; i < looptotle; i++) {
@@ -468,7 +472,8 @@ function getqcancel(refresh_token) { ////// คิวที่ถูกยกเ
                             name: response.data.message.values[i].name,
                             serviceChannel: response.data.message.values[i].serviceChannel,
                             tel: response.data.message.values[i].tel,
-                            timeAdd: response.data.message.values[i].timeAdd
+                            timeAdd: response.data.message.values[i].timeAdd,
+                            timeCancel: response.data.message.values[i].timeCancel
                         }
                         _i_loop_newdate = _i_loop_newdate + 1
                     }
@@ -484,7 +489,7 @@ function getqpause(refresh_token) { ////// คิวที่ัพก
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
-            axios.get(urlipaddress + 'qpause/' + _objectId + '?_page=1&_limit=10&_sort=1', {
+            axios.get(urlipaddress + 'qpause/' + _objectId + '?_page=1&_limit=100&_sort=1', {
                 headers: {
                     'Authorization': refresh_token
                 }
@@ -493,7 +498,7 @@ function getqpause(refresh_token) { ////// คิวที่ัพก
                 _i_loop_newdate = 0;
                 if (index != undefined) {
                     var totle = response.data.message.total
-                    var looptotle = Math.ceil(totle / 10)
+                    var looptotle = Math.ceil(totle / 100)
                     if (looptotle > 1) { ///// คิวมากกว่า loop 100
                         var _page = 1;
                         for (i = 0; i < looptotle; i++) {
@@ -525,7 +530,8 @@ function getqpause(refresh_token) { ////// คิวที่ัพก
                             name: response.data.message.values[i].name,
                             serviceChannel: response.data.message.values[i].serviceChannel,
                             tel: response.data.message.values[i].tel,
-                            timeAdd: response.data.message.values[i].timeAdd
+                            timeAdd: response.data.message.values[i].timeAdd,
+                            timeCall: response.data.message.values[i].timeCall
                         }
                         _i_loop_newdate = _i_loop_newdate + 1
                     }
@@ -573,7 +579,7 @@ function getcategoryview(refresh_token) {
 const queueloop = async (refresh_token, prm, _page, q) => {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-        axios.get(urlipaddress + q + _objectId + '?' + prm + '_page=' + _page + '&_limit=10&_sort=1', {
+        axios.get(urlipaddress + q + _objectId + '?' + prm + '_page=' + _page + '&_limit=100&_sort=1', {
             headers: {
                 'Authorization': refresh_token
             }
@@ -588,7 +594,7 @@ const Getqueueviewcategory = async (categoryqueue, refresh_token, q) => {
     var prm = 'category=' + categoryqueue + '&'
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-        axios.get(urlipaddress + q + _objectId + '?' + prm + '_page=1&_limit=10&_sort=1', {
+        axios.get(urlipaddress + q + _objectId + '?' + prm + '_page=1&_limit=100&_sort=1', {
             headers: {
                 'Authorization': refresh_token
             }
@@ -597,7 +603,7 @@ const Getqueueviewcategory = async (categoryqueue, refresh_token, q) => {
             _i_loop_newdate = 0;
             if (index != undefined) {
                 var totle = response.data.message.total
-                var looptotle = Math.ceil(totle / 10)
+                var looptotle = Math.ceil(totle / 100)
                 if (looptotle > 1) { ///// คิวมากกว่า loop 100
                     var _page = 1;
                     for (i = 0; i < looptotle; i++) {
@@ -612,7 +618,7 @@ const Getqueueviewcategory = async (categoryqueue, refresh_token, q) => {
             }
             /////// ข้อมูลแสดง datatable
             var totle = response.data.message.total
-            var looptotle = Math.ceil(totle / 10)
+            var looptotle = Math.ceil(totle / 100)
             var _page = 1;
             if (looptotle > 1) { ///// คิวมากกว่า loop 100
                 for (i = 0; i < looptotle; i++) {
@@ -683,6 +689,7 @@ $(async function () {
     await v_socketio();
     $(document).ready(function () {
         $('#submitqueueReport').on('click', async function (e) {
+            document.getElementById('div_preloader').style.display = 'block'
             check_table_clack = 'true';
             _arr_qloop = new Array();
             console.log(_arr_qloop)
@@ -693,6 +700,7 @@ $(async function () {
             _i_loop_newdate = 0;
             await dateSearch()
             await v_socketio();
+            document.getElementById('div_preloader').style.display = 'none'
         });
         $('#btn_cancel').on('click', async function (e) {
             check_table_clack = 'true';
@@ -1166,7 +1174,7 @@ async function v_socketio() {
                             return header[column]; //header is the array I used to store header texts
                         }
                     },
-                    columns: [0, 1, 2, 3, 4, 5]
+                    columns: [0, 1, 2, 3, 4, 5, 6]
                 }
             }
 

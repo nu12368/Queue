@@ -37,7 +37,7 @@ const queueloop = async (refresh_token, _page) => {
     var datenew = chk_date[2] + '/' + chk_date[0] + '/' + chk_date[1]
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-        axios.get(urlipaddress + 'queue/' + _objectId + '?_page=' + _page + '&_limit=10&_sort=1', {
+        axios.get(urlipaddress + 'queue/' + _objectId + '?_page=' + _page + '&_limit=100&_sort=1', {
             headers: {
                 'Authorization': refresh_token
             }
@@ -134,7 +134,7 @@ const queueloop = async (refresh_token, _page) => {
 function getqueueview(refresh_token) {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-        axios.get(urlipaddress + 'queue/' + _objectId + '?_page=1&_limit=10&_sort=1', {
+        axios.get(urlipaddress + 'queue/' + _objectId + '?_page=1&_limit=100&_sort=1', {
             headers: {
                 'Authorization': refresh_token
             }
@@ -150,7 +150,7 @@ function getqueueview(refresh_token) {
             chk_date = chk_date[0].split('/')
             var datenew = chk_date[2] + '/' + chk_date[0] + '/' + chk_date[1]
             var totle = response.data.message.total
-            var looptotle = Math.ceil(totle / 10)
+            var looptotle = Math.ceil(totle / 100)
             if (looptotle > 1) { ///// คิวมากกว่า loop 100
                 var _page = 1;
                 $("#table_view").empty();

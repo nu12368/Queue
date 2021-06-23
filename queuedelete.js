@@ -72,7 +72,7 @@ const view_datatable = async (responsedataview) => {
         }
     }
 
-    //console.log(_arr_qloop)
+    console.log(_arr_qloop)
     $(document).ready(function () {
         $('#table1').DataTable().destroy();
         var table = $('#table1').DataTable({
@@ -180,7 +180,7 @@ async function getqaddloop(refresh_token, _page, q) {
     //});
 }
 
-async function getqadd(refresh_token) { ////// คิวที่รอทั้งหมด
+async function getqadd(refresh_token) { ////// คิวที่รอทั้งหมด   
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
@@ -189,6 +189,7 @@ async function getqadd(refresh_token) { ////// คิวที่รอทั้
                     'Authorization': refresh_token
                 }
             }).then(async function (response) {
+                console.log(response.data.message)
                 var totle = response.data.message.total
                 var looptotle = Math.ceil(totle / 100)
                 var _page = 1;
@@ -213,6 +214,7 @@ async function getqadd(refresh_token) { ////// คิวที่รอทั้
                         _i_loop_newdate = _i_loop_newdate + 1
                         _n_loop = _n_loop + 1
                     }
+                    view_datatable(response, 'qadd/')
                     resolve(_arr_queue_add);
                 }
             }).catch(function (res) {

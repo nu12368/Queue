@@ -1,0 +1,36 @@
+<html>
+
+<head>
+  <!-- Include Required Prerequisites -->
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+  <!-- Include Date Range Picker -->
+  <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
+
+</head>
+<style>
+  .calendar.right {
+    display: none !important;
+  }
+</style>
+<script>
+  $(function () {
+    $('input[name="daterange"]').daterangepicker({
+      singleDatePicker: false,
+      linkedCalendars: true,
+    });
+    $('input[name="daterange"]').change(function () {
+      $(this).val();
+      console.log($(this).val());
+    });
+  });
+</script>
+
+<body>
+  <input class="drp-calendar.right" type="text" name="daterange" value="">
+</body>
+
+</html>
