@@ -664,10 +664,12 @@ $(async function () {
                 document.getElementById("table_category").style.display = 'block'
             });
             $('#table1_category_list').on('click', 'a.queue', async function (e) { /////ผู้รอรับบริการ แผนก
+                document.getElementById("table_category").style.display = 'none'
+                document.getElementById("div_preloaderuserqueue").style.display = 'block'
                 const result = await acctoken();
                 document.getElementById("a_back2").style.display = 'block'
                 document.getElementById("a_back").style.display = 'none'
-                document.getElementById("div_preloaderuserqueue").style.display = 'block'
+              
                 check_table_clack = 'true';
                 var table = $('#table1_category_list').DataTable();
                 e.preventDefault();
@@ -681,14 +683,14 @@ $(async function () {
                 _i_loop = 0;
                 document.getElementById("div_qall").style.display = 'none'
                 document.getElementById("div_table_listuserqueue").style.display = 'block'
-                document.getElementById("table_category").style.display = 'none'
                 await Getqueueviewcategory(data_click.category, result, 'qadd/', data._day)
-                document.getElementById("div_preloaderuserqueue").style.display = 'none'
+               document.getElementById("div_preloaderuserqueue").style.display = 'none'
 
 
             });
             $('#table1_category_list').on('click', 'a.qcall', async function (e) { /////ผู้กำลังรับบริการ แผนก
                 const result = await acctoken();
+                document.getElementById("table_category").style.display = 'none'
                 document.getElementById("a_back2").style.display = 'block'
                 document.getElementById("a_back").style.display = 'none'
                 document.getElementById("div_preloaderuserqueue").style.display = 'block'
@@ -705,12 +707,13 @@ $(async function () {
                 _i_loop = 0;
                 document.getElementById("div_qall").style.display = 'none'
                 document.getElementById("div_table_listuserqueue").style.display = 'block'
-                document.getElementById("table_category").style.display = 'none'
+               
                 await Getqueueviewcategory(data_click.category, result, 'qcall/', data._day)
                 document.getElementById("div_preloaderuserqueue").style.display = 'none'
 
             });
             $('#table1_category_list').on('click', 'a.qend', async function (e) { /////ผู้รับบริการแล้ว แผนก
+                document.getElementById("table_category").style.display = 'none'
                 const result = await acctoken();
                 document.getElementById("a_back2").style.display = 'block'
                 document.getElementById("a_back").style.display = 'none'
@@ -730,12 +733,13 @@ $(async function () {
                 document.getElementById("div_qall").style.display = 'none'
                 document.getElementById("div_table_listuserqueue").style.display = 'block'
 
-                document.getElementById("table_category").style.display = 'none'
+                
 
                 await Getqueueviewcategory(data_click.category, result, 'qend/', data._day)
                 document.getElementById("div_preloaderuserqueue").style.display = 'none'
             });
             $('#table1_category_list').on('click', 'a.qcancel', async function (e) { /////คิวที่ถูกยกเลิก แผนก
+                document.getElementById("table_category").style.display = 'none'
                 const result = await acctoken();
                 document.getElementById("a_back2").style.display = 'block'
                 document.getElementById("a_back").style.display = 'none'
@@ -755,12 +759,13 @@ $(async function () {
                 document.getElementById("div_qall").style.display = 'none'
                 document.getElementById("div_table_listuserqueue").style.display = 'block'
 
-                document.getElementById("table_category").style.display = 'none'
+               
 
                 await Getqueueviewcategory(data_click.category, result, 'qcancel/', data._day)
                 document.getElementById("div_preloaderuserqueue").style.display = 'none'
             });
             $('#table1_category_list').on('click', 'a.qpause', async function (e) { /////คิวที่ถูกพัก แผนก
+                document.getElementById("table_category").style.display = 'none'
                 const result = await acctoken();
                 document.getElementById("a_back2").style.display = 'block'
                 document.getElementById("a_back").style.display = 'none'
@@ -778,11 +783,12 @@ $(async function () {
                 _i_loop = 0;
                 document.getElementById("div_qall").style.display = 'none'
                 document.getElementById("div_table_listuserqueue").style.display = 'block'
-                document.getElementById("table_category").style.display = 'none'
+               
                 await Getqueueviewcategory(data_click.category, result, 'qpause/', data._day)
                 document.getElementById("div_preloaderuserqueue").style.display = 'none'
             });
             $('#table1_category_list').on('click', 'a.sum', async function (e) { /////คิวที่ถูกพัก แผนก
+                document.getElementById("table_category").style.display = 'none'
                 const result = await acctoken();
                 document.getElementById("a_back2").style.display = 'block'
                 document.getElementById("a_back").style.display = 'none'
@@ -800,7 +806,7 @@ $(async function () {
                 _i_loop = 0;
                 document.getElementById("div_qall").style.display = 'none'
                 document.getElementById("div_table_listuserqueue").style.display = 'block'
-                document.getElementById("table_category").style.display = 'none'
+              
                 await Getqueueviewcategory(data_click.category, result, 'qadd/', data._day)
                 await Getqueueviewcategory(data_click.category, result, 'qcall/', data._day)
                 await Getqueueviewcategory(data_click.category, result, 'qend/', data._day)
@@ -818,7 +824,7 @@ $(async function () {
             
                 switch (index) {
                     case 2:
-                        
+                        document.getElementById("table_category").style.display = 'none'
                         document.getElementById("a_back2").style.display = 'block'
                         document.getElementById("a_back").style.display = 'none'
                         document.getElementById("div_preloaderuserqueue").style.display = 'block'
@@ -828,14 +834,14 @@ $(async function () {
                         _i_loop = 0;
                         document.getElementById("div_qall").style.display = 'none'
                         document.getElementById("div_table_listuserqueue").style.display = 'block'
-                        document.getElementById("table_category").style.display = 'none'
+                     
                         await Getqueueviewcategory(undefined, result, 'qadd/', data._day)
                         document.getElementById("div_preloaderuserqueue").style.display = 'none'
                         break;
                     case 3:
 
 
-                      
+                        document.getElementById("table_category").style.display = 'none'
                         document.getElementById("a_back2").style.display = 'block'
                         document.getElementById("a_back").style.display = 'none'
                         document.getElementById("div_preloaderuserqueue").style.display = 'block'
@@ -845,14 +851,14 @@ $(async function () {
                         _i_loop = 0;
                         document.getElementById("div_qall").style.display = 'none'
                         document.getElementById("div_table_listuserqueue").style.display = 'block'
-                        document.getElementById("table_category").style.display = 'none'
+                     
                         await Getqueueviewcategory(undefined, result, 'qcall/', data._day)
                         document.getElementById("div_preloaderuserqueue").style.display = 'none'
 
                  
                         break;
                     case 4:
-                      
+                        document.getElementById("table_category").style.display = 'none'
                         document.getElementById("a_back2").style.display = 'block'
                         document.getElementById("a_back").style.display = 'none'
                         document.getElementById("div_preloaderuserqueue").style.display = 'block'
@@ -862,12 +868,12 @@ $(async function () {
                         _i_loop = 0;
                         document.getElementById("div_qall").style.display = 'none'
                         document.getElementById("div_table_listuserqueue").style.display = 'block'
-                        document.getElementById("table_category").style.display = 'none'
+                       
                         await Getqueueviewcategory(undefined, result, 'qend/', data._day)
                         document.getElementById("div_preloaderuserqueue").style.display = 'none'
                         break;
                     case 5:
-                      
+                        document.getElementById("table_category").style.display = 'none'
                         document.getElementById("a_back2").style.display = 'block'
                         document.getElementById("a_back").style.display = 'none'
                         document.getElementById("div_preloaderuserqueue").style.display = 'block'
@@ -877,12 +883,12 @@ $(async function () {
                         _i_loop = 0;
                         document.getElementById("div_qall").style.display = 'none'
                         document.getElementById("div_table_listuserqueue").style.display = 'block'
-                        document.getElementById("table_category").style.display = 'none'
+                     
                         await Getqueueviewcategory(undefined, result, 'qcancel/', data._day)
                         document.getElementById("div_preloaderuserqueue").style.display = 'none'
                         break;
                     case 6:
-                      
+                        document.getElementById("table_category").style.display = 'none'
                         document.getElementById("a_back2").style.display = 'block'
                         document.getElementById("a_back").style.display = 'none'
                         document.getElementById("div_preloaderuserqueue").style.display = 'block'
@@ -892,12 +898,12 @@ $(async function () {
                         _i_loop = 0;
                         document.getElementById("div_qall").style.display = 'none'
                         document.getElementById("div_table_listuserqueue").style.display = 'block'
-                        document.getElementById("table_category").style.display = 'none'
+                    
                         await Getqueueviewcategory(undefined, result, 'qpause/', data._day)
                         document.getElementById("div_preloaderuserqueue").style.display = 'none'
                         break;
                     case 7:
-                      
+                        document.getElementById("table_category").style.display = 'none'
                         document.getElementById("a_back2").style.display = 'block'
                         document.getElementById("a_back").style.display = 'none'
                         document.getElementById("div_preloaderuserqueue").style.display = 'block'
@@ -907,7 +913,7 @@ $(async function () {
                         _i_loop = 0;
                         document.getElementById("div_qall").style.display = 'none'
                         document.getElementById("div_table_listuserqueue").style.display = 'block'
-                        document.getElementById("table_category").style.display = 'none'
+                     
                         await Getqueueviewcategory(undefined, result, 'qend/', data._day)
                         await Getqueueviewcategory(undefined, result, 'qadd/', data._day)
                         await Getqueueviewcategory(undefined, result, 'qcall/', data._day)
