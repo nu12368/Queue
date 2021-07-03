@@ -591,6 +591,7 @@ const queueloop = async (refresh_token, prm, _page, q) => {
     });
 }
 const Getqueueviewcategory = async (categoryqueue, refresh_token, q) => {
+  //  console.log('dsd')
     var prm = 'category=' + categoryqueue + '&'
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);

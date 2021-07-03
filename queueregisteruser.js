@@ -127,8 +127,10 @@ function validateUsernameUSER() {
 $(async function () {
     const result = await acctoken();
     getUser(result);
+   
     /////////////////////////////////// เพิ่มผู้ใช้งาน
     $('#submitvisitorRegis').on('click', async function (e) {
+        const result = await acctoken();
         if(document.getElementById("user").value == '' || document.getElementById("passuser").value ==''){
             showCancelMessageregisteruser('กรอกข้อมูลให้ครบ', '')
             return;
@@ -147,6 +149,8 @@ $(async function () {
                 password: document.getElementById("passuser").value,
                 rule: document.getElementById("rule").value.toLowerCase()
             }
+            console.log(dataUser)
+            console.log(result)
             axios.put(urlipaddress + 'addAccount', dataUser, {
                 headers: {
                     'Authorization': result,
@@ -162,6 +166,7 @@ $(async function () {
                 }
             }).catch(function (res) {
                 const { response } = res
+                console.log(response.data.message)
                 if (response.data.message == 'This user has already been used.') {
                     showCancelMessageregisteruser('มีข้อมูลในระบบแล้ว', '')
                 }

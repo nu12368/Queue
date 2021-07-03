@@ -116,7 +116,6 @@
         body h1 h2 h3 h4 h5 h6 ul li a p {
             font-family: 'Kanit', sans-serif;
         }
-
         div {
             font-family: 'Kanit', sans-serif;
         }
@@ -127,6 +126,10 @@
         $('input[name="daterange"]').daterangepicker({
             singleDatePicker: false,
             linkedCalendars: true,
+            locale: {
+                cancelLabel: 'ปิด',
+                applyLabel: 'ตกลง'
+            }
         });
     });
 </script>
@@ -270,6 +273,11 @@
                             <li>
                                 <a href="queueqrcode.html">
                                     <span>คิวอาร์โค้ด</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="queuesms.html">
+                                    <span>ตั้งค่า SMS</span>
                                 </a>
                             </li>
                             <li>
@@ -616,7 +624,7 @@
                             </div>
                             <table
                                 class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
-                                id="tablequeue_listuserqueue" >
+                                id="tablequeue_listuserqueue">
                                 <thead>
                                     <tr>
                                         <th>ลำดับที่</th>

@@ -120,10 +120,8 @@ function getqrcode_List(refresh_token) {
 }
 $(async function () {
     const result = await acctoken();
-     //var checkGen = Genqrcode(result)
-
-
-  //  return
+   // var checkGen = Genqrcode(result)
+ //return
     var autogen = await getqrcode_List(result)
  console.log(autogen)
   //  return

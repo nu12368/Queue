@@ -66,7 +66,7 @@ const view_datatable = async (responsedataview, q, day, category) => {
             }
             if (q == 'qend/') {
                 _checkdate = await chechdate_Time(responsedataview.data.message.values[i].timeEnd, day)
-               
+
             }
             if (q == 'qcancel/') {
                 _checkdate = await chechdate_Time(responsedataview.data.message.values[i].timeCancel, day)
@@ -103,7 +103,7 @@ const view_datatable = async (responsedataview, q, day, category) => {
                         _timespause = responsedataview.data.message.values[i].timeCall
                     }
                 }
-//console.log(responsedataview.data.message.values[i].timeEnd)
+                //console.log(responsedataview.data.message.values[i].timeEnd)
                 _arr_qloop[_i_loop] = {
                     num: _n_loop,
                     category: responsedataview.data.message.values[i].category,
@@ -567,36 +567,66 @@ function convert(str) {
     return [date.getFullYear(), mnth, day].join("/");
 }
 async function dateSearch() {
+
     var _sp = $("#daterange").val().replace(' ', '').replace(' ', '').split('-')
-
-
     var Startvaldate_sp = _sp[0].split('/')
     var Endvaldate_sp = _sp[1].split('/')
+    var d_gmt = new Date(Startvaldate_sp[2] + '/' + Startvaldate_sp[0] + '/' + Startvaldate_sp[1] + " GMT");
 
-
-
-
-    var cnt_betaween = parseInt(Endvaldate_sp[1]) - parseInt(Startvaldate_sp[1])
-
+    var lastDayOfMonth = new Date(d_gmt.getFullYear(), d_gmt.getMonth() + 1, 0);  /////วันสุดท้ายของเดือน
+    var sp_last = convert(lastDayOfMonth).split('/');
+  
+    var cnt_betaween = parseInt(Endvaldate_sp[1]) - parseInt(Startvaldate_sp[1]) //วันสิ้นสุด - วันเริ่มต้น 
     var s_d = parseInt(Startvaldate_sp[1]);
     var cnt = 0;
-
-    for (i = 0; i < cnt_betaween + 1; i++) {
-        if (i == 0) {
-            day_view[i] = s_d.toString().padStart(2, '0') + '/' + Startvaldate_sp[0] + '/' + Startvaldate_sp[2]
-            cnt = parseInt(s_d)
-        } else {
-            day_view[i] = cnt.toString().padStart(2, '0') + '/' + Startvaldate_sp[0] + '/' + Startvaldate_sp[2]
-
+    var loop_month = ''
+    if (parseInt(Endvaldate_sp[0]) > parseInt(Startvaldate_sp[0])) { /////เลือก ข้ามเดือน
+        cnt_betaween = parseInt(sp_last[2]) + parseInt(Endvaldate_sp[1]) ///// วันสุดท้ายของเดือน + กับวัน ของเดือนถัดไป
+        for (i = 0; i < cnt_betaween + 1; i++) { //// วนลูป จำนวนวันเริ่มต้น - วันสิ้นสุด เดือนเดียวกัน
+            if (i == 0) {
+                day_view[i] = s_d.toString().padStart(2, '0') + '/' + Startvaldate_sp[0] + '/' + Startvaldate_sp[2]
+                cnt = parseInt(s_d)
+            } else {
+                if (cnt > sp_last[2]) {
+                    cnt = 1;
+                    loop_month = 'newmonth'
+                    day_view[i] = cnt.toString().padStart(2, '0') + '/' + Endvaldate_sp[0] + '/' + Startvaldate_sp[2]
+                } else {
+                    if (loop_month == '') {
+                        day_view[i] = cnt.toString().padStart(2, '0') + '/' + Startvaldate_sp[0] + '/' + Startvaldate_sp[2]
+                    } else {
+                        if (parseInt(Endvaldate_sp[1]) == cnt) {
+                            day_view[i] = cnt.toString().padStart(2, '0') + '/' + Endvaldate_sp[0] + '/' + Startvaldate_sp[2]
+                            break
+                        }
+                        day_view[i] = cnt.toString().padStart(2, '0') + '/' + Endvaldate_sp[0] + '/' + Startvaldate_sp[2]
+                    }
+                }
+            }
+            cnt = cnt + 1
         }
-        cnt = cnt + 1
-    }
-    // console.log(day_view)
+    } else {
+        for (i = 0; i < cnt_betaween + 1; i++) { //// วนลูป จำนวนวันเริ่มต้น - วันสิ้นสุด เดือนเดียวกัน
+            if (i == 0) {
+                day_view[i] = s_d.toString().padStart(2, '0') + '/' + Startvaldate_sp[0] + '/' + Startvaldate_sp[2]
+                cnt = parseInt(s_d)
+            } else {
 
+                if (cnt == sp_last[2]) {
+                    cnt = 1;
+
+                } else {
+                    day_view[i] = cnt.toString().padStart(2, '0') + '/' + Startvaldate_sp[0] + '/' + Startvaldate_sp[2]
+                }
+            }
+            cnt = cnt + 1
+        }
+    }
 
     arr_datesearch[0] = Startvaldate_sp[2] + '/' + Startvaldate_sp[0] + '/' + Startvaldate_sp[1] + ' ' + '00:00' + ':00'
     arr_datesearch[1] = Endvaldate_sp[2] + '/' + Endvaldate_sp[0] + '/' + Endvaldate_sp[1] + ' ' + '23:59' + ':59'
-    // arr_datesearch[2] = cnt_betaween
+ 
+    console.log(day_view)
     console.log(arr_datesearch)
     return arr_datesearch
 }
@@ -612,6 +642,7 @@ $(async function () {
             $('#tablequeue').DataTable().destroy();
             day_view = new Array()
             await dateSearch()
+          
             await v_socketio();
             document.getElementById('div_preloader').style.display = 'none'
         });
@@ -669,7 +700,7 @@ $(async function () {
                 const result = await acctoken();
                 document.getElementById("a_back2").style.display = 'block'
                 document.getElementById("a_back").style.display = 'none'
-              
+
                 check_table_clack = 'true';
                 var table = $('#table1_category_list').DataTable();
                 e.preventDefault();
@@ -684,7 +715,7 @@ $(async function () {
                 document.getElementById("div_qall").style.display = 'none'
                 document.getElementById("div_table_listuserqueue").style.display = 'block'
                 await Getqueueviewcategory(data_click.category, result, 'qadd/', data._day)
-               document.getElementById("div_preloaderuserqueue").style.display = 'none'
+                document.getElementById("div_preloaderuserqueue").style.display = 'none'
 
 
             });
@@ -707,7 +738,7 @@ $(async function () {
                 _i_loop = 0;
                 document.getElementById("div_qall").style.display = 'none'
                 document.getElementById("div_table_listuserqueue").style.display = 'block'
-               
+
                 await Getqueueviewcategory(data_click.category, result, 'qcall/', data._day)
                 document.getElementById("div_preloaderuserqueue").style.display = 'none'
 
@@ -733,7 +764,7 @@ $(async function () {
                 document.getElementById("div_qall").style.display = 'none'
                 document.getElementById("div_table_listuserqueue").style.display = 'block'
 
-                
+
 
                 await Getqueueviewcategory(data_click.category, result, 'qend/', data._day)
                 document.getElementById("div_preloaderuserqueue").style.display = 'none'
@@ -759,7 +790,7 @@ $(async function () {
                 document.getElementById("div_qall").style.display = 'none'
                 document.getElementById("div_table_listuserqueue").style.display = 'block'
 
-               
+
 
                 await Getqueueviewcategory(data_click.category, result, 'qcancel/', data._day)
                 document.getElementById("div_preloaderuserqueue").style.display = 'none'
@@ -783,7 +814,7 @@ $(async function () {
                 _i_loop = 0;
                 document.getElementById("div_qall").style.display = 'none'
                 document.getElementById("div_table_listuserqueue").style.display = 'block'
-               
+
                 await Getqueueviewcategory(data_click.category, result, 'qpause/', data._day)
                 document.getElementById("div_preloaderuserqueue").style.display = 'none'
             });
@@ -806,7 +837,7 @@ $(async function () {
                 _i_loop = 0;
                 document.getElementById("div_qall").style.display = 'none'
                 document.getElementById("div_table_listuserqueue").style.display = 'block'
-              
+
                 await Getqueueviewcategory(data_click.category, result, 'qadd/', data._day)
                 await Getqueueviewcategory(data_click.category, result, 'qcall/', data._day)
                 await Getqueueviewcategory(data_click.category, result, 'qend/', data._day)
@@ -821,7 +852,7 @@ $(async function () {
                 index = table.column($(this).index() + ':visible').index();
                 // console.log(data._day)
                 // console.log(index)
-            
+
                 switch (index) {
                     case 2:
                         document.getElementById("table_category").style.display = 'none'
@@ -834,7 +865,7 @@ $(async function () {
                         _i_loop = 0;
                         document.getElementById("div_qall").style.display = 'none'
                         document.getElementById("div_table_listuserqueue").style.display = 'block'
-                     
+
                         await Getqueueviewcategory(undefined, result, 'qadd/', data._day)
                         document.getElementById("div_preloaderuserqueue").style.display = 'none'
                         break;
@@ -851,11 +882,11 @@ $(async function () {
                         _i_loop = 0;
                         document.getElementById("div_qall").style.display = 'none'
                         document.getElementById("div_table_listuserqueue").style.display = 'block'
-                     
+
                         await Getqueueviewcategory(undefined, result, 'qcall/', data._day)
                         document.getElementById("div_preloaderuserqueue").style.display = 'none'
 
-                 
+
                         break;
                     case 4:
                         document.getElementById("table_category").style.display = 'none'
@@ -868,7 +899,7 @@ $(async function () {
                         _i_loop = 0;
                         document.getElementById("div_qall").style.display = 'none'
                         document.getElementById("div_table_listuserqueue").style.display = 'block'
-                       
+
                         await Getqueueviewcategory(undefined, result, 'qend/', data._day)
                         document.getElementById("div_preloaderuserqueue").style.display = 'none'
                         break;
@@ -883,7 +914,7 @@ $(async function () {
                         _i_loop = 0;
                         document.getElementById("div_qall").style.display = 'none'
                         document.getElementById("div_table_listuserqueue").style.display = 'block'
-                     
+
                         await Getqueueviewcategory(undefined, result, 'qcancel/', data._day)
                         document.getElementById("div_preloaderuserqueue").style.display = 'none'
                         break;
@@ -898,7 +929,7 @@ $(async function () {
                         _i_loop = 0;
                         document.getElementById("div_qall").style.display = 'none'
                         document.getElementById("div_table_listuserqueue").style.display = 'block'
-                    
+
                         await Getqueueviewcategory(undefined, result, 'qpause/', data._day)
                         document.getElementById("div_preloaderuserqueue").style.display = 'none'
                         break;
@@ -913,7 +944,7 @@ $(async function () {
                         _i_loop = 0;
                         document.getElementById("div_qall").style.display = 'none'
                         document.getElementById("div_table_listuserqueue").style.display = 'block'
-                     
+
                         await Getqueueviewcategory(undefined, result, 'qend/', data._day)
                         await Getqueueviewcategory(undefined, result, 'qadd/', data._day)
                         await Getqueueviewcategory(undefined, result, 'qcall/', data._day)
@@ -1235,7 +1266,7 @@ async function v_socketio() {
         num_day = 0
         /////// ผู้ที่รับบริการแล้ว
         for (let i_qend in queueqend) {
-         
+
             var _checkdate = await chechdate_Time(queueqend[i_qend].timeEnd, day_view[i])
             if (_checkdate == true) {
                 view_qend = num_day
@@ -1280,7 +1311,7 @@ async function v_socketio() {
         view_qcancel = 0
         view_qpause = 0
     }
-    // console.log(_arrdataqueue)
+  //  console.log(_arrdataqueue)
     var header = [];
     header.push("วันที่");
     header.push("ผู้รอรับบริการ");

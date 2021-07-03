@@ -101,6 +101,7 @@ $(async function () {
                     'Authorization': result
                 }
             }).then(function (response) {
+                console.log(response.data.message)
                 showSuccessMessage_('บันทึกสำเร็จ')
 
 

@@ -1,0 +1,130 @@
+<!--http://eonasdan.github.io/bootstrap-datetimepicker/-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <title>bootstrap-datetimepicker :: eonasdan</title>
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!--        core-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+
+<!--        https://cdnjs.com/libraries/moment.js/-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>        
+
+<!--        https://cdnjs.com/libraries/bootstrap-datetimepicker-->
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+    </head>
+
+    <body>
+
+        <div class="container">
+
+            <a href="http://eonasdan.github.io/bootstrap-datetimepicker" target="_blank" ><h2>http://eonasdan.github.io/bootstrap-datetimepicker</h2></a>
+
+            <form class="form-horizontal" action="">
+                
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="datepicker">Date</label>
+                    <div class="col-sm-10">          
+                        <input class="form-control" type="text" id="datepicker" name="datepicker" placeholder="Enter Date" />
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="timepicker">Time</label>
+                    <div class="col-sm-10">          
+                        <input class="form-control" type="text" id="timepicker" name="timepicker" placeholder="Enter Time" />
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="datetimepicker">Datetime</label>
+                    <div class="col-sm-10">          
+                        <input class="form-control" type="text" id="datetimepicker" name="datetimepicker" placeholder="Enter Date Time" />
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="datetimeStartPicker">Datetime Start</label>
+                    <div class="col-sm-10">          
+                        <input class="form-control" type="text" id="datetimeStartPicker" name="datetimeStartPicker" placeholder="Enter Date Time Start" />
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="datetimeEndPicker">Datetime End</label>
+                    <div class="col-sm-10">          
+                        <input class="form-control" type="text" id="datetimeEndPicker" name="datetimeEndPicker" placeholder="Enter Date Time End" />
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+        
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        
+        <script>
+            
+            $(function () {            
+        
+                /* setting date */
+                $("#datepicker").datetimepicker({
+                    format : "YYYY-MM-DD"
+                });
+                
+                /* setting time */
+                $("#timepicker").datetimepicker({
+                    format : "HH:mm:ss"
+                });
+                
+                /* setting datetime */
+                $("#datetimepicker").datetimepicker({
+                    format : "YYYY-MM-DD HH:mm:ss"
+                });                
+
+                /* range */
+                $(".input-daterange").datetimepicker({
+                    format : "YYYY-MM-DD"
+                });
+                
+            });                
+        
+        </script>
+        
+        <script>
+
+            $(function () {
+
+                $("#datetimeStartPicker").datetimepicker();
+                $("#datetimeEndPicker").datetimepicker({
+                    useCurrent: false //Important! See issue #1075
+                });
+
+                $("#datetimeStartPicker").on("dp.change", function (e) {
+                    $("#datetimeEndPicker").data("DateTimePicker").minDate(e.date);
+                });
+
+                $("#datetimeEndPicker").on("dp.change", function (e) {
+                    $("#datetimeStartPicker").data("DateTimePicker").maxDate(e.date);
+                });
+
+            });
+
+        </script>        
+
+    </body>
+
+</html>

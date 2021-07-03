@@ -75,14 +75,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/isBetween.min.js"></script>
 
     <link href="../../plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <script src="./user.js"></script>
+
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet'
+        type='text/css'>
+
+    <link type="text/css" rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
 </head>
-<script src="./user.js"></script>
 
-<script src="http://code.highcharts.com/highcharts.js"></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet' type='text/css'>
 <style>
     body h1 h2 h3 h4 h5 h6 ul li a p {
         font-family: 'Kanit', sans-serif;
@@ -93,8 +100,25 @@
     }
 </style>
 
-
-
+<script>
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    var ti = today.toLocaleTimeString('en-US', {
+        hour12: false,
+        hour: "numeric",
+        minute: "numeric"
+    });
+    today = dd + '/' + mm + '/' + yyyy;
+    $(document).ready(function () {
+        console.log(yyyy + '-' + mm + '-' + dd)
+        $("#startdate").val(yyyy + '-' + mm + '-' + dd);
+        $("#enddate").val(yyyy + '-' + mm + '-' + dd);
+        $("#txttimestart").val('00:00:00');
+        $("#txttimestop").val('23:59:59');
+    });
+</script>
 
 <body class="theme-red">
     <!-- Page Loader -->
@@ -177,7 +201,7 @@
                             <span>แดชบอร์ด</span>
                         </a>
                     </li>
-                    <li >
+                    <li>
                         <a href="reportqueuedate.html">
                             <i class="material-icons">date_range</i>
                             <span>รายงานคิวแบ่งตามวันที่</span>
@@ -217,6 +241,11 @@
                             <li>
                                 <a href="queueqrcode.html">
                                     <span>คิวอาร์โค้ด</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="queuesms.html">
+                                    <span>ตั้งค่า SMS</span>
                                 </a>
                             </li>
                             <li>
@@ -460,24 +489,46 @@
                             </font>
                         </h2>
                     </div>
-                
+
                     <div class="body">
                         <div class="row clearfix" id='did_search' style="display: block;">
-                            <div class="col-xs-4 form-group"><h4>ค้นหาคิว</h4></div>
+                            <div class="col-xs-4 form-group">
+                                <h4>ค้นหาคิว</h4>
+                            </div>
 
                             <div class="col-xs-4 form-group">
-                                <div class="input-group date" id="bs_datepicker_component_container">
+                                <div class="form-group">
                                     <div class="form-line">
-                                        <input type="text" id="startdate" autocomplete=off
-                                            class="form-control" placeholder="วันที่เริ่มต้น">
-                                    </div>
-                                    <span class="input-group-addon">
                                         <i class="material-icons">date_range</i>
-                                    </span>
+                                        <input class="form-control" style="cursor: pointer;" type="text" id="startdate"
+                                            name="startdate" placeholder="วันที่เริ่มต้น" />
+                                    </div>
                                 </div>
+                                <script>
+                                    $("#startdate").datetimepicker({
+                                        format: "YYYY-MM-DD"
+                                    });
+                                </script>
                             </div>
+
                             <div class="col-xs-4 form-group">
-                                <div class="input-daterange input-group"
+                                <form class="form-horizontal" action="">
+                                    <div class="col-xs-4 form-group">
+                                        <div class="form-line">
+                                            <i class="material-icons" style="cursor: pointer;">access_time</i>
+                                            <input class="form-control" type="text" id="txttimestart"
+                                                name="txttimestart" placeholder="" />
+                                        </div>
+                                    </div>
+                                </form>
+                                <script>
+                                    $(function () {
+                                        $("#txttimestart").datetimepicker({
+                                            format: "HH:mm:ss"
+                                        });
+                                    });
+                                </script>
+                                <!-- <div class="input-daterange input-group"
                                     id="timestart">
                                     <div class="form-line">
                                         <input type="text" id="txttimestart"
@@ -488,22 +539,42 @@
                                         <i class="material-icons"
                                             style="cursor: pointer;">access_time</i>
                                     </span>
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="col-xs-4 form-group">
-                                <div class="input-group date" id="bs_datepicker_range_container">
+                                <div class="form-group">
                                     <div class="form-line">
-                                        <input type="text" id="enddate" autocomplete=off
-                                            class="form-control" placeholder="วันที่สิ้นสุด">
-                                    </div>
-                                    <span class="input-group-addon">
                                         <i class="material-icons">date_range</i>
-                                    </span>
+                                        <input class="form-control" style="cursor: pointer;" type="text" id="enddate"
+                                            name="enddate" placeholder="วันที่สิ้นสุด" />
+                                    </div>
                                 </div>
+                                <script>
+                                    $("#enddate").datetimepicker({
+                                        format: "YYYY-MM-DD"
+                                    });
+                                </script>
                             </div>
                             <div class="col-xs-4 form-group">
-                                <div class="input-daterange input-group"
+                                <form class="form-horizontal" action="">
+                                    <div class="col-xs-4 form-group">
+                                        <div class="form-line">
+                                            <i class="material-icons" style="cursor: pointer;">access_time</i>
+                                            <input class="form-control" type="text" id="txttimestop" name="txttimestop"
+                                                placeholder="" />
+                                        </div>
+                                    </div>
+                                </form>
+                                <script>
+                                    $(function () {
+                                        $("#txttimestop").datetimepicker({
+                                            format: "HH:mm:ss"
+                                        });
+                                    });
+                                </script>
+
+                                <!-- <div class="input-daterange input-group"
                                     id="timerange">
                                     <div class="form-line">
                                         <input type="text" id="txttimestop"
@@ -514,25 +585,24 @@
                                         <i class="material-icons"
                                             style="cursor: pointer;">access_time</i>
                                     </span>
-
-                                </div>
+                                </div> -->
                             </div>
                             <table>
                                 <tr>
                                     <td>&nbsp;</td>
                                     <td>
                                         <button class="btn btn-primary waves-effect" id="submitqueueReport"
-                                        class="primary" type="button">ค้นหา</button>
+                                            class="primary" type="button">ค้นหา</button>
                                     </td>
                                     <td>&nbsp;</td>
                                     <td>
-                                        <button class="btn btn-primary waves-effect" style="display: none;" id="btn_cancel"
-                                        class="primary" type="button">ยกเลิก</button>
+                                        <button class="btn btn-primary waves-effect" style="display: none;"
+                                            id="btn_cancel" class="primary" type="button">ยกเลิก</button>
                                     </td>
                                 </tr>
                             </table>
                             <div class="col-xs-4 form-group">
-                               
+
                             </div>
                         </div>
                         <div style="text-align: center; display: none;" id="div_preloader">
@@ -552,7 +622,9 @@
                         <!-- <hr> -->
                         <div id="test" style="float:right;">
                         </div>
-                     <u><h4> ตารางแสดงคิววันนี้ </h4></u>   
+                        <u>
+                            <h4> ตารางแสดงคิววันนี้ </h4>
+                        </u>
                         <div class="table-responsive">
                             <table
                                 class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
@@ -680,10 +752,10 @@
 
 
 
-    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <!-- <script src="../../plugins/jquery/jquery.min.js"></script> -->
 
     <!-- Bootstrap Core Js -->
-    <script src="../../plugins/bootstrap/js/bootstrap.js"></script>
+    <!-- <script src="../../plugins/bootstrap/js/bootstrap.js"></script> -->
 
     <!-- Select Plugin Js -->
     <!-- <script src="../../plugins/bootstrap-select/js/bootstrap-select.js"></script> -->
@@ -739,6 +811,7 @@
 
     <script src="../../plugins/sweetalert/sweetalert.min.js"></script>
     <script src="../../js/pages/ui/dialogs.js"></script>
+
 
 
 </body>
