@@ -14,7 +14,7 @@ function acctoken() {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
-            axios.post(urlipaddress + 'token', data, {
+            axios.post(urlipaddress + 'permit', {}, {
                 headers: {
                     'Authorization': obj.refresh_token
                 }
@@ -180,7 +180,7 @@ function Getqueueprofileview(category_profile, refresh_token) {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
 
-        //console.log(urlipaddress + 'queue/' + _objectId + '? '+ prm +'_page=1&_limit=10&_sort=1')
+        console.log(urlipaddress + 'queue/' + _objectId + '? '+ prm +'_page=1&_limit=10&_sort=1')
 
         axios.get(urlipaddress + 'queue/' + _objectId + '?' + prm + '_page=1&_limit=10&_sort=1', {
             headers: {

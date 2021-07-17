@@ -52,10 +52,8 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.mjs"></script>
-    <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+  <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
     <!-- modal  -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
@@ -191,8 +189,8 @@
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" style="display: none;" id="logoname" href="javascript:void(0);"></a>
-                <a class="navbar-brand" id="namecompyny" href="#" style="color: white;" href="#"></a>
+               
+                <a class="navbar-brand"  id="logoname" href="queuedashboard.html"></a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -209,16 +207,9 @@
         <aside id="leftsidebar" class="sidebar" style="text-align: center;">
             <!-- User Info -->
             <div class="user-info" style="text-align:center;">
-                <div class="image" style="display: none;">
-                    <!-- <img id="LOGOVIEW" name="LOGOVIEW" width="100" height="100" alt="User" />
-                <p id="usernamelogin" style="color:white;"></p> -->
-                    <!-- <a class="navbar-brand" id="logoname" href="../../visitordashboard.html">VISITOR</a> -->
-                    <a class="navbar-brand" id="logoname" href="">
-                        <!-- <img id="imageProfile" src="/images/Profile.png" width="80" height="80" alt="User" /> -->
-                    </a>
+                <div class="image" >
+                    <img id="LOGOVIEW" name="LOGOVIEW" width="100" height="100" alt="User" />
                 </div>
-                <div><br></div>
-                <div><br></div>
                 <div style="color: white;">
                     <div class="name" data-toggle="dropdown" id="userlogin" aria-haspopup="true" aria-expanded="false">
                     </div>
@@ -283,6 +274,11 @@
                             <li>
                                 <a href="queuedelete.html">
                                     <span>ลบคิว</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="company.html">
+                                    <span>แก้ไขชื่อบริษัท/โลโก้บริษัท/โลโก้สลิป</span>
                                 </a>
                             </li>
                         </ul>

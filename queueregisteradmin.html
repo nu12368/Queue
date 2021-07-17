@@ -46,9 +46,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.mjs"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
 
     <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
 
@@ -557,18 +555,29 @@
                                             <div>&nbsp;</div>
                                             <table align="center">
                                                 <tr>
+                                                    <td> รูป :</td>
+                                                    <td>
+                                                        <input type="file" name="fileimage" type="file" multiple
+                                                            accept=".png, .jpg, .jpeg" id="fileimage">
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+
+                                                <tr>
                                                     <td>
                                                         <div>&nbsp;</div>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td> USER :</td>
+                                                    <td> USER :<font style="font-size: 18px; color: red;">***</font> </td>
                                                     <td> <input type="text" id="admin" name="admin"></td>
                                                     <td></td>
                                                     <td> <input type="button" value="GENERATE ADMIN ID" id="GENERATE"
                                                             autocomplete="off" style="display: none;"
                                                             onclick="GENERATECLICKADMIN()" name="GENERATE"
-                                                            style="cursor: pointer;"></td>
+                                                            style="cursor: pointer;">
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
@@ -576,7 +585,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>PASSWORD :</td>
+                                                    <td>PASSWORD : <font style="font-size: 18px; color: red;">***</font></td>
                                                     <td><input type="password" name="passadmin" autocomplete="off"
                                                             id="passadmin" />
                                                         <!-- <span class="showBtn">SHOW</span> -->
@@ -589,7 +598,7 @@
                                                         <div>&nbsp;</div>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <tr style="display: none;">
                                                     <td>RULE :</td>
                                                     <td>
                                                         <!-- <input type="RULE" name="RULE"  autocomplete="off" value="Master Admin"  id="RULE" /> -->
@@ -604,7 +613,7 @@
                                                     <td>&nbsp;</td>
 
                                                 </tr>
-                                                <tr>
+                                                <tr style="display: none;">
                                                     <td>
                                                         <div>&nbsp;</div>
                                                     </td>
@@ -695,40 +704,49 @@
                                                                 }
                                                                 $.getScript("ip.js", function (data, textStatus, jqxhr) {
                                                                     //var ipclientUrl;
-                                                                   // $.getScript("ipclient.js", function (dataipclient, textStatus, jqxhr) {
-                                                                       // ipclientUrl = dataipclient.substring(1, dataipclient.length - 1);
-                                                                    
-                                                                        var urlipaddress = data.substring(1, data.length - 1);
-                                                                        const dataUser = {
-                                                                            user: document.getElementById("admin").value,
-                                                                            password: document.getElementById("passadmin").value,
-                                                                            rule: document.getElementById("RULE").value,
-                                                                            company: document.getElementById("COMPANY").value,
-                                                                            phone: document.getElementById("PHONE").value,
-                                                                            serialKey: document.getElementById("CODE").value,
-                                                                            // clientUrl: ipclientUrl.substring(0, ipclientUrl.length - 1),
-                                                                        };
-                                                                        axios.post(urlipaddress + 'regis', dataUser).then(function (response) {
-                                                                        }).then(function (response) {
-                                                                            document.getElementById("p_admin").innerText = "บันทึกสำเร็จ";
-                                                                            document.getElementById("p_admin").style.color = "green";
-                                                                        }).catch(function (res) {
-                                                                            const { response } = res
-                                                                            if (response.data.message == 'You have no right') {
-                                                                                document.getElementById("p_admin").innerText = "คุณไม่มีสิทธิ์ทำรายการนี้";
-                                                                                document.getElementById("p_admin").style.color = "red";
-                                                                            } else
-                                                                                if (response.data.message == 'This user has already been used.') {
-                                                                                    document.getElementById("p_admin").innerText = "ชื่อผู้ใช้นี้ มีอยุ่ในระบบแล้ว";
-                                                                                    document.getElementById("p_admin").style.color = "red";
-                                                                                }
-                                                                                else {
-                                                                                    document.getElementById("p_admin").innerText = "บันทึกไม่สำเร็จ";
-                                                                                    document.getElementById("p_admin").style.color = "red";
-                                                                                }
-                                                                        });
+                                                                    // $.getScript("ipclient.js", function (dataipclient, textStatus, jqxhr) {
+                                                                    // ipclientUrl = dataipclient.substring(1, dataipclient.length - 1);
 
-                                                                  //  });
+                                                                    var urlipaddress = data.substring(1, data.length - 1);
+                                                                    var file_data = $('#fileimage').prop('files')[0];
+                                                                    var formData = new FormData();
+                                                                    //console.log(file_data)
+                                                                    if (file_data != undefined) {
+                                                                        formData.append('imageProfile', file_data);
+                                                                    } else {
+                                                                        formData.append('imageProfile', '');
+                                                                    }
+
+                                                                    formData.append('username', document.getElementById("admin").value);
+                                                                    formData.append('password', document.getElementById("passadmin").value);
+                                                                    formData.append('company', document.getElementById("COMPANY").value);
+                                                                    formData.append('phone', document.getElementById("PHONE").value);
+                                                                    formData.append('serial', document.getElementById("CODE").value);
+
+                                                                    axios.post(urlipaddress + 'regis', formData, {
+                                                                        headers: {
+                                                                            'Content-Type': 'multipart/form-data'
+                                                                        }
+                                                                    }).then(function (response) {
+                                                                        document.getElementById("p_admin").innerText = "บันทึกสำเร็จ";
+                                                                        document.getElementById("p_admin").style.color = "green";
+                                                                    }).catch(function (res) {
+                                                                        const { response } = res
+                                                                        if (response.data.message == 'You have no right') {
+                                                                            document.getElementById("p_admin").innerText = "คุณไม่มีสิทธิ์ทำรายการนี้";
+                                                                            document.getElementById("p_admin").style.color = "red";
+                                                                        } else
+                                                                            if (response.data.message == 'This user has already been used.') {
+                                                                                document.getElementById("p_admin").innerText = "ชื่อผู้ใช้นี้ มีอยุ่ในระบบแล้ว";
+                                                                                document.getElementById("p_admin").style.color = "red";
+                                                                            }
+                                                                            else {
+                                                                                document.getElementById("p_admin").innerText = "บันทึกไม่สำเร็จ";
+                                                                                document.getElementById("p_admin").style.color = "red";
+                                                                            }
+                                                                    });
+
+                                                                    //  });
 
                                                                 });
                                                             }
@@ -854,7 +872,7 @@
 
                                                                         //    console.log(data)
                                                                         //    console.log("data")
-                                                                        axios.post(urlipaddress + 'token', data, {
+                                                                        axios.post(urlipaddress + 'permit', {}, {
                                                                             headers: {
                                                                                 'Authorization': response.data.message.refresh_token
                                                                             }

@@ -63,10 +63,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.mjs"></script>
-
+  
     <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
 
     <!-- modal  -->
@@ -85,7 +82,7 @@
     <link href="../../plugins/sweetalert/sweetalert.css" rel="stylesheet" />
     <script src="http://code.highcharts.com/highcharts.js"></script>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script> -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
@@ -491,14 +488,16 @@
                                                                 $.getScript("ip.js", function (data, textStatus, jqxhr) {
                                                                     var urlipaddress = data.substring(1, data.length - 1);
                                                                     const dataUser = {
-                                                                        user: document.getElementById("member_login_user").value,
+                                                                        username: document.getElementById("member_login_user").value,
                                                                         password: document.getElementById("member_login_pass").value,
                                                                     }
                                                                     axios.post(urlipaddress + 'login', dataUser).then(function (response) {
                                                                         //  console.log(response.data.message.refresh_token)
+                                                                        Cookies.set('refresh_tokenOnline', JSON.stringify(response.data.message), { expires: 1 })
+
                                                                         var decodejwt = parseJwt(response.data.message.refresh_token);
-                                                                        document.getElementById("objid").value = decodejwt.userId;
-                                                                        axios.post(urlipaddress + 'token', '', {
+                                                                        document.getElementById("objid").value = decodejwt.mId;
+                                                                        axios.post(urlipaddress + 'permit', {}, {
                                                                             headers: {
                                                                                 'Authorization': response.data.message.refresh_token
                                                                             }
@@ -521,7 +520,7 @@
                                                             //////////////////////////////////
                                                             function getuser(tokenresponse, urlipaddress, decodejwt) {
                                                                 const dataUserID = {
-                                                                    userId: document.getElementById("objid").value
+                                                                    mId: document.getElementById("objid").value
                                                                 }
                                                                 axios.post(urlipaddress + 'user', dataUserID, {
                                                                     headers: {
@@ -533,12 +532,11 @@
                                                                     var _arr = new Array();
                                                                     for (i = 0; i < cnt; i++) {
                                                                        
-                                                                        if (response.data.message.data[i].user == document.getElementById("member_login_user").value) {
+                                                                        if (response.data.message.data[i].username == document.getElementById("member_login_user").value) {
                                                                          
                                                                             document.getElementById("lbCheck").innerText = "";
                                                                             Cookies.set('dataUserOnline', JSON.stringify(response.data.message.data[i]), { expires: 1 })
                                                                         
-                                                                            Cookies.set('refresh_tokenOnline', JSON.stringify(tokenresponse.data.message), { expires: 1 })
                                                                             Cookies.set('_objectIdOnline', document.getElementById("objid").value, { expires: 1 })
 
                                                                             if (response.data.message.data[i].rule.toLowerCase() == 'online') {

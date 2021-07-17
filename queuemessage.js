@@ -8,7 +8,7 @@ function acctoken() {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
-            axios.post(urlipaddress + 'token', data, {
+            axios.post(urlipaddress + 'permit', {}, {
                 headers: {
                     'Authorization': obj
                 }
@@ -25,8 +25,6 @@ function acctoken() {
         });
     });
 }
-
-
 
 function getmessage(refresh_token) {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {

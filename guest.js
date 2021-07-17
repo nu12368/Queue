@@ -8,7 +8,7 @@ function acctoken(obj) {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
-            axios.post(urlipaddress + 'token', data, {
+            axios.post(urlipaddress + 'permit', {}, {
                 headers: {
                     'Authorization': obj
                 }
@@ -17,7 +17,7 @@ function acctoken(obj) {
             }).catch(function (res) {
                 const { response } = res
                 if (response.data.message == "Unauthorized") {
-                    location.href = "index.html";
+                    // location.href = "index.html";
                     return;
                 }
 
@@ -81,7 +81,7 @@ const queueloop = async (refresh_token, _page) => {
                     if (Cookies.get('dataUserOnline') != undefined) {
                         var userId = JSON.parse(Cookies.get('dataUserOnline'));
                         if (str_io == '') {
-                            if (userId.userId == response.data.message.values[i].uId) {
+                            if (userId.uId == response.data.message.values[i].uId) {
                                 let date = new Date(response.data.message.values[i].timeAdd);
                                 let options = { hour12: false };
                                 var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
@@ -133,8 +133,10 @@ const queueloop = async (refresh_token, _page) => {
 
 }
 function getqueueview(refresh_token) {
+    console.log(_objectId)
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
+        console.log(urlipaddress + 'queue/' + _objectId + '?_page=1&_limit=100&_sort=1')
         axios.get(urlipaddress + 'queue/' + _objectId + '?_page=1&_limit=100&_sort=1', {
             headers: {
                 'Authorization': refresh_token
@@ -226,7 +228,7 @@ function getqueueview(refresh_token) {
                             var userId = JSON.parse(Cookies.get('dataUserOnline'));
 
                             if (str_io == '') {
-                                if (userId.userId == response.data.message.values[i].uId) {
+                                if (userId.uId == response.data.message.values[i].uId) {
 
                                     let date = new Date(response.data.message.values[i].timeAdd);
                                     let options = { hour12: false };
@@ -304,7 +306,7 @@ function getcategoryview(refresh_token) {
 function getqrcode(refresh_token, nameqr) {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-        axios.get(urlipaddress + "file/qrcode/" + nameqr, {
+        axios.get(urlipaddress + "files/qrcode/" + nameqr, {
             responseType: 'arraybuffer',
             headers: {
                 'Authorization': refresh_token
@@ -337,7 +339,7 @@ function getqrcode_List(refresh_token) {
                     'Authorization': refresh_token
                 }
             }).then(function (response) {
-                console.log(response.data.message.qrList.length)
+                console.log(response.data.message.qrList)
                 // Genqrcode(refresh_token)
                 if (response.data.message.qrList.length == 0) {
                     resolve('true')
@@ -359,13 +361,13 @@ function displyanone() {
     // document.getElementById('line3').style.display = 'none'
 }
 
-
 $(async function () {
     const urlParams = new URLSearchParams(window.location.search);
     let myParam = urlParams.toString();
 
     $('#tabhome').on('click', async function () {
         console.log('dddddd')
+        $("#table_view").empty();
         var obj_refresh = JSON.parse(Cookies.get('refresh_tokenOnline'));
         var result_refresh = await acctoken(obj_refresh.refresh_token);
         console.log(result_refresh)
@@ -387,9 +389,6 @@ $(async function () {
         document.getElementById('div_viwe').style.display = 'none'
 
     });
-
-
-
     $('#table_queueonline').on('click', 'a.q_delete', function (e) {
         var remove_qid = $(this).attr("id");
         console.log(remove_qid)
@@ -445,8 +444,6 @@ $(async function () {
         });
 
     });
-
-
     if (Cookies.get('refresh_tokenOnline') != undefined) {
         ////// refresh
         var obj_refresh;
@@ -464,28 +461,26 @@ $(async function () {
         document.getElementById('div_tabadd').style.display = 'none'
 
     }
-
-
-
-
     console.log(myParam)
     let result;
     var _category;
     var _objid = myParam.split('=');
     _objectId = _objid[1];
+   
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
         const authGuest = async () => {
             const url = `${urlipaddress}guest?${myParam}`;
             try {
-                // console.log(url)
+                console.log(url)
                 const res = await axios.get(url);
-                // console.log(res.data.message.refresh_token)
-                result = await acctoken(res.data.message.refresh_token)
+                console.log(res.data.message.guest_token)
+                result = await acctoken(res.data.message.guest_token)
                 //  console.log(result)
                 await getqueueview(result);
                 _category = await getcategoryview(result);
                 var nameqr = await getqrcode_List(result)
+
                 await getqrcode(result, nameqr);
 
             } catch (err) {
@@ -495,7 +490,6 @@ $(async function () {
         authGuest();
 
         $('#submitaddqueue').on('click', async function (e) {
-
             var obj = JSON.parse(Cookies.get('refresh_tokenOnline'));
             var userId = JSON.parse(Cookies.get('dataUserOnline'));
             var _objectId_online = Cookies.get('_objectIdOnline');
@@ -503,6 +497,7 @@ $(async function () {
             console.log(obj)
             console.log(userId)
             console.log(_objectId_online)
+
 
             const result_online = await acctoken(obj.refresh_token);
 
@@ -516,19 +511,19 @@ $(async function () {
             const socket = io(urlipaddress);
             socket.emit('addQueue', { addQueue: 'Updated' });
             const dataaddQueue = {
-                uId: userId.userId,
+                uId: userId.uId,
                 values: post_catery.category,
                 tel: document.getElementById("tel").value,
                 name: document.getElementById("username").value,
             }
-
+            console.log(urlipaddress + 'addQueue/' + _objectId_online)
+            console.log(dataaddQueue)
             axios.post(urlipaddress + 'addQueue/' + _objectId_online, dataaddQueue, {
                 headers: {
                     'Authorization': result_online
                 }
             }).then(function (response) {
-                //  console.log(response.data.message)
-
+                console.log(response.data.message.status)
                 if (response.data.message.status == "Successful") {
                     document.getElementById('q_day').innerHTML = '<b>วัน/เวลา </b> ' + document.getElementById('_time').innerHTML
                     document.getElementById('q_no').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  คิวที่ No. ' + response.data.message.queue
@@ -554,15 +549,14 @@ $(async function () {
         });
         $('#logout_online').on('click', async function (e) {
             var obj = JSON.parse(Cookies.get('refresh_tokenOnline'));
-            const result_online = await acctoken(obj);
             $.getScript("ip.js", function (data, textStatus, jqxhr) {
                 var urlipaddress = data.substring(1, data.length - 1);
                 const databody = {
-                    refresh_token: obj
+                    refresh_token: obj.refresh_token
                 }
                 axios.post(urlipaddress + 'logout', databody, {
                     headers: {
-                        'Authorization': result_online
+                        'Authorization': obj.refresh_token
                     }
                 }).then(function (response) {
                     if (response.data.message == "success") {
@@ -584,21 +578,20 @@ $(async function () {
                 showCancelMessage_queue('กรอกข้อมูลให้ครบ', 'ระบุ ชื่อผู้ใช้งาน และ รหัสผ่าน')
                 return;
             }
-            // var chk_pass = validateUsernameUSER();
-            // if (chk_pass == false) {
-            //     return;
-            // }
             $.getScript("ip.js", function (data, textStatus, jqxhr) {
                 var urlipaddress = data.substring(1, data.length - 1);
-                const dataUser = {
-                    userId: _objectId,
-                    user: document.getElementById("member_register_user").value,
-                    password: document.getElementById("member_register_pass").value,
-                    rule: 'online'
-                }
-                axios.put(urlipaddress + 'addAccount', dataUser, {
+                var formData = new FormData();
+                const url = urlipaddress + 'addAccount';
+                formData.append('mId', _objectId);
+                formData.append('username', document.getElementById("member_register_user").value);
+                formData.append('password', document.getElementById("member_register_pass").value);
+                formData.append('rule', 'online');
+                formData.append('editMode', false);
+                console.log(url)
+                axios.put(url, formData, {
                     headers: {
                         'Authorization': result,
+                        'Content-Type': 'multipart/form-data'
                     }
                 }
                 ).then(function (response) {

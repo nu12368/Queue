@@ -20,9 +20,8 @@
 
 
     <!-- cookie -->
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.mjs"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+  
     <link href="../../css/style.css" rel="stylesheet">
 
     <!-- <script src="./login.js"></script> -->
@@ -61,68 +60,6 @@
     }
 </style>
 
-<script>
-    Cookies.remove('dataid');
-    Cookies.remove('wacadmin');
-    Cookies.remove('datatoken');
-    Cookies.remove('datauserId');
-    Cookies.remove('datajwt');
-    Cookies.remove('userappontment');
-    Cookies.remove('allnotice');
-    Cookies.remove('service');
-    Cookies.remove('visitor');
-    Cookies.remove('datamember');
-    Cookies.remove('datamemberID');
-
-    Cookies.remove('refresh_token');
-    Cookies.remove('dataUser');
-    Cookies.remove('_objectId');
-
-
-    Cookies.remove('dataUserOnline');
-    Cookies.remove('refresh_tokenOnline');
-    Cookies.remove('_objectIdOnline');
-
-
-
-    // ADMIN
-    function GENERATECLICKADMIN() {
-        $(document).ready(function () {
-            $.getScript("ip.js", function (data, textStatus, jqxhr) {
-                var urlipaddress = data.substring(1, data.length - 1);
-                // console.log(urlipaddress)
-                axios.get(urlipaddress + 'genUser').then(function (response) {
-                    //     console.log(response.data.message)
-                    document.getElementById("admin").value = response.data.message.username;
-
-                }).catch(function (res) {
-                    const { response } = res
-                    //    console.log(response.data.message)
-                });
-            });
-        });
-    }
-
-    // USER
-    function GENERATECLICKUSER() {
-        document.getElementById("save").innerText = "";
-        $(document).ready(function () {
-            $.getScript("ip.js", function (data, textStatus, jqxhr) {
-                var urlipaddress = data.substring(1, data.length - 1);
-                //   console.log(urlipaddress)
-                axios.get(urlipaddress + 'genUser').then(function (response) {
-                    //      console.log(response.data.message)
-                    document.getElementById("user").value = response.data.message.username;
-
-                }).catch(function (res) {
-                    const { response } = res
-                    //    console.log(response.data.message)
-                });
-            });
-        });
-    }
-</script>
-
 <body class="login-page" style="background-color: white;">
     <form>
         <div>&nbsp;</div>
@@ -139,7 +76,7 @@
                                 <td style="text-align: right;"> <i class="material-icons">person </i> &nbsp;
                                 </td>
                                 <td> <input type="text" id="login_user" required autofocus name="login_user"
-                                        class="form-control" placeholder="ชื่อผู้ใช้งาน" value="admin">
+                                        class="form-control" placeholder="ชื่อผู้ใช้งาน" value="">
 
                                 </td>
                                 <td></td>
@@ -153,7 +90,7 @@
                             <tr>
                                 <td> <i class="material-icons">lock</i></td>
                                 <td><input type="password" name="login_pass" required autofocus class="form-control"
-                                        placeholder="รหัสผ่าน" id="login_pass" value="1234" /></td>
+                                        placeholder="รหัสผ่าน" id="login_pass" value="" /></td>
                             </tr>
                             <tr>
                                 <td>
@@ -205,36 +142,37 @@
                                         }
                                         $.getScript("ip.js", function (data, textStatus, jqxhr) {
                                             var urlipaddress = data.substring(1, data.length - 1);
-                                            // console.log(urlipaddress)
                                             const dataUser = {
-                                                user: document.getElementById("login_user").value,
+                                                username: document.getElementById("login_user").value,
                                                 password: document.getElementById("login_pass").value,
                                             }
+                                            console.log(dataUser)
                                             axios.post(urlipaddress + 'login', dataUser).then(function (response) {
-                                                //console.log(response.data.message)
-                                                var decodejwt = parseJwt(response.data.message.refresh_token);
-                                                document.getElementById("objid").value = decodejwt.userId;
-                                                // console.log(response.data.message.refresh_token)
-                                                // console.log(urlipaddress + 'token')
+                                                console.log(response.data.message)
+                                                Cookies.set('refresh_token', JSON.stringify(response.data.message), { expires: 1 })
+
+
+                                                console.log(Cookies.get('refresh_token'))
                                                
-                                                axios.post(urlipaddress + 'token', data, {
+                                                var decodejwt = parseJwt(response.data.message.refresh_token);
+                                                document.getElementById("objid").value = decodejwt.mId;
+
+
+                                                axios.post(urlipaddress + 'permit', {}, {
                                                     headers: {
                                                         'Authorization': response.data.message.refresh_token
                                                     }
                                                 }).then(function (tokenresponse) {
+                                                    console.log(tokenresponse)
+
                                                     getuser(tokenresponse, urlipaddress, decodejwt);
                                                 }).catch(function (res) {
-                                                    const { response } = res
-                                                    console.log(response)
+                                                    console.log(res)
+
                                                 });
                                             }).catch(function (res) {
+                                                console.log(res)
 
-                                                const { response } = res
-                                                console.log(response.data.message)
-                                                // if (response.data.message == "The username or password that you've entered doesn't match any account.") {
-                                                //     document.getElementById("lbCheck").innerText = "USER ID หรือ PASSWORD ไม่ถูกต้อง"
-                                                //     return;
-                                                // }
                                             });
                                         });
                                     }
@@ -242,30 +180,33 @@
                                     //////////////////////////////////
                                     function getuser(tokenresponse, urlipaddress, decodejwt) {
                                         const dataUserID = {
-                                            userId: document.getElementById("objid").value
+                                            mId: document.getElementById("objid").value
                                         }
                                         axios.post(urlipaddress + 'user', dataUserID, {
                                             headers: {
                                                 'Authorization': tokenresponse.data.message.access_token
                                             }
                                         }).then(function (response) {
+                                            console.log(response.data.message.data)
                                             var cnt = response.data.message.data.length;
                                             var n = 0;
                                             var _arr = new Array();
                                             for (i = 0; i < cnt; i++) {
 
-                                                if (response.data.message.data[i].user == document.getElementById("login_user").value) {
+                                                if (response.data.message.data[i].username == document.getElementById("login_user").value) {
                                                     document.getElementById("lbCheck").innerText = "";
                                                     Cookies.set('dataUser', JSON.stringify(response.data.message.data[i]), { expires: 1 })
-                                                    //console.log(tokenresponse.data.message.refresh_token)
-                                                    Cookies.set('refresh_token', JSON.stringify(tokenresponse.data.message), { expires: 1 })
+                                                    console.log(tokenresponse.data.message.access_token)
                                                     Cookies.set('_objectId', document.getElementById("objid").value, { expires: 1 })
+                                                    Cookies.set('access_token', JSON.stringify(tokenresponse.data.message.access_token), { expires: 1 })
 
+                                                    console.log(document.getElementById("objid").value)
+                                                    // console.log(response.data.message.refresh_token)
 
-                                                    if (response.data.message.data[i].rule.toLowerCase() == 'admin') {
+                                                    if (response.data.message.data[i].rule.toLowerCase() == 'root') {
                                                         location.href = "queuedashboard.html";
                                                     }
-                                                    if (response.data.message.data[i].rule.toLowerCase() == 'master admin') {
+                                                    if (response.data.message.data[i].rule.toLowerCase() == 'root') {
                                                         location.href = "queuedashboard.html";
                                                     }
                                                     if (response.data.message.data[i].rule.toLowerCase() == 'user') {
@@ -287,7 +228,7 @@
                                 </script>
                             </tr>
                             <tr>
-                                <td ></td>
+                                <td></td>
                                 <td>
                                     <div>
                                         <p id="lbCheck" style="color: red; font-size: 16px;"></p>

@@ -27,12 +27,12 @@ var chartcategory_queue_end = new Array();
 var q_num = 0;
 var check_table_clack = '';
 var _id_q = '';
-//console.log(obj)
+console.log(obj)
 function acctoken() {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
-            axios.post(urlipaddress + 'token', data, {
+            axios.post(urlipaddress + 'permit', {}, {
                 headers: {
                     'Authorization': obj.refresh_token
                 }
@@ -41,7 +41,7 @@ function acctoken() {
             }).catch(function (res) {
                 const { response } = res
                 if (response.data.message == "Unauthorized") {
-                    location.href = "index.html";
+                   location.href = "index.html";
                     return;
                 }
             });
@@ -256,6 +256,7 @@ function getqadd(refresh_token) { ////// คิวที่รอทั้งห
                     'Authorization': refresh_token
                 }
             }).then(function (response) {
+                console.log(response.data.message)
                 _arr_queue_add = new Array()
                 _i_loop_newdate = 0;
                 if (index != undefined) {
@@ -931,7 +932,6 @@ async function chechdate_Time(datadatetime, datenew) {
     }
     return _checkdate;
 }
-
 
 //const v_socketio = async () => {
 async function v_socketio() {

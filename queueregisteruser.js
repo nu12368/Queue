@@ -6,11 +6,12 @@ var _arr = new Array();
 var _arrInfo = new Array();
 var n = 0;
 var n_info = 0;
+console.log(obj)
 function acctoken() {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
-            axios.post(urlipaddress + 'token', data, {
+            axios.post(urlipaddress + 'permit', {}, {
                 headers: {
                     'Authorization': obj.refresh_token
                 }
@@ -52,7 +53,7 @@ function getUser(refresh_token) {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
         const dataUserID = {
-            userId: _objectId
+            mId: _objectId
         }
         axios.post(urlipaddress + 'user', dataUserID, {
             headers: {
@@ -67,10 +68,10 @@ function getUser(refresh_token) {
             var _arr = new Array();
             for (i = 0; i < cnt; i++) {
                 var _rule = response.data.message.data[i].rule.toLowerCase()
-                if (_rule != "master admin") {
+                if (_rule != "root") {
                     _arr[n] = {
                         _num: num,
-                        user: response.data.message.data[i].user,
+                        user: response.data.message.data[i].username,
                         rule: response.data.message.data[i].rule.toLowerCase(),
                     }
                     num++
@@ -127,11 +128,11 @@ function validateUsernameUSER() {
 $(async function () {
     const result = await acctoken();
     getUser(result);
-   
+
     /////////////////////////////////// เพิ่มผู้ใช้งาน
     $('#submitvisitorRegis').on('click', async function (e) {
         const result = await acctoken();
-        if(document.getElementById("user").value == '' || document.getElementById("passuser").value ==''){
+        if (document.getElementById("user").value == '' || document.getElementById("passuser").value == '') {
             showCancelMessageregisteruser('กรอกข้อมูลให้ครบ', '')
             return;
         }
@@ -142,18 +143,28 @@ $(async function () {
         document.getElementById("save").innerText = "";
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
-
-            const dataUser = {
-                userId: _objectId,
-                user: document.getElementById("user").value,
-                password: document.getElementById("passuser").value,
-                rule: document.getElementById("rule").value.toLowerCase()
+            var formData = new FormData();
+            var file_data = $('#fileimageadmin').prop('files')[0];
+            if (file_data != undefined) {
+                formData.append('imageUser', file_data);
+            } else {
+                formData.append('imageUser', '');
             }
-            console.log(dataUser)
-            console.log(result)
-            axios.put(urlipaddress + 'addAccount', dataUser, {
+            const url = urlipaddress + 'addAccount';
+            formData.append('mId', _objectId);
+            formData.append('username', document.getElementById("user").value);
+            formData.append('password', document.getElementById("passuser").value);
+            formData.append('rule', document.getElementById("rule").value);
+            formData.append('phone', document.getElementById("phone").value);
+            // formData.append('tag[]', '');
+            formData.append('address', document.getElementById("address").value);
+            formData.append('editMode', false);
+            console.log(url)
+            axios.put(url, formData, {
                 headers: {
                     'Authorization': result,
+                    'Content-Type': 'multipart/form-data'
+
                 }
             }
             ).then(function (response) {
@@ -164,9 +175,9 @@ $(async function () {
                     showSuccessMessageregisteruser('บันทึกสำเร็จ')
                     getUser(result);
                 }
+
             }).catch(function (res) {
                 const { response } = res
-                console.log(response.data.message)
                 if (response.data.message == 'This user has already been used.') {
                     showCancelMessageregisteruser('มีข้อมูลในระบบแล้ว', '')
                 }
@@ -185,7 +196,7 @@ $(async function () {
             datauser = table.row(this).data();
         }
         $("#myModaldelete").modal();
-       console.log(datauser)
+        console.log(datauser)
         document.getElementById("user_edit").value = datauser.name;
         document.getElementById("passuser_old").value = "";
         document.getElementById("passuser_new").value = "";
@@ -197,23 +208,22 @@ $(async function () {
     $('#deleteUser').on('click', function (e) {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
-            console.log(datauser.user)
-            console.log(_objectId)
             axios({
-                url: urlipaddress + 'delPass',
+                url: urlipaddress + 'delUser',
                 method: 'delete',
                 data: {
-                    userId: _objectId,
-                    userName: datauser.user
+                    mId: _objectId,
+                    username: datauser.user
                 },
                 headers: { 'Authorization': result }
             }).then(function (response) {
+                console.log(response.data.message)
                 if (response.data.message == "delete completed") {
-                  showSuccessMessageregisteruser('ลบข้อมูลสำเร็จ')
+                    showSuccessMessageregisteruser('ลบข้อมูลสำเร็จ')
                 }
             }).catch(function (res) {
                 const { response } = res
-                console.log(response.data.message)
+                console.log(response.data)
                 showCancelMessageregisteruser(response.data.message, '')
 
             });
@@ -238,16 +248,21 @@ $(async function () {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             const dataUser = {
-                user: document.getElementById("user_edit").value,
+                mId: _objectId,
+                username: document.getElementById("user_edit").value,
                 password: document.getElementById("passuser_old").value,
                 newPassword: document.getElementById("passuser_new").value,
             }
+
+            console.log(obj.refresh_token)
+            console.log(dataUser)
             axios.post(urlipaddress + 'changePass', dataUser, {
                 headers: {
-                    'Authorization': result
+                    'Authorization':  obj.refresh_token
                 }
             }).then(function (response) {
-                if (response.data.message == "Change password is complete.") {
+                console.log(response.data.message)
+                if (response.data.message.status == "Change password is complete.") {
                     showSuccessMessageregisteruser('อัพเดทข้อมูลสำเร็จ')
                 }
 
@@ -256,7 +271,7 @@ $(async function () {
                 if (response.data.message == "update fail.") {
                     showCancelMessageregisteruser('บันทึกข้อมูลไม่สำเร็จ', '')
                 }
-                if (response.data.message == "Wrong user or password") {
+                if (response.data.message == "Wrong username or password") {
 
                     showCancelMessageregisteruser('รหัสผ่านเดิมไม่ถูกต้อง', '')
                 }
