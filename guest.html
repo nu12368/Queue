@@ -4,7 +4,6 @@
 <head>
     <!-- <meta charset="UTF-8"> -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,8 +21,7 @@
     <link rel="icon" href="../../uploads/logo.ico" type="image/x-icon">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
-        type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
     <!-- Bootstrap Core Css -->
@@ -52,8 +50,7 @@
     <link href="../../css/themes/all-themes.css" rel="stylesheet" />
 
     <!-- Bootstrap Material Datetime Picker Css -->
-    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
-        rel="stylesheet" />
+    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
 
     <!-- Bootstrap DatePicker Css -->
 
@@ -63,7 +60,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-  
+
     <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
 
     <!-- modal  -->
@@ -93,8 +90,7 @@
 
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script> -->
-    <script type="text/javascript"
-        src="https://github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
+    <script type="text/javascript" src="https://github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
 
 
     <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.1.2/dist/socket.io.js"></script>
@@ -109,45 +105,42 @@
 <style>
     body h1 h2 h3 h4 h5 h6 ul li a p {
         font-family: 'Kanit', sans-serif;
-
     }
-
+    
     div {
         font-family: 'Kanit', sans-serif;
-
     }
-
+    
     .i:read-only {
         background-color: yellow;
     }
 </style>
 
 <script>
+    //     const urlParams = new URLSearchParams(window.location.search);
+    //     let myParam = urlParams.toString();
+    //     console.log(myParam)
+    //     $.getScript("ip.js", function (data, textStatus, jqxhr) {
+    //         var urlipaddress = data.substring(1, data.length - 1);
+    //         console.log(myParam)
+    //         const authGuest = async () => {
+    //             console.log(myParam)
+    //             const url = `${urlipaddress}guest?${myParam}`;
+    //             console.log(url)
+    //             try {
+    //                 const res = await axios.get(url);
+    //                 console.log(res.data.message)
 
-//     const urlParams = new URLSearchParams(window.location.search);
-//     let myParam = urlParams.toString();
-//     console.log(myParam)
-//     $.getScript("ip.js", function (data, textStatus, jqxhr) {
-//         var urlipaddress = data.substring(1, data.length - 1);
-//         console.log(myParam)
-//         const authGuest = async () => {
-//             console.log(myParam)
-//             const url = `${urlipaddress}guest?${myParam}`;
-//             console.log(url)
-//             try {
-//                 const res = await axios.get(url);
-//                 console.log(res.data.message)
-
-//                 return res.data.message;
-//             } catch (err) {
-//                 throw err.response.data.message;
-//             }
-//         };
-//         authGuest();
-//    });
+    //                 return res.data.message;
+    //             } catch (err) {
+    //                 throw err.response.data.message;
+    //             }
+    //         };
+    //         authGuest();
+    //    });
 </script>
 <script>
-    $(function () {
+    $(function() {
         var daysInWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
         var dayArrayLong = new Array('อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์');
@@ -163,7 +156,12 @@
             var time = date.toLocaleTimeString('en-US', {
                 hour12: false,
             });
-            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            var options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
             var day = date.toLocaleDateString('en-US', options);
             console.log(day)
             document.getElementById('_time').innerHTML = dd + '/' + mm + '/' + (parseInt(yyyy) + 543).toString() + ' ' + time;
@@ -173,15 +171,12 @@
 
 
         }
-        setInterval(function () {
+        setInterval(function() {
             time();
         }, 1000);
     });
 </script>
 <script>
-
-
-
 </script>
 
 <body class="theme-red ">
@@ -189,8 +184,7 @@
     <nav class="navbar" style="display: none;">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
                 <a class="navbar-brand" style="display: none;" id="logoname" href="javascript:void(0);"></a>
                 <a class="navbar-brand" id="namecompyny" href="#" style="color: white;" href="#"></a>
@@ -213,23 +207,21 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>จองคิวออนไลน์ วันที่ <font style="font-size: 13px; text-align: right;" id="_time">
+                            <h2>จองคิวออนไลน์ วันที่
+                                <font style="font-size: 13px; text-align: right;" id="_time">
                                 </font>
                             </h2>
                             <br>
                             <div class="form-group">
-                                <input type="button" value="จองคิวออนไลน์" onclick="modalLogin()"
-                                    class="btn btn-primary waves-effect" id="submit_q_login" class="primary" />
+                                <input type="button" value="จองคิวออนไลน์" onclick="modalLogin()" class="btn btn-primary waves-effect" id="submit_q_login" class="primary" />
                             </div>
                             <div>
                                 <div class="">
                                     <form id="div_tabadd" style="display: none;">
                                         <ul class="nav nav-tabs tab-nav-right" role="tablist">
-                                            <li role="presentation" class="active"><a href="#home" id="tabhome"
-                                                    style="font-size: 18px;" data-toggle="tab">จองคิวออนไลน์</a>
+                                            <li role="presentation" class="active"><a href="#home" id="tabhome" style="font-size: 18px;" data-toggle="tab">จองคิวออนไลน์</a>
                                             </li>
-                                            <li role="presentation" class=""><a href="#import" id="tab_qonline"
-                                                    style="font-size: 18px;" data-toggle="tab">คิวที่จองออนไลน์ </a>
+                                            <li role="presentation" class=""><a href="#import" id="tab_qonline" style="font-size: 18px;" data-toggle="tab">คิวที่จองออนไลน์ </a>
                                             </li>
                                         </ul>
                                         <div class="tab-content">
@@ -238,110 +230,95 @@
                                                     <div id="add_q_online" style="display: none;">
                                                         <div class="form-group">
                                                             <div id='line1' class="form-line">
-                                                                <select class="form-control show-tick"
-                                                                    placeholder="กรุณาเลือกแผนก"
-                                                                    onchange="selectcategory()" name="qr_category"
-                                                                    id="qr_category">
+                                                                <select class="form-control show-tick" placeholder="กรุณาเลือกแผนก" onchange="selectcategory()" name="qr_category" id="qr_category">
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div id='line2' class="form-line">
-                                                                <input type="text" class="form-control" name="username"
-                                                                    id="username" value="" autocomplete="off"
-                                                                    placeholder="ชื่อ-สกุล" />
+                                                                <input type="text" class="form-control" name="username" id="username" value="" autocomplete="off" placeholder="ชื่อ-สกุล" />
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <div id='line3' class="form-line">
-                                                                <input type="text" class="form-control" name="tel"
-                                                                    id="tel" value="" autocomplete="off"
-                                                                    placeholder="เบอร์โทร" />
+                                                                <input type="text" class="form-control" name="tel" id="tel" value="" autocomplete="off" placeholder="เบอร์โทร" />
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <input type="button" value="จองคิว"
-                                                                class="btn btn-primary waves-effect" id="submitaddqueue"
-                                                                class="primary" />
+                                                            <input type="button" value="จองคิว" class="btn btn-primary waves-effect" id="submitaddqueue" class="primary" />
                                                         </div>
                                                         <a onclick="_cviewqrcode()"> >>คิวอาร์โค้ดจองคิวออนไลน์<< </a>
-                                                                <script>
-                                                                    function _cviewqrcode() {
-                                                                        document.getElementById("div_qrcode").style.display = 'block'
-                                                                    }
-                                                                    function _cviewqrcodenone() {
-                                                                        document.getElementById("div_qrcode").style.display = 'none'
-                                                                    }
-                                                                </script>
-                                                                <div id="div_qrcode" style="display: none;"
-                                                                    class="form-group">
-                                                                    <div class="list-unstyled row clearfix">
-                                                                        <div id="Imageqrcode">
-                                                                        </div>
-                                                                    </div>
-                                                                    <a onclick="_cviewqrcodenone()">ย่อ</a>
+                                                        <script>
+                                                            function _cviewqrcode() {
+                                                                document.getElementById("div_qrcode").style.display = 'block'
+                                                            }
+
+                                                            function _cviewqrcodenone() {
+                                                                document.getElementById("div_qrcode").style.display = 'none'
+                                                            }
+                                                        </script>
+                                                        <div id="div_qrcode" style="display: none;" class="form-group">
+                                                            <div class="list-unstyled row clearfix">
+                                                                <div id="Imageqrcode">
                                                                 </div>
-                                                                <div></div>
-                                                                <br />
-                                                                <script>
+                                                            </div>
+                                                            <a onclick="_cviewqrcodenone()">ย่อ</a>
+                                                        </div>
+                                                        <div></div>
+                                                        <br />
+                                                        <script>
+                                                            function selectcategory() {
+                                                                $(function() {
+                                                                    document.getElementById('q_category').innerHTML = '<b>แผนก </b> ' + document.getElementById("qr_category").value;
+                                                                });
+                                                            }
+                                                            // $(function () {
+                                                            //     $("#btn-Convert-Html2Image").on('click', function () {
+                                                            //         html2canvas($("#createImg"), {
+                                                            //             onrendered: function (canvas) {
+                                                            //                 var imgageData = canvas.toDataURL("image/png");
+                                                            //                 var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
+                                                            //              console.log(newData)
+                                                            //                $("#btn-Convert-Html2Image").attr("download", "queue.png").attr("href", newData);
+                                                            //             }
+                                                            //         });
+                                                            //     });
+                                                            // });
+                                                        </script>
 
-                                                                    function selectcategory() {
-                                                                        $(function () {
-                                                                            document.getElementById('q_category').innerHTML = '<b>แผนก </b> ' + document.getElementById("qr_category").value;
-                                                                        });
-                                                                    }
-                                                                    // $(function () {
-                                                                    //     $("#btn-Convert-Html2Image").on('click', function () {
-                                                                    //         html2canvas($("#createImg"), {
-                                                                    //             onrendered: function (canvas) {
-                                                                    //                 var imgageData = canvas.toDataURL("image/png");
-                                                                    //                 var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
-                                                                    //              console.log(newData)
-                                                                    //                $("#btn-Convert-Html2Image").attr("download", "queue.png").attr("href", newData);
-                                                                    //             }
-                                                                    //         });
-                                                                    //     });
-                                                                    // });
-
-                                                                </script>
-
-                                                                <div id='a_load'>
-                                                                </div>
-                                                                <!-- <a id="btn-Convert-Html2Image" href="#">Download</a> -->
-                                                                <div id="_viewlog"
-                                                                    style="display: none; text-align: justify;"
-                                                                    contenteditable="false" class="form-group">
-                                                                    <div id="createImg">
-                                                                        <p id="number_queue"
-                                                                            style="text-align: center;">
-                                                                        <div>
-                                                                            <b>
+                                                        <div id='a_load'>
+                                                        </div>
+                                                        <!-- <a id="btn-Convert-Html2Image" href="#">Download</a> -->
+                                                        <div id="_viewlog" style="display: none; text-align: justify;" contenteditable="false" class="form-group">
+                                                            <div id="createImg">
+                                                                <p id="number_queue" style="text-align: center;">
+                                                                    <div>
+                                                                        <b>
                                                                                 <h3 style="text-align:justify; font-size: 24px;"
                                                                                     id="q_no"></h3>
                                                                             </b>
-                                                                        </div>
-
-                                                                        </p>
-                                                                        <hr />
-                                                                        <p id="q_category">
-                                                                        </p>
-                                                                        <p id="q_day">
-                                                                        </p>
-                                                                        <hr />
-                                                                        <div style="text-align:center;">
-                                                                            <img id='Imageqrcode_view' />
-                                                                        </div>
-                                                                        <br />
                                                                     </div>
+
+                                                                </p>
+                                                                <hr />
+                                                                <p id="q_category">
+                                                                </p>
+                                                                <p id="q_day">
+                                                                </p>
+                                                                <hr />
+                                                                <div style="text-align:center;">
+                                                                    <img id='Imageqrcode_view' />
                                                                 </div>
-                                                                <div id="img" style="display:none;">
-                                                                    <img id="newimg" />
-                                                                </div>
-                                                                <ul class="header-dropdown m-r--5">
-                                                                    <a id='logout_online' style="cursor: pointer;"
-                                                                        data-close="true">[ออกจากระบบ]</a>
-                                                                </ul>
+                                                                <br />
+                                                            </div>
+                                                        </div>
+                                                        <div id="img" style="display:none;">
+                                                            <img id="newimg" />
+                                                        </div>
+                                                        <ul class="header-dropdown m-r--5">
+                                                            <a id='logout_online' style="cursor: pointer;" data-close="true">[ออกจากระบบ]</a>
+                                                        </ul>
                                                     </div>
                                                 </div>
                                             </div>
@@ -349,9 +326,7 @@
                                                 <div class="body">
                                                     <div class="table-responsive" style="border: none;">
 
-                                                        <table
-                                                            class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
-                                                            style="border: none;" id="table_queueonline">
+                                                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display" style="border: none;" id="table_queueonline">
                                                         </table>
                                                     </div>
                                                     <u>
@@ -383,275 +358,265 @@
                                                 </div>
                                             </div>
                                     </form>
+                                    </div>
                                 </div>
-                            </div>
-                            <script type="text/javascript">
-                                function modalLogin() {
-                                    //    $("#exampleModalCenterImage").empty();
-                                    // document.getElementById('add_q_online').style.display = 'block'
-                                    document.getElementById('div_register').style.display = 'none'
-                                    //  document.getElementById('div_tab').style.display = 'block'
-                                    $("#exampleModalCenterImage").modal('hide');
-                                    $("#exampleModalCenterImage").modal('show');
-                                    //  $("#exampleModalCenterImage").modal();
-                                }
-                            </script>
-                            <div class="modal fade col-lg-6 col-md-6 col-sm-6" id="exampleModalCenterImage"
-                                tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-                                aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content ">
-                                        <div class="">
-                                            <div id="div_login">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalCenterTitle"
-                                                        style="text-align: center;">เข้าสู่ระบบ</h5>
+                                <script type="text/javascript">
+                                    function modalLogin() {
+                                        //    $("#exampleModalCenterImage").empty();
+                                        // document.getElementById('add_q_online').style.display = 'block'
+                                        document.getElementById('div_register').style.display = 'none'
+                                            //  document.getElementById('div_tab').style.display = 'block'
+                                        $("#exampleModalCenterImage").modal('hide');
+                                        $("#exampleModalCenterImage").modal('show');
+                                        //  $("#exampleModalCenterImage").modal();
+                                    }
+                                </script>
+                                <div class="modal fade col-lg-6 col-md-6 col-sm-6" id="exampleModalCenterImage" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content ">
+                                            <div class="">
+                                                <div id="div_login">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalCenterTitle" style="text-align: center;">เข้าสู่ระบบ</h5>
 
-                                                </div>
-                                                <table align="center">
-                                                    <tr>
-                                                        <td style="text-align: right;"> <i class="material-icons">person
+                                                    </div>
+                                                    <table align="center">
+                                                        <tr>
+                                                            <td style="text-align: right;"> <i class="material-icons">person
                                                             </i> &nbsp;
-                                                        </td>
-                                                        <td> <input type="text" id="member_login_user" required
-                                                                autofocus name="member_login_user" class="form-control"
-                                                                placeholder="ชื่อผู้ใช้งาน" value="">
+                                                            </td>
+                                                            <td> <input type="text" id="member_login_user" required autofocus name="member_login_user" class="form-control" placeholder="ชื่อผู้ใช้งาน หรือ เบอร์โทรศัพท์" value="">
 
-                                                        </td>
-                                                        <td></td>
-                                                        <td>&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div>&nbsp;</div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td> <i class="material-icons">lock</i></td>
-                                                        <td><input type="password" name="member_login_pass" required
-                                                                autofocus class="form-control" placeholder="รหัสผ่าน"
-                                                                id="member_login_pass" value="" /></td>
-                                                    </tr>
+                                                            </td>
+                                                            <td></td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div>&nbsp;</div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td> <i class="material-icons">lock</i></td>
+                                                            <td><input type="password" name="member_login_pass" required autofocus class="form-control" placeholder="รหัสผ่าน" id="member_login_pass" value="" /></td>
+                                                        </tr>
 
-                                                    <tr>
-                                                        <td></td>
-                                                        <td>
-                                                            <script>
-                                                                function regis() {
+                                                        <tr>
+                                                            <td></td>
+                                                            <td>
+                                                                <script>
+                                                                    function regis() {
 
-                                                                    document.getElementById('div_login').style.display = 'none'
-                                                                    document.getElementById('div_register').style.display = 'block'
-                                                                }
-                                                                function login() {
-                                                                    //$("#exampleModalCenterImage").modal('hide');
-                                                                    //   $("#exampleModalCenterImage").modal('show');
-                                                                    document.getElementById('div_login').style.display = 'block'
-                                                                    document.getElementById('div_register').style.display = 'none'
-                                                                }
-                                                            </script>
-                                                            <br>
-                                                            <input type="button" value="ล็อกอิน"
-                                                                class="btn btn-block bg-pink waves-effect" id="login"
-                                                                onclick="SUBMITLOGIN()" name="login"
-                                                                style="cursor: pointer;">
-                                                            <p id="adminlogin" style="color: red; font-size: 18px;"></p>
-                                                            <input type="hidden" id="objid">
-                                                            <input type="hidden" id="accesstoken">
-                                                            <input type="hidden" id="refreshtoken">
-                                                            <input type="hidden" id="userName">
-                                                            <input type="hidden" id="txtrefresh_token">
-                                                            <div class="row m-t-15 m-b--20">
-                                                                <div class="col-xs-6">
-                                                                    <a style="text-align: right; cursor: pointer;"
-                                                                        onclick="regis()">ลงทะเบียน</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <script>
-                                                            $("#login_user").keyup(function (event) {
-                                                                if (event.keyCode === 13) {
-                                                                    $("#login").click();
-                                                                }
-                                                            });
-                                                            $("#login_pass").keyup(function (event) {
-                                                                if (event.keyCode === 13) {
-                                                                    $("#login").click();
-                                                                }
-                                                            });
-                                                            function SUBMITLOGIN() {
-                                                                //  console.log(document.getElementById("member_login_user").value)
-                                                                document.getElementById("lbCheck").innerText = ""
-                                                                if (document.getElementById("member_login_user").value == "" || document.getElementById("member_login_pass").value == "") {
-                                                                    document.getElementById("lbCheck").innerText = "กรุณากรอก USER ID และ PASSWORD";
-                                                                    return;
-                                                                }
-                                                                $.getScript("ip.js", function (data, textStatus, jqxhr) {
-                                                                    var urlipaddress = data.substring(1, data.length - 1);
-                                                                    const dataUser = {
-                                                                        username: document.getElementById("member_login_user").value,
-                                                                        password: document.getElementById("member_login_pass").value,
+                                                                        document.getElementById('div_login').style.display = 'none'
+                                                                        document.getElementById('div_register').style.display = 'block'
                                                                     }
-                                                                    axios.post(urlipaddress + 'login', dataUser).then(function (response) {
-                                                                        //  console.log(response.data.message.refresh_token)
-                                                                        Cookies.set('refresh_tokenOnline', JSON.stringify(response.data.message), { expires: 1 })
 
-                                                                        var decodejwt = parseJwt(response.data.message.refresh_token);
-                                                                        document.getElementById("objid").value = decodejwt.mId;
-                                                                        axios.post(urlipaddress + 'permit', {}, {
-                                                                            headers: {
-                                                                                'Authorization': response.data.message.refresh_token
+                                                                    function login() {
+                                                                        //$("#exampleModalCenterImage").modal('hide');
+                                                                        //   $("#exampleModalCenterImage").modal('show');
+                                                                        document.getElementById('div_login').style.display = 'block'
+                                                                        document.getElementById('div_register').style.display = 'none'
+                                                                    }
+                                                                </script>
+                                                                <br>
+                                                                <input type="button" value="ล็อกอิน" class="btn btn-block bg-pink waves-effect" id="login" onclick="SUBMITLOGIN()" name="login" style="cursor: pointer;">
+                                                                <p id="adminlogin" style="color: red; font-size: 18px;"></p>
+                                                                <input type="hidden" id="objid">
+                                                                <input type="hidden" id="accesstoken">
+                                                                <input type="hidden" id="refreshtoken">
+                                                                <input type="hidden" id="userName">
+                                                                <input type="hidden" id="txtrefresh_token">
+                                                                <div class="row m-t-15 m-b--20">
+                                                                    <div class="col-xs-6">
+                                                                        <a style="text-align: right; cursor: pointer;" onclick="regis()">ลงทะเบียน</a>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <script>
+                                                                $("#login_user").keyup(function(event) {
+                                                                    if (event.keyCode === 13) {
+                                                                        $("#login").click();
+                                                                    }
+                                                                });
+                                                                $("#login_pass").keyup(function(event) {
+                                                                    if (event.keyCode === 13) {
+                                                                        $("#login").click();
+                                                                    }
+                                                                });
+
+                                                                function SUBMITLOGIN() {
+                                                                    //  console.log(document.getElementById("member_login_user").value)
+                                                                    document.getElementById("lbCheck").innerText = ""
+                                                                    if (document.getElementById("member_login_user").value == "" || document.getElementById("member_login_pass").value == "") {
+                                                                        document.getElementById("lbCheck").innerText = "กรุณากรอก USER ID และ PASSWORD";
+                                                                        return;
+                                                                    }
+                                                                    $.getScript("ip.js", function(data, textStatus, jqxhr) {
+                                                                        var urlipaddress = data.substring(1, data.length - 1);
+                                                                        const dataUser = {
+                                                                            username: document.getElementById("member_login_user").value,
+                                                                            password: document.getElementById("member_login_pass").value,
+                                                                        }
+                                                                        axios.post(urlipaddress + 'login', dataUser).then(function(response) {
+                                                                            //  console.log(response.data.message.refresh_token)
+                                                                            Cookies.set('refresh_tokenOnline', JSON.stringify(response.data.message), {
+                                                                                expires: 1
+                                                                            })
+
+                                                                            var decodejwt = parseJwt(response.data.message.refresh_token);
+                                                                            document.getElementById("objid").value = decodejwt.mId;
+                                                                            axios.post(urlipaddress + 'permit', {}, {
+                                                                                headers: {
+                                                                                    'Authorization': response.data.message.refresh_token
+                                                                                }
+                                                                            }).then(function(tokenresponse) {
+                                                                                getuser(tokenresponse, urlipaddress, decodejwt);
+                                                                                //  $("#exampleModalCenterImage").empty();
+                                                                            }).catch(function(res) {
+                                                                                const {
+                                                                                    response
+                                                                                } = res
+                                                                            });
+                                                                        }).catch(function(res) {
+                                                                            const {
+                                                                                response
+                                                                            } = res
+                                                                            if (response.data.message == "The username or password that you've entered doesn't match any account.") {
+                                                                                document.getElementById("lbCheck").innerText = "USER ID หรือ PASSWORD ไม่ถูกต้อง"
+                                                                                return;
                                                                             }
-                                                                        }).then(function (tokenresponse) {
-                                                                            getuser(tokenresponse, urlipaddress, decodejwt);
-                                                                            //  $("#exampleModalCenterImage").empty();
-                                                                        }).catch(function (res) {
-                                                                            const { response } = res
                                                                         });
-                                                                    }).catch(function (res) {
-                                                                        const { response } = res
-                                                                        if (response.data.message == "The username or password that you've entered doesn't match any account.") {
-                                                                            document.getElementById("lbCheck").innerText = "USER ID หรือ PASSWORD ไม่ถูกต้อง"
-                                                                            return;
+                                                                    });
+                                                                }
+
+                                                                //////////////////////////////////
+                                                                function getuser(tokenresponse, urlipaddress, decodejwt) {
+                                                                    const dataUserID = {
+                                                                        mId: document.getElementById("objid").value
+                                                                    }
+                                                                    axios.post(urlipaddress + 'user', dataUserID, {
+                                                                        headers: {
+                                                                            'Authorization': tokenresponse.data.message.access_token
+                                                                        }
+                                                                    }).then(function(response) {
+                                                                        var cnt = response.data.message.data.length;
+                                                                        var n = 0;
+                                                                        var _arr = new Array();
+                                                                        for (i = 0; i < cnt; i++) {
+
+                                                                            if (response.data.message.data[i].username == document.getElementById("member_login_user").value) {
+
+                                                                                document.getElementById("lbCheck").innerText = "";
+                                                                                Cookies.set('dataUserOnline', JSON.stringify(response.data.message.data[i]), {
+                                                                                    expires: 1
+                                                                                })
+
+                                                                                Cookies.set('_objectIdOnline', document.getElementById("objid").value, {
+                                                                                    expires: 1
+                                                                                })
+
+                                                                                if (response.data.message.data[i].rule.toLowerCase() == 'online') {
+                                                                                    $("#exampleModalCenterImage").modal('hide');
+                                                                                    document.getElementById('add_q_online').style.display = 'block'
+                                                                                    document.getElementById('submit_q_login').style.display = 'none'
+                                                                                    document.getElementById('div_tabadd').style.display = 'block'
+
+                                                                                }
+                                                                                break;
+                                                                            }
                                                                         }
                                                                     });
-                                                                });
-                                                            }
-
-                                                            //////////////////////////////////
-                                                            function getuser(tokenresponse, urlipaddress, decodejwt) {
-                                                                const dataUserID = {
-                                                                    mId: document.getElementById("objid").value
                                                                 }
-                                                                axios.post(urlipaddress + 'user', dataUserID, {
-                                                                    headers: {
-                                                                        'Authorization': tokenresponse.data.message.access_token
-                                                                    }
-                                                                }).then(function (response) {
-                                                                    var cnt = response.data.message.data.length;
-                                                                    var n = 0;
-                                                                    var _arr = new Array();
-                                                                    for (i = 0; i < cnt; i++) {
-                                                                       
-                                                                        if (response.data.message.data[i].username == document.getElementById("member_login_user").value) {
-                                                                         
-                                                                            document.getElementById("lbCheck").innerText = "";
-                                                                            Cookies.set('dataUserOnline', JSON.stringify(response.data.message.data[i]), { expires: 1 })
-                                                                        
-                                                                            Cookies.set('_objectIdOnline', document.getElementById("objid").value, { expires: 1 })
 
-                                                                            if (response.data.message.data[i].rule.toLowerCase() == 'online') {
-                                                                                $("#exampleModalCenterImage").modal('hide');
-                                                                                document.getElementById('add_q_online').style.display = 'block'
-                                                                                document.getElementById('submit_q_login').style.display = 'none'
-                                                                                document.getElementById('div_tabadd').style.display = 'block'
-
-                                                                            }
-                                                                            break;
-                                                                        }
-                                                                    }
-                                                                });
-                                                            }
-                                                            function parseJwt(token) {
-                                                                var base64Url = token.split('.')[1];
-                                                                var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                                                                var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-                                                                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                                                                }).join(''));
-                                                                return JSON.parse(jsonPayload);
-                                                            };
-                                                        </script>
-                                                    </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td>
-                                                            <div>
-                                                                <p id="lbCheck" style="color: red; font-size: 16px;">
-                                                                </p>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
+                                                                function parseJwt(token) {
+                                                                    var base64Url = token.split('.')[1];
+                                                                    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                                                                    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                                                                        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                                                                    }).join(''));
+                                                                    return JSON.parse(jsonPayload);
+                                                                };
+                                                            </script>
+                                                        </tr>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td>
+                                                                <div>
+                                                                    <p id="lbCheck" style="color: red; font-size: 16px;">
+                                                                    </p>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
 
 
-                                            <div id="div_register">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="" style="text-align: center;">ลงทะเบียน
-                                                    </h5>
+                                                <div id="div_register">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="" style="text-align: center;">ลงทะเบียน
+                                                        </h5>
+
+                                                    </div>
+                                                    <table align="center">
+                                                        <tr>
+                                                            <td style="text-align: right;"> <i class="material-icons">person
+                                                            </i> &nbsp;
+                                                            </td>
+                                                            <td> <input type="text" id="member_register_user" required autofocus name="member_register_user" class="form-control" placeholder="ชื่อผู้ใช้งาน หรือ เบอร์โทรศัพท์" value="">
+
+                                                            </td>
+                                                            <td></td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div>&nbsp;</div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td> <i class="material-icons">lock</i></td>
+                                                            <td><input type="text" name="member_register_pass" required autofocus class="form-control" placeholder="รหัสผ่าน" id="member_register_pass" value="" />
+
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td>
+                                                                <br>
+                                                                <input type="button" value="ลงทะเบียน" class="btn btn-block bg-pink waves-effect" id="Submitmember_register" name="login" style="cursor: pointer;">
+                                                                <div class="row m-t-15 m-b--20">
+                                                                    <div class="col-xs-6">
+                                                                        <a style="text-align: right; cursor: pointer;" onclick="login()">เข้าสู่ระบบ</a>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                    </table>
 
                                                 </div>
-                                                <table align="center">
-                                                    <tr>
-                                                        <td style="text-align: right;"> <i class="material-icons">person
-                                                            </i> &nbsp;
-                                                        </td>
-                                                        <td> <input type="text" id="member_register_user" required
-                                                                autofocus name="member_register_user"
-                                                                class="form-control" placeholder="ชื่อผู้ใช้งาน"
-                                                                value="">
-
-                                                        </td>
-                                                        <td></td>
-                                                        <td>&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div>&nbsp;</div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td> <i class="material-icons">lock</i></td>
-                                                        <td><input type="password" name="member_register_pass" required
-                                                                autofocus class="form-control" placeholder="รหัสผ่าน"
-                                                                id="member_register_pass" value="" />
-
-                                                        </td>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td>
-                                                            <br>
-                                                            <input type="button" value="ลงทะเบียน"
-                                                                class="btn btn-block bg-pink waves-effect"
-                                                                id="Submitmember_register" name="login"
-                                                                style="cursor: pointer;">
-                                                            <div class="row m-t-15 m-b--20">
-                                                                <div class="col-xs-6">
-                                                                    <a style="text-align: right; cursor: pointer;"
-                                                                        onclick="login()">เข้าสู่ระบบ</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                </table>
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">ปิด</button>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="body" id="div_viwe">
-                        <u>
+                        <div class="body" id="div_viwe">
+                            <u>
                             <h3 id="count_queuetoday"></h3>
                         </u>
-                        <div class="table-responsive">
-                            <table
-                                class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
-                                style="border: none;  " id="table_view">
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display" style="border: none;  " id="table_view">
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 
 

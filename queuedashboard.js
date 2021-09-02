@@ -640,6 +640,15 @@ $.getScript("ip.js", async function (data, textStatus, jqxhr) {
     var urlipaddress = data.substring(1, data.length - 1);
     const socket = io(urlipaddress);
     const result = await acctoken();
+    console.log('999999999999999999')
+    socket.on('addQueue', async function (data) {
+        console.log('da888888888888888888888888888888888888888888888888888888888888888888888ta')
+        console.log(data)
+        if (check_table_clack == '') {
+            console.log(data)
+            await v_socketio();
+        }
+    });
     socket.on('sentServiceChannel', async function (data) {
         if (check_table_clack == '') {
             console.log(data)

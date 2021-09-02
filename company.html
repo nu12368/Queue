@@ -9,8 +9,7 @@
     <link rel="icon" href="../../uploads/logo.ico" type="image/x-icon">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
-        type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
     <!-- Bootstrap Core Css -->
@@ -29,8 +28,7 @@
 
 
     <!-- Bootstrap Material Datetime Picker Css -->
-    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
-        rel="stylesheet" />
+    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
     <link href="../../plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
 
 
@@ -41,8 +39,7 @@
     <link href="../../css/themes/all-themes.css" rel="stylesheet" />
 
     <!-- Bootstrap Material Datetime Picker Css -->
-    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
-        rel="stylesheet" />
+    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
 
     <!-- Bootstrap DatePicker Css -->
     <link href="../../plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
@@ -52,7 +49,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
     <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
 
     <!-- modal  -->
@@ -85,11 +82,11 @@
     body h1 h2 h3 h4 h5 h6 ul li a p {
         font-family: 'Kanit', sans-serif;
     }
-
+    
     div {
         font-family: 'Kanit', sans-serif;
     }
-
+    
     .i:read-only {
         background-color: yellow;
     }
@@ -106,11 +103,12 @@
     .intro {
         display: block !important;
     }
-
+    
     .intronone {
         display: none !important;
     }
 </style>
+
 <body class="theme-red">
     <!-- Page Loader -->
     <div class="page-loader-wrapper">
@@ -147,11 +145,9 @@
     <nav class="navbar">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" id="logoname" href="javascript:void(0);"></a>
-                <a class="navbar-brand" id="namecompyny" href="#" style="color: white;" href="#"></a>
+                <a class="navbar-brand" id="logoname" href="queuedashboard.html"></a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -169,8 +165,8 @@
         <aside id="leftsidebar" class="sidebar" style="text-align: center;">
             <!-- User Info -->
             <div class="user-info" style="text-align:center;">
-                <div class="image" >
-                    <div class="image" >
+                <div class="image">
+                    <div class="image">
                         <img id="LOGOVIEW" name="LOGOVIEW" width="100" height="100" alt="User" />
                     </div>
                 </div>
@@ -203,9 +199,9 @@
                         <a href="queuedashboard.html">
                             <i class="material-icons">queue</i>
                             <span>แดชบอร์ด</span>
-                        </a> 
+                        </a>
                     </li>
-                    <li >
+                    <li>
                         <a href="reportqueuedate.html">
                             <i class="material-icons">date_range</i>
                             <span>รายงานคิวแบ่งตามวันที่</span>
@@ -232,22 +228,22 @@
                                     <span>สร้างโปรไฟล์</span>
                                 </a>
                             </li>
-                            <li >
+                            <li>
                                 <a href="queuevdo.html">
                                     <span>สร้างวีดีโอ</span>
                                 </a>
                             </li>
-                            <li >
+                            <li>
                                 <a href="queuemessage.html">
                                     <span>ข้อความหน้าจอ</span>
                                 </a>
                             </li>
-                            <li >
+                            <li>
                                 <a href="queueqrcode.html">
                                     <span>คิวอาร์โค้ด</span>
                                 </a>
                             </li>
-                            <li >
+                            <li>
                                 <a href="queuesms.html">
                                     <span>ตั้งค่า SMS</span>
                                 </a>
@@ -257,9 +253,14 @@
                                     <span>ลบคิว</span>
                                 </a>
                             </li>
-                            <li  class="active">
+                            <li class="active">
                                 <a href="company.html">
-                                    <span>แก้ไขบริษัท</span>
+                                    <span>แก้ไขชื่อบริษัท/โลโก้บริษัท/โลโก้สลิป</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="queueadvancebooking.html">
+                                    <span>สร้างรายการจองคิวล่วงหน้า</span>
                                 </a>
                             </li>
                         </ul>
@@ -435,12 +436,10 @@
                                     <form id="formElem">
                                         <!-- Nav tabs -->
                                         <ul class="nav nav-tabs tab-nav-right" role="tablist">
-                                            <li role="presentation" class="active"><a href="#home"
-                                                    style="font-size: 18px;" data-toggle="tab">ชื่อบริษัท/โลโก้บริษัท</a>
+                                            <li role="presentation" class="active"><a href="#home" style="font-size: 18px;" data-toggle="tab">ชื่อบริษัท/โลโก้บริษัท</a>
                                             </li>
-                                            <li role="presentation"><a href="#tab2"
-                                                style="font-size: 18px;" data-toggle="tab">โลโก้สลิป</a>
-                                        </li>
+                                            <li role="presentation"><a href="#tab2" style="font-size: 18px;" data-toggle="tab">โลโก้สลิป</a>
+                                            </li>
                                         </ul>
                                         <!-- Tab panes -->
                                         <div class="tab-content">
@@ -451,24 +450,19 @@
                                                             <div class="form-group">
                                                                 <div class="form-line">
                                                                     <p>โลโก้บริษัท</p>
-                                                                    <input type="file" name="fileilogo" type="file"
-                                                                        multiple accept=".png, .jpg, .jpeg"
-                                                                        id="fileilogo">
+                                                                    <input type="file" name="fileilogo" type="file" multiple accept=".png, .jpg, .jpeg" id="fileilogo">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="form-line">
                                                                     <font style="font-size: 18px; ">ชื่อบริษัท</font>
-                                                                    <input type="text" class="form-control" name="txtnamecompyny"
-                                                                        id="txtnamecompyny" value="" autocomplete="off"
-                                                                        placeholder="ชื่อบริษัท" /> 
+                                                                    <input type="text" class="form-control" name="txtnamecompyny" id="txtnamecompyny" value="" autocomplete="off" placeholder="ชื่อบริษัท" />
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <input type="hidden" id="logoId">
-                                                    <button class="btn btn-primary waves-effect" id="submitcompany"
-                                                        class="primary" type="button">บันทึก</button>
+                                                    <button class="btn btn-primary waves-effect" id="submitcompany" class="primary" type="button">บันทึก</button>
                                                 </div>
                                             </div>
                                             <div role="tabpanel" class="tab-pane fade in" id="tab2">
@@ -478,9 +472,7 @@
                                                             <div class="form-group">
                                                                 <div class="form-line">
                                                                     <p>โลโก้สลิป</p>
-                                                                    <input type="file" name="fileilogoslip" type="file"
-                                                                        multiple accept=".png, .jpg, .jpeg"
-                                                                        id="fileilogoslip">
+                                                                    <input type="file" name="fileilogoslip" type="file" multiple accept=".png, .jpg, .jpeg" id="fileilogoslip">
                                                                 </div>
                                                             </div>
                                                             <h4>โลโก้สลิป</h4>
@@ -488,8 +480,7 @@
                                                         </div>
                                                     </div>
                                                     <input type="hidden" id="logoIdslip">
-                                                    <button class="btn btn-primary waves-effect" id="submitcompanyslip"
-                                                        class="primary" type="button">บันทึก</button>
+                                                    <button class="btn btn-primary waves-effect" id="submitcompanyslip" class="primary" type="button">บันทึก</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -522,56 +513,53 @@
                                         <div class="list-unstyled row clearfix">
                                             <div id="div_view" class="lightgallery">
                                                 <a id="a_imageview" class="lightgallery">
-                                                    <div id="viewImage" style="cursor: pointer;"
-                                                        class="img-responsive thumbnail">
+                                                    <div id="viewImage" style="cursor: pointer;" class="img-responsive thumbnail">
                                                 </a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!-- </div> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="modal fade" id="myModaldont" role="dialog">
-                <div class="modal-dialog" style="width: 300px; height: 200px;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 id="title" class="modal-title">บันทึกข้อมูล</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-20">
-                                        <i class="fa fa-exclamation-triangle" id="c_delete"
-                                            style="font-size:48px;color:red"></i>
-                                        <i class="fa fa-check-circle" id="completed"
-                                            style="font-size:48px;color:green; display: none;"></i>
-                                    </div>
-                                    <div>
-                                        <label id="lbl_completed" for="fname"> </label>
+                                        <!-- </div> -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">ตกลง</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
                         </div>
                     </div>
 
                 </div>
-
             </div>
-        </div>
+
+            <div class="container">
+                <div class="modal fade" id="myModaldont" role="dialog">
+                    <div class="modal-dialog" style="width: 300px; height: 200px;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 id="title" class="modal-title">บันทึกข้อมูล</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-20">
+                                            <i class="fa fa-exclamation-triangle" id="c_delete" style="font-size:48px;color:red"></i>
+                                            <i class="fa fa-check-circle" id="completed" style="font-size:48px;color:green; display: none;"></i>
+                                        </div>
+                                        <div>
+                                            <label id="lbl_completed" for="fname"> </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">ตกลง</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
 
         </div>
     </section>

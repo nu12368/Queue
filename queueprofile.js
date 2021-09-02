@@ -1,20 +1,20 @@
-
 var obj = JSON.parse(Cookies.get('refresh_token'));
 var userId = Cookies.get('dataUser');
 var _objectId = Cookies.get('_objectId');
 var _arr = new Array();
 var n = 0;
+
 function acctoken() {
     return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.post(urlipaddress + 'permit', {}, {
                 headers: {
                     'Authorization': obj.refresh_token
                 }
-            }).then(function (response) {
+            }).then(function(response) {
                 resolve(response.data.message.access_token);
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
                 if (response.data.message == "Unauthorized") {
                     location.href = "index.html";
@@ -28,13 +28,13 @@ function acctoken() {
 
 function getcategory(refresh_token) {
     return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.get(urlipaddress + 'category/' + _objectId, {
                 headers: {
                     'Authorization': refresh_token
                 }
-            }).then(function (response) {
+            }).then(function(response) {
                 console.log(response.data.message.category)
 
                 var cnt = response.data.message.category.length;
@@ -55,7 +55,10 @@ function getcategory(refresh_token) {
                 console.log(_arr)
                 $('#table1').DataTable().destroy();
                 $('#table1').DataTable({
-                    "lengthMenu": [[50, 100, 200, 300, 400, 500, 1000, 1500, 2000, -1], [50, 100, 200, 300, 400, 500, 1000, 1500, 2000, "All"]],
+                    "lengthMenu": [
+                        [50, 100, 200, 300, 400, 500, 1000, 1500, 2000, -1],
+                        [50, 100, 200, 300, 400, 500, 1000, 1500, 2000, "All"]
+                    ],
                     "pageLength": 50,
                     'data': _arr,
                     "responsive": true,
@@ -80,14 +83,14 @@ function getcategory(refresh_token) {
                 var $select = $('#category');
                 $select.find('option').remove();
                 $select.append('<option value=' + '0' + '>' + '-- เลือกแผนก --' + '</option>');
-                $.each(response.data.message.category, function (key, value) {
+                $.each(response.data.message.category, function(key, value) {
                     $select.append(`<option>${value.category}</option>`);
                 });
 
 
                 resolve(response.data.message.category.length);
 
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
             });
         });
@@ -95,14 +98,14 @@ function getcategory(refresh_token) {
 }
 
 function getprofile(refresh_token) {
-    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+    $.getScript("ip.js", function(data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
 
         axios.get(urlipaddress + 'profile/' + _objectId, {
             headers: {
                 'Authorization': refresh_token
             }
-        }).then(function (response) {
+        }).then(function(response) {
             console.log(response.data.message.values)
 
             var cnt = response.data.message.values.length;
@@ -121,14 +124,17 @@ function getprofile(refresh_token) {
                 }
                 num++
                 n = n + 1
-                // $("#ul_profile").append(`<li id='${response.data.message.values[i].name}' name='${response.data.message.values[i].category}'><a style="cursor: pointer;" data-close="true">${response.data.message.values[i].name}</a>
-                // </li>`);
+                    // $("#ul_profile").append(`<li id='${response.data.message.values[i].name}' name='${response.data.message.values[i].category}'><a style="cursor: pointer;" data-close="true">${response.data.message.values[i].name}</a>
+                    // </li>`);
             }
-           
+
 
             $('#table1').DataTable().destroy();
             $('#table1').DataTable({
-                "lengthMenu": [[50, 100, 200, 300, 400, 500, 1000, 1500, 2000, -1], [50, 100, 200, 300, 400, 500, 1000, 1500, 2000, "All"]],
+                "lengthMenu": [
+                    [50, 100, 200, 300, 400, 500, 1000, 1500, 2000, -1],
+                    [50, 100, 200, 300, 400, 500, 1000, 1500, 2000, "All"]
+                ],
                 "pageLength": 50,
                 'data': _arr,
                 "responsive": true,
@@ -149,19 +155,19 @@ function getprofile(refresh_token) {
                     }
                 ],
             });
-        }).catch(function (res) {
+        }).catch(function(res) {
             const { response } = res
         });
     });
 }
 
-$(async function () {
+$(async function() {
     const result = await acctoken();
     await getcategory(result);
     await getprofile(result);
     /////////////////////////////////// ลบโปรไฟล์
     var datauser;
-    $('#table1').on('click', 'i.removeprofile', function (e) {
+    $('#table1').on('click', 'i.removeprofile', function(e) {
         e.preventDefault();
         var table = $('#table1').DataTable();
         var _ro = table.row($(this).parents('tr'));
@@ -176,8 +182,8 @@ $(async function () {
 
     });
     /////////////////////ลบ
-    $('#deleteprofile').on('click', async function (e) {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+    $('#deleteprofile').on('click', async function(e) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             console.log(datauser.name)
             console.log(_objectId)
@@ -189,12 +195,12 @@ $(async function () {
                     name: datauser.name
                 },
                 headers: { 'Authorization': result }
-            }).then(function (response) {
+            }).then(function(response) {
                 if (response.data.message == "delete completed") {
                     $("#myModaldelete").empty();
                     showSuccessMessageprofile('ลบข้อมูลสำเร็จ')
                 }
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
                 console.log(response.data.message)
                 showCancelMessageprofile(response.data.message, '')
@@ -203,30 +209,30 @@ $(async function () {
     });
 
     /////////////////////////////////// สร้างโปรไฟล์
-    $('#submitprofile').on('click', function (e) {
+    $('#submitprofile').on('click', function(e) {
 
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             var sp = document.getElementById("input-tags").value.split(',')
             console.log(sp)
 
             const dataprofile = {
-                'values': {
-                    name: document.getElementById("nameprofile").value,
-                    'category': sp
+                    'values': {
+                        name: document.getElementById("nameprofile").value,
+                        'category': sp
+                    }
                 }
-            }
-            // console.log(dataprofile)
-            // console.log(urlipaddress + 'profile/' + _objectId)
+                // console.log(dataprofile)
+                // console.log(urlipaddress + 'profile/' + _objectId)
 
             axios.post(urlipaddress + 'profile/' + _objectId, dataprofile, {
                 headers: {
                     'Authorization': result
                 }
-            }).then(function (response) {
+            }).then(function(response) {
                 showSuccessMessageprofile('บันทึกสำเร็จ')
                 getprofile(result);
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
                 console.log(response.data.message)
                 if (response.data.message == 'That name already exists') {
@@ -236,7 +242,7 @@ $(async function () {
         });
     });
 
-   
+
 });
 
 function showCancelMessageprofile(title, text) {
@@ -244,16 +250,17 @@ function showCancelMessageprofile(title, text) {
         title: title,
         text: text,
         type: "error",
-    }, function (isConfirm) {
+    }, function(isConfirm) {
         swal("Cancelled", "Your imaginary file is safe :)", "error");
     });
 }
+
 function showSuccessMessageprofile(text) {
     swal({
         title: "สำเร็จ",
         text: text,
         type: "success",
-    }, function (isConfirm) {
+    }, function(isConfirm) {
         if (isConfirm) {
             location.href = "queueProfile.html";
         }

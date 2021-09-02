@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>config</title>
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> -->
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script> -->
+
+    <!-- <script src="./config.js"></script> -->
+    <!-- <script src="./ip.js"></script> -->
+    <!-- <script src="https://unpkg.com/fs-extra@9.1.0/lib/index.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/fs.extra@1.3.2/fs.copy.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/fs-extra@10.0.0/lib/index.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/fs-extra@10.0.0/lib/index.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/fs-extra@10.0.0/CHANGELOG.md"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fs-extra@10.0.0/LICENSE"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fs-extra@10.0.0/package.json"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fs-extra@10.0.0/README.md'></script> -->
+</head>
+
+<!-- <script type="text/javascript">
+    function load() {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
+            var urlipserver = data.substring(1, data.length - 1);
+            $.getScript("ipclient.js", function(dataipclient, textStatus, jqxhr) {
+                var ipclientUrl = dataipclient.substring(1, dataipclient.length - 1);
+
+
+            });
+        });
+    }
+</script> -->
+<script>
+    function submit() {
+        // let fs = require('fs-extra'); //ของเวปใช้ cdn ชื่อ fs แทน
+
+        let robot = "10.0.0.205:4000"
+        writeFile('ip.js', robot, 'utf8', (err, data) => {});
+
+        //robot.txt = path ของ file ip
+        //robot คือค่าที่จะไปแก้
+    }
+</script>
+
+<body style="text-align: center;">
+
+    <br>
+    <div>
+        ipserver <input type="text" style="width: 400px;" id="ipserver">
+    </div>
+    <br>
+    <div>
+        ipclient <input type="text" style="width: 400px;" id="ipclient">
+    </div>
+    <br>
+    <div><input type="button" onclick="submit()" value="บันทึก" id="save"></div>
+</body>
+
+</html>

@@ -1,20 +1,20 @@
-
 var obj = JSON.parse(Cookies.get('refresh_token'));
 var userId = Cookies.get('dataUser');
 var _objectId = Cookies.get('_objectId');
 var _arr = new Array();
 var n = 0;
+
 function acctoken() {
     return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.post(urlipaddress + 'permit', {}, {
                 headers: {
                     'Authorization': obj.refresh_token
                 }
-            }).then(function (response) {
+            }).then(function(response) {
                 resolve(response.data.message.access_token);
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
                 if (response.data.message == "Unauthorized") {
                     location.href = "index.html";
@@ -28,13 +28,13 @@ function acctoken() {
 
 function getcategoryview(refresh_token) {
     return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.get(urlipaddress + 'category/' + _objectId, {
                 headers: {
                     'Authorization': refresh_token
                 }
-            }).then(function (response) {
+            }).then(function(response) {
                 console.log(response.data.message.category)
 
                 var cnt = response.data.message.category.length;
@@ -55,7 +55,10 @@ function getcategoryview(refresh_token) {
                 console.log(_arr)
                 $('#table1').DataTable().destroy();
                 $('#table1').DataTable({
-                    "lengthMenu": [[50, 100, 200, 300, 400, 500, 1000, 1500, 2000, -1], [50, 100, 200, 300, 400, 500, 1000, 1500, 2000, "All"]],
+                    "lengthMenu": [
+                        [50, 100, 200, 300, 400, 500, 1000, 1500, 2000, -1],
+                        [50, 100, 200, 300, 400, 500, 1000, 1500, 2000, "All"]
+                    ],
                     "pageLength": 50,
                     'data': _arr,
                     "responsive": true,
@@ -73,21 +76,23 @@ function getcategoryview(refresh_token) {
                             data: null,
                             className: "center",
                             defaultContent: '<i href="" class="editcategory" style="font-size:14px;color:blue; cursor: pointer;">แก้ไข</i>/<i href="" class="removecategory" style="font-size:14px;color:red; cursor: pointer;">ลบ</i>'
-                        }
+                        },
+                        //  {
+                        //     data: null,
+                        //     className: "center",
+                        //     defaultContent: '<i href="" class="settime" style="font-size:14px;color:blue; cursor: pointer;">กำหนดช่วงเวลา</i>'
+                        // }
                     ],
                 });
 
                 var $select = $('#category');
                 $select.find('option').remove();
                 $select.append('<option value=' + '0' + '>' + '-- เลือกแผนก --' + '</option>');
-                $.each(response.data.message.category, function (key, value) {
+                $.each(response.data.message.category, function(key, value) {
                     $select.append('<option value=' + value.category + '>' + value.category + '</option>');
                 });
-
-
                 resolve(response.data.message.category.length);
-
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
             });
         });
@@ -95,13 +100,13 @@ function getcategoryview(refresh_token) {
 }
 
 
-$(async function () {
+$(async function() {
     const result = await acctoken();
     await getcategoryview(result);
 
     /////////////////////////////////// ลบแผนก
     var datauser;
-    $('#table1').on('click', 'i.removecategory', function (e) {
+    $('#table1').on('click', 'i.removecategory', function(e) {
         e.preventDefault();
         var table = $('#table1').DataTable();
         var _ro = table.row($(this).parents('tr'));
@@ -115,7 +120,7 @@ $(async function () {
     });
 
     //แก้ไข
-    $('#table1').on('click', 'i.editcategory', function (e) {
+    $('#table1').on('click', 'i.editcategory', function(e) {
         e.preventDefault();
         var table = $('#table1').DataTable();
         var _ro = table.row($(this).parents('tr'));
@@ -129,9 +134,26 @@ $(async function () {
         $("#category_old").val(datauser.category);
 
     });
+    //////////////กำหนดช่วงเวลา
+    // $('#table1').on('click', 'i.settime', function(e) {
+    //     e.preventDefault();
+    //     var table = $('#table1').DataTable();
+    //     var _ro = table.row($(this).parents('tr'));
+    //     datauser = _ro.data();
+    //     if (datauser == undefined) {
+    //         datauser = table.row(this).data();
+    //     }
+    //     $("#myModaledit").modal();
+    //     console.log(datauser)
+
+    //     // $("#category_old").val(datauser.category);
+
+    // });
+
+
     ///////////// อัพเดทแผนก
-    $('#UPDATE_Category').on('click', async function (e) {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+    $('#UPDATE_Category').on('click', async function(e) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             const datacategory = {
                 userId: _objectId,
@@ -143,13 +165,13 @@ $(async function () {
                 headers: {
                     'Authorization': result
                 }
-            }).then(function (response) {
+            }).then(function(response) {
                 console.log(response.data.message)
                 if (response.data.message == "edit complete") {
                     $("#myModaledit").empty();
                     showSuccessMessagecategory('อัพเดทข้อมูลสำเร็จ')
                 }
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
                 console.log(response.data.message)
                 showCancelMessagecategory(response.data.message, '')
@@ -158,8 +180,8 @@ $(async function () {
     });
 
     /////////////////////ลบ
-    $('#deletecategory').on('click', async function (e) {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+    $('#deletecategory').on('click', async function(e) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios({
                 url: urlipaddress + 'category',
@@ -169,13 +191,13 @@ $(async function () {
                     category: datauser.category
                 },
                 headers: { 'Authorization': result }
-            }).then(function (response) {
+            }).then(function(response) {
                 console.log(response.data.message)
                 if (response.data.message == "delete complete") {
                     $("#myModaldelete").empty();
                     showSuccessMessagecategory('ลบข้อมูลสำเร็จ')
                 }
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
                 console.log(response.data.message)
                 showCancelMessagecategory(response.data.message, '')
@@ -185,9 +207,9 @@ $(async function () {
 
 
     /////////////////////////////////// สร้างแผนก
-    $('#submitcategory').on('click', function (e) {
+    $('#submitcategory').on('click', function(e) {
 
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             const datacategory = {
                 userId: _objectId,
@@ -199,10 +221,10 @@ $(async function () {
                 headers: {
                     'Authorization': result
                 }
-            }).then(function (response) {
+            }).then(function(response) {
                 showSuccessMessagecategory('บันทึกสำเร็จ')
                 getcategoryview(result);
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
                 if (response.data.message == 'update fail,This information is already in the system.') {
                     showCancelMessagecategory('มีข้อมูลในระบบแล้ว', '')
@@ -214,7 +236,7 @@ $(async function () {
 
 
     /////////////////////////////////// สร้างแผนก Excel
-    $('#submitcategoryexcelfile').on('click', function (e) {
+    $('#submitcategoryexcelfile').on('click', function(e) {
 
         ExportToTable();
 
@@ -249,17 +271,17 @@ $(async function () {
         //Validate whether File is valid Excel file.
         var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
         if (regex.test(fileUpload.value.toLowerCase())) {
-            if (typeof (FileReader) != "undefined") {
+            if (typeof(FileReader) != "undefined") {
                 var reader = new FileReader();
                 //For Browsers other than IE.
                 if (reader.readAsBinaryString) {
-                    reader.onload = function (e) {
+                    reader.onload = function(e) {
                         ProcessExcel(e.target.result);
                     };
                     reader.readAsBinaryString(fileUpload.files[0]);
                 } else {
                     //For IE Browser.
-                    reader.onload = function (e) {
+                    reader.onload = function(e) {
                         var data = "";
                         var bytes = new Uint8Array(e.target.result);
                         for (var i = 0; i < bytes.byteLength; i++) {
@@ -300,16 +322,16 @@ $(async function () {
                 category: excelRows[i].category,
                 DPTCODE: excelRows[i].DPTCODE,
             }
-            $.getScript("ip.js", function (data, textStatus, jqxhr) {
+            $.getScript("ip.js", function(data, textStatus, jqxhr) {
                 var urlipaddress = data.substring(1, data.length - 1);
                 axios.post(urlipaddress + 'category', datacategory, {
                     headers: {
                         'Authorization': result
                     }
-                }).then(function (response) {
-                  //  showSuccessMessagecategory('บันทึกสำเร็จ')
+                }).then(function(response) {
+                    //  showSuccessMessagecategory('บันทึกสำเร็จ')
                     getcategoryview(result);
-                }).catch(function (res) {
+                }).catch(function(res) {
                     const { response } = res
                     if (response.data.message == 'update fail,This information is already in the system.') {
                         showCancelMessagecategory('มีข้อมูลในระบบแล้ว', '')
@@ -327,16 +349,17 @@ function showCancelMessagecategory(title, text) {
         title: title,
         text: text,
         type: "error",
-    }, function (isConfirm) {
+    }, function(isConfirm) {
         swal("Cancelled", "Your imaginary file is safe :)", "error");
     });
 }
+
 function showSuccessMessagecategory(text) {
     swal({
         title: "สำเร็จ",
         text: text,
         type: "success",
-    }, function (isConfirm) {
+    }, function(isConfirm) {
         if (isConfirm) {
             location.href = "queuecategory.html";
         }

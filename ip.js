@@ -1,1 +1,1 @@
-'http://52.221.226.153:4001/'
+'https://api.queue.wacappcloud.com/'

@@ -9,8 +9,7 @@
     <link rel="icon" href="../../uploads/logo.ico" type="image/x-icon">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
-        type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
     <!-- Bootstrap Core Css -->
@@ -29,8 +28,7 @@
 
 
     <!-- Bootstrap Material Datetime Picker Css -->
-    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
-        rel="stylesheet" />
+    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
     <link href="../../plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
 
 
@@ -41,8 +39,7 @@
     <link href="../../css/themes/all-themes.css" rel="stylesheet" />
 
     <!-- Bootstrap Material Datetime Picker Css -->
-    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
-        rel="stylesheet" />
+    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
 
     <!-- Bootstrap DatePicker Css -->
     <link href="../../plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
@@ -52,7 +49,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
     <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
 
     <!-- modal  -->
@@ -90,7 +87,7 @@
     .intro {
         display: block !important;
     }
-
+    
     .intronone {
         display: none !important;
     }
@@ -100,7 +97,7 @@
     body h1 h2 h3 h4 h5 h6 ul li a p {
         font-family: 'Kanit', sans-serif;
     }
-
+    
     div {
         font-family: 'Kanit', sans-serif;
     }
@@ -148,10 +145,9 @@
     <nav class="navbar">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand"  id="logoname" href="queuedashboard.html"></a>
+                <a class="navbar-brand" id="logoname" href="queuedashboard.html"></a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -170,7 +166,7 @@
         <aside id="leftsidebar" class="sidebar" style="text-align: center;">
             <!-- User Info -->
             <div class="user-info" style="text-align:center;">
-                <div class="image" >
+                <div class="image">
                     <img id="LOGOVIEW" name="LOGOVIEW" width="100" height="100" alt="User" />
                 </div>
                 <div style="color: white;">
@@ -180,14 +176,14 @@
             </div>
             <div class="menu">
                 <ul class="list">
-                   
+
                     <li id="queuedashboard">
                         <a href="queuedashboard.html">
                             <i class="material-icons">queue</i>
                             <span>แดชบอร์ด</span>
                         </a>
                     </li>
-                    <li >
+                    <li>
                         <a href="reportqueuedate.html">
                             <i class="material-icons">date_range</i>
                             <span>รายงานคิวแบ่งตามวันที่</span>
@@ -242,6 +238,11 @@
                             <li>
                                 <a href="company.html">
                                     <span>แก้ไขชื่อบริษัท/โลโก้บริษัท/โลโก้สลิป</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="queueadvancebooking.html">
+                                    <span>สร้างรายการจองคิวล่วงหน้า</span>
                                 </a>
                             </li>
                         </ul>
@@ -431,18 +432,12 @@
                                                         <div class="col-sm-12">
                                                             <div class="form-group">
                                                                 <div class="form-line">
-                                                                    <input type="text" class="form-control"
-                                                                        name="nameprofile" id="nameprofile" value=""
-                                                                        required autocomplete="off"
-                                                                        placeholder="ระบุชื่อโปรไฟล์" />
+                                                                    <input type="text" class="form-control" name="nameprofile" id="nameprofile" value="" required autocomplete="off" placeholder="ระบุชื่อโปรไฟล์" />
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="form-line">
-                                                                    <select class="form-control show-tick"
-                                                                        onchange="c()" multiple name="category"
-                                                                        id="category"
-                                                                        style="cursor: pointer; height: 158px;">
+                                                                    <select class="form-control show-tick" onchange="c()" multiple name="category" id="category" style="cursor: pointer; height: 158px;">
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -450,14 +445,15 @@
                                                                 <input id="input-tags" readonly class="form-control">
                                                             </div>
 
-                                                            <button class="btn btn-primary waves-effect"
-                                                                id="submitprofile" class="primary"
-                                                                type="button">บันทึก</button>
+                                                            <button class="btn btn-primary waves-effect" id="submitprofile" class="primary" type="button">บันทึก</button>
                                                             <p id="save" style="font-size: 18px;"></p>
                                                             <script>
-                                                                $('#input-tags').tagsInput({ 'interactive': false });
+                                                                $('#input-tags').tagsInput({
+                                                                    'interactive': false
+                                                                });
+
                                                                 function c() {
-                                                                   
+
                                                                     $('#input-tags').addTag(document.getElementById("category").value);
                                                                 }
                                                             </script>
@@ -467,9 +463,7 @@
                                             </div>
 
                                             <div class="table-responsive">
-                                                <table
-                                                    class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
-                                                    id="table1">
+                                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display" id="table1">
                                                     <thead>
                                                         <tr>
                                                             <th>ลำดับที่</th>
@@ -500,26 +494,20 @@
                                                                 <div class="container">
                                                                     <div class="row">
                                                                         <div class="col-20">
-                                                                            <i class="fa fa-exclamation-triangle"
-                                                                                id="c_delete"
-                                                                                style="font-size:48px;color:red"></i>
-                                                                            <i class="fa fa-check-circle" id="completed"
-                                                                                style="font-size:48px;color:green; display: none;"></i>
+                                                                            <i class="fa fa-exclamation-triangle" id="c_delete" style="font-size:48px;color:red"></i>
+                                                                            <i class="fa fa-check-circle" id="completed" style="font-size:48px;color:green; display: none;"></i>
                                                                         </div>
 
                                                                         <div>
-                                                                            <label id="lbl_completed"
-                                                                                for="fname"></label>
+                                                                            <label id="lbl_completed" for="fname"></label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <input type="button" value="ตกลง" id="deleteprofile"
-                                                                    class="primary btn btn-default" />
+                                                                <input type="button" value="ตกลง" id="deleteprofile" class="primary btn btn-default" />
 
-                                                                <button type="button" class="btn btn-default"
-                                                                    data-dismiss="modal">ปิด</button>
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
                                                             </div>
                                                         </div>
 
@@ -546,8 +534,7 @@
                                                                     <table>
                                                                         <tr>
                                                                             <td> ประเภท Visitor (เดิม) :</td>
-                                                                            <td> <input type="text" id="oldvisitorType"
-                                                                                    readonly name="oldvisitorType"></td>
+                                                                            <td> <input type="text" id="oldvisitorType" readonly name="oldvisitorType"></td>
 
                                                                         </tr>
                                                                         <tr>
@@ -557,8 +544,7 @@
                                                                         </tr>
                                                                         <tr>
                                                                             <td>ประเภท Visitor (ใหม่) :</td>
-                                                                            <td> <input type="text" id="newvisitorType"
-                                                                                    name="newvisitorType"></td>
+                                                                            <td> <input type="text" id="newvisitorType" name="newvisitorType"></td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>
@@ -569,12 +555,8 @@
                                                                         <tr>
                                                                             <td></td>
                                                                             <td>
-                                                                                <input type="button" value="อัพเดท"
-                                                                                    id="updatevisitorType"
-                                                                                    name="updatevisitorType"
-                                                                                    style="cursor: pointer;">
-                                                                                <p id="update"
-                                                                                    style="color: green; font-size: 18px;">
+                                                                                <input type="button" value="อัพเดท" id="updatevisitorType" name="updatevisitorType" style="cursor: pointer;">
+                                                                                <p id="update" style="color: green; font-size: 18px;">
                                                                                 </p>
                                                                             </td>
                                                                         </tr>
@@ -582,8 +564,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default"
-                                                                    data-dismiss="modal">ปิด</button>
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -593,48 +574,46 @@
 
 
                                     </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
 
 
 
-        <div class="container">
-            <div class="modal fade" id="myModaldont" role="dialog">
-                <div class="modal-dialog" style="width: 300px; height: 200px;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 id="title" class="modal-title">บันทึกข้อมูล</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-20">
-                                        <i class="fa fa-exclamation-triangle" id="c_delete"
-                                            style="font-size:48px;color:red"></i>
-                                        <i class="fa fa-check-circle" id="completed"
-                                            style="font-size:48px;color:green; display: none;"></i>
-                                    </div>
-                                    <div>
-                                        <label id="lbl_completed" for="fname"> </label>
+            <div class="container">
+                <div class="modal fade" id="myModaldont" role="dialog">
+                    <div class="modal-dialog" style="width: 300px; height: 200px;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 id="title" class="modal-title">บันทึกข้อมูล</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-20">
+                                            <i class="fa fa-exclamation-triangle" id="c_delete" style="font-size:48px;color:red"></i>
+                                            <i class="fa fa-check-circle" id="completed" style="font-size:48px;color:green; display: none;"></i>
+                                        </div>
+                                        <div>
+                                            <label id="lbl_completed" for="fname"> </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">ตกลง</button>
+                            </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">ตกลง</button>
-                        </div>
+
                     </div>
 
                 </div>
-
             </div>
-        </div>
 
         </div>
     </section>

@@ -32,15 +32,15 @@ var count_queue = 1;
 
 function acctoken() {
     return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.post(urlipaddress + 'permit', {}, {
                 headers: {
                     'Authorization': obj.refresh_token
                 }
-            }).then(function (response) {
+            }).then(function(response) {
                 resolve(response.data.message.access_token);
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
                 if (response.data.message == "Unauthorized") {
                     location.href = "index.html";
@@ -50,7 +50,7 @@ function acctoken() {
         });
     });
 }
-const view_datatable = async (responsedataview, q, day, category) => {
+const view_datatable = async(responsedataview, q, day, category) => {
     if (category == undefined) {
         category = 'ทั้งหมด'
     }
@@ -125,7 +125,10 @@ const view_datatable = async (responsedataview, q, day, category) => {
     }
     document.getElementById("h_name_report").innerText = 'คิววันที่  ' + day + ' | ' + ' ผู้รอรับบริการ ' + ' | ' + ' แผนก ' + category + ' ' + '( จำนวน ' + _arr_qloop.length + ' คิว )'
     var table = $('#tablequeue_listuserqueue').DataTable({
-        "lengthMenu": [[25, 50, 100], [25, 50, 100]],
+        "lengthMenu": [
+            [25, 50, 100],
+            [25, 50, 100]
+        ],
         "pageLength": 25,
         'data': [..._arr_qloop],
         "responsive": true,
@@ -140,7 +143,7 @@ const view_datatable = async (responsedataview, q, day, category) => {
             { data: "tel" },
             {
                 data: "timeAdd",
-                render: function (data) {
+                render: function(data) {
                     let date = new Date(data);
                     let options = { hour12: false };
                     var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
@@ -152,7 +155,7 @@ const view_datatable = async (responsedataview, q, day, category) => {
             },
             {
                 data: "timeCall",
-                render: function (data) {
+                render: function(data) {
                     if (data != '') {
                         let date = new Date(data);
                         let options = { hour12: false };
@@ -166,7 +169,7 @@ const view_datatable = async (responsedataview, q, day, category) => {
             },
             {
                 data: "timeEnd",
-                render: function (data) {
+                render: function(data) {
                     if (data != '') {
                         let date = new Date(data);
                         let options = { hour12: false };
@@ -180,7 +183,7 @@ const view_datatable = async (responsedataview, q, day, category) => {
             },
             {
                 data: "timecancel",
-                render: function (data) {
+                render: function(data) {
                     if (data != '') {
                         let date = new Date(data);
                         let options = { hour12: false };
@@ -194,7 +197,7 @@ const view_datatable = async (responsedataview, q, day, category) => {
             },
             {
                 data: "timepause",
-                render: function (data) {
+                render: function(data) {
                     if (data != '') {
                         let date = new Date(data);
                         let options = { hour12: false };
@@ -208,26 +211,25 @@ const view_datatable = async (responsedataview, q, day, category) => {
             }
         ],
         dom: 'lBfrtip',
-        buttons: [
-            {
-                title: document.getElementById('h_name_report').innerText,
-                text: 'Export <i class="fa fa-file-excel-o" style="font-size:30px"></i>',
-                extend: 'excel',
-            }
-        ],
+        buttons: [{
+            title: document.getElementById('h_name_report').innerText,
+            text: 'Export <i class="fa fa-file-excel-o" style="font-size:30px"></i>',
+            extend: 'excel',
+        }],
     });
     table.buttons().container().appendTo($('#test3'));
 }
+
 function getqaddloop(refresh_token, _page, q) {
     //function getqaddloop(refresh_token, _page, q) {
     //return new Promise(resolve => {
-    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+    $.getScript("ip.js", function(data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
         axios.get(urlipaddress + q + _objectId + '?_page=' + _page + '&_limit=100&_sort=1', {
             headers: {
                 'Authorization': refresh_token
             }
-        }).then(function (response) {
+        }).then(function(response) {
             for (i = 0; i < response.data.message.values.length; i++) {
                 _arr_queue_add[_i_loop_newdate] = {
                     _id: response.data.message.values[i]._id,
@@ -243,38 +245,39 @@ function getqaddloop(refresh_token, _page, q) {
                 }
                 _i_loop_newdate = _i_loop_newdate + 1
             }
-        }).catch(function (res) {
+        }).catch(function(res) {
             const { response } = res
         });
     });
     // });
 }
-const viewqueuetfootloop = async (refresh_token, _page, q) => {
-    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+const viewqueuetfootloop = async(refresh_token, _page, q) => {
+    $.getScript("ip.js", function(data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
         axios.get(urlipaddress + q + _objectId + '?_page=' + _page + '&_limit=100&_sort=1', {
             headers: {
                 'Authorization': refresh_token
             }
-        }).then(function (response) {
+        }).then(function(response) {
             if (response.data.message.values.length != 0) {
                 view_datatable(response, q)
             }
-        }).catch(function (res) {
+        }).catch(function(res) {
             const { response } = res
         });
     });
     // });
 }
+
 function getqadd(refresh_token) { ////// คิวที่รอทั้งหมด
     return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.get(urlipaddress + 'qadd/' + _objectId + '?_page=1&_limit=100&_sort=1', {
                 headers: {
                     'Authorization': refresh_token
                 }
-            }).then(function (response) {
+            }).then(function(response) {
 
                 _arr_queue_add = new Array()
                 _i_loop_newdate = 0;
@@ -304,21 +307,22 @@ function getqadd(refresh_token) { ////// คิวที่รอทั้งห
                     }
                     resolve(_arr_queue_add);
                 }
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
             });
         });
     });
 }
+
 function getqcall(refresh_token) { ////// คิวที่รอทั้งหมด
     return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.get(urlipaddress + 'qcall/' + _objectId + '?_page=1&_limit=100&_sort=1', {
                 headers: {
                     'Authorization': refresh_token
                 }
-            }).then(function (response) {
+            }).then(function(response) {
                 //  console.log(response)
                 _arr_queue_add = new Array()
                 _i_loop_newdate = 0;
@@ -350,21 +354,22 @@ function getqcall(refresh_token) { ////// คิวที่รอทั้ง�
                     }
                     resolve(_arr_queue_add);
                 }
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
             });
         });
     });
 }
+
 function getqend(refresh_token) { ////// คิวที่เสร็จ
     return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.get(urlipaddress + 'qend/' + _objectId + '?_page=1&_limit=100&_sort=1', {
                 headers: {
                     'Authorization': refresh_token
                 }
-            }).then(function (response) {
+            }).then(function(response) {
                 _arr_queue_add = new Array()
                 _i_loop_newdate = 0;
 
@@ -394,21 +399,22 @@ function getqend(refresh_token) { ////// คิวที่เสร็จ
                     }
                     resolve(_arr_queue_add);
                 }
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
             });
         });
     });
 }
+
 function getqcancel(refresh_token) { ////// คิวที่ถูกยกเลิก
     return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.get(urlipaddress + 'qcancel/' + _objectId + '?_page=1&_limit=100&_sort=1', {
                 headers: {
                     'Authorization': refresh_token
                 }
-            }).then(function (response) {
+            }).then(function(response) {
                 _arr_queue_add = new Array()
                 _i_loop_newdate = 0;
 
@@ -438,21 +444,22 @@ function getqcancel(refresh_token) { ////// คิวที่ถูกยกเ
                     }
                     resolve(_arr_queue_add);
                 }
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
             });
         });
     });
 }
+
 function getqpause(refresh_token) { ////// คิวที่ัพก
     return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.get(urlipaddress + 'qpause/' + _objectId + '?_page=1&_limit=100&_sort=1', {
                 headers: {
                     'Authorization': refresh_token
                 }
-            }).then(function (response) {
+            }).then(function(response) {
                 // console.log(response)
                 _arr_queue_add = new Array()
                 _i_loop_newdate = 0;
@@ -483,30 +490,31 @@ function getqpause(refresh_token) { ////// คิวที่ัพก
                     }
                     resolve(_arr_queue_add);
                 }
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
             });
         });
     });
 }
+
 function getcategoryview(refresh_token) {
     return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.get(urlipaddress + 'category/' + _objectId, {
                 headers: {
                     'Authorization': refresh_token
                 }
-            }).then(function (response) {
+            }).then(function(response) {
                 resolve(response.data.message.category);
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
             });
         });
     });
 }
-const queueloop = async (refresh_token, prm, _page, q, day, categoryqueue) => {
-    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+const queueloop = async(refresh_token, prm, _page, q, day, categoryqueue) => {
+    $.getScript("ip.js", function(data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
         var prmget;
         if (categoryqueue == undefined) {
@@ -518,16 +526,16 @@ const queueloop = async (refresh_token, prm, _page, q, day, categoryqueue) => {
             headers: {
                 'Authorization': refresh_token
             }
-        }).then(function (response) {
+        }).then(function(response) {
             if (response.data.message.values.length != 0) {
                 view_datatable(response, q, day, categoryqueue)
             }
         });
     });
 }
-const Getqueueviewcategory = async (categoryqueue, refresh_token, q, day) => {
+const Getqueueviewcategory = async(categoryqueue, refresh_token, q, day) => {
     var prm = 'category=' + categoryqueue + '&'
-    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+    $.getScript("ip.js", function(data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
         var prmget;
         if (categoryqueue == undefined) {
@@ -539,7 +547,7 @@ const Getqueueviewcategory = async (categoryqueue, refresh_token, q, day) => {
             headers: {
                 'Authorization': refresh_token
             }
-        }).then(function (response) {
+        }).then(function(response) {
             _arr_queue_add = new Array()
             _i_loop_newdate = 0;
             var totle = response.data.message.total
@@ -553,13 +561,14 @@ const Getqueueviewcategory = async (categoryqueue, refresh_token, q, day) => {
             } else {
                 view_datatable(response, q, day, categoryqueue)
             }
-        }).catch(function (res) {
+        }).catch(function(res) {
             const { response } = res
             console.log(response)
         });
     });
 }
 var arr_datesearch = new Array()
+
 function convert(str) {
     var date = new Date(str),
         mnth = ("0" + (date.getMonth() + 1)).slice(-2),
@@ -573,9 +582,9 @@ async function dateSearch() {
     var Endvaldate_sp = _sp[1].split('/')
     var d_gmt = new Date(Startvaldate_sp[2] + '/' + Startvaldate_sp[0] + '/' + Startvaldate_sp[1] + " GMT");
 
-    var lastDayOfMonth = new Date(d_gmt.getFullYear(), d_gmt.getMonth() + 1, 0);  /////วันสุดท้ายของเดือน
+    var lastDayOfMonth = new Date(d_gmt.getFullYear(), d_gmt.getMonth() + 1, 0); /////วันสุดท้ายของเดือน
     var sp_last = convert(lastDayOfMonth).split('/');
-  
+
     var cnt_betaween = parseInt(Endvaldate_sp[1]) - parseInt(Startvaldate_sp[1]) //วันสิ้นสุด - วันเริ่มต้น 
     var s_d = parseInt(Startvaldate_sp[1]);
     var cnt = 0;
@@ -625,28 +634,28 @@ async function dateSearch() {
 
     arr_datesearch[0] = Startvaldate_sp[2] + '/' + Startvaldate_sp[0] + '/' + Startvaldate_sp[1] + ' ' + '00:00' + ':00'
     arr_datesearch[1] = Endvaldate_sp[2] + '/' + Endvaldate_sp[0] + '/' + Endvaldate_sp[1] + ' ' + '23:59' + ':59'
- 
+
     console.log(day_view)
     console.log(arr_datesearch)
     return arr_datesearch
 }
-$(async function () {
+$(async function() {
     const result = await acctoken();
     console.log(result)
-    $(document).ready(function () {
-        $('input[name="daterange"]').change(function () {
+    $(document).ready(function() {
+        $('input[name="daterange"]').change(function() {
             $(this).val();
         });
-        $('#submitqueueReportDatetime').on('click', async function (e) {
+        $('#submitqueueReportDatetime').on('click', async function(e) {
             document.getElementById('div_preloader').style.display = 'block'
             $('#tablequeue').DataTable().destroy();
             day_view = new Array()
             await dateSearch()
-          
+
             await v_socketio();
             document.getElementById('div_preloader').style.display = 'none'
         });
-        $('#btn_cancel').on('click', async function (e) {
+        $('#btn_cancel').on('click', async function(e) {
             check_table_clack = 'true';
             arr_datesearch = new Array()
             _arr_qloop = new Array();
@@ -657,13 +666,13 @@ $(async function () {
             document.getElementById("btn_cancel").style.display = 'none'
             await v_socketio();
         });
-        $('#a_back').on('click', async function (e) {
+        $('#a_back').on('click', async function(e) {
             check_table_clack = ''
             document.getElementById("div_qall").style.display = 'block'
             document.getElementById("div_qdisplay").style.display = 'none'
             document.getElementById("did_search").style.display = 'block'
         });
-        $('#a_back2').on('click', async function (e) {
+        $('#a_back2').on('click', async function(e) {
             document.getElementById("a_back2").style.display = 'none'
             document.getElementById("a_back").style.display = 'block'
             document.getElementById("div_qall").style.display = 'none'
@@ -671,8 +680,8 @@ $(async function () {
             document.getElementById("table_category").style.display = 'block'
             document.getElementById("h_name_report").innerText = 'จำนวนคิวแยกตามแผนกของวันที่  ' + data._day
         });
-        $(document).ready(function () {
-            $('#tablequeue').on('click', 'a._day', async function (e) { /////กดวันที่
+        $(document).ready(function() {
+            $('#tablequeue').on('click', 'a._day', async function(e) { /////กดวันที่
                 document.getElementById("table_category").style.display = 'none'
                 document.getElementById("div_preloadercategory").style.display = 'block'
                 check_table_clack = 'true';
@@ -694,7 +703,7 @@ $(async function () {
                 document.getElementById("div_preloadercategory").style.display = 'none'
                 document.getElementById("table_category").style.display = 'block'
             });
-            $('#table1_category_list').on('click', 'a.queue', async function (e) { /////ผู้รอรับบริการ แผนก
+            $('#table1_category_list').on('click', 'a.queue', async function(e) { /////ผู้รอรับบริการ แผนก
                 document.getElementById("table_category").style.display = 'none'
                 document.getElementById("div_preloaderuserqueue").style.display = 'block'
                 const result = await acctoken();
@@ -719,7 +728,7 @@ $(async function () {
 
 
             });
-            $('#table1_category_list').on('click', 'a.qcall', async function (e) { /////ผู้กำลังรับบริการ แผนก
+            $('#table1_category_list').on('click', 'a.qcall', async function(e) { /////ผู้กำลังรับบริการ แผนก
                 const result = await acctoken();
                 document.getElementById("table_category").style.display = 'none'
                 document.getElementById("a_back2").style.display = 'block'
@@ -743,7 +752,7 @@ $(async function () {
                 document.getElementById("div_preloaderuserqueue").style.display = 'none'
 
             });
-            $('#table1_category_list').on('click', 'a.qend', async function (e) { /////ผู้รับบริการแล้ว แผนก
+            $('#table1_category_list').on('click', 'a.qend', async function(e) { /////ผู้รับบริการแล้ว แผนก
                 document.getElementById("table_category").style.display = 'none'
                 const result = await acctoken();
                 document.getElementById("a_back2").style.display = 'block'
@@ -769,7 +778,7 @@ $(async function () {
                 await Getqueueviewcategory(data_click.category, result, 'qend/', data._day)
                 document.getElementById("div_preloaderuserqueue").style.display = 'none'
             });
-            $('#table1_category_list').on('click', 'a.qcancel', async function (e) { /////คิวที่ถูกยกเลิก แผนก
+            $('#table1_category_list').on('click', 'a.qcancel', async function(e) { /////คิวที่ถูกยกเลิก แผนก
                 document.getElementById("table_category").style.display = 'none'
                 const result = await acctoken();
                 document.getElementById("a_back2").style.display = 'block'
@@ -795,7 +804,7 @@ $(async function () {
                 await Getqueueviewcategory(data_click.category, result, 'qcancel/', data._day)
                 document.getElementById("div_preloaderuserqueue").style.display = 'none'
             });
-            $('#table1_category_list').on('click', 'a.qpause', async function (e) { /////คิวที่ถูกพัก แผนก
+            $('#table1_category_list').on('click', 'a.qpause', async function(e) { /////คิวที่ถูกพัก แผนก
                 document.getElementById("table_category").style.display = 'none'
                 const result = await acctoken();
                 document.getElementById("a_back2").style.display = 'block'
@@ -818,7 +827,7 @@ $(async function () {
                 await Getqueueviewcategory(data_click.category, result, 'qpause/', data._day)
                 document.getElementById("div_preloaderuserqueue").style.display = 'none'
             });
-            $('#table1_category_list').on('click', 'a.sum', async function (e) { /////คิวที่ถูกพัก แผนก
+            $('#table1_category_list').on('click', 'a.sum', async function(e) { /////คิวที่ถูกพัก แผนก
                 document.getElementById("table_category").style.display = 'none'
                 const result = await acctoken();
                 document.getElementById("a_back2").style.display = 'block'
@@ -845,7 +854,7 @@ $(async function () {
                 await Getqueueviewcategory(data_click.category, result, 'qpause/', data._day)
                 document.getElementById("div_preloaderuserqueue").style.display = 'none'
             });
-            $('#table1_category_list').on('click', 'tfoot th', async function () {  /////ผู้รอรับบริการ ทั้งหมด
+            $('#table1_category_list').on('click', 'tfoot th', async function() { /////ผู้รอรับบริการ ทั้งหมด
                 const result = await acctoken();
                 check_table_clack = 'true';
                 var table = $('#table1_category_list').DataTable();
@@ -964,16 +973,17 @@ function showCancelMessagesearch(title, text) {
         title: title,
         text: text,
         type: "error",
-    }, function (isConfirm) {
+    }, function(isConfirm) {
         swal("Cancelled", "Your imaginary file is safe :)", "error");
     });
 }
+
 function showSuccessMessage(text) {
     swal({
         title: "สำเร็จ",
         text: text,
         type: "success",
-    }, function (isConfirm) {
+    }, function(isConfirm) {
         if (isConfirm) {
             //  location.href = "queuedashboard.html";
         }
@@ -1001,9 +1011,9 @@ async function view_day_category(datetime) {
     const result = await acctoken();
     const categoryview = await getcategoryview(result);
     const queueadd = await getqadd(result); ////คิวรอรับบริการ
-    const queueqend = await getqend(result);   ////คิวรับบริการแล้ว
+    const queueqend = await getqend(result); ////คิวรับบริการแล้ว
     const qcall = await getqcall(result); ////คิวกำลังรับบริการ
-    const qcancel = await getqcancel(result);   ////คิวที่ถูกยกเลิก
+    const qcancel = await getqcancel(result); ////คิวที่ถูกยกเลิก
     const qpause = await getqpause(result); ////คิวที่ถูกพัก
     var count_q = 0;
     var view_qadd = 0;
@@ -1101,14 +1111,13 @@ async function view_day_category(datetime) {
         "responsive": true,
         "autoWidth": false,
         "order": [],
-        columns: [
-            {
+        columns: [{
                 data: 'num',
             },
             { data: 'category' },
             {
                 data: 'qadd',
-                render: function (data) {
+                render: function(data) {
                     if (data != 0) {
                         return '<a class="queue" style="color:blue; cursor: pointer;">' + data + '</a>';
                     } else {
@@ -1118,7 +1127,7 @@ async function view_day_category(datetime) {
             },
             {
                 data: "qcall",
-                render: function (data) {
+                render: function(data) {
                     if (data != 0) {
                         return '<a class="qcall" style="color:blue; cursor: pointer;">' + data + '</a>';
                     } else {
@@ -1128,7 +1137,7 @@ async function view_day_category(datetime) {
             },
             {
                 data: "qend",
-                render: function (data) {
+                render: function(data) {
                     if (data != 0) {
                         return '<a class="qend" style="color:blue; cursor: pointer;">' + data + '</a>';
 
@@ -1139,7 +1148,7 @@ async function view_day_category(datetime) {
             },
             {
                 data: "qcancel",
-                render: function (data) {
+                render: function(data) {
                     if (data != 0) {
                         return '<a class="qcancel" style="color:blue; cursor: pointer;">' + data + '</a>';
 
@@ -1150,7 +1159,7 @@ async function view_day_category(datetime) {
             },
             {
                 data: "qpause",
-                render: function (data) {
+                render: function(data) {
                     if (data != 0) {
                         return '<a class="qpause" style="color:blue; cursor: pointer;">' + data + '</a>';
 
@@ -1161,7 +1170,7 @@ async function view_day_category(datetime) {
             },
             {
                 data: 'sum',
-                render: function (data) {
+                render: function(data) {
                     if (data != 0) {
                         return '<a class="sum" style="color:blue; cursor: pointer;">' + data + '</a>';
                     } else {
@@ -1171,39 +1180,37 @@ async function view_day_category(datetime) {
             }
         ],
         dom: 'lBfrtip',
-        buttons: [
-            {
-                title: 'queueexport',
-                text: 'Export <i class="fa fa-file-excel-o" style="font-size:30px"></i>',
-                extend: 'excel',
-                footer: true,
-                exportOptions: {
-                    format: {
-                        header: function (data, column, row) {
-                            return header[column]; //header is the array I used to store header texts
-                        }
-                    },
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
-                }
+        buttons: [{
+            title: 'queueexport',
+            text: 'Export <i class="fa fa-file-excel-o" style="font-size:30px"></i>',
+            extend: 'excel',
+            footer: true,
+            exportOptions: {
+                format: {
+                    header: function(data, column, row) {
+                        return header[column]; //header is the array I used to store header texts
+                    }
+                },
+                columns: [0, 1, 2, 3, 4, 5, 6, 7]
             }
-        ],
-        "footerCallback": function (row, data, start, end, display) {
+        }],
+        "footerCallback": function(row, data, start, end, display) {
             var api = this.api(),
                 data;
             //console.log(api)
             // Remove the formatting to get integer data for summation
-            var intVal = function (i) {
+            var intVal = function(i) {
                 return typeof i === 'string' ?
                     i.replace(/[\$,]/g, '') * 1 :
                     typeof i === 'number' ?
-                        i : 0;
+                    i : 0;
             };
             // Total over all pages
             for (i = 2; i < 8; i++) {
                 total = api
                     .column(i)
                     .data()
-                    .reduce(function (a, b) {
+                    .reduce(function(a, b) {
                         return intVal(a) + intVal(b);
                     }, 0);
 
@@ -1213,7 +1220,7 @@ async function view_day_category(datetime) {
                         page: 'current'
                     })
                     .data()
-                    .reduce(function (a, b) {
+                    .reduce(function(a, b) {
                         return intVal(a) + intVal(b);
                     }, 0);
                 // Update footer
@@ -1237,9 +1244,9 @@ async function v_socketio() {
     // const categoryview = await getcategoryview(result);
     //////ตาราง
     const queueadd = await getqadd(result); ////คิวรอรับบริการ
-    const queueqend = await getqend(result);   ////คิวรับบริการแล้ว
+    const queueqend = await getqend(result); ////คิวรับบริการแล้ว
     const qcall = await getqcall(result); ////คิวกำลังรับบริการ
-    const qcancel = await getqcancel(result);   ////คิวที่ถูกยกเลิก
+    const qcancel = await getqcancel(result); ////คิวที่ถูกยกเลิก
     const qpause = await getqpause(result); ////คิวที่ถูกพัก
     var view_qadd = 0;
     var view_qcall = 0;
@@ -1256,7 +1263,7 @@ async function v_socketio() {
             }
         }
         num_day = 0
-        /////// ผู้ที่กำลังรับบริการ
+            /////// ผู้ที่กำลังรับบริการ
         for (let i_qcall in qcall) {
             var _checkdate = await chechdate_Time(qcall[i_qcall].timeCall, day_view[i])
             if (_checkdate == true) {
@@ -1264,7 +1271,7 @@ async function v_socketio() {
             }
         }
         num_day = 0
-        /////// ผู้ที่รับบริการแล้ว
+            /////// ผู้ที่รับบริการแล้ว
         for (let i_qend in queueqend) {
 
             var _checkdate = await chechdate_Time(queueqend[i_qend].timeEnd, day_view[i])
@@ -1273,7 +1280,7 @@ async function v_socketio() {
             }
         }
         num_day = 0
-        /////// ผู้ที่ถูกยกเลิก
+            /////// ผู้ที่ถูกยกเลิก
         for (let i_qcancel in qcancel) {
             var _checkdate = await chechdate_Time(qcancel[i_qcancel].timeCancel, day_view[i])
             if (_checkdate == true) {
@@ -1281,7 +1288,7 @@ async function v_socketio() {
             }
         }
         num_day = 0
-        /////// ผู้ที่ถูกพัก
+            /////// ผู้ที่ถูกพัก
         for (let i_qpause in qpause) {
             //  console.log(qpause[i_qpause])
             var _checkdate = await chechdate_Time(qpause[i_qpause].timeCall, day_view[i])
@@ -1311,7 +1318,7 @@ async function v_socketio() {
         view_qcancel = 0
         view_qpause = 0
     }
-  //  console.log(_arrdataqueue)
+    //  console.log(_arrdataqueue)
     var header = [];
     header.push("วันที่");
     header.push("ผู้รอรับบริการ");
@@ -1333,10 +1340,9 @@ async function v_socketio() {
         "responsive": true,
         "autoWidth": false,
         "order": [],
-        columns: [
-            {
+        columns: [{
                 data: '_day',
-                render: function (data) {
+                render: function(data) {
                     if (data != 0) {
                         return '<a class="_day" style="color:#2196F3;  cursor: pointer;">' + data + '</a>';
                     } else {
@@ -1346,7 +1352,7 @@ async function v_socketio() {
             },
             {
                 data: 'queue',
-                render: function (data) {
+                render: function(data) {
                     if (data != 0) {
                         // return '<a class="queue">' + data + '</a>';
                         return data;
@@ -1357,7 +1363,7 @@ async function v_socketio() {
             },
             {
                 data: "qcall",
-                render: function (data) {
+                render: function(data) {
                     if (data != 0) {
                         //return '<a class="qcall">' + data + '</a>';
                         return data;
@@ -1368,7 +1374,7 @@ async function v_socketio() {
             },
             {
                 data: "qend",
-                render: function (data) {
+                render: function(data) {
                     if (data != 0) {
                         // return '<a class="qend">' + data + '</a>';
                         return data;
@@ -1379,7 +1385,7 @@ async function v_socketio() {
             },
             {
                 data: "qcancel",
-                render: function (data) {
+                render: function(data) {
                     if (data != 0) {
                         // return '<a class="qcancel" >' + data + '</a>';
                         return data;
@@ -1390,7 +1396,7 @@ async function v_socketio() {
             },
             {
                 data: "qpause",
-                render: function (data) {
+                render: function(data) {
                     if (data != 0) {
                         // return '<a class="qpause">' + data + '</a>';
                         return data;
@@ -1401,7 +1407,7 @@ async function v_socketio() {
             },
             {
                 data: 'sum',
-                render: function (data) {
+                render: function(data) {
                     if (data != 0) {
                         return '<b><a style="color:#000000; " class="qend">' + data + '</a></b>';
                         //  return  data ;
@@ -1412,15 +1418,14 @@ async function v_socketio() {
             }
         ],
         dom: 'lBfrtip',
-        buttons: [
-            {
+        buttons: [{
                 title: 'queueexport',
                 text: 'Export <i class="fa fa-file-excel-o" style="font-size:30px"></i>',
                 extend: 'excel',
                 footer: true,
                 exportOptions: {
                     format: {
-                        header: function (data, column, row) {
+                        header: function(data, column, row) {
                             return header[column]; //header is the array I used to store header texts
                         }
                     },
@@ -1429,23 +1434,23 @@ async function v_socketio() {
             }
 
         ],
-        "footerCallback": function (row, data, start, end, display) {
+        "footerCallback": function(row, data, start, end, display) {
             var api = this.api(),
                 data;
             //console.log(api)
             // Remove the formatting to get integer data for summation
-            var intVal = function (i) {
+            var intVal = function(i) {
                 return typeof i === 'string' ?
                     i.replace(/[\$,]/g, '') * 1 :
                     typeof i === 'number' ?
-                        i : 0;
+                    i : 0;
             };
             // Total over all pages
             for (i = 1; i < 7; i++) {
                 total = api
                     .column(i)
                     .data()
-                    .reduce(function (a, b) {
+                    .reduce(function(a, b) {
                         return intVal(a) + intVal(b);
                     }, 0);
 
@@ -1455,7 +1460,7 @@ async function v_socketio() {
                         page: 'current'
                     })
                     .data()
-                    .reduce(function (a, b) {
+                    .reduce(function(a, b) {
                         return intVal(a) + intVal(b);
                     }, 0);
 

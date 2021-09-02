@@ -1,21 +1,21 @@
-
 var obj = JSON.parse(Cookies.get('refresh_token'));
 var userId = Cookies.get('dataUser');
 var _objectId = Cookies.get('_objectId');
 var _arr = new Array();
 var n = 0;
 console.log(_objectId)
+
 function acctoken() {
     return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.post(urlipaddress + 'permit', {}, {
                 headers: {
                     'Authorization': obj.refresh_token
                 }
-            }).then(function (response) {
+            }).then(function(response) {
                 resolve(response.data.message.access_token);
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
                 if (response.data.message == "Unauthorized") {
                     location.href = "index.html";
@@ -27,18 +27,22 @@ function acctoken() {
 }
 
 function getqrcode(refresh_token, nameqr) {
-    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+    $.getScript("ip.js", function(data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
+
+        console.log(urlipaddress + "files/qrcode/" + nameqr)
         axios.get(urlipaddress + "files/qrcode/" + nameqr, {
             responseType: 'arraybuffer',
             headers: {
                 'Authorization': refresh_token
             }
-        }).then(function (response) {
+        }).then(function(response) {
+            console.log(response.data)
             var arrayBuffer = response.data; // Note: not oReq.responseText
             var u8 = new Uint8Array(arrayBuffer);
             var b64encoded = btoa(String.fromCharCode.apply(null, u8));
             var mimetype = "image/png"; // or whatever your image mime type is
+            // $('#Imageqrcode').attr('src', `${"data:" + mimetype + ";base64," + b64encoded}`)
             $('#Imageqrcode').attr('src', `${"data:" + mimetype + ";base64," + b64encoded}`)
 
             $("#a_load").append(`
@@ -46,7 +50,7 @@ function getqrcode(refresh_token, nameqr) {
             var imgsrc;
             var dataURL;
             html2canvas($("#createImg"), {
-                onrendered: function (canvas) {
+                onrendered: function(canvas) {
                     imgsrc = canvas.toDataURL("image/png");
                     dataURL = canvas.toDataURL();
                     var newData = imgsrc.replace(/^data:image\/png/, "data:application/octet-stream");
@@ -62,10 +66,10 @@ function Genqrcode(refresh_token) {
     console.log(refresh_token)
     console.log('sdsds')
     return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             var ipclientUrl;
-            $.getScript("ipclient.js", function (dataipclient, textStatus, jqxhr) {
+            $.getScript("ipclient.js", function(dataipclient, textStatus, jqxhr) {
                 ipclientUrl = dataipclient.substring(1, dataipclient.length - 1);
                 var formData = new FormData();
                 var file_data = $('#filelogo').prop('files')[0];
@@ -77,11 +81,12 @@ function Genqrcode(refresh_token) {
                 const url = urlipaddress + 'qrGen';
                 formData.append('mId', _objectId);
                 formData.append('clientUrl', ipclientUrl.substring(0, ipclientUrl.length - 1));
+                formData.append('dotsOptionsType', 'square');
                 axios.post(url, formData, {
                     headers: {
                         'Authorization': refresh_token
                     }
-                }).then(function (response) {
+                }).then(function(response) {
                     console.log(response.data.message)
 
                     if (response.data.message == 'Generate Qr complete') {
@@ -89,7 +94,7 @@ function Genqrcode(refresh_token) {
                     }
                     resolve(response.data.message)
 
-                }).catch(function (res) {
+                }).catch(function(res) {
                     const { response } = res
                     console.log(response)
                 });
@@ -101,21 +106,21 @@ function Genqrcode(refresh_token) {
 function getqrcode_List(refresh_token) {
     console.log(_objectId)
     return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.get(urlipaddress + "qrList/" + _objectId, {
                 headers: {
                     'Authorization': refresh_token
                 }
-            }).then(function (response) {
+            }).then(function(response) {
                 console.log(response.data.message)
-                // Genqrcode(refresh_token)
+                    // Genqrcode(refresh_token)
                 if (response.data.message == 'directory not found') {
                     resolve('true')
                 } else {
                     resolve(response.data.message.qrList[0])
                 }
-            }).catch(function (res) {
+            }).catch(function(res) {
                 //  console.log(res)
                 const { response } = res
                 // console.log('dsdsdsdssdsds')
@@ -125,13 +130,13 @@ function getqrcode_List(refresh_token) {
         });
     });
 }
-$(async function () {
+$(async function() {
     const result = await acctoken();
     // var checkGen = Genqrcode(result)
     //return
     var autogen = await getqrcode_List(result)
     console.log(autogen)
-    //  return
+        //  return
     var c;
     var nameqrcode;
     if (autogen == 'true') {
@@ -143,11 +148,11 @@ $(async function () {
     nameqrcode = await getqrcode_List(result)
 
     console.log(nameqrcode)
-    // te = nameqrcode;
+        // te = nameqrcode;
     await getqrcode(result, nameqrcode);
 
 
-    $("#i_regenlogo").on('click', async function (e) {
+    $("#i_regenlogo").on('click', async function(e) {
         $("#filelogo").trigger('click');
         let photo = document.getElementById("filelogo");
         photo.addEventListener("change", handleFiles, false);
@@ -160,13 +165,9 @@ $(async function () {
         }
     });
 
-    $('#i_regen').on('click', async function (e) {
+    $('#i_regen').on('click', async function(e) {
         const result = await acctoken();
         await Genqrcode(result)
         location.href = "queueqrcode.html";
     });
 });
-
-
-
-

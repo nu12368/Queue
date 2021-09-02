@@ -51,6 +51,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+
     <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
 
     <!-- modal  -->
@@ -76,9 +77,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.js"></script>
 
     <script src="./user.js"></script>
-    <script src="./queuevdo.js"></script>
+    <script src="./queueadvancebooking.js"></script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.1.2/dist/socket.io.js"></script>
+
 
 </head>
 
@@ -150,8 +153,6 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Call Search -->
                     <li><a id='logout' style="cursor: pointer;" data-close="true">[ออกจากระบบ]</a></li>
-                    <!-- #END# Call Search -->
-                    <!-- Notifications -->
 
                 </ul>
             </div>
@@ -207,7 +208,7 @@
                                     <span>สร้างโปรไฟล์</span>
                                 </a>
                             </li>
-                            <li class="active">
+                            <li>
                                 <a href="queuevdo.html">
                                     <span>สร้างวีดีโอ</span>
                                 </a>
@@ -237,7 +238,7 @@
                                     <span>แก้ไขชื่อบริษัท/โลโก้บริษัท/โลโก้สลิป</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <a href="queueadvancebooking.html">
                                     <span>สร้างรายการจองคิวล่วงหน้า</span>
                                 </a>
@@ -409,191 +410,231 @@
                             <div class="card">
                                 <div class="header header-new">
                                     <h2>
-                                        <font style="color: white;">สร้างวีดีโอ
+                                        <font style="color: white;">รายการจองคิวล่วงหน้า
                                         </font>
                                     </h2>
                                 </div>
                                 <div class="body">
-                                    <form id="formElem">
-                                        <div class="tab-content">
-                                            <div role="tabpanel" class="tab-pane fade in active" id="home">
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="card">
                                                 <div class="body">
-                                                    <div class="row clearfix">
-                                                        <div class="col-sm-12">
-                                                            <div class="form-group">
+                                                    <form id="formElem">
+                                                        <div class="form-group form-float">
+                                                            <font style="font-size: 18px; color: red;">***</font>
+                                                            <div class="form-line">
+                                                                <input type="text" class="form-control" name="postlist" id="postlist" value="" placeholder="รายการจอง" required autocomplete=off />
+                                                            </div>
+
+                                                            <div><br></div>
+                                                            <div class="form-line">
+                                                                <textarea class="form-control" id="categorydescription" name="categorydescription" rows="3" required placeholder="รายละเอียด"></textarea>
+                                                            </div>
+                                                            <div><br></div>
+                                                            <div class="form-group form-float" style="display: none;">
+                                                                <input type="file" name="fileimage" type="file" multiple accept=".png, .jpg, .jpeg " id="fileimage">
+                                                                <label class="form-label">เลือกรูปภาพอัพโหลด</label>
+                                                                <p id="lbl_add" style="font-size: 16px; color: red;"></p>
+                                                            </div>
+
+                                                            <div class="form-group form-float" style="display: none;">
                                                                 <div class="form-line">
-                                                                    <input type="text" class="form-control" name="linkvdourl" id="linkvdourl" value="" required autocomplete="off" placeholder="ระบุลิงค์วีดีโอ ยูทูป" />
-                                                                </div>
-                                                            </div>
-                                                            <button class="btn btn-primary waves-effect" id="submitvdo" class="primary" type="button">บันทึก</button>
-                                                            <p id="save" style="font-size: 18px;"></p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display" id="table1">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>ลิงค์ URL</th>
-                                                            <th>วีดีโอ</th>
-                                                        </tr>
-                                                    </thead>
-                                                </table>
-                                                <ul class="pagination" id="pagination2"></ul>
-                                            </div>
-
-
-                                            <!-- <script>
-                                                const url = "https://www.youtube.com/watch?v=6I42nXIqsOQ";
-                                                const v = new URL(url).searchParams.get('v');
-                                                document.currentScript.insertAdjacentHTML(
-                                                    'beforebegin',
-                                                    `<h1>Video id=${v}</h1>` +
-                                                    `<iframe
-                                                      width="480" height="270"
-                                                      src="https://www.youtube.com/embed/${v}?feature=oembed"
-                                                      allowfullscreen></iframe>`
-                                                );
-                                            </script> -->
-
-
-                                            <!-- /// ลบ -->
-                                            <div class="container">
-                                                <div class="modal fade" id="myModaldelete" role="dialog">
-                                                    <div class="modal-dialog" style="width: 300px; height: 200px;">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 id="title" class="modal-title">ลบข้อมูล</h4>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="container">
-                                                                    <div class="row">
-                                                                        <div class="col-20">
-                                                                            <i class="fa fa-exclamation-triangle" id="c_delete" style="font-size:48px;color:red"></i>
-                                                                            <i class="fa fa-check-circle" id="completed" style="font-size:48px;color:green; display: none;"></i>
-                                                                        </div>
-
-                                                                        <div>
-                                                                            <label id="lbl_completed" for="fname"></label>
+                                                                    <div class="list-unstyled row clearfix">
+                                                                        <p id="imgsixe" style="font-size: 16px; color: red;">
+                                                                        </p>
+                                                                        <h4>รูปภาพ</h4>
+                                                                        <div id="addImagenew" class="img-responsive thumbnail">
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="modal-footer">
-                                                                <input type="button" value="ตกลง" id="deleteprofile" class="primary btn btn-default" />
 
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-
-
-
-                                            <div class="container">
-                                                <div class="modal fade" id="myModaledit" role="dialog">
-                                                    <div class="modal-dialog">
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 id="title_dalete_official" class="modal-title">
-                                                                    แก้ไขประเภท Visitor</h4>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="container">
-                                                                    <table>
-                                                                        <tr>
-                                                                            <td> ประเภท Visitor (เดิม) :</td>
-                                                                            <td> <input type="text" id="oldvisitorType" readonly name="oldvisitorType"></td>
-
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>
-                                                                                <div>&nbsp;</div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>ประเภท Visitor (ใหม่) :</td>
-                                                                            <td> <input type="text" id="newvisitorType" name="newvisitorType"></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>
-                                                                                <div>&nbsp;</div>
-                                                                            </td>
-                                                                        </tr>
-
-                                                                        <tr>
-                                                                            <td></td>
-                                                                            <td>
-                                                                                <input type="button" value="อัพเดท" id="updatevisitorType" name="updatevisitorType" style="cursor: pointer;">
-                                                                                <p id="update" style="color: green; font-size: 18px;">
-                                                                                </p>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
+                                                            <div class="form-group form-float">
+                                                                <h5>กำหนดระยะเวลาคิว</h5>
+                                                                <p>เลือก ชั่วโมง</p>
+                                                                <font style="font-size: 18px; color: red;">***</font>
+                                                                <div class="form-line">
+                                                                    <select name="hours" class="form-control" id="starthours">
+                                                                    <option value="00">00</option>
+                                                                    <option value="1">01</option>
+                                                                    <option value="2">02</option>
+                                                                    <option value="3">03</option>
+                                                                    <option value="4">04</option>
+                                                                    <option value="5">05</option>
+                                                                    <option value="6">06</option>
+                                                                    <option value="7">07</option>
+                                                                    <option value="8">08</option>
+                                                                    <option value="9">09</option>
+                                                                    <option value="10">10</option>
+                                                                    <option value="11">11</option>
+                                                                    <option value="12">12</option>
+                                                                    <option value="13">13</option>
+                                                                    <option value="14">14</option>
+                                                                    <option value="15">15</option>
+                                                                    <option value="16">16</option>
+                                                                    <option value="17">17</option>
+                                                                    <option value="18">18</option>
+                                                                    <option value="19">19</option>
+                                                                    <option value="20">20</option>
+                                                                    <option value="21">21</option>
+                                                                    <option value="22">22</option>
+                                                                    <option value="23">23</option>
+                                                                    <option value="24">24</option>
+                                                                </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+
+                                                            <div class="form-group form-float">
+                                                                <p>เลือก นาที</p>
+                                                                <div class="form-line">
+                                                                    <select name="minutes" class="form-control" id="startminutes">
+                                                                    <option value="00">00</option>
+                                                                    <option value="01">01</option>
+                                                                    <option value="02">02</option>
+                                                                    <option value="03">03</option>
+                                                                    <option value="04">04</option>
+                                                                    <option value="05">05</option>
+                                                                    <option value="06">06</option>
+                                                                    <option value="07">07</option>
+                                                                    <option value="08">08</option>
+                                                                    <option value="09">09</option>
+                                                                    <option value="10">10</option>
+                                                                    <option value="11">11</option>
+                                                                    <option value="12">12</option>
+                                                                    <option value="13">13</option>
+                                                                    <option value="14">14</option>
+                                                                    <option value="15">15</option>
+                                                                    <option value="16">16</option>
+                                                                    <option value="17">17</option>
+                                                                    <option value="18">18</option>
+                                                                    <option value="19">19</option>
+                                                                    <option value="20">20</option>
+                                                                    <option value="21">21</option>
+                                                                    <option value="22">22</option>
+                                                                    <option value="24">24</option>
+                                                                    <option value="25">25</option>
+                                                                    <option value="26">26</option>
+                                                                    <option value="27">27</option>
+                                                                    <option value="28">28</option>
+                                                                    <option value="29">29</option>
+                                                                    <option value="30">30</option>
+                                                                    <option value="31">31</option>
+                                                                    <option value="32">32</option>
+                                                                    <option value="33">33</option>
+                                                                    <option value="34">34</option>
+                                                                    <option value="35">35</option>
+                                                                    <option value="36">36</option>
+                                                                    <option value="37">37</option>
+                                                                    <option value="38">38</option>
+                                                                    <option value="39">39</option>
+                                                                    <option value="40">40</option>
+                                                                    <option value="41">41</option>
+                                                                    <option value="42">42</option>
+                                                                    <option value="43">43</option>
+                                                                    <option value="44">44</option>
+                                                                    <option value="45">45</option>
+                                                                    <option value="46">46</option>
+                                                                    <option value="47">47</option>
+                                                                    <option value="48">48</option>
+                                                                    <option value="49">49</option>
+                                                                    <option value="50">50</option>
+                                                                    <option value="51">51</option>
+                                                                    <option value="52">52</option>
+                                                                    <option value="53">53</option>
+                                                                    <option value="54">54</option>
+                                                                    <option value="55">55</option>
+                                                                    <option value="56">56</option>
+                                                                    <option value="57">57</option>
+                                                                    <option value="58">58</option>
+                                                                    <option value="59">59</option>
+                                                                </select>
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                            <button class="btn btn-primary waves-effect" id="submitlist" class="primary" type="button">บันทึก</button>
+
+                                                    </form>
                                                     </div>
 
+                                                    <div class="table-responsive">
+
+                                                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display" id="table1">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>รายการจอง</th>
+                                                                    <th>รายละเอียด</th>
+                                                                    <th>วัน-เวลา</th>
+                                                                    <th>เพิ่ม-แก้ไข จำนวนคิว / ลบ</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
-
-
-                                    </form>
+                                        </div>
                                     </div>
+
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-
-            <div class="container">
-                <div class="modal fade" id="myModaldont" role="dialog">
-                    <div class="modal-dialog" style="width: 300px; height: 200px;">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 id="title" class="modal-title">บันทึกข้อมูล</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-20">
-                                            <i class="fa fa-exclamation-triangle" id="c_delete" style="font-size:48px;color:red"></i>
-                                            <i class="fa fa-check-circle" id="completed" style="font-size:48px;color:green; display: none;"></i>
-                                        </div>
-                                        <div>
-                                            <label id="lbl_completed" for="fname"> </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">ตกลง</button>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
+        </div>
 
         </div>
     </section>
 
+
+
+
+    <div class="container">
+        <div class="modal fade" id="addagendar" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div style="text-align: right;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+                    </div>
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="category_list">รายการจอง</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row clearfix">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="card">
+
+                                    <div class="body">
+                                        <div>
+                                            <h5>ระบุจำนวนคิว แล้วกดปุ่ม บันทึก</h5>
+                                        </div>
+                                        <form id="formElem">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display" id="table1_time">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ช่วงเวลา</th>
+                                                            <th>จำนวนคิว</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <button class="btn btn-primary waves-effect" id="submitsettime" class="primary" type="button">บันทึก</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <!-- Jquery Core Js -->
     <!-- <script src="../../plugins/jquery/jquery.min.js"></script> -->

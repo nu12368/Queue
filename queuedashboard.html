@@ -7,8 +7,7 @@
     <title>WAC</title>
     <!-- Favicon-->
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
-        type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
     <!-- Bootstrap Core Css -->
@@ -27,8 +26,7 @@
 
 
     <!-- Bootstrap Material Datetime Picker Css -->
-    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
-        rel="stylesheet" />
+    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
     <link href="../../plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
 
 
@@ -40,8 +38,7 @@
     <link href="../../css/themes/all-themes.css" rel="stylesheet" />
 
     <!-- Bootstrap Material Datetime Picker Css -->
-    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
-        rel="stylesheet" />
+    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
 
     <!-- Bootstrap DatePicker Css -->
     <link href="../../plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
@@ -76,13 +73,10 @@
     <script src="./user.js"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet'
-        type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet' type='text/css'>
 
-    <link type="text/css" rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
-    <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
 </head>
 
@@ -90,7 +84,7 @@
     body h1 h2 h3 h4 h5 h6 ul li a p {
         font-family: 'Kanit', sans-serif;
     }
-
+    
     div {
         font-family: 'Kanit', sans-serif;
     }
@@ -107,7 +101,7 @@
         minute: "numeric"
     });
     today = dd + '/' + mm + '/' + yyyy;
-    $(document).ready(function () {
+    $(document).ready(function() {
         console.log(yyyy + '-' + mm + '-' + dd)
         $("#startdate").val(yyyy + '-' + mm + '-' + dd);
         $("#enddate").val(yyyy + '-' + mm + '-' + dd);
@@ -152,11 +146,10 @@
     <nav class="navbar">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand"  id="logoname" href="queuedashboard.html"></a>
-              
+                <a class="navbar-brand" id="logoname" href="queuedashboard.html"></a>
+
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -173,8 +166,8 @@
         <aside id="leftsidebar" class="sidebar" style="text-align: center;">
             <!-- User Info -->
             <div class="user-info" style="text-align:center;">
-                
-                <div class="image" >
+
+                <div class="image">
                     <img id="LOGOVIEW" name="LOGOVIEW" width="100" height="100" alt="User" />
                 </div>
                 <div style="color: white;">
@@ -246,6 +239,11 @@
                             <li>
                                 <a href="company.html">
                                     <span>แก้ไขชื่อบริษัท/โลโก้บริษัท/โลโก้สลิป</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="queueadvancebooking.html">
+                                    <span>สร้างรายการจองคิวล่วงหน้า</span>
                                 </a>
                             </li>
                         </ul>
@@ -419,8 +417,7 @@
                         </div>
                         <div class="content">
                             <div style="font-size: 18px;" class="text">จำนวนคิวทั้งหมด</div>
-                            <div class="number count-to" data-from="0" data-to="125" id="queue" data-speed="15"
-                                data-fresh-interval="20"></div>
+                            <div class="number count-to" data-from="0" data-to="125" id="queue" data-speed="15" data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
@@ -431,8 +428,7 @@
                         </div>
                         <div class="content">
                             <div style="font-size: 18px;" class="text">จำนวนคิวรอรับบริการ</div>
-                            <div class="number count-to" data-from="0" data-to="257" id="qadd" data-speed="1000"
-                                data-fresh-interval="20"></div>
+                            <div class="number count-to" data-from="0" data-to="257" id="qadd" data-speed="1000" data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
@@ -443,8 +439,7 @@
                         </div>
                         <div class="content">
                             <div style="font-size: 18px;" class="text">จำนวนคิวกำลังรับบริการ</div>
-                            <div class="number count-to" data-from="0" data-to="243" id="qcall" data-speed="1000"
-                                data-fresh-interval="20"></div>
+                            <div class="number count-to" data-from="0" data-to="243" id="qcall" data-speed="1000" data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
@@ -455,8 +450,7 @@
                         </div>
                         <div class="content">
                             <div style="font-size: 18px;" class="text">จำนวนคิวผู้รับบริการแล้ว</div>
-                            <div class="number count-to" data-from="0" data-to="1225" id="qend" data-speed="1000"
-                                data-fresh-interval="20"></div>
+                            <div class="number count-to" data-from="0" data-to="1225" id="qend" data-speed="1000" data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
@@ -467,8 +461,7 @@
                         </div>
                         <div class="content">
                             <div style="font-size: 18px;" class="text">จำนวนคิวถูกยกเลิก</div>
-                            <div class="number count-to" data-from="0" data-to="1225" id="qcancel" data-speed="1000"
-                                data-fresh-interval="20"></div>
+                            <div class="number count-to" data-from="0" data-to="1225" id="qcancel" data-speed="1000" data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
@@ -495,8 +488,7 @@
                                 <div class="form-group">
                                     <div class="form-line">
                                         <i class="material-icons">date_range</i>
-                                        <input class="form-control" style="cursor: pointer;" type="text" id="startdate"
-                                            name="startdate" placeholder="วันที่เริ่มต้น" />
+                                        <input class="form-control" style="cursor: pointer;" type="text" id="startdate" name="startdate" placeholder="วันที่เริ่มต้น" />
                                     </div>
                                 </div>
                                 <script>
@@ -511,13 +503,12 @@
                                     <div class="col-xs-4 form-group">
                                         <div class="form-line">
                                             <i class="material-icons" style="cursor: pointer;">access_time</i>
-                                            <input class="form-control" type="text" id="txttimestart"
-                                                name="txttimestart" placeholder="" />
+                                            <input class="form-control" type="text" id="txttimestart" name="txttimestart" placeholder="" />
                                         </div>
                                     </div>
                                 </form>
                                 <script>
-                                    $(function () {
+                                    $(function() {
                                         $("#txttimestart").datetimepicker({
                                             format: "HH:mm:ss"
                                         });
@@ -541,8 +532,7 @@
                                 <div class="form-group">
                                     <div class="form-line">
                                         <i class="material-icons">date_range</i>
-                                        <input class="form-control" style="cursor: pointer;" type="text" id="enddate"
-                                            name="enddate" placeholder="วันที่สิ้นสุด" />
+                                        <input class="form-control" style="cursor: pointer;" type="text" id="enddate" name="enddate" placeholder="วันที่สิ้นสุด" />
                                     </div>
                                 </div>
                                 <script>
@@ -556,13 +546,12 @@
                                     <div class="col-xs-4 form-group">
                                         <div class="form-line">
                                             <i class="material-icons" style="cursor: pointer;">access_time</i>
-                                            <input class="form-control" type="text" id="txttimestop" name="txttimestop"
-                                                placeholder="" />
+                                            <input class="form-control" type="text" id="txttimestop" name="txttimestop" placeholder="" />
                                         </div>
                                     </div>
                                 </form>
                                 <script>
-                                    $(function () {
+                                    $(function() {
                                         $("#txttimestop").datetimepicker({
                                             format: "HH:mm:ss"
                                         });
@@ -586,13 +575,11 @@
                                 <tr>
                                     <td>&nbsp;</td>
                                     <td>
-                                        <button class="btn btn-primary waves-effect" id="submitqueueReport"
-                                            class="primary" type="button">ค้นหา</button>
+                                        <button class="btn btn-primary waves-effect" id="submitqueueReport" class="primary" type="button">ค้นหา</button>
                                     </td>
                                     <td>&nbsp;</td>
                                     <td>
-                                        <button class="btn btn-primary waves-effect" style="display: none;"
-                                            id="btn_cancel" class="primary" type="button">ยกเลิก</button>
+                                        <button class="btn btn-primary waves-effect" style="display: none;" id="btn_cancel" class="primary" type="button">ยกเลิก</button>
                                     </td>
                                 </tr>
                             </table>
@@ -621,9 +608,7 @@
                             <h4> ตารางแสดงคิววันนี้ </h4>
                         </u>
                         <div class="table-responsive">
-                            <table
-                                class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
-                                id="tablequeue" style="font-size: 18px; text-align: center;">
+                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display" id="tablequeue" style="font-size: 18px; text-align: center;">
                                 <thead>
                                     <tr>
                                         <th style="text-align:center; width: 250px;">แผนก</th>
@@ -673,9 +658,7 @@
                         <div>&nbsp;</div>
                         <div>&nbsp;</div>
                         <div class="table-responsive">
-                            <table
-                                class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
-                                id="tablequeue_view" style="font-size: 16px;">
+                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display" id="tablequeue_view" style="font-size: 16px;">
                                 <thead>
                                     <tr>
                                         <th>ลำดับที่</th>

@@ -9,8 +9,7 @@
     <link rel="icon" href="../../uploads/logo.ico" type="image/x-icon">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
-        type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
     <!-- Bootstrap Core Css -->
@@ -29,8 +28,7 @@
 
 
     <!-- Bootstrap Material Datetime Picker Css -->
-    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
-        rel="stylesheet" />
+    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
     <link href="../../plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
 
 
@@ -41,8 +39,7 @@
     <link href="../../css/themes/all-themes.css" rel="stylesheet" />
 
     <!-- Bootstrap Material Datetime Picker Css -->
-    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
-        rel="stylesheet" />
+    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
 
     <!-- Bootstrap DatePicker Css -->
     <link href="../../plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
@@ -52,7 +49,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
     <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
 
     <!-- modal  -->
@@ -85,11 +82,11 @@
     body h1 h2 h3 h4 h5 h6 ul li a p {
         font-family: 'Kanit', sans-serif;
     }
-
+    
     div {
         font-family: 'Kanit', sans-serif;
     }
-
+    
     .i:read-only {
         background-color: yellow;
     }
@@ -106,11 +103,12 @@
     .intro {
         display: block !important;
     }
-
+    
     .intronone {
         display: none !important;
     }
 </style>
+
 <body class="theme-red">
     <!-- Page Loader -->
     <div class="page-loader-wrapper">
@@ -147,10 +145,9 @@
     <nav class="navbar">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand"  id="logoname" href="queuedashboard.html"></a>
+                <a class="navbar-brand" id="logoname" href="queuedashboard.html"></a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -168,7 +165,7 @@
         <aside id="leftsidebar" class="sidebar" style="text-align: center;">
             <!-- User Info -->
             <div class="user-info" style="text-align:center;">
-                <div class="image" >
+                <div class="image">
                     <img id="LOGOVIEW" name="LOGOVIEW" width="100" height="100" alt="User" />
                 </div>
                 <div style="color: white;">
@@ -182,9 +179,9 @@
                         <a href="queuedashboard.html">
                             <i class="material-icons">queue</i>
                             <span>แดชบอร์ด</span>
-                        </a> 
+                        </a>
                     </li>
-                    <li >
+                    <li>
                         <a href="reportqueuedate.html">
                             <i class="material-icons">date_range</i>
                             <span>รายงานคิวแบ่งตามวันที่</span>
@@ -211,22 +208,22 @@
                                     <span>สร้างโปรไฟล์</span>
                                 </a>
                             </li>
-                            <li >
+                            <li>
                                 <a href="queuevdo.html">
                                     <span>สร้างวีดีโอ</span>
                                 </a>
                             </li>
-                            <li >
+                            <li>
                                 <a href="queuemessage.html">
                                     <span>ข้อความหน้าจอ</span>
                                 </a>
                             </li>
-                            <li >
+                            <li>
                                 <a href="queueqrcode.html">
                                     <span>คิวอาร์โค้ด</span>
                                 </a>
                             </li>
-                            <li >
+                            <li>
                                 <a href="queuesms.html">
                                     <span>ตั้งค่า SMS</span>
                                 </a>
@@ -239,6 +236,11 @@
                             <li>
                                 <a href="company.html">
                                     <span>แก้ไขชื่อบริษัท/โลโก้บริษัท/โลโก้สลิป</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="queueadvancebooking.html">
+                                    <span>สร้างรายการจองคิวล่วงหน้า</span>
                                 </a>
                             </li>
                         </ul>
@@ -416,11 +418,9 @@
                                     <form id="formElem">
                                         <!-- Nav tabs -->
                                         <ul class="nav nav-tabs tab-nav-right" role="tablist">
-                                            <li role="presentation" class="active"><a href="#home"
-                                                    style="font-size: 18px;" data-toggle="tab">ผู้ใช้งาน</a>
+                                            <li role="presentation" class="active"><a href="#home" style="font-size: 18px;" data-toggle="tab">ผู้ใช้งาน</a>
                                             </li>
-                                            <li role="presentation" class="" style="display: none;"><a href="#userhome"
-                                                    style="font-size: 18px;" data-toggle="tab">ผู้ใช้งาน </a>
+                                            <li role="presentation" class="" style="display: none;"><a href="#userhome" style="font-size: 18px;" data-toggle="tab">ผู้ใช้งาน </a>
                                             </li>
                                         </ul>
                                         <!-- Tab panes -->
@@ -432,49 +432,37 @@
                                                             <div class="form-group">
                                                                 <div class="form-line">
                                                                     <p>รูปโปรไฟล์</p>
-                                                                    <input type="file" name="fileimageadmin" type="file"
-                                                                        multiple accept=".png, .jpg, .jpeg"
-                                                                        id="fileimageadmin">
+                                                                    <input type="file" name="fileimageadmin" type="file" multiple accept=".png, .jpg, .jpeg" id="fileimageadmin">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="form-line">
                                                                     <font style="font-size: 18px; color: red;">***</font>
-                                                                    <input type="text" class="form-control" name="user"
-                                                                        id="user" value="" autocomplete="off"
-                                                                        placeholder="ชื่อผู้ใช้งาน" /> 
+                                                                    <input type="text" class="form-control" name="user" id="user" value="" autocomplete="off" placeholder="ชื่อผู้ใช้งาน" />
                                                                 </div>
-                                                                
+
                                                             </div>
-                                                            
+
                                                             <div class="form-group">
                                                                 <div class="form-line">
                                                                     <font style="font-size: 18px; color: red;">***</font>
-                                                                    <input type="password" class="form-control"
-                                                                        name="passuser" id="passuser" value=""
-                                                                        autocomplete="new-password"
-                                                                        placeholder="รหัสผ่าน ใช้อักขระ ที่มีทั้งตัวอักษร (A-Z,a-z) ตัวเลข (0-9) และสัญลักษณ์ผสมกัน" />
+                                                                    <input type="password" class="form-control" name="passuser" id="passuser" value="" autocomplete="new-password" placeholder="รหัสผ่าน ใช้อักขระ ที่มีทั้งตัวอักษร (A-Z,a-z) ตัวเลข (0-9) และสัญลักษณ์ผสมกัน" />
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="form-line">
-                                                                    <input type="number" class="form-control"
-                                                                        name="phone" maxlength="10" id="phone" value=""
-                                                                        autocomplete="off" placeholder="เบอร์โทร" />
+                                                                    <input type="number" class="form-control" name="phone" maxlength="10" id="phone" value="" autocomplete="off" placeholder="เบอร์โทร" />
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="form-line">
-                                                                    <textarea class="form-control" id="address"
-                                                                        name="address" rows="3" required
-                                                                        placeholder="ที่อยู่"></textarea>
+                                                                    <textarea class="form-control" id="address" name="address" rows="3" required placeholder="ที่อยู่"></textarea>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="form-line">
                                                                     <font style="font-size: 18px; color: red;">***</font>
-                                                                    <select class="form-control show-tick" name="rule"
-                                                                        id="rule" style="cursor: pointer;">
+                                                                    <select class="form-control show-tick" name="rule" id="rule" style="cursor: pointer;">
                                                                         <option value="0">-- กำหนดสิทธิ์ --
                                                                         </option>
                                                                         <option value="Admin">admin</option>
@@ -484,15 +472,12 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <button class="btn btn-primary waves-effect" id="submitvisitorRegis"
-                                                        class="primary" type="button">บันทึก</button>
+                                                    <button class="btn btn-primary waves-effect" id="submitvisitorRegis" class="primary" type="button">บันทึก</button>
                                                     <p id="save" style="font-size: 18px;"></p>
                                                 </div>
                                                 <div>&nbsp;</div>
                                                 <div class="table-responsive">
-                                                    <table
-                                                        class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
-                                                        id="table1">
+                                                    <table class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display" id="table1">
                                                         <thead>
                                                             <tr>
                                                                 <th>ลำดับที่</th>
@@ -534,10 +519,7 @@
                                                                     <tr>
                                                                         <td> เลือกรูปโปรไฟล์ :</td>
                                                                         <td>
-                                                                            <input type="file"
-                                                                                name="edit_fileimageadmin" multiple
-                                                                                accept=".png, .jpg, .jpeg"
-                                                                                id="edit_fileimageadmin">
+                                                                            <input type="file" name="edit_fileimageadmin" multiple accept=".png, .jpg, .jpeg" id="edit_fileimageadmin">
                                                                         </td>
 
                                                                         <td> </td>
@@ -550,8 +532,7 @@
                                                                     <tr>
                                                                         <td>รูปโปรไฟล์ : </td>
                                                                         <td>
-                                                                            <p id="imgsixeeditadmin"
-                                                                                style="font-size: 16px; color: red;">
+                                                                            <p id="imgsixeeditadmin" style="font-size: 16px; color: red;">
                                                                             </p>
                                                                             <div id="EditaddImageadmin" class="">
                                                                             </div>
@@ -559,8 +540,7 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td> ชื่อผู้ใช้งาน :</td>
-                                                                        <td> <input type="text" id="user_edit_name"
-                                                                                readonly name="user_edit_name"></td>
+                                                                        <td> <input type="text" id="user_edit_name" readonly name="user_edit_name"></td>
                                                                         <td></td>
                                                                         <td> </td>
                                                                     </tr>
@@ -572,8 +552,7 @@
                                                                     <tr>
                                                                         <td>กำหนดสิทธิ์ :</td>
                                                                         <td>
-                                                                            <select class=" show-tick" name="ruleedit"
-                                                                                id="ruleedit" style="cursor: pointer;">
+                                                                            <select class=" show-tick" name="ruleedit" id="ruleedit" style="cursor: pointer;">
                                                                                 <option value="0">-- กำหนดสิทธิ์ --
                                                                                 </option>
                                                                                 <option value="Admin">admin</option>
@@ -592,11 +571,8 @@
                                                                     <tr>
                                                                         <td></td>
                                                                         <td>
-                                                                            <input type="button" value="อัพเดท"
-                                                                                id="UPDATEEDIT" name="UPDATEEDIT"
-                                                                                style="cursor: pointer;">
-                                                                            <p id="update_"
-                                                                                style="color: green; font-size: 18px;">
+                                                                            <input type="button" value="อัพเดท" id="UPDATEEDIT" name="UPDATEEDIT" style="cursor: pointer;">
+                                                                            <p id="update_" style="color: green; font-size: 18px;">
                                                                             </p>
                                                                         </td>
                                                                     </tr>
@@ -604,8 +580,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default"
-                                                                data-dismiss="modal">ปิด</button>
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -630,8 +605,7 @@
                                                                 <table>
                                                                     <tr>
                                                                         <td> ชื่อผู้ใช้งาน :</td>
-                                                                        <td> <input type="text" id="user_edit"
-                                                                                name="user_edit"></td>
+                                                                        <td> <input type="text" id="user_edit" name="user_edit"></td>
                                                                         <td></td>
                                                                         <td> </td>
                                                                     </tr>
@@ -642,8 +616,7 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td>รหัสผ่านเดิม :</td>
-                                                                        <td><input type="password" name="passuser_old"
-                                                                                id="passuser_old" /></td>
+                                                                        <td><input type="password" name="passuser_old" id="passuser_old" /></td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>
@@ -652,8 +625,7 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td>รหัสผ่านใหม่ :</td>
-                                                                        <td><input type="password" name="passuser_new"
-                                                                                id="passuser_new" /></td>
+                                                                        <td><input type="password" name="passuser_new" id="passuser_new" /></td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>
@@ -663,11 +635,8 @@
                                                                     <tr>
                                                                         <td></td>
                                                                         <td>
-                                                                            <input type="button" value="อัพเดท"
-                                                                                id="UPDATE" name="UPDATE"
-                                                                                style="cursor: pointer;">
-                                                                            <p id="update"
-                                                                                style="color: green; font-size: 18px;">
+                                                                            <input type="button" value="อัพเดท" id="UPDATE" name="UPDATE" style="cursor: pointer;">
+                                                                            <p id="update" style="color: green; font-size: 18px;">
                                                                             </p>
                                                                         </td>
 
@@ -677,8 +646,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default"
-                                                                data-dismiss="modal">ปิด</button>
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -701,8 +669,7 @@
                                                                 <table>
                                                                     <tr>
                                                                         <td> USER :</td>
-                                                                        <td> <input type="text" id="user_editmember"
-                                                                                name="user_editmember"></td>
+                                                                        <td> <input type="text" id="user_editmember" name="user_editmember"></td>
                                                                         <td></td>
                                                                         <td> </td>
                                                                     </tr>
@@ -713,9 +680,7 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td>PASSWORD :</td>
-                                                                        <td><input type="password"
-                                                                                name="passuser_oldmember"
-                                                                                id="passuser_oldmember" /></td>
+                                                                        <td><input type="password" name="passuser_oldmember" id="passuser_oldmember" /></td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>
@@ -724,9 +689,7 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td>NEWPASSWORD :</td>
-                                                                        <td><input type="password"
-                                                                                name="passuser_newmember"
-                                                                                id="passuser_newmember" /></td>
+                                                                        <td><input type="password" name="passuser_newmember" id="passuser_newmember" /></td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>
@@ -736,11 +699,8 @@
                                                                     <tr>
                                                                         <td></td>
                                                                         <td>
-                                                                            <input type="button" value="อัพเดท"
-                                                                                id="UPDATEmember" name="UPDATEmember"
-                                                                                style="cursor: pointer;">
-                                                                            <p id="updatemember"
-                                                                                style="color: green; font-size: 18px;">
+                                                                            <input type="button" value="อัพเดท" id="UPDATEmember" name="UPDATEmember" style="cursor: pointer;">
+                                                                            <p id="updatemember" style="color: green; font-size: 18px;">
                                                                             </p>
                                                                         </td>
 
@@ -750,8 +710,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default"
-                                                                data-dismiss="modal">ปิด</button>
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -773,11 +732,8 @@
                                                             <div class="container">
                                                                 <div class="row">
                                                                     <div class="col-20">
-                                                                        <i class="fa fa-exclamation-triangle"
-                                                                            id="c_delete"
-                                                                            style="font-size:48px;color:red"></i>
-                                                                        <i class="fa fa-check-circle" id="completed"
-                                                                            style="font-size:48px;color:green; display: none;"></i>
+                                                                        <i class="fa fa-exclamation-triangle" id="c_delete" style="font-size:48px;color:red"></i>
+                                                                        <i class="fa fa-check-circle" id="completed" style="font-size:48px;color:green; display: none;"></i>
                                                                     </div>
 
                                                                     <div>
@@ -787,11 +743,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <input type="button" value="ตกลง" id="deleteUser"
-                                                                class="primary btn btn-default" />
+                                                            <input type="button" value="ตกลง" id="deleteUser" class="primary btn btn-default" />
 
-                                                            <button type="button" class="btn btn-default"
-                                                                data-dismiss="modal">ปิด</button>
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
                                                         </div>
                                                     </div>
 
@@ -829,56 +783,53 @@
                                         <div class="list-unstyled row clearfix">
                                             <div id="div_view" class="lightgallery">
                                                 <a id="a_imageview" class="lightgallery">
-                                                    <div id="viewImage" style="cursor: pointer;"
-                                                        class="img-responsive thumbnail">
+                                                    <div id="viewImage" style="cursor: pointer;" class="img-responsive thumbnail">
                                                 </a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!-- </div> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="modal fade" id="myModaldont" role="dialog">
-                <div class="modal-dialog" style="width: 300px; height: 200px;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 id="title" class="modal-title">บันทึกข้อมูล</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-20">
-                                        <i class="fa fa-exclamation-triangle" id="c_delete"
-                                            style="font-size:48px;color:red"></i>
-                                        <i class="fa fa-check-circle" id="completed"
-                                            style="font-size:48px;color:green; display: none;"></i>
-                                    </div>
-                                    <div>
-                                        <label id="lbl_completed" for="fname"> </label>
+                                        <!-- </div> -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">ตกลง</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
                         </div>
                     </div>
 
                 </div>
-
             </div>
-        </div>
+
+            <div class="container">
+                <div class="modal fade" id="myModaldont" role="dialog">
+                    <div class="modal-dialog" style="width: 300px; height: 200px;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 id="title" class="modal-title">บันทึกข้อมูล</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-20">
+                                            <i class="fa fa-exclamation-triangle" id="c_delete" style="font-size:48px;color:red"></i>
+                                            <i class="fa fa-check-circle" id="completed" style="font-size:48px;color:green; display: none;"></i>
+                                        </div>
+                                        <div>
+                                            <label id="lbl_completed" for="fname"> </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">ตกลง</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
 
         </div>
     </section>

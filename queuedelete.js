@@ -15,15 +15,15 @@ var _n_loop = 1;
 
 function acctoken() {
     return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.post(urlipaddress + 'permit', {}, {
                 headers: {
                     'Authorization': obj.refresh_token
                 }
-            }).then(function (response) {
+            }).then(function(response) {
                 resolve(response.data.message.access_token);
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
                 if (response.data.message == "Unauthorized") {
                     location.href = "index.html";
@@ -32,28 +32,30 @@ function acctoken() {
         });
     });
 }
+
 function showCanceldeletequeue(title, text) {
     swal({
         title: title,
         text: text,
         type: "error",
-    }, function (isConfirm) {
+    }, function(isConfirm) {
         swal("Cancelled", "Your imaginary file is safe :)", "error");
     });
 }
+
 function showSuccessdeletequeue(text) {
     swal({
         title: "สำเร็จ",
         text: text,
         type: "success",
-    }, function (isConfirm) {
+    }, function(isConfirm) {
         if (isConfirm) {
             location.href = "queuedelete.html";
         }
     });
 }
 
-const view_datatable = async (responsedataview) => {
+const view_datatable = async(responsedataview) => {
     if (responsedataview.data.message.values.length != 0) {
         for (i = 0; i < responsedataview.data.message.values.length; i++) {
             _arr_qloop[_i_loop] = {
@@ -73,10 +75,13 @@ const view_datatable = async (responsedataview) => {
     }
 
     console.log(_arr_qloop)
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#table1').DataTable().destroy();
         var table = $('#table1').DataTable({
-            "lengthMenu": [[25, 50, 100], [25, 50, 100]],
+            "lengthMenu": [
+                [25, 50, 100],
+                [25, 50, 100]
+            ],
             "pageLength": 25,
             'data': [..._arr_qloop],
             "responsive": true,
@@ -92,7 +97,7 @@ const view_datatable = async (responsedataview) => {
                 { data: "tel" },
                 {
                     data: "timeAdd",
-                    render: function (data) {
+                    render: function(data) {
                         let date = new Date(data);
                         let options = { hour12: false };
                         var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
@@ -109,30 +114,32 @@ const view_datatable = async (responsedataview) => {
                 'searchable': false,
                 'orderable': false,
                 'className': 'dt-body-center',
-                'render': function (data, type, full, meta) {
+                'render': function(data, type, full, meta) {
                     // console.log(data)
                     return '<input type="checkbox" id="' + data + '" name="' + data + '" value="' + $('<div/>').text(data).html() + '"> <label for="' + data + '"></label>';
                 }
             }],
 
-            'order': [[1, 'asc']]
-            // dom: 'lBfrtip',
-            // buttons: [
-            //     {
-            //         title: 'คิวค้าง',
-            //         text: 'Export <i class="fa fa-file-excel-o" style="font-size:30px"></i>',
-            //         extend: 'excel',
-            //     }
-            // ],
+            'order': [
+                    [1, 'asc']
+                ]
+                // dom: 'lBfrtip',
+                // buttons: [
+                //     {
+                //         title: 'คิวค้าง',
+                //         text: 'Export <i class="fa fa-file-excel-o" style="font-size:30px"></i>',
+                //         extend: 'excel',
+                //     }
+                // ],
         });
 
-        $('#All').on('click', function () {
+        $('#All').on('click', function() {
             var rows = table.rows({ 'search': 'applied' }).nodes();
             $('input[type="checkbox"]', rows).prop('checked', this.checked);
 
         });
 
-        $('#table1 tbody').on('change', 'input[type="checkbox"]', function () {
+        $('#table1 tbody').on('change', 'input[type="checkbox"]', function() {
             // If checkbox is not checked
             if (!this.checked) {
                 var el = $('#example-select-all').get(0);
@@ -162,18 +169,18 @@ const view_datatable = async (responsedataview) => {
 }
 async function getqaddloop(refresh_token, _page, q) {
     //return new Promise(resolve => {
-    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+    $.getScript("ip.js", function(data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
         axios.get(urlipaddress + q + _objectId + '?_page=' + _page + '&_limit=100&_sort=1', {
             headers: {
                 'Authorization': refresh_token
             }
-        }).then(function (response) {
+        }).then(function(response) {
             if (response.data.message.values.length != 0) {
                 view_datatable(response, q)
             }
 
-        }).catch(function (res) {
+        }).catch(function(res) {
             const { response } = res
         });
     });
@@ -182,13 +189,13 @@ async function getqaddloop(refresh_token, _page, q) {
 
 async function getqadd(refresh_token) { ////// คิวที่รอทั้งหมด   
     return new Promise(resolve => {
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             axios.get(urlipaddress + 'qadd/' + _objectId + '?_page=1&_limit=100&_sort=1', {
                 headers: {
                     'Authorization': refresh_token
                 }
-            }).then(async function (response) {
+            }).then(async function(response) {
                 console.log(response.data.message)
                 var totle = response.data.message.total
                 var looptotle = Math.ceil(totle / 100)
@@ -217,20 +224,20 @@ async function getqadd(refresh_token) { ////// คิวที่รอทั้
                     view_datatable(response, 'qadd/')
                     resolve(_arr_queue_add);
                 }
-            }).catch(function (res) {
+            }).catch(function(res) {
                 const { response } = res
             });
         });
     });
 }
-$(async function () {
+$(async function() {
     const result = await acctoken();
     const q_add = await getqadd(result)
 
-    $('#deletequeue').on('click', function (e) {
+    $('#deletequeue').on('click', function(e) {
         var table = $('#table1').DataTable();
         var chk = '';
-        table.$('input[type="checkbox"]').each(function () {
+        table.$('input[type="checkbox"]').each(function() {
             if (this.checked) {
                 chk = 'true'
             }
@@ -238,8 +245,8 @@ $(async function () {
         console.log(chk)
         if (chk != '') {
             showConfirmMessagequeue()
-        }else{
-            showCanceldeletequeue('กรุณาเลือกรายการที่จะลบ','')
+        } else {
+            showCanceldeletequeue('กรุณาเลือกรายการที่จะลบ', '')
         }
 
         // e.preventDefault();
@@ -284,13 +291,13 @@ async function showConfirmMessagequeue() {
         confirmButtonColor: "#DD6B55",
         confirmButtonText: "ยืนยันการลบ",
         closeOnConfirm: false
-    }, async function () {
+    }, async function() {
         const result = await acctoken();
         var table = $('#table1').DataTable();
-        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        $.getScript("ip.js", function(data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             var strtxt = '';
-            table.$('input[type="checkbox"]').each(function () {
+            table.$('input[type="checkbox"]').each(function() {
                 if (this.checked) {
                     axios({
                         url: urlipaddress + 'queue/' + _objectId,
@@ -299,13 +306,13 @@ async function showConfirmMessagequeue() {
                             _id: this.id
                         },
                         headers: { 'Authorization': result }
-                    }).then(function (response) {
+                    }).then(function(response) {
                         //console.log(response.data.message)
                         if (response.data.message == "delete completed") {
                             // strtxt = 'delete completed'
                             // showSuccessdeletequeue('ลบข้อมูลสำเร็จ')
                         }
-                    }).catch(function (res) {
+                    }).catch(function(res) {
                         const { response } = res
                         console.log(response.data.message)
                         showCanceldeletequeue(response.data.message, '')
@@ -317,7 +324,7 @@ async function showConfirmMessagequeue() {
             title: "ลบข้อมูลสำเร็จ",
             text: 'คุณทำรายการสำเร็จแล้ว',
             type: "success",
-        }, function (isConfirm) {
+        }, function(isConfirm) {
             if (isConfirm) {
                 location.href = "queuedelete.html";
             }

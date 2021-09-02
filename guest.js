@@ -42,6 +42,7 @@ const queueloop = async (refresh_token, _page) => {
                 'Authorization': refresh_token
             }
         }).then(async function (response) {
+            $("#table_view").empty();
             var _collor = ["bg-red", "bg-pink", "bg-blue", "bg-amber", "bg-orange", "bg-teal", "bg-green", "bg-purple"];
             var _num = 0;
 
@@ -80,7 +81,7 @@ const queueloop = async (refresh_token, _page) => {
                     /////////////////// เฉพราะของตัวเอง
                     if (Cookies.get('dataUserOnline') != undefined) {
                         var userId = JSON.parse(Cookies.get('dataUserOnline'));
-                        if (str_io == '') {
+                       // if (str_io == '') {
                             if (userId.uId == response.data.message.values[i].uId) {
                                 let date = new Date(response.data.message.values[i].timeAdd);
                                 let options = { hour12: false };
@@ -119,7 +120,7 @@ const queueloop = async (refresh_token, _page) => {
                             `);
                                 displyanone()()
                             }
-                        }
+                        //}
                     }
                 }
                 _num = _num + 1;
@@ -133,7 +134,7 @@ const queueloop = async (refresh_token, _page) => {
 
 }
 function getqueueview(refresh_token) {
-    console.log(_objectId)
+    console.log('_objeccccccccccccccccccccccccccccccccccccccccccccctId')
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
         console.log(urlipaddress + 'queue/' + _objectId + '?_page=1&_limit=100&_sort=1')
@@ -142,6 +143,8 @@ function getqueueview(refresh_token) {
                 'Authorization': refresh_token
             }
         }).then(function (response) {
+            console.log('ssssssssssssssssssssssssssssssssss')
+            $("#table_view").empty();
             console.log(response)
             var today = new Date();
             var n_date = today.toISOString();
@@ -176,6 +179,8 @@ function getqueueview(refresh_token) {
                 }
 
             } else {
+
+
                 //  $("#table_view").empty();
                 var _collor = ["bg-red", "bg-pink", "bg-blue", "bg-amber", "bg-orange", "bg-teal", "bg-green", "bg-purple"];
                 var _num = 0;
@@ -226,14 +231,15 @@ function getqueueview(refresh_token) {
                         /////////////////// เฉพราะของตัวเอง
                         if (Cookies.get('dataUserOnline') != undefined) {
                             var userId = JSON.parse(Cookies.get('dataUserOnline'));
-
-                            if (str_io == '') {
+                            console.log(str_io)
+                            //if (str_io == '') {
                                 if (userId.uId == response.data.message.values[i].uId) {
 
                                     let date = new Date(response.data.message.values[i].timeAdd);
                                     let options = { hour12: false };
                                     var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
-
+                                    $("#table_queueonline").empty();
+                                    console.log('oooooooooooooooooooooooooooooooooooooooooooooooooo')
                                     $("#table_queueonline").append(`
                                 <tr>
                                     <td>
@@ -267,7 +273,7 @@ function getqueueview(refresh_token) {
                             `);
                                     displyanone()
                                 }
-                            }
+                           // }
                         }
                     }
                     _num = _num + 1;
@@ -278,7 +284,8 @@ function getqueueview(refresh_token) {
                 document.getElementById('count_queuetoday').innerText = 'คิวทั้งหมดของวันนี้ จำนวน ' + q_count + ' คิว'
             }
         }).catch(function (res) {
-            const { response } = res
+            console.log(res.response.data)
+
         });
     });
 }
@@ -360,8 +367,10 @@ function displyanone() {
     // document.getElementById('line2').style.display = 'none'
     // document.getElementById('line3').style.display = 'none'
 }
-
+var add_queue_result;
 $(async function () {
+
+    console.log('ult555555555555555555555555555555555555555555555555555')
     const urlParams = new URLSearchParams(window.location.search);
     let myParam = urlParams.toString();
 
@@ -381,10 +390,13 @@ $(async function () {
     });
 
     $('#tab_qonline').on('click', async function () {
+        console.log('ttttttttttttttttttttt')
         var obj_refresh = JSON.parse(Cookies.get('refresh_tokenOnline'));
         var result_refresh = await acctoken(obj_refresh.refresh_token);
         console.log(result_refresh)
-        await getqueueview(result_refresh)
+        console.log('------------------------------------------------')    
+         await getqueueview(result_refresh)
+         console.log('*****************************************************')    
         console.log('222222222')
         document.getElementById('div_viwe').style.display = 'none'
 
@@ -466,7 +478,7 @@ $(async function () {
     var _category;
     var _objid = myParam.split('=');
     _objectId = _objid[1];
-   
+
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
         const authGuest = async () => {
@@ -474,9 +486,10 @@ $(async function () {
             try {
                 console.log(url)
                 const res = await axios.get(url);
-                console.log(res.data.message.guest_token)
+                console.log(res.data.message)
                 result = await acctoken(res.data.message.guest_token)
-                //  console.log(result)
+                console.log(result)
+                add_queue_result = result
                 await getqueueview(result);
                 _category = await getcategoryview(result);
                 var nameqr = await getqrcode_List(result)
@@ -522,7 +535,10 @@ $(async function () {
                 headers: {
                     'Authorization': result_online
                 }
-            }).then(function (response) {
+            }).then(async function (response) {
+                console.log('dddddddddddddddddddd')
+                // const xxx = await getqueueview(result_online)
+             
                 console.log(response.data.message.status)
                 if (response.data.message.status == "Successful") {
                     document.getElementById('q_day').innerHTML = '<b>วัน/เวลา </b> ' + document.getElementById('_time').innerHTML
@@ -539,7 +555,10 @@ $(async function () {
                     // $("#a_load").append(`
                     // <a id="btn-Convert-Html2Image" href="#">Download</a>`);
                     displyanone()
-                    showSuccessMessage_queue('จองคิวสำเร็จ', '')
+
+                   
+                   await showSuccessMessage_queue('จองคิวสำเร็จ', '')
+                   
                 }
             }).catch(function (res) {
                 const { response } = res
@@ -656,10 +675,14 @@ $(async function () {
                         aDownloadLink.click();
                         // var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
                         // $("#btn-Convert-Html2Image").attr("download", "queue.png").attr("href", newData);
+
+
                     }
 
 
                 });
+
+
 
 
                 document.getElementById('add_q_online').style.display = 'block'
@@ -679,18 +702,50 @@ $.getScript("ip.js", async function (data, textStatus, jqxhr) {
     if (Cookies.get('refresh_tokenOnline') != undefined) {
         obj = JSON.parse(Cookies.get('refresh_tokenOnline'));
         result = await acctoken(obj.refresh_token);
+
+       
     }
-    //  console.log(result)
-    if (result != undefined) {
+   
+    console.log(result)
+    if (result != undefined) { /////login
+        socket.on('addQueue', async function (data) {
+            console.log(add_queue_result)
+            $("#table_view").empty();
+            console.log(data)
+            str_io = 'io'
+            await getqueueview(result);
+        });
         socket.on('sentServiceChannel', async function (data) {
-            //  console.log(data)
+            $("#table_view").empty();
+            console.log(data)
             str_io = 'io'
             await getqueueview(result);
         });
         socket.on('sentEndQueue', async function (data) {
+            $("#table_view").empty();
             str_io = 'io'
-            // console.log(data)
+            console.log(data)
             await getqueueview(result);
+        });
+    }else{
+        socket.on('addQueue', async function (data) {
+            console.log(add_queue_result)
+            $("#table_view").empty();
+            console.log(data)
+            str_io = 'io'
+            await getqueueview(add_queue_result);
+        });
+        socket.on('sentServiceChannel', async function (data) {
+            $("#table_view").empty();
+            console.log(data)
+            str_io = 'io'
+            await getqueueview(add_queue_result);
+        });
+        socket.on('sentEndQueue', async function (data) {
+            $("#table_view").empty();
+            str_io = 'io'
+            console.log(data)
+            await getqueueview(add_queue_result);
         });
     }
 });

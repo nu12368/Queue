@@ -23,7 +23,7 @@ function acctoken() {
             }).catch(function (res) {
                 const { response } = res
                 if (response.data.message == "Unauthorized") {
-                  //  location.href = "index.html";
+                    //  location.href = "index.html";
                     return;
                 }
 
@@ -180,7 +180,7 @@ function Getqueueprofileview(category_profile, refresh_token) {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
 
-        console.log(urlipaddress + 'queue/' + _objectId + '? '+ prm +'_page=1&_limit=10&_sort=1')
+        console.log(urlipaddress + 'queue/' + _objectId + '?' + prm + '_page=1&_limit=10&_sort=1')
 
         axios.get(urlipaddress + 'queue/' + _objectId + '?' + prm + '_page=1&_limit=10&_sort=1', {
             headers: {
@@ -188,6 +188,7 @@ function Getqueueprofileview(category_profile, refresh_token) {
             }
         }).then(function (response) {
             console.log(response.data.message.values)
+
             $("#table_view").empty();
             if (response.data.message.values.length != 0) {
 
@@ -243,7 +244,7 @@ $(async function () {
     const result = await acctoken();
 
 
-    getqueueview(result);
+    await getqueueview(result);
     getvdoview(result);
     getprofileview(result);
 
@@ -252,7 +253,7 @@ $(document).ready(async function () {
     $('#ul_profile').on('click', 'li', async function (e) {
         category_profile = $(this).attr("id");
         if (category_profile != undefined) {
-            category_profile = JSON.parse(category_profile)        
+            category_profile = JSON.parse(category_profile)
             $.getScript("ip.js", function (data, textStatus, jqxhr) {
                 var urlipaddress = data.substring(1, data.length - 1);
                 const socket = io(urlipaddress);
@@ -260,6 +261,8 @@ $(document).ready(async function () {
             });
             const result = await acctoken();
             category_profile = JSON.stringify(category_profile)
+            console.log(category_profile)
+
             Getqueueprofileview(category_profile, result)
         }
     });
@@ -345,29 +348,36 @@ $.getScript("ip.js", async function (data, textStatus, jqxhr) {
             Getqueueprofileview(category_profile)
         }
     });
-    socket.on('sentServiceChannel', async function (data) {
-
+    socket.on('addQueue', async function (data) {
+        console.log(data)
         if (category_profile != undefined) {
-            getqueueview(result);
+            await getqueueview(result);
         } else {
-            getqueueview(result);
+            await getqueueview(result);
+        }
+    });
+    socket.on('sentServiceChannel', async function (data) {
+        console.log(data)
+        if (category_profile != undefined) {
+            await getqueueview(result);
+        } else {
+            await getqueueview(result);
         }
 
     });
     socket.on('sentEndQueue', async function (data) {
 
         if (category_profile != undefined) {
-            getqueueview(result);
+            await getqueueview(result);
         } else {
-            getqueueview(result);
+            await getqueueview(result);
         }
 
     });
     socket.on('sentVideoUrl', async function (data) {
-        getvdoview(result);
+        await getvdoview(result);
     });
     socket.on('voicePlay', function (data) {
-
         const { _id } = data;
         const { cue, serviceChannel, specialVoice, isTTS } = data.voiceData;
         let url;
