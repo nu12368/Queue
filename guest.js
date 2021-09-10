@@ -4,6 +4,10 @@ var _i_loop = 0;
 var q_count = 0;
 var _objectId;
 var str_io = '';
+var num = 1;
+var _arr = new Array();
+var n = 0;
+var arrayProp = new Array()
 function acctoken(obj) {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
@@ -81,13 +85,13 @@ const queueloop = async (refresh_token, _page) => {
                     /////////////////// เฉพราะของตัวเอง
                     if (Cookies.get('dataUserOnline') != undefined) {
                         var userId = JSON.parse(Cookies.get('dataUserOnline'));
-                       // if (str_io == '') {
-                            if (userId.uId == response.data.message.values[i].uId) {
-                                let date = new Date(response.data.message.values[i].timeAdd);
-                                let options = { hour12: false };
-                                var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+                        // if (str_io == '') {
+                        if (userId.uId == response.data.message.values[i].uId) {
+                            let date = new Date(response.data.message.values[i].timeAdd);
+                            let options = { hour12: false };
+                            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
 
-                                $("#table_queueonline").append(`
+                            $("#table_queueonline").append(`
                                 <tr>
                                     <td>
                                     <div>
@@ -118,8 +122,8 @@ const queueloop = async (refresh_token, _page) => {
                                  <td><a  class="q_delete"  id='${response.data.message.values[i]._id}' style="text-align:justify; color: red; font-size: 24px; cursor: pointer;">ลบ</a></td>                            
                                 </tr>
                             `);
-                                displyanone()()
-                            }
+                            displyanone()()
+                        }
                         //}
                     }
                 }
@@ -137,15 +141,15 @@ function getqueueview(refresh_token) {
     console.log('_objeccccccccccccccccccccccccccccccccccccccccccccctId')
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-        console.log(urlipaddress + 'queue/' + _objectId + '?_page=1&_limit=100&_sort=1')
+        // console.log(urlipaddress + 'queue/' + _objectId + '?_page=1&_limit=100&_sort=1')
         axios.get(urlipaddress + 'queue/' + _objectId + '?_page=1&_limit=100&_sort=1', {
             headers: {
                 'Authorization': refresh_token
             }
         }).then(function (response) {
-            console.log('ssssssssssssssssssssssssssssssssss')
+            //  console.log('ssssssssssssssssssssssssssssssssss')
             $("#table_view").empty();
-            console.log(response)
+            //  console.log(response)
             var today = new Date();
             var n_date = today.toISOString();
             let date = new Date(n_date);
@@ -196,7 +200,7 @@ function getqueueview(refresh_token) {
                 $("#table_queueonline").empty();
 
                 for (i = 0; i < response.data.message.values.length; i++) {
-                    console.log(response.data.message.values[i])
+                    // console.log(response.data.message.values[i])
                     let date = new Date(response.data.message.values[i].timeAdd);
                     let options = { hour12: false };
                     var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
@@ -205,6 +209,8 @@ function getqueueview(refresh_token) {
                     s_date = s_date[0].split('/')
                     var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
                     var _checkdate = dayjs(datenew).isSame(_date)
+
+                    //  console.log(_date)
                     if (_checkdate == true) {
                         q_count = q_count + 1
                         $("#table_view").append(`
@@ -231,16 +237,16 @@ function getqueueview(refresh_token) {
                         /////////////////// เฉพราะของตัวเอง
                         if (Cookies.get('dataUserOnline') != undefined) {
                             var userId = JSON.parse(Cookies.get('dataUserOnline'));
-                            console.log(str_io)
+                            //  console.log(str_io)
                             //if (str_io == '') {
-                                if (userId.uId == response.data.message.values[i].uId) {
+                            if (userId.uId == response.data.message.values[i].uId) {
 
-                                    let date = new Date(response.data.message.values[i].timeAdd);
-                                    let options = { hour12: false };
-                                    var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
-                                    $("#table_queueonline").empty();
-                                    console.log('oooooooooooooooooooooooooooooooooooooooooooooooooo')
-                                    $("#table_queueonline").append(`
+                                let date = new Date(response.data.message.values[i].timeAdd);
+                                let options = { hour12: false };
+                                var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+                                $("#table_queueonline").empty();
+                                //   console.log('oooooooooooooooooooooooooooooooooooooooooooooooooo')
+                                $("#table_queueonline").append(`
                                 <tr>
                                     <td>
                                     <div>
@@ -271,9 +277,9 @@ function getqueueview(refresh_token) {
                                  <td><a  class="q_delete"  id='${response.data.message.values[i]._id}' style="text-align:justify; color: red; font-size: 24px; cursor: pointer;">ลบ</a></td>                            
                                 </tr>
                             `);
-                                    displyanone()
-                                }
-                           // }
+                                displyanone()
+                            }
+                            // }
                         }
                     }
                     _num = _num + 1;
@@ -289,6 +295,30 @@ function getqueueview(refresh_token) {
         });
     });
 }
+
+async function getProp(refresh_token, category) {
+    var arrar_null = new Array()
+    return new Promise(resolve => {
+        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+            var urlipaddress = data.substring(1, data.length - 1);
+            axios.get(urlipaddress + 'getProp/' + _objectId, {
+                headers: {
+                    'Authorization': refresh_token
+                }
+            }).then(async function (response) {
+                //    console.log(response.data.message.result)
+                for (const i in response.data.message.result) {
+                    if (response.data.message.result[i].category == category) {
+                        arrar_null = response.data.message.result[i]
+                    }
+                }
+                resolve(arrar_null)
+            }).catch(function (res) {
+                const { response } = res
+            });
+        });
+    });
+}
 function getcategoryview(refresh_token) {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
@@ -297,12 +327,58 @@ function getcategoryview(refresh_token) {
                 headers: {
                     'Authorization': refresh_token
                 }
-            }).then(function (response) {
+            }).then(async function (response) {
                 var $select = $('#qr_category');
                 $select.append('<option value=' + '0' + '>' + '-- กรุณาเลือกแผนก --' + '</option>');
                 $.each(response.data.message.category, function (key, value) {
                     $select.append(`<option>${value.category}</option>`);
                 });
+
+
+
+                /////////////////// แผนก ตรวจสอบ สถานะคิว
+                var category = response.data.message.category
+                for (i = 0; i < category.length; i++) {
+                    // console.log(response.data.message.category[i])
+                    var prop = await getProp(refresh_token, response.data.message.category[i].category)
+                    console.log(prop)
+                    if (prop.intervalDifference != undefined) {
+                        console.log(prop)
+                        _arr[n] = {
+                            _num: num,
+                            DPTCODE: response.data.message.category[i].DPTCODE,
+                            category: response.data.message.category[i].category,
+                            intervalDifference: prop.intervalDifference,
+                            timePropId: prop.timePropId
+                        }
+                        num++
+                        n = n + 1
+                    } else {
+                        _arr[n] = {
+                            _num: num,
+                            DPTCODE: response.data.message.category[i].DPTCODE,
+                            category: response.data.message.category[i].category,
+                            intervalDifference: '',
+                            timePropId: ''
+                        }
+                        num++
+                        n = n + 1
+                    }
+                }
+
+                console.log(_arr)
+                var $select = $('#select_category');
+                $select.append('<option value=' + '0' + '>' + '-- เลือกแผนก --' + '</option>');
+                $.each(_arr, function (key, value) {
+                    console.log(value)
+                    if (value.intervalDifference != '') {
+                        var datatime = JSON.stringify(value)
+                        $select.append('<option value=' + datatime + '>' + value.category + '</option>');
+                    }
+
+                });
+
+                console.log(response.data.message.category)
                 resolve(response.data.message.category);
             }).catch(function (res) {
                 const { response } = res
@@ -370,7 +446,6 @@ function displyanone() {
 var add_queue_result;
 $(async function () {
 
-    console.log('ult555555555555555555555555555555555555555555555555555')
     const urlParams = new URLSearchParams(window.location.search);
     let myParam = urlParams.toString();
 
@@ -394,11 +469,13 @@ $(async function () {
         var obj_refresh = JSON.parse(Cookies.get('refresh_tokenOnline'));
         var result_refresh = await acctoken(obj_refresh.refresh_token);
         console.log(result_refresh)
-        console.log('------------------------------------------------')    
-         await getqueueview(result_refresh)
-         console.log('*****************************************************')    
+        console.log('------------------------------------------------')
+        await getqueueview(result_refresh)
+        console.log('*****************************************************')
         console.log('222222222')
         document.getElementById('div_viwe').style.display = 'none'
+        document.getElementById('logout_online').style.display = 'block'
+
 
     });
     $('#table_queueonline').on('click', 'a.q_delete', function (e) {
@@ -490,8 +567,10 @@ $(async function () {
                 result = await acctoken(res.data.message.guest_token)
                 console.log(result)
                 add_queue_result = result
-                await getqueueview(result);
                 _category = await getcategoryview(result);
+                await getqueueview(result);
+
+                console.log(_category)
                 var nameqr = await getqrcode_List(result)
 
                 await getqrcode(result, nameqr);
@@ -503,68 +582,79 @@ $(async function () {
         authGuest();
 
         $('#submitaddqueue').on('click', async function (e) {
-            var obj = JSON.parse(Cookies.get('refresh_tokenOnline'));
-            var userId = JSON.parse(Cookies.get('dataUserOnline'));
-            var _objectId_online = Cookies.get('_objectIdOnline');
+            var timeStart = document.getElementById('datequeue').value.split('/');
+            var newdate = await dateToday()
+            timeStart = timeStart[0].replace('-', '/').replace('-', '/')
+            //            console.log(timeStart)
+            // console.log(newdate)
+            var _checkdate = dayjs(newdate).isSame(timeStart)
+            console.log(_checkdate)
 
-            console.log(obj)
-            console.log(userId)
-            console.log(_objectId_online)
 
+            if (_checkdate == true) {  ///////////////////////////////////// จอนออนไลน์  วันนี้
+                var obj = JSON.parse(Cookies.get('refresh_tokenOnline'));
+                var userId = JSON.parse(Cookies.get('dataUserOnline'));
+                var _objectId_online = Cookies.get('_objectIdOnline');
 
-            const result_online = await acctoken(obj.refresh_token);
+                const result_online = await acctoken(obj.refresh_token);
 
-            var select_category = document.getElementById("qr_category").value
-            var post_catery;
-            for (i = 0; i < _category.length; i++) {
-                if (select_category == _category[i].category) {
-                    post_catery = _category[i];
+                var select_category = document.getElementById("qr_category").value
+                var post_catery;
+                for (i = 0; i < _category.length; i++) {
+                    if (select_category == _category[i].category) {
+                        post_catery = _category[i];
+                    }
                 }
+                const socket = io(urlipaddress);
+                socket.emit('addQueue', { addQueue: 'Updated' });
+                const dataaddQueue = {
+                    uId: userId.uId,
+                    values: post_catery.category,
+                    tel: document.getElementById("tel").value,
+                    name: document.getElementById("username").value,
+                }
+                axios.post(urlipaddress + 'addQueue/' + _objectId_online, dataaddQueue, {
+                    headers: {
+                        'Authorization': result_online
+                    }
+                }).then(async function (response) {
+                    if (response.data.message.status == "Successful") {
+                        document.getElementById('q_day').innerHTML = '<b>วัน/เวลา </b> ' + document.getElementById('_time').innerHTML
+                        document.getElementById('q_no').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  คิวที่ No. ' + response.data.message.queue
+
+                        $("#_viewlog").show();
+                        html2canvas($("#createImg"), {
+                            onrendered: function (canvas) {
+                                var imgsrc = canvas.toDataURL("image/png");
+                                $("#img").show();
+                            }
+                        });
+                        displyanone()
+                        await showSuccessMessage_queue('จองคิวสำเร็จ', '')
+
+                    }
+                }).catch(function (res) {
+                    const { response } = res
+                    console.log(response.data.message)
+                    showCancelMessage_queue(response.data.message, '')
+                });
+            } else {
+
+                _checkdate = dayjs(timeStart).isAfter(newdate)
+                console.log(_checkdate)
+
+
+                ////////////////// จองล่วงหน้า
+                if (_checkdate == true) {
+                    showCancelMessage_queue('ระบบยังไม่เปิดให้จองคิวล่วงหน้า', 'ระบบกำลังปรับปรุงการจองคิวล่างหน้า')
+                } else {
+                    showCancelMessage_queue('เลยเวลาจอง', '')
+                }
+
             }
-            const socket = io(urlipaddress);
-            socket.emit('addQueue', { addQueue: 'Updated' });
-            const dataaddQueue = {
-                uId: userId.uId,
-                values: post_catery.category,
-                tel: document.getElementById("tel").value,
-                name: document.getElementById("username").value,
-            }
-            console.log(urlipaddress + 'addQueue/' + _objectId_online)
-            console.log(dataaddQueue)
-            axios.post(urlipaddress + 'addQueue/' + _objectId_online, dataaddQueue, {
-                headers: {
-                    'Authorization': result_online
-                }
-            }).then(async function (response) {
-                console.log('dddddddddddddddddddd')
-                // const xxx = await getqueueview(result_online)
-             
-                console.log(response.data.message.status)
-                if (response.data.message.status == "Successful") {
-                    document.getElementById('q_day').innerHTML = '<b>วัน/เวลา </b> ' + document.getElementById('_time').innerHTML
-                    document.getElementById('q_no').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  คิวที่ No. ' + response.data.message.queue
 
-                    $("#_viewlog").show();
-                    html2canvas($("#createImg"), {
-                        onrendered: function (canvas) {
-                            var imgsrc = canvas.toDataURL("image/png");
-                            $("#img").show();
-                            // console.log(imgsrc)
-                        }
-                    });
-                    // $("#a_load").append(`
-                    // <a id="btn-Convert-Html2Image" href="#">Download</a>`);
-                    displyanone()
 
-                   
-                   await showSuccessMessage_queue('จองคิวสำเร็จ', '')
-                   
-                }
-            }).catch(function (res) {
-                const { response } = res
-                console.log(response.data.message)
-                showCancelMessage_queue(response.data.message, '')
-            });
+
         });
         $('#logout_online').on('click', async function (e) {
             var obj = JSON.parse(Cookies.get('refresh_tokenOnline'));
@@ -593,43 +683,121 @@ $(async function () {
             });
         });
         $('#Submitmember_register').on('click', function (e) {
-            if (document.getElementById("member_register_user").value == '' || document.getElementById("member_register_pass").value == '') {
-                showCancelMessage_queue('กรอกข้อมูลให้ครบ', 'ระบุ ชื่อผู้ใช้งาน และ รหัสผ่าน')
-                return;
-            }
-            $.getScript("ip.js", function (data, textStatus, jqxhr) {
-                var urlipaddress = data.substring(1, data.length - 1);
-                var formData = new FormData();
-                const url = urlipaddress + 'addAccount';
-                formData.append('mId', _objectId);
-                formData.append('username', document.getElementById("member_register_user").value);
-                formData.append('password', document.getElementById("member_register_pass").value);
-                formData.append('rule', 'online');
-                formData.append('editMode', false);
-                console.log(url)
-                axios.put(url, formData, {
-                    headers: {
-                        'Authorization': result,
-                        'Content-Type': 'multipart/form-data'
+            if (document.getElementById("check_register").value == 'register_Phone') {
+                $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                    var urlipaddress = data.substring(1, data.length - 1);
+                    var formData = new FormData();
+                    const url = urlipaddress + 'addAccount';
+                    formData.append('mId', _objectId);
+                    formData.append('username', document.getElementById("member_register_user").value);
+                    formData.append('password', document.getElementById("member_register_user").value);
+                    formData.append('rule', 'online');
+                    formData.append('phone', document.getElementById("member_register_user").value);
+                    formData.append('editMode', false);
+                    console.log(url)
+                    axios.put(url, formData, {
+                        headers: {
+                            'Authorization': result,
+                            'Content-Type': 'multipart/form-data'
+                        }
                     }
-                }
-                ).then(function (response) {
-                    //  console.log(response.data.message)
-                    if (response.data.message == "This user has already been used.") {
-                        showCancelMessage_queue('มีข้อมูลในระบบแล้ว', 'กรุณาระชื่อผู้ใช้งานใหม่ อีกครั้ง')
-                    } else {
-                        showSuccessMessage_register('บันทึกสำเร็จ', 'คุณทำการลงทะเบียนเรียบร้อยแล้ว')
-
-                    }
-                }).catch(function (res) {
-                    const { response } = res
-                    // console.log(response.data.message)
-                    if (response.data.message == 'This user has already been used.') {
-                        showCancelMessage_queue('มีข้อมูลในระบบแล้ว', '')
-                    }
+                    ).then(async function (response) {
+                        if (response.data.message == "This user has already been used.") {
+                            showCancelMessage_queue('มีข้อมูลในระบบแล้ว', 'กรุณาระชื่อผู้ใช้งานใหม่ อีกครั้ง')
+                        } else {
+                            document.getElementById('user_register').innerHTML = '<b>ชื่อผู้ใช้งาน : </b> ' + document.getElementById('member_register_user').value
+                            $("#div_register_save").show();
+                            html2canvas($("#createImg_register"), {
+                                onrendered: function (canvas) {
+                                    var imgsrc = canvas.toDataURL("image/png");
+                                }
+                            });
+                            await showSuccessMessage_Register_Save_user('บันทึกสำเร็จ', 'คุณทำการลงทะเบียนเรียบร้อยแล้ว')
+                        }
+                    }).catch(function (res) {
+                        const { response } = res
+                        if (response.data.message == 'This user has already been used.') {
+                            showCancelMessage_queue('มีข้อมูลในระบบแล้ว', '')
+                        }
+                    });
                 });
-            });
+            } else {
+                if (document.getElementById("member_register_user").value == '' || document.getElementById("member_register_pass").value == '') {
+                    showCancelMessage_queue('กรอกข้อมูลให้ครบ', 'ระบุ ชื่อผู้ใช้งาน และ รหัสผ่าน')
+                    return;
+                }
+                if ($('#member_register_pass').val() == $('#member_register_pass_confirm').val()) {
+                    console.log('Matching')
+                } else {
+                    showCancelMessage_queue('รหัสผ่านใหม่ไม่ตรงกัน', 'รหัสผ่านใหม่ไม่ตรงกัน กรุณาระบุ รหัสให้ตรงกัน')
+                    return
+                }
+
+                $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                    var urlipaddress = data.substring(1, data.length - 1);
+                    var formData = new FormData();
+                    const url = urlipaddress + 'addAccount';
+                    formData.append('mId', _objectId);
+                    formData.append('username', document.getElementById("member_register_user").value);
+                    formData.append('password', document.getElementById("member_register_pass").value);
+                    formData.append('rule', 'online');
+                    formData.append('phone', document.getElementById("member_register_phone").value);
+                    formData.append('editMode', false);
+                    console.log(url)
+                    axios.put(url, formData, {
+                        headers: {
+                            'Authorization': result,
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                    ).then(async function (response) {
+                        if (response.data.message == "This user has already been used.") {
+                            showCancelMessage_queue('มีข้อมูลในระบบแล้ว', 'กรุณาระชื่อผู้ใช้งานใหม่ อีกครั้ง')
+                        } else {
+                            document.getElementById('user_register').innerHTML = '<b>ชื่อผู้ใช้งาน : </b> ' + document.getElementById('member_register_user').value
+                            document.getElementById('password_regis').innerHTML = '<b>รหัสผ่าน : </b> ' + document.getElementById('member_register_pass').value
+                            $("#div_register_save").show();
+                            html2canvas($("#createImg_register"), {
+                                onrendered: function (canvas) {
+                                    var imgsrc = canvas.toDataURL("image/png");
+                                }
+                            });
+                            await showSuccessMessage_Register_Save_user('บันทึกสำเร็จ', 'คุณทำการลงทะเบียนเรียบร้อยแล้ว')
+                        }
+                    }).catch(function (res) {
+                        const { response } = res
+                        if (response.data.message == 'This user has already been used.') {
+                            showCancelMessage_queue('มีข้อมูลในระบบแล้ว', '')
+                        }
+                    });
+                });
+            }
+
+
+
+
         });
+
+        $('#qr_category').on('change', async function () {
+            propcategory = document.getElementById("qr_category").value
+          //  console.log(propcategory)
+        var prop = await getProp(result, propcategory)
+         console.log(prop)
+          // console.log(propcategory)
+          $('#proptime').empty();
+          var $select = $('#proptime');
+          $select.append('<option value=' + '0' + '>' + '-- เลือกช่วงเวลา --' + '</option>');
+          $.each(prop.intervalDifference, function (key, value) {
+              console.log(value)
+              if (value.intervalDifference != '') {
+                  //var datatime = JSON.stringify(value)
+                 $select.append('<option value=' + value + '>' + value + '</option>');
+                //   var datatime = JSON.stringify(value)
+                //   $select.append('<option value=' + datatime + '>' + value.category + '</option>');
+              }
+  
+          });
+     });
     });
     function showCancelMessage_queue(title, text) {
         swal({
@@ -647,6 +815,34 @@ $(async function () {
             type: "success",
         }, function (isConfirm) {
             if (isConfirm) {
+
+            }
+        });
+    }
+    function showSuccessMessage_Register_Save_user(text, _q) {
+        swal({
+            title: "สำเร็จ",
+            text: text,
+            type: "success",
+        }, function (isConfirm) {
+            if (isConfirm) {
+                html2canvas($("#createImg_register"), {
+                    onrendered: function (canvas) {
+                        var imgageData = canvas.toDataURL("image/png");
+                        // console.log(imgageData)
+                        // Get the canvas
+                        var canvas = document.getElementById("canvas");
+                        // Convert the canvas to data
+                        // Create a link
+                        var aDownloadLink = document.createElement('a');
+                        // Add the name of the file to the link
+                        aDownloadLink.download = 'username.png';
+                        // Attach the data to the link
+                        aDownloadLink.href = imgageData;
+                        // Get the code to click the download link
+                        aDownloadLink.click();
+                    }
+                });
 
             }
         });
@@ -675,25 +871,56 @@ $(async function () {
                         aDownloadLink.click();
                         // var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
                         // $("#btn-Convert-Html2Image").attr("download", "queue.png").attr("href", newData);
-
-
                     }
-
-
                 });
-
-
-
-
-                document.getElementById('add_q_online').style.display = 'block'
-                document.getElementById('submit_q_login').style.display = 'none'
-                document.getElementById('div_tabadd').style.display = 'block'
-
+                $("#div_register_save").hide();
             }
         });
     }
+
+    var propcategory
+    var proptime
+    $('#select_category').on('change', function () {
+        propcategory = JSON.parse(document.getElementById("select_category").value)
+        $('#select_time').empty();
+        var $select = $('#select_time');
+        $select.append('<option value=' + '0' + '>' + '-- เลือกช่วงเวลา --' + '</option>');
+        $.each(propcategory.intervalDifference, function (key, value) {
+            console.log(value)
+            if (value.intervalDifference != '') {
+                var datatime = JSON.stringify(value)
+                $select.append('<option value=' + value + '>' + value + '</option>');
+            }
+
+        });
+    });
+
+    
+    $('#CheckQueue').on('click', async function () {
+        // $('#StatusQueue').empty();
+        // $('#StatusQueue').Modal();
+        $("#StatusQueue").modal('show');
+
+    });
+
+
 });
 
+
+
+
+async function dateToday() {
+    var today = new Date();
+    var n_date = today.toISOString();
+    let date = new Date(n_date);
+    let options = { hour12: false };
+    var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+    var chk_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+    chk_date = chk_date.split(' ')
+    chk_date = chk_date[0].split('/')
+    var thisTime = chk_date[2] + '/' + chk_date[0] + '/' + chk_date[1]
+    return thisTime
+}
 $.getScript("ip.js", async function (data, textStatus, jqxhr) {
     var urlipaddress = data.substring(1, data.length - 1);
     const socket = io(urlipaddress);
@@ -703,9 +930,9 @@ $.getScript("ip.js", async function (data, textStatus, jqxhr) {
         obj = JSON.parse(Cookies.get('refresh_tokenOnline'));
         result = await acctoken(obj.refresh_token);
 
-       
+
     }
-   
+
     console.log(result)
     if (result != undefined) { /////login
         socket.on('addQueue', async function (data) {
@@ -727,7 +954,7 @@ $.getScript("ip.js", async function (data, textStatus, jqxhr) {
             console.log(data)
             await getqueueview(result);
         });
-    }else{
+    } else {
         socket.on('addQueue', async function (data) {
             console.log(add_queue_result)
             $("#table_view").empty();

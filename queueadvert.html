@@ -49,7 +49,6 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
     <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
 
@@ -65,39 +64,19 @@
 
     <link href="../../plugins/light-gallery/css/lightgallery.css" rel="stylesheet">
 
-    <script src="./pageTable.js"></script>
-
+    <script src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
+    <script src="https://pagination.js.org/dist/2.1.5/pagination.js"></script>
     <link href="./css-collor.css" rel="stylesheet">
-
     <link href="../../plugins/sweetalert/sweetalert.css" rel="stylesheet" />
     <script src="http://code.highcharts.com/highcharts.js"></script>
-
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../plugins2/responsive.bootstrap4.min.css">
+    <script src="./logout.js"></script>
     <script src="./user.js"></script>
-    <script src="./queueqrcode.js"></script>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.1.2/dist/socket.io.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
-
-
+    <script src="./queueadvert.js"></script>
 </head>
 
-<link href="./css-collor.css" rel="stylesheet">
 
-<script src="./logout.js"></script>
-<script></script>
-<style>
-    .intro {
-        display: block !important;
-    }
-    
-    .intronone {
-        display: none !important;
-    }
-</style>
 <link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet' type='text/css'>
 <style>
     body h1 h2 h3 h4 h5 h6 ul li a p {
@@ -106,6 +85,27 @@
     
     div {
         font-family: 'Kanit', sans-serif;
+    }
+    
+    .i:read-only {
+        background-color: yellow;
+    }
+</style>
+<style>
+    tr.group,
+    tr.group:hover {
+        /* background-color: rgb(235, 233, 233) !important; */
+        background-color: #fde4e4 !important;
+        color: blue;
+    }
+</style>
+<style>
+    .intro {
+        display: block !important;
+    }
+    
+    .intronone {
+        display: none !important;
     }
 </style>
 
@@ -153,7 +153,8 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Call Search -->
                     <li><a id='logout' style="cursor: pointer;" data-close="true">[ออกจากระบบ]</a></li>
-
+                    <!-- #END# Call Search -->
+                    <!-- Notifications -->
                 </ul>
             </div>
         </div>
@@ -165,7 +166,9 @@
             <!-- User Info -->
             <div class="user-info" style="text-align:center;">
                 <div class="image">
-                    <img id="LOGOVIEW" name="LOGOVIEW" width="100" height="100" alt="User" />
+                    <div class="image">
+                        <img id="LOGOVIEW" name="LOGOVIEW" width="100" height="100" alt="User" />
+                    </div>
                 </div>
                 <div style="color: white;">
                     <div class="name" data-toggle="dropdown" id="userlogin" aria-haspopup="true" aria-expanded="false">
@@ -174,7 +177,24 @@
             </div>
             <div class="menu">
                 <ul class="list">
-
+                    <!-- <li>
+                        <a href="visitordashboard.html">
+                            <i class="material-icons">home</i>
+                            <span>แดชบอร์ด VISITOR</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="visitorreport.html">
+                            <i class="material-icons">description</i>
+                            <span>รายงานการเข้าออก</span>
+                        </a>
+                    </li>
+                    <li id="ll" style="display: none;">
+                        <a href="visitorreportcost.html">
+                            <i class="material-icons">attach_money</i>
+                            <span>รายงานการคิดเงิน</span>
+                        </a>
+                    </li> -->
                     <li id="queuedashboard">
                         <a href="queuedashboard.html">
                             <i class="material-icons">queue</i>
@@ -218,7 +238,7 @@
                                     <span>ข้อความหน้าจอ</span>
                                 </a>
                             </li>
-                            <li class="active">
+                            <li>
                                 <a href="queueqrcode.html">
                                     <span>คิวอาร์โค้ด</span>
                                 </a>
@@ -233,12 +253,12 @@
                                     <span>ลบคิว</span>
                                 </a>
                             </li>
-                            <li>
+                            <li >
                                 <a href="company.html">
                                     <span>แก้ไขชื่อบริษัท/โลโก้บริษัท/โลโก้สลิป</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <a href="queueadvert.html">
                                     <span>โฆษณา</span>
                                 </a>
@@ -403,8 +423,6 @@
         </aside>
         <!-- #END# Right Sidebar -->
     </section>
-
-
     <section class="content">
         <div class="container-fluid">
             <!-- Input -->
@@ -415,51 +433,105 @@
                             <div class="card">
                                 <div class="header header-new">
                                     <h2>
-                                        <font style="color: white;">คิวอาร์โค้ด
+                                        <font style=" color: white;">โฆษณา
                                         </font>
                                     </h2>
                                 </div>
                                 <div class="body">
                                     <form id="formElem">
+                                        <!-- Nav tabs -->
+                                        <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                                            <li role="presentation" class="active"><a href="#home" style="font-size: 18px;" data-toggle="tab">รายละเอียด/รูปภาพโฆษณา</a>
+                                            </li>
+                                            <!-- <li role="presentation"><a href="#tab2" style="font-size: 18px;" data-toggle="tab">โลโก้สลิป</a>
+                                            </li> -->
+                                        </ul>
+                                        <!-- Tab panes -->
                                         <div class="tab-content">
                                             <div role="tabpanel" class="tab-pane fade in active" id="home">
                                                 <div class="body">
                                                     <div class="row clearfix">
                                                         <div class="col-sm-12">
                                                             <div class="form-group">
-                                                                <div class="form-group form-float">
-                                                                    <div class="list-unstyled row clearfix">
-                                                                        <h4>คิวอาร์โค้ด</h4>
-                                                                        <div id="createImg" style="text-align: center;">
-                                                                            <img id='Imageqrcode' />
-                                                                        </div>
-                                                                        <br>
+                                                                <div class="form-line">
+                                                                    <font style="font-size: 18px; ">รายละเอียด</font>
+                                                                    <input type="text" class="form-control" name="txtnamecompyny" id="txtnamecompyny" value="" autocomplete="off" placeholder="รายละเอียด" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="form-line">
+                                                                    <p>รูปภาพโฆษณา</p>
+                                                                    <input type="file" name="fileimage" type="file" multiple accept=".png, .jpg, .jpeg" id="fileimage">
 
-                                                                        <input type="file" name="filelogo" style="display: none;" multiple accept=".png, .jpg, .jpeg" id="filelogo">
-                                                                        <div id='a_load' style="text-align: center;">
-                                                                            <a id="i_regenlogo" style="cursor: pointer;">สร้างคิวอาร์โค้ดมีโลโก้
-                                                                                &nbsp; |</a> <a id="i_regen" style="cursor: pointer;">สร้างคิวอาร์โค้ด
-                                                                                &nbsp; |</a> &nbsp;
+                                                                    <h5 style="color: red;">ขนาดของภาพ ความกว้าง 1024 x ความสูง 640</h5>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group form-float">
+                                                                <div class="form-line">
+                                                                    <div class="list-unstyled row clearfix">
+                                                                        <p id="imgsixe" style="font-size: 16px; color: red;">
+                                                                        </p>
+                                                                        <h4>รูปภาพ</h4>
+                                                                        <div id="addImagenew" class="img-responsive thumbnail">
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                           
                                                         </div>
                                                     </div>
+                                                    <input type="hidden" id="logoId">
+                                                    <button class="btn btn-primary waves-effect" id="submitcompany" class="primary" type="button">บันทึก</button>
                                                 </div>
                                             </div>
-
+                                            
+                                        </div>
                                     </form>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
 
+        <!-- /////////////////////// view -->
+        <div class="container">
+            <!-- <div class="container"> -->
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="myModalview" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        </div>
+                        <div class="modal-body">
+                            <div class="body">
+                                <p>รูปภาพ</p>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <div class="list-unstyled row clearfix">
+                                            <div id="div_view" class="lightgallery">
+                                                <a id="a_imageview" class="lightgallery">
+                                                    <div id="viewImage" style="cursor: pointer;" class="img-responsive thumbnail">
+                                                </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+                        </div>
+                    </div>
 
+                </div>
+            </div>
 
             <div class="container">
                 <div class="modal fade" id="myModaldont" role="dialog">
@@ -494,12 +566,10 @@
         </div>
     </section>
 
-
-    <!-- Jquery Core Js -->
-    <!-- <script src="../../plugins/jquery/jquery.min.js"></script> -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
 
     <!-- Bootstrap Core Js -->
-    <!-- <script src="../../plugins/bootstrap/js/bootstrap.js"></script> -->
+    <script src="../../plugins/bootstrap/js/bootstrap.js"></script>
 
     <!-- Select Plugin Js -->
     <!-- <script src="../../plugins/bootstrap-select/js/bootstrap-select.js"></script> -->
@@ -510,25 +580,26 @@
     <!-- Waves Effect Plugin Js -->
     <script src="../../plugins/node-waves/waves.js"></script>
 
+    <!-- Autosize Plugin Js -->
+    <script src="../../plugins/autosize/autosize.js"></script>
+
+    <!-- Moment Plugin Js -->
+    <script src="../../plugins/momentjs/moment.js"></script>
+
+    <!-- Bootstrap Material Datetime Picker Plugin Js -->
+    <script src="../../plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+
     <script src="../../plugins/light-gallery/js/lightgallery-all.js"></script>
     <script src="../../js/pages/medias/image-gallery.js"></script>
 
-    <script src="../../plugins/autosize/autosize.js"></script>
-
-    <script src="../../plugins/momentjs/moment.js"></script>
-
-
-    <script src="../../plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
 
     <!-- Bootstrap Datepicker Plugin Js -->
-    <script src="../../plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-    <!-- Bootstrap Material Datetime Picker Plugin Js -->
 
+    <script src="../../plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
     <script src="../../plugins/sweetalert/sweetalert.min.js"></script>
     <script src="../../js/pages/ui/dialogs.js"></script>
 
-    <!-- Jquery DataTable Plugin Js -->
     <script src="../../plugins/jquery-datatable/jquery.dataTables.js"></script>
     <script src="../../plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
     <script src="../../plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
@@ -538,13 +609,17 @@
     <script src="../../plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
     <script src="../../plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
     <script src="../../plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+    <script src="../../plugins/light-gallery/js/lightgallery-all.js"></script>
+    <script src="../../js/pages/medias/image-gallery.js"></script>
 
-
-    <script src="../../js/pages/forms/basic-form-elements.js"></script>
     <!-- Custom Js -->
     <script src="../../js/admin.js"></script>
+    <script src="../../js/pages/forms/basic-form-elements.js"></script>
+
+    <!-- Demo Js -->
     <script src="../../js/demo.js"></script>
     <script src="../../plugins2/dataTables.responsive.min.js"></script>
+
 </body>
 
 </html>

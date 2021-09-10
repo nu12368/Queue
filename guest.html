@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <title>WAC</title>
     <!-- <meta charset="UTF-8"> -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,12 +17,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">
 
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>WAC</title>
+
     <!-- Favicon-->
     <link rel="icon" href="../../uploads/logo.ico" type="image/x-icon">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
+        type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
     <!-- Bootstrap Core Css -->
@@ -50,7 +52,10 @@
     <link href="../../css/themes/all-themes.css" rel="stylesheet" />
 
     <!-- Bootstrap Material Datetime Picker Css -->
-    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
+
+    <link href="../../plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+        rel="stylesheet" />
+    <link href="../../plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
 
     <!-- Bootstrap DatePicker Css -->
 
@@ -90,57 +95,61 @@
 
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script> -->
-    <script type="text/javascript" src="https://github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
+    <script type="text/javascript"
+        src="https://github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
 
 
     <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.1.2/dist/socket.io.js"></script>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/dayjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/utc.min.js"></script>
+
+    <script src="https://unpkg.com/dayjs@1.8.21/plugin/isBetween.js"></script>
 
     <script src="./guest.js"></script>
+    <link type="text/css" rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+        <!-- <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script> -->
+
 </head>
 <link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet' type='text/css'>
 <style>
     body h1 h2 h3 h4 h5 h6 ul li a p {
         font-family: 'Kanit', sans-serif;
     }
-    
+
     div {
         font-family: 'Kanit', sans-serif;
     }
-    
+
     .i:read-only {
         background-color: yellow;
     }
 </style>
 
 <script>
-    //     const urlParams = new URLSearchParams(window.location.search);
-    //     let myParam = urlParams.toString();
-    //     console.log(myParam)
-    //     $.getScript("ip.js", function (data, textStatus, jqxhr) {
-    //         var urlipaddress = data.substring(1, data.length - 1);
-    //         console.log(myParam)
-    //         const authGuest = async () => {
-    //             console.log(myParam)
-    //             const url = `${urlipaddress}guest?${myParam}`;
-    //             console.log(url)
-    //             try {
-    //                 const res = await axios.get(url);
-    //                 console.log(res.data.message)
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    var ti = today.toLocaleTimeString('en-US', {
+        hour12: false,
+        hour: "numeric",
+        minute: "numeric"
+    });
+    today = dd + '/' + mm + '/' + yyyy;
+    $(document).ready(function () {
+        console.log(yyyy + '-' + mm + '-' + dd)
+        $("#datequeue").val(yyyy + '-' + mm + '-' + dd);
+        $("#datequeue_Check").val(yyyy + '-' + mm + '-' + dd);
 
-    //                 return res.data.message;
-    //             } catch (err) {
-    //                 throw err.response.data.message;
-    //             }
-    //         };
-    //         authGuest();
-    //    });
+    });
 </script>
 <script>
-    $(function() {
+    $(function () {
         var daysInWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
         var dayArrayLong = new Array('อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์');
@@ -164,14 +173,16 @@
             };
             var day = date.toLocaleDateString('en-US', options);
             console.log(day)
-            document.getElementById('_time').innerHTML = dd + '/' + mm + '/' + (parseInt(yyyy) + 543).toString() + ' ' + time;
+            document.getElementById('_time').innerHTML = 'วันที่ : ' + dd + '/' + mm + '/' + (parseInt(yyyy) + 543).toString() + ' ' + time;
             document.getElementById('_time').style.color = 'blue'
+
+            document.getElementById('date_regis').innerHTML = '<b>วันที่ลงทะเบียน : </b>' + dd + '/' + mm + '/' + (parseInt(yyyy) + 543).toString() + ' <br><b> เวลา : </b>' + time;
 
             // document.getElementById('q_day').innerHTML = '<b>วันที่ </b> ' + dd + '/' + mm + '/' + (parseInt(yyyy) + 543).toString() + ' ' + time;
 
 
         }
-        setInterval(function() {
+        setInterval(function () {
             time();
         }, 1000);
     });
@@ -184,7 +195,8 @@
     <nav class="navbar" style="display: none;">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
                 <a class="navbar-brand" style="display: none;" id="logoname" href="javascript:void(0);"></a>
                 <a class="navbar-brand" id="namecompyny" href="#" style="color: white;" href="#"></a>
@@ -208,20 +220,52 @@
                     <div class="card">
                         <div class="header">
                             <h2>จองคิวออนไลน์ วันที่
-                                <font style="font-size: 13px; text-align: right;" id="_time">
-                                </font>
+
                             </h2>
                             <br>
-                            <div class="form-group">
-                                <input type="button" value="จองคิวออนไลน์" onclick="modalLogin()" class="btn btn-primary waves-effect" id="submit_q_login" class="primary" />
+
+                            <div class="row clearfix">
+                                <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <font style="font-size: 13px; text-align: right;" id="_time">
+                                    </font>
+                                    <div class="card">
+
+                                        <div class="body">
+                                            <div class="row clearfix" >
+                                            
+                                                <div class="col-md-6">
+                                                     <div class="input-group colorpicker">
+                                                      <input type="button" value="จองคิวออนไลน์"
+                                                            onclick="modalLogin()" class="btn btn-primary waves-effect"
+                                                            style="height: 50px;  width: 210px;  font-size: 24px;"
+                                                            id="submit_q_login" class="primary" />
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-md-6">
+                                                    <div class="input-group colorpicker">
+                                                        <input type="button" value="ตรวจสอบสถานะคิว"
+                                                            onclick="modalLoginCheck()"
+                                                            class="btn bg-light-green waves-effect"
+                                                            style="height: 50px; font-size: 24px;"
+                                                            id="Check_Queue_Status" class="primary" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
                             <div>
                                 <div class="">
                                     <form id="div_tabadd" style="display: none;">
                                         <ul class="nav nav-tabs tab-nav-right" role="tablist">
-                                            <li role="presentation" class="active"><a href="#home" id="tabhome" style="font-size: 18px;" data-toggle="tab">จองคิวออนไลน์</a>
+                                            <li role="presentation" class="active"><a href="#home" id="tabhome"
+                                                    style="font-size: 18px;" data-toggle="tab">จองคิวออนไลน์</a>
                                             </li>
-                                            <li role="presentation" class=""><a href="#import" id="tab_qonline" style="font-size: 18px;" data-toggle="tab">คิวที่จองออนไลน์ </a>
+                                            <li role="presentation" class=""><a href="#import" id="tab_qonline"
+                                                    style="font-size: 18px;" data-toggle="tab">คิวที่จองออนไลน์ </a>
                                             </li>
                                         </ul>
                                         <div class="tab-content">
@@ -230,103 +274,133 @@
                                                     <div id="add_q_online" style="display: none;">
                                                         <div class="form-group">
                                                             <div id='line1' class="form-line">
-                                                                <select class="form-control show-tick" placeholder="กรุณาเลือกแผนก" onchange="selectcategory()" name="qr_category" id="qr_category">
+                                                                <select class="form-control show-tick"
+                                                                    placeholder="กรุณาเลือกแผนก"
+                                                                    onchange="selectcategory()" name="qr_category"
+                                                                    id="qr_category">
                                                                 </select>
                                                             </div>
                                                         </div>
+                                                        <div class="input-group date" id="">
+                                                            <p>เลือกวันที่</p>
+                                                            <div class="form-line">
+                                                                <input type="text" id="datequeue" name="datequeue"
+                                                                    class="form-control" placeholder="เลือกวันที่">
+                                                            </div>
+                                                            <span class="input-group-addon">
+                                                                <i class="material-icons">date_range</i>
+                                                            </span>
+                                                        </div>
+                                                        <script>
+                                                            $("#datequeue").datetimepicker({
+                                                                minDate: 0,
+                                                                format: "YYYY-MM-DD"
+                                                            });
+
+                                                        </script>
+
+                                                        <div class="form-group">
+                                                            <select name="proptime" class="form-control" id="proptime">
+                                                            </select>
+                                                        </div>
+
                                                         <div class="form-group">
                                                             <div id='line2' class="form-line">
-                                                                <input type="text" class="form-control" name="username" id="username" value="" autocomplete="off" placeholder="ชื่อ-สกุล" />
+                                                                <input type="text" class="form-control" name="username"
+                                                                    id="username" value="" autocomplete="off"
+                                                                    placeholder="ชื่อ-สกุล" />
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <div id='line3' class="form-line">
-                                                                <input type="text" class="form-control" name="tel" id="tel" value="" autocomplete="off" placeholder="เบอร์โทร" />
+                                                                <input type="text" class="form-control" name="tel"
+                                                                    id="tel" value="" autocomplete="off"
+                                                                    placeholder="เบอร์โทร" />
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <input type="button" value="จองคิว" class="btn btn-primary waves-effect" id="submitaddqueue" class="primary" />
+                                                            <input type="button" value="จองคิว"
+                                                                class="btn btn-primary waves-effect" id="submitaddqueue"
+                                                                class="primary" />
                                                         </div>
                                                         <a onclick="_cviewqrcode()"> >>คิวอาร์โค้ดจองคิวออนไลน์<< </a>
-                                                        <script>
-                                                            function _cviewqrcode() {
-                                                                document.getElementById("div_qrcode").style.display = 'block'
-                                                            }
+                                                                <script>
+                                                                    function _cviewqrcode() {
+                                                                        document.getElementById("div_qrcode").style.display = 'block'
+                                                                    }
 
-                                                            function _cviewqrcodenone() {
-                                                                document.getElementById("div_qrcode").style.display = 'none'
-                                                            }
-                                                        </script>
-                                                        <div id="div_qrcode" style="display: none;" class="form-group">
-                                                            <div class="list-unstyled row clearfix">
-                                                                <div id="Imageqrcode">
+                                                                    function _cviewqrcodenone() {
+                                                                        document.getElementById("div_qrcode").style.display = 'none'
+                                                                    }
+                                                                </script>
+                                                                <div id="div_qrcode" style="display: none;"
+                                                                    class="form-group">
+                                                                    <div class="list-unstyled row clearfix">
+                                                                        <div id="Imageqrcode">
+                                                                        </div>
+                                                                    </div>
+                                                                    <a onclick="_cviewqrcodenone()">ย่อ</a>
                                                                 </div>
-                                                            </div>
-                                                            <a onclick="_cviewqrcodenone()">ย่อ</a>
-                                                        </div>
-                                                        <div></div>
-                                                        <br />
-                                                        <script>
-                                                            function selectcategory() {
-                                                                $(function() {
-                                                                    document.getElementById('q_category').innerHTML = '<b>แผนก </b> ' + document.getElementById("qr_category").value;
-                                                                });
-                                                            }
-                                                            // $(function () {
-                                                            //     $("#btn-Convert-Html2Image").on('click', function () {
-                                                            //         html2canvas($("#createImg"), {
-                                                            //             onrendered: function (canvas) {
-                                                            //                 var imgageData = canvas.toDataURL("image/png");
-                                                            //                 var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
-                                                            //              console.log(newData)
-                                                            //                $("#btn-Convert-Html2Image").attr("download", "queue.png").attr("href", newData);
-                                                            //             }
-                                                            //         });
-                                                            //     });
-                                                            // });
-                                                        </script>
+                                                                <div></div>
+                                                                <br />
+                                                                <script>
+                                                                    function selectcategory() {
+                                                                        $(function () {
 
-                                                        <div id='a_load'>
-                                                        </div>
-                                                        <!-- <a id="btn-Convert-Html2Image" href="#">Download</a> -->
-                                                        <div id="_viewlog" style="display: none; text-align: justify;" contenteditable="false" class="form-group">
-                                                            <div id="createImg">
-                                                                <p id="number_queue" style="text-align: center;">
-                                                                    <div>
-                                                                        <b>
+                                                                            document.getElementById('q_category').innerHTML = '<b>แผนก </b> ' + document.getElementById("qr_category").value;
+                                                                        });
+                                                                    }
+
+                                                                </script>
+
+                                                                <div id='a_load'>
+                                                                </div>
+                                                                <!-- <a id="btn-Convert-Html2Image" href="#">Download</a> -->
+                                                                <div id="_viewlog"
+                                                                    style="display: none; text-align: justify;"
+                                                                    contenteditable="false" class="form-group">
+                                                                    <div id="createImg">
+                                                                        <p id="number_queue"
+                                                                            style="text-align: center;">
+                                                                        <div>
+                                                                            <b>
                                                                                 <h3 style="text-align:justify; font-size: 24px;"
                                                                                     id="q_no"></h3>
                                                                             </b>
-                                                                    </div>
+                                                                        </div>
 
-                                                                </p>
-                                                                <hr />
-                                                                <p id="q_category">
-                                                                </p>
-                                                                <p id="q_day">
-                                                                </p>
-                                                                <hr />
-                                                                <div style="text-align:center;">
-                                                                    <img id='Imageqrcode_view' />
+                                                                        </p>
+                                                                        <hr />
+                                                                        <p id="q_category">
+                                                                        </p>
+                                                                        <p id="q_day">
+                                                                        </p>
+                                                                        <hr />
+                                                                        <div style="text-align:center;">
+                                                                            <img id='Imageqrcode_view' />
+                                                                        </div>
+                                                                        <br />
+                                                                    </div>
                                                                 </div>
-                                                                <br />
-                                                            </div>
-                                                        </div>
-                                                        <div id="img" style="display:none;">
-                                                            <img id="newimg" />
-                                                        </div>
-                                                        <ul class="header-dropdown m-r--5">
-                                                            <a id='logout_online' style="cursor: pointer;" data-close="true">[ออกจากระบบ]</a>
-                                                        </ul>
+                                                                <div id="img" style="display:none;">
+                                                                    <img id="newimg" />
+                                                                </div>
+
                                                     </div>
                                                 </div>
                                             </div>
+                                            <ul class="header-dropdown m-r--5">
+                                                <a id='logout_online' style="cursor: pointer;"
+                                                    data-close="true">[ออกจากระบบ]</a>
+                                            </ul>
                                             <div role="tabpanel" class="tab-pane fade in" id="import">
                                                 <div class="body">
                                                     <div class="table-responsive" style="border: none;">
 
-                                                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display" style="border: none;" id="table_queueonline">
+                                                        <table
+                                                            class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
+                                                            style="border: none;" id="table_queueonline">
                                                         </table>
                                                     </div>
                                                     <u>
@@ -358,265 +432,577 @@
                                                 </div>
                                             </div>
                                     </form>
-                                    </div>
                                 </div>
-                                <script type="text/javascript">
-                                    function modalLogin() {
-                                        //    $("#exampleModalCenterImage").empty();
-                                        // document.getElementById('add_q_online').style.display = 'block'
-                                        document.getElementById('div_register').style.display = 'none'
-                                            //  document.getElementById('div_tab').style.display = 'block'
-                                        $("#exampleModalCenterImage").modal('hide');
-                                        $("#exampleModalCenterImage").modal('show');
-                                        //  $("#exampleModalCenterImage").modal();
-                                    }
-                                </script>
-                                <div class="modal fade col-lg-6 col-md-6 col-sm-6" id="exampleModalCenterImage" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content ">
-                                            <div class="">
-                                                <div id="div_login">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalCenterTitle" style="text-align: center;">เข้าสู่ระบบ</h5>
+                            </div>
+                            <script type="text/javascript">
+                                function modalLogin() {
+                                    document.getElementById("lbCheck").innerText = ''
+                                    //    $("#exampleModalCenterImage").empty();
+                                    // document.getElementById('add_q_online').style.display = 'block'
+                                    document.getElementById('div_register').style.display = 'none'
+                                    //  document.getElementById('div_tab').style.display = 'block'
+                                    $("#exampleModalCenterImage").modal('hide');
+                                    $("#exampleModalCenterImage").modal('show');
+                                    //  $("#exampleModalCenterImage").modal();
+                                }
 
-                                                    </div>
-                                                    <table align="center">
-                                                        <tr>
-                                                            <td style="text-align: right;"> <i class="material-icons">person
+                                function modalLoginCheck() {
+                                    $("#exampleModaCheckQueue").modal('show');
+                                }
+                            </script>
+                            <div class="modal fade col-lg-6 col-md-6 col-sm-6" id="exampleModalCenterImage"
+                                tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content ">
+                                        <div class="">
+                                            <div id="div_login">
+                                                <div class="modal-header"  style="text-align: center;">
+                                                    <h5 class="modal-title" id="exampleModalCenterTitle"
+                                                        style="text-align: center;">เข้าสู่ระบบสำหรับสมาชิก</h5> 
+                                                        <br>
+                                                     
+                                                </div>
+                                              
+                                                <table align="center">
+                                                    <tr>
+                                                        <td style="text-align: right;"> <i class="material-icons">person
                                                             </i> &nbsp;
-                                                            </td>
-                                                            <td> <input type="text" id="member_login_user" required autofocus name="member_login_user" class="form-control" placeholder="ชื่อผู้ใช้งาน หรือ เบอร์โทรศัพท์" value="">
+                                                        </td>
+                                                        <td> <input type="text" id="member_login_user" required
+                                                                autofocus name="member_login_user" class="form-control"
+                                                                placeholder="ชื่อผู้ใช้งาน/เบอร์โทรศัพท์/อีเมล"
+                                                                value="">
 
-                                                            </td>
-                                                            <td></td>
-                                                            <td>&nbsp;</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div>&nbsp;</div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td> <i class="material-icons">lock</i></td>
-                                                            <td><input type="password" name="member_login_pass" required autofocus class="form-control" placeholder="รหัสผ่าน" id="member_login_pass" value="" /></td>
-                                                        </tr>
+                                                        </td>
+                                                        <td></td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td style="font-size: 11px; text-align: center; border: none;">
+                                                              <p style="color: red;"> เข้าสู่ระบบด้วยหมายเลขโทรศัพท์ ไม่ต้องระบุรหัสผ่าน</p>
+                                                                <!-- <p style="color: red;"> ไม่ต้องระบุรหัสผ่าน </p> -->
+                                                        </td>
+                                                        <td></td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td> <i class="material-icons">lock</i></td>
+                                                        <td><input type="password" name="member_login_pass" required
+                                                                autofocus class="form-control" placeholder="รหัสผ่าน"
+                                                                id="member_login_pass" value="" /></td>
+                                                    </tr>
 
-                                                        <tr>
-                                                            <td></td>
-                                                            <td>
-                                                                <script>
-                                                                    function regis() {
-
-                                                                        document.getElementById('div_login').style.display = 'none'
-                                                                        document.getElementById('div_register').style.display = 'block'
-                                                                    }
-
-                                                                    function login() {
-                                                                        //$("#exampleModalCenterImage").modal('hide');
-                                                                        //   $("#exampleModalCenterImage").modal('show');
-                                                                        document.getElementById('div_login').style.display = 'block'
-                                                                        document.getElementById('div_register').style.display = 'none'
-                                                                    }
-                                                                </script>
-                                                                <br>
-                                                                <input type="button" value="ล็อกอิน" class="btn btn-block bg-pink waves-effect" id="login" onclick="SUBMITLOGIN()" name="login" style="cursor: pointer;">
-                                                                <p id="adminlogin" style="color: red; font-size: 18px;"></p>
-                                                                <input type="hidden" id="objid">
-                                                                <input type="hidden" id="accesstoken">
-                                                                <input type="hidden" id="refreshtoken">
-                                                                <input type="hidden" id="userName">
-                                                                <input type="hidden" id="txtrefresh_token">
-                                                                <div class="row m-t-15 m-b--20">
-                                                                    <div class="col-xs-6">
-                                                                        <a style="text-align: right; cursor: pointer;" onclick="regis()">ลงทะเบียน</a>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
                                                             <script>
-                                                                $("#login_user").keyup(function(event) {
-                                                                    if (event.keyCode === 13) {
-                                                                        $("#login").click();
-                                                                    }
-                                                                });
-                                                                $("#login_pass").keyup(function(event) {
-                                                                    if (event.keyCode === 13) {
-                                                                        $("#login").click();
-                                                                    }
-                                                                });
+                                                                function regis() {
+                                                                    document.getElementById('member_register_user').placeholder = "ชื่อผู้ใช้งาน/เบอร์โทรศัพท์/อีเมล"
+                                                                    document.getElementById('div_login').style.display = 'none'
+                                                                    document.getElementById('div_register').style.display = 'block'
+                                                                }
 
-                                                                function SUBMITLOGIN() {
-                                                                    //  console.log(document.getElementById("member_login_user").value)
-                                                                    document.getElementById("lbCheck").innerText = ""
-                                                                    if (document.getElementById("member_login_user").value == "" || document.getElementById("member_login_pass").value == "") {
-                                                                        document.getElementById("lbCheck").innerText = "กรุณากรอก USER ID และ PASSWORD";
-                                                                        return;
-                                                                    }
-                                                                    $.getScript("ip.js", function(data, textStatus, jqxhr) {
-                                                                        var urlipaddress = data.substring(1, data.length - 1);
-                                                                        const dataUser = {
-                                                                            username: document.getElementById("member_login_user").value,
-                                                                            password: document.getElementById("member_login_pass").value,
-                                                                        }
-                                                                        axios.post(urlipaddress + 'login', dataUser).then(function(response) {
-                                                                            //  console.log(response.data.message.refresh_token)
-                                                                            Cookies.set('refresh_tokenOnline', JSON.stringify(response.data.message), {
-                                                                                expires: 1
-                                                                            })
+                                                                function login() {
+                                                                    //$("#exampleModalCenterImage").modal('hide');
+                                                                    //   $("#exampleModalCenterImage").modal('show');
+                                                                    document.getElementById('div_login').style.display = 'block'
+                                                                    document.getElementById('div_register').style.display = 'none'
+                                                                }
 
-                                                                            var decodejwt = parseJwt(response.data.message.refresh_token);
-                                                                            document.getElementById("objid").value = decodejwt.mId;
-                                                                            axios.post(urlipaddress + 'permit', {}, {
-                                                                                headers: {
-                                                                                    'Authorization': response.data.message.refresh_token
-                                                                                }
-                                                                            }).then(function(tokenresponse) {
-                                                                                getuser(tokenresponse, urlipaddress, decodejwt);
-                                                                                //  $("#exampleModalCenterImage").empty();
-                                                                            }).catch(function(res) {
-                                                                                const {
-                                                                                    response
-                                                                                } = res
-                                                                            });
-                                                                        }).catch(function(res) {
+                                                                function regis_phone() {
+                                                                    document.getElementById('check_register').value = 'register_Phone'
+
+                                                                    document.getElementById('member_register_user').placeholder = "เบอร์โทรศัพท์"
+                                                                    document.getElementById('tr1').style.display = 'none'
+                                                                    document.getElementById('tr2').style.display = 'none'
+                                                                    document.getElementById('tr3').style.display = 'none'
+                                                                    document.getElementById('tr4').style.display = 'none'
+                                                                    document.getElementById('tr5').style.display = 'none'
+                                                                    document.getElementById('tr6').style.display = 'none'
+                                                                    document.getElementById('td_person').style.display = 'none'
+                                                                    document.getElementById('td_phone').style.display = 'block'
+                                                                    document.getElementById('div_login').style.display = 'none'
+                                                                    document.getElementById('div_register').style.display = 'block'
+                                                                }
+                                                            </script>
+                                                            <br>
+                                                            <input type="button" value="เข้าสู่ระบบสำหรับสมาชิก"
+                                                                class="btn btn-block bg-pink waves-effect" id="login"
+                                                                onclick="SUBMITLOGIN()" name="login"
+                                                                style="cursor: pointer;">
+
+                                                          
+                                                            <p id="adminlogin" style="color: red; font-size: 18px;"></p>
+                                                            <input type="hidden" id="objid">
+                                                            <input type="hidden" id="accesstoken">
+                                                            <input type="hidden" id="refreshtoken">
+                                                            <input type="hidden" id="userName">
+                                                            <input type="hidden" id="txtrefresh_token">
+                                                            <div class="row m-t-15 m-b--20">
+
+                                                                <div class="col-xs-12">
+                                                                    <a href="#" style="width: 300px;" onclick="regis()"
+                                                                        class="person btn"><i class="fa fa-user fa-fw">
+                                                                        </i> ลงทะเบียนสำหรับสมาชิกใหม่
+                                                                    </a>
+                                                                    <br>
+                                                                    <a href="#" style="width: 300px;"
+                                                                        onclick="regis_phone()" class="phone btn"><i
+                                                                            class="fa fa-phone fa-fw">
+                                                                        </i> ลงทะเบียนด้วยหมายเลขโทรศัพท์
+                                                                    </a>
+                                                                    <br>
+                                                                    <i class='fab fa-line' style='font-size:24px'></i>
+                                                                    <a href="#" style="width: 300px;" class="fab btn">
+
+                                                                        <i
+                                                                            class="fab fa-line"></i>ดำเนินการเชื่อมต่อด้วย
+                                                                        Line
+                                                                    </a>
+                                                                    <br>
+                                                                    <a href="#" style="width: 300px;" class="fb btn">
+                                                                        <i
+                                                                            class="fa fa-facebook fa-fw"></i>ดำเนินการเชื่อมต่อด้วย
+                                                                        Facebook
+                                                                    </a>
+                                                                    <br>
+                                                                    <a href="#" style="width: 300px;"
+                                                                        class="google btn"><i
+                                                                            class="fa fa-google fa-fw">
+                                                                        </i> ดำเนินการเชื่อมต่อด้วย Google+
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <script>
+                                                            $("#login_user").keyup(function (event) {
+                                                                if (event.keyCode === 13) {
+                                                                    $("#login").click();
+                                                                }
+                                                            });
+                                                            $("#login_pass").keyup(function (event) {
+                                                                if (event.keyCode === 13) {
+                                                                    $("#login").click();
+                                                                }
+                                                            });
+
+                                                            function SUBMITLOGIN() {
+                                                                //  console.log(document.getElementById("member_login_user").value)
+                                                                document.getElementById("lbCheck").innerText = ""
+                                                                if (document.getElementById("member_login_user").value == "" && document.getElementById("member_login_pass").value == "") {
+                                                                    document.getElementById("lbCheck").innerText = "กรุณากรอก USER ID และ PASSWORD";
+                                                                    return;
+                                                                }
+
+                                                                if(document.getElementById("member_login_pass").value != "" && document.getElementById("member_login_user").value == ""){
+                                                                    document.getElementById("lbCheck").innerText = "กรุณากรอก USER ID และ PASSWORD";
+                                                                    return;
+                                                                }
+
+                                                                $.getScript("ip.js", function (data, textStatus, jqxhr) {
+                                                                    var urlipaddress = data.substring(1, data.length - 1);
+                                                                    var dataUser;
+                                                                    if(document.getElementById("member_login_pass").value == "" && document.getElementById("member_login_user").value != ""){
+                                                                        dataUser = {
+                                                                        username: document.getElementById("member_login_user").value,
+                                                                        password: document.getElementById("member_login_user").value,
+                                                                    }
+                                                                    }else{
+                                                                        dataUser = {
+                                                                        username: document.getElementById("member_login_user").value,
+                                                                        password: document.getElementById("member_login_pass").value,
+                                                                    }
+                                                                    }
+                                                                   
+
+                                                                    axios.post(urlipaddress + 'login', dataUser).then(function (response) {
+                                                                        //  console.log(response.data.message.refresh_token)
+                                                                        Cookies.set('refresh_tokenOnline', JSON.stringify(response.data.message), {
+                                                                            expires: 1
+                                                                        })
+
+                                                                        var decodejwt = parseJwt(response.data.message.refresh_token);
+                                                                        document.getElementById("objid").value = decodejwt.mId;
+                                                                        axios.post(urlipaddress + 'permit', {}, {
+                                                                            headers: {
+                                                                                'Authorization': response.data.message.refresh_token
+                                                                            }
+                                                                        }).then(function (tokenresponse) {
+                                                                            getuser(tokenresponse, urlipaddress, decodejwt);
+                                                                            //  $("#exampleModalCenterImage").empty();
+                                                                        }).catch(function (res) {
                                                                             const {
                                                                                 response
                                                                             } = res
-                                                                            if (response.data.message == "The username or password that you've entered doesn't match any account.") {
-                                                                                document.getElementById("lbCheck").innerText = "USER ID หรือ PASSWORD ไม่ถูกต้อง"
-                                                                                return;
-                                                                            }
                                                                         });
+                                                                    }).catch(function (res) {
+                                                                        const {
+                                                                            response
+                                                                        } = res
+                                                                        if (response.data.message == "The username or password that you've entered doesn't match any account.") {
+                                                                            document.getElementById("lbCheck").innerText = "USER ID หรือ PASSWORD ไม่ถูกต้อง"
+                                                                            return;
+                                                                        }
                                                                     });
-                                                                }
+                                                                });
+                                                            }
 
-                                                                //////////////////////////////////
-                                                                function getuser(tokenresponse, urlipaddress, decodejwt) {
-                                                                    const dataUserID = {
-                                                                        mId: document.getElementById("objid").value
+                                                            //////////////////////////////////
+                                                            function getuser(tokenresponse, urlipaddress, decodejwt) {
+                                                                const dataUserID = {
+                                                                    mId: document.getElementById("objid").value
+                                                                }
+                                                                axios.post(urlipaddress + 'user', dataUserID, {
+                                                                    headers: {
+                                                                        'Authorization': tokenresponse.data.message.access_token
                                                                     }
-                                                                    axios.post(urlipaddress + 'user', dataUserID, {
-                                                                        headers: {
-                                                                            'Authorization': tokenresponse.data.message.access_token
-                                                                        }
-                                                                    }).then(function(response) {
-                                                                        var cnt = response.data.message.data.length;
-                                                                        var n = 0;
-                                                                        var _arr = new Array();
-                                                                        for (i = 0; i < cnt; i++) {
+                                                                }).then(function (response) {
+                                                                    var cnt = response.data.message.data.length;
+                                                                    var n = 0;
+                                                                    var _arr = new Array();
+                                                                    for (i = 0; i < cnt; i++) {
 
-                                                                            if (response.data.message.data[i].username == document.getElementById("member_login_user").value) {
+                                                                        if (response.data.message.data[i].username == document.getElementById("member_login_user").value) {
 
-                                                                                document.getElementById("lbCheck").innerText = "";
-                                                                                Cookies.set('dataUserOnline', JSON.stringify(response.data.message.data[i]), {
-                                                                                    expires: 1
-                                                                                })
+                                                                            document.getElementById("lbCheck").innerText = "";
+                                                                            Cookies.set('dataUserOnline', JSON.stringify(response.data.message.data[i]), {
+                                                                                expires: 1
+                                                                            })
 
-                                                                                Cookies.set('_objectIdOnline', document.getElementById("objid").value, {
-                                                                                    expires: 1
-                                                                                })
+                                                                            Cookies.set('_objectIdOnline', document.getElementById("objid").value, {
+                                                                                expires: 1
+                                                                            })
 
-                                                                                if (response.data.message.data[i].rule.toLowerCase() == 'online') {
-                                                                                    $("#exampleModalCenterImage").modal('hide');
-                                                                                    document.getElementById('add_q_online').style.display = 'block'
-                                                                                    document.getElementById('submit_q_login').style.display = 'none'
-                                                                                    document.getElementById('div_tabadd').style.display = 'block'
+                                                                            if (response.data.message.data[i].rule.toLowerCase() == 'online') {
+                                                                                $("#exampleModalCenterImage").modal('hide');
+                                                                                document.getElementById('add_q_online').style.display = 'block'
+                                                                                document.getElementById('submit_q_login').style.display = 'none'
+                                                                                document.getElementById('div_tabadd').style.display = 'block'
 
-                                                                                }
-                                                                                break;
                                                                             }
+                                                                            break;
                                                                         }
-                                                                    });
-                                                                }
+                                                                    }
+                                                                });
+                                                            }
 
-                                                                function parseJwt(token) {
-                                                                    var base64Url = token.split('.')[1];
-                                                                    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                                                                    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                                                                        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                                                                    }).join(''));
-                                                                    return JSON.parse(jsonPayload);
-                                                                };
-                                                            </script>
-                                                        </tr>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td>
-                                                                <div>
-                                                                    <p id="lbCheck" style="color: red; font-size: 16px;">
-                                                                    </p>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
+                                                            function parseJwt(token) {
+                                                                var base64Url = token.split('.')[1];
+                                                                var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                                                                var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+                                                                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                                                                }).join(''));
+                                                                return JSON.parse(jsonPayload);
+                                                            };
+                                                        </script>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <div>
+                                                                <p id="lbCheck" style="color: red; font-size: 16px;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+
+                                            <div id="div_register">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="" style="text-align: center;">
+                                                        ลงทะเบียนสำหรับสมาชิกใหม่
+                                                    </h5>
+
                                                 </div>
-
-
-                                                <div id="div_register">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="" style="text-align: center;">ลงทะเบียน
-                                                        </h5>
-
-                                                    </div>
-                                                    <table align="center">
-                                                        <tr>
-                                                            <td style="text-align: right;"> <i class="material-icons">person
+                                                <br>
+                                                <table align="center">
+                                                    <tr>
+                                                        <td id="td_person" style="text-align: right;"> <i
+                                                                class="material-icons">person
                                                             </i> &nbsp;
-                                                            </td>
-                                                            <td> <input type="text" id="member_register_user" required autofocus name="member_register_user" class="form-control" placeholder="ชื่อผู้ใช้งาน หรือ เบอร์โทรศัพท์" value="">
+                                                        </td>
+                                                        <td id="td_phone" style="text-align: right; display: none;"> <i
+                                                                class="material-icons">phone
+                                                            </i> &nbsp;
+                                                        </td>
+                                                        <td> <input type="text" id="member_register_user" required
+                                                                autofocus name="member_register_user"
+                                                                class="form-control" placeholder="" value="">
 
-                                                            </td>
-                                                            <td></td>
-                                                            <td>&nbsp;</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div>&nbsp;</div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td> <i class="material-icons">lock</i></td>
-                                                            <td><input type="text" name="member_register_pass" required autofocus class="form-control" placeholder="รหัสผ่าน" id="member_register_pass" value="" />
+                                                        </td>
+                                                        <td></td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                    <tr id='tr1'>
+                                                        <td>
+                                                            <div>&nbsp;</div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id='tr2'>
+                                                        <td> <i class="material-icons">lock</i></td>
+                                                        <td><input type="password" name="member_register_pass" required
+                                                                autofocus class="form-control" placeholder="รหัสผ่าน"
+                                                                id="member_register_pass" value="" />
+                                                        </td>
 
-                                                            </td>
+                                                    </tr>
+                                                    <tr id='tr3'>
+                                                        <td>
+                                                            <div>&nbsp;</div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id='tr4'>
+                                                        <td> <i class="material-icons">lock</i></td>
+                                                        <td><input type="password" name="member_register_pass_confirm"
+                                                                required autofocus class="form-control"
+                                                                placeholder="ยืนยันรหัสผ่าน"
+                                                                id="member_register_pass_confirm" value="" />
+                                                        </td>
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td>
-                                                                <br>
-                                                                <input type="button" value="ลงทะเบียน" class="btn btn-block bg-pink waves-effect" id="Submitmember_register" name="login" style="cursor: pointer;">
-                                                                <div class="row m-t-15 m-b--20">
-                                                                    <div class="col-xs-6">
-                                                                        <a style="text-align: right; cursor: pointer;" onclick="login()">เข้าสู่ระบบ</a>
-                                                                    </div>
+                                                    </tr>
+                                                    <tr id='tr5'>
+                                                        <td>
+                                                            <div>&nbsp;</div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id='tr6'>
+                                                        <td> <i class="material-icons">phone</i></td>
+                                                        <td><input type="tel" name="member_register_phone" required
+                                                                autofocus class="form-control" placeholder="เบอร์โทร"
+                                                                id="member_register_phone" value="" />
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <br>
+                                                            <input type="button" value="ลงทะเบียนสำหรับสมาชิกใหม่"
+                                                                class="btn btn-block bg-pink waves-effect"
+                                                                id="Submitmember_register" name="login"
+                                                                style="cursor: pointer;">
+                                                            <div class="row m-t-15 m-b--20">
+                                                                <div class="col-xs-12">
+                                                                    <a style="text-align: right; cursor: pointer;"
+                                                                        onclick="login()">เข้าสู่ระบบสำหรับสมาชิก</a>
                                                                 </div>
-                                                            </td>
-                                                        </tr>
+                                                            </div>
+                                                            <div>&nbsp;</div>
+                                                            <input type="hidden" id="check_register">
+                                                        </td>
+                                                    </tr>
 
-                                                    </table>
+                                                </table>
 
+                                            </div>
+                                            <div id="div_register_save" style="display: none; text-align: justify;"
+                                                contenteditable="false" class="form-group">
+                                                <div id="createImg_register" style="border: 2px;">
+                                                    <h3 style="text-align:justify; font-size: 16px;">
+                                                        ชื่อผู้ใช้งาน/รหัสผ่าน</h3>
+                                                    </p>
+                                                    <p id="user_register">
+                                                    </p>
+                                                    <p id="password_regis">
+                                                    </p>
+                                                    <p id="date_regis">
+                                                    </p>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
-                                                </div>
+                                            </div>
+                                            <div id="img_register" style="display:none;">
+                                                <img id="newimgregister" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="body" id="div_viwe">
-                            <u>
+                    </div>
+                    <div class="row clearfix">
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h2>โฆษณา</h2>
+
+                                </div>
+                                <div class="body">
+                                    <div id="carousel-example-generic_2" class="carousel slide" data-ride="carousel">
+                                        <!-- Indicators -->
+                                        <ol class="carousel-indicators">
+                                            <li data-target="#carousel-example-generic_2" data-slide-to="0"
+                                                class="active"></li>
+                                            <li data-target="#carousel-example-generic_2" data-slide-to="1"></li>
+                                            <li data-target="#carousel-example-generic_2" data-slide-to="2"></li>
+                                        </ol>
+                                        <!-- Wrapper for slides -->
+                                        <div class="carousel-inner" role="listbox">
+                                            <div class="item active">
+                                                <img src="../../images/image-gallery/19.jpg" />
+                                                <div class="carousel-caption">
+                                                    <a style="color: white;"
+                                                        href="https://www.wacinfotech.com/index.html">ข้อมูลเพิ่มเติม</a>
+                                                    <!-- <h3></h3> -->
+                                                    <!-- <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p> -->
+                                                </div>
+                                            </div>
+                                            <div class="item">
+                                                <img src="../../images/image-gallery/12.jpg" />
+                                                <div class="carousel-caption">
+                                                    <!-- <h3>Second slide label</h3>
+                                                    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p> -->
+                                                </div>
+                                            </div>
+                                            <div class="item">
+                                                <img src="../../images/image-gallery/10.jpg" />
+                                                <div class="carousel-caption">
+                                                    <!-- <h3>Third slide label</h3>
+                                                    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Controls -->
+                                        <a class="left carousel-control" href="#carousel-example-generic_2"
+                                            role="button" data-slide="prev">
+                                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="right carousel-control" href="#carousel-example-generic_2"
+                                            role="button" data-slide="next">
+                                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- #END# With Captions -->
+                    </div>
+
+
+                    <!-- ///////////////////////ตรวจสอบ สถานะคิว -->
+                    <div class="modal fade col-lg-6 col-md-6 col-sm-6" id="exampleModaCheckQueue" tabindex="-1"
+                        role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content ">
+                                <div class="">
+                                    <div class="modal-header">
+                                        <h2 class="modal-title" id=""
+                                            style="text-align: center; font-size: 24px; color: green;">ตรวจสอบสถานะคิว
+                                        </h2>
+                                    </div>
+                                    <div class="body">
+                                        <div class="row clearfix">
+                                            <div class="col-sm-12">
+
+                                                <div class="form-group form-float">
+                                                    <div class="input-group date" id="">
+                                                        <p>เลือกวันที่</p>
+                                                        <div class="form-line">
+                                                            <input type="text" id="datequeue_Check"
+                                                                name="datequeue_Check" class="form-control"
+                                                                placeholder="เลือกวันที่">
+                                                        </div>
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">date_range</i>
+                                                        </span>
+                                                    </div>
+                                                    <script>
+                                                        $("#datequeue_Check").datetimepicker({
+                                                            minDate: 0,
+                                                            format: "YYYY-MM-DD"
+                                                        });
+
+                                                    </script>
+                                                </div>
+                                                <div class="form-group form-float">
+                                                    <h5>เลือกแผนก</h5>
+                                                    <div class="form-line">
+                                                        <select name="minutes" class="form-control"
+                                                            id="select_category"> </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-float">
+                                                    <h5>เลือกช่วงเวลา</h5>
+                                                    <div class="form-line">
+                                                        <select name="minutes" class="form-control" id="select_time">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="button" value="ตรวจสอบสถานะ"
+                                            class="btn btn-block bg-pink waves-effect" id="CheckQueue" name="CheckQueue"
+                                            style="cursor: pointer;">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">ปิด</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="modal fade" id="StatusQueue" role="dialog">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h2 class="modal-title" id=""
+                                        style="text-align: center; font-size: 24px; color: gray;">คิวทั้งหมด</h2>
+                                </div>
+                                <div class="modal-body" style="text-align: center;">
+                                    <div class="row clearfix">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-float">
+                                                <h5>ทั้งหมด</h5>
+                                                <h3 style="color: blue;">200 คิว</h3>
+                                            </div>
+                                            <hr>
+                                            <div class="form-group form-float">
+                                                <h5>จองแล้ว</h5>
+                                                <h3 style="color: orangered;">100 คิว</h3>
+                                            </div>
+                                            <hr>
+                                            <div class="form-group form-float">
+                                                <h5>คงเหลือ</h5>
+                                                <h3 style="color: green;">100 คิว</h3>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="body" id="div_viwe">
+                        <u>
                             <h3 id="count_queuetoday"></h3>
                         </u>
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display" style="border: none;  " id="table_view">
-                                </table>
-                            </div>
+                        <div class="table-responsive">
+                            <table
+                                class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display"
+                                style="border: none;  " id="table_view">
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </section>
 
 
@@ -648,6 +1034,7 @@
 <script src="../../plugins/momentjs/moment.js"></script>
 
 <!-- Bootstrap Material Datetime Picker Plugin Js -->
+
 <script src="../../plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
 
 <!-- Bootstrap Datepicker Plugin Js -->

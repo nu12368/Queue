@@ -32,19 +32,32 @@ function acctoken() {
     });
 }
 
-const getqueueview = async (refresh_token) => {
-    //function getqueueview(refresh_token) {
+const queueloop = async (refresh_token, _page) => {
+    console.log('ffffffffffffffff')
+    var today = new Date();
+    var n_date = today.toISOString();
+    let date = new Date(n_date);
+    let options = { hour12: false };
+    var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+    var chk_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+    chk_date = chk_date.split(' ')
+    chk_date = chk_date[0].split('/')
+    var datenew = chk_date[2] + '/' + chk_date[0] + '/' + chk_date[1]
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
-        axios.get(urlipaddress + 'queue/' + _objectId + '?_page=1&_limit=10&_sort=1', {
+        axios.get(urlipaddress + 'queue/' + _objectId + '?_page=' + _page + '&_limit=10&_sort=1', {
             headers: {
                 'Authorization': refresh_token
             }
-        }).then(function (response) {
+        }).then(async function (response) {
             console.log(response.data.message.values)
+            $("#table_view").empty();
+            var _collor = ["bg-red", "bg-pink", "bg-blue", "bg-amber", "bg-orange", "bg-teal", "bg-green", "bg-purple"];
+            var _num = 0;
             $("#table_view").empty();
             if (response.data.message.values.length != 0) {
                 Str_queue = JSON.stringify(response.data.message.values)
+
                 if (category_profile != undefined) {
                     queueprofileview(category_profile)
                     return;
@@ -61,32 +74,142 @@ const getqueueview = async (refresh_token) => {
                 </tr>
             </thead>
             `);
-                for (i = 0; i < response.data.message.values.length; i++) {
+
+            for (i = 0; i < response.data.message.values.length; i++) {
+               
+                let date = new Date(response.data.message.values[i].timeAdd);
+                let options = { hour12: false };
+                var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+                var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+                s_date = s_date.split(' ')
+                s_date = s_date[0].split('/')
+                var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
+                var _checkdate = dayjs(datenew).isSame(_date)
+                if (_checkdate == true) {
+                 
                     $("#table_view").append(`
-                    <tr>
-                        <td>
-                            <div class="info-box ${_collor[_num]} 
-                             hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid;">
-                             <div class="content">
-                                    <div style="font-size: 36px;" >${response.data.message.values[i].cue}</div>
+                        <tr>
+                            <td>
+                                <div class="info-box ${_collor[_num]} 
+                                 hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid;">
+                                 <div class="content">
+                                        <div style="font-size: 36px;" >${response.data.message.values[i].cue}</div>
+                                    </div>
                                 </div>
-                            </div>
+                             </td>
+                            <td>
+                                <div class="info-box ${_collor[_num]}
+                              hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid; ">
+                                    <div class="content">
+                                        <div style="font-size: 36px;">${response.data.message.values[i].serviceChannel}</div>
+                                    </div>
+                                </div>
                          </td>
-                        <td>
-                            <div class="info-box ${_collor[_num]}
-                          hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid; ">
-                                <div class="content">
-                                    <div style="font-size: 36px;">${response.data.message.values[i].serviceChannel}</div>
+                        </tr>
+                    `);
+                        _num = _num + 1;
+                        if (_collor.length == _num) {
+                            _num = 0;
+                        }
+                   
+                }
+             
+            }
+            }
+            
+        });
+    });
+
+}
+
+
+const getqueueview = async (refresh_token) => {
+    var today = new Date();
+    var n_date = today.toISOString();
+    let date = new Date(n_date);
+    let options = { hour12: false };
+    var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+    var chk_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+    chk_date = chk_date.split(' ')
+    chk_date = chk_date[0].split('/')
+    var datenew = chk_date[2] + '/' + chk_date[0] + '/' + chk_date[1]
+    //function getqueueview(refresh_token) {
+    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        var urlipaddress = data.substring(1, data.length - 1);
+        axios.get(urlipaddress + 'queue/' + _objectId + '?_page=1&_limit=10&_sort=1', {
+            headers: {
+                'Authorization': refresh_token
+            }
+        }).then(async function (response) {
+            console.log(response.data.message.values)
+            $("#table_view").empty();
+            if (response.data.message.values.length != 0) {
+                Str_queue = JSON.stringify(response.data.message.values)
+
+                if (category_profile != undefined) {
+                    queueprofileview(category_profile)
+                    return;
+                }
+                $("#table_view").empty();
+                var _collor = ["bg-red", "bg-pink", "bg-blue", "bg-amber", "bg-orange", "bg-teal", "bg-green", "bg-purple"];
+                var _num = 0;
+
+                $("#table_view").append(`
+                <thead>
+                <tr>
+                    <th style="font-size: 36px;">หมายเลข</th>
+                    <th style="font-size: 36px;">ช่องบริการ</th>
+                </tr>
+            </thead>
+            `);
+
+            var _page = 1;
+            var totle = response.data.message.total
+            var looptotle = Math.ceil(totle / 10)
+            if (looptotle > 1) { ///// คิวมากกว่า loop 100
+                for (i = 0; i < looptotle; i++) {
+                    await queueloop(refresh_token, _page)
+                    _page = _page + 1
+                }
+            }else{
+                for (i = 0; i < response.data.message.values.length; i++) {
+                    console.log(response.data.message.values[i])
+                    let date = new Date(response.data.message.values[i].timeAdd);
+                    let options = { hour12: false };
+                    var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+                    var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+                    s_date = s_date.split(' ')
+                    s_date = s_date[0].split('/')
+                    var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
+                    var _checkdate = dayjs(datenew).isSame(_date)
+                    if (_checkdate == true) {
+                        $("#table_view").append(`
+                        <tr>
+                            <td>
+                                <div class="info-box ${_collor[_num]} 
+                                 hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid;">
+                                 <div class="content">
+                                        <div style="font-size: 36px;" >${response.data.message.values[i].cue}</div>
+                                    </div>
                                 </div>
-                            </div>
-                     </td>
-                    </tr>
-                `);
-                    _num = _num + 1;
-                    if (_collor.length == _num) {
-                        _num = 0;
+                             </td>
+                            <td>
+                                <div class="info-box ${_collor[_num]}
+                              hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid; ">
+                                    <div class="content">
+                                        <div style="font-size: 36px;">${response.data.message.values[i].serviceChannel}</div>
+                                    </div>
+                                </div>
+                         </td>
+                        </tr>
+                    `);
+                        _num = _num + 1;
+                        if (_collor.length == _num) {
+                            _num = 0;
+                        }
                     }
                 }
+            }
             }
         }).catch(function (res) {
             const { response } = res
@@ -168,6 +291,18 @@ function getprofileview(refresh_token) {
 }
 
 function Getqueueprofileview(category_profile, refresh_token) {
+
+    var today = new Date();
+    var n_date = today.toISOString();
+    let date = new Date(n_date);
+    let options = { hour12: false };
+    var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+    var chk_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+    chk_date = chk_date.split(' ')
+    chk_date = chk_date[0].split('/')
+    var datenew = chk_date[2] + '/' + chk_date[0] + '/' + chk_date[1]
+
+
     var profile_select = JSON.parse(category_profile)
     console.log(profile_select)
     var prm = '';
@@ -180,7 +315,7 @@ function Getqueueprofileview(category_profile, refresh_token) {
     $.getScript("ip.js", function (data, textStatus, jqxhr) {
         var urlipaddress = data.substring(1, data.length - 1);
 
-        console.log(urlipaddress + 'queue/' + _objectId + '?' + prm + '_page=1&_limit=10&_sort=1')
+      //  console.log(urlipaddress + 'queue/' + _objectId + '?' + prm + '_page=1&_limit=10&_sort=1')
 
         axios.get(urlipaddress + 'queue/' + _objectId + '?' + prm + '_page=1&_limit=10&_sort=1', {
             headers: {
@@ -206,30 +341,43 @@ function Getqueueprofileview(category_profile, refresh_token) {
             `);
 
                 for (i = 0; i < response.data.message.values.length; i++) {
-                    $("#table_view").append(`
-                    <tr>
-                        <td>
-                            <div class="info-box ${_collor[_num]} 
-                             hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid;">
-                             <div class="content">
-                                    <div style="font-size: 36px;" >${response.data.message.values[i].cue}</div>
+                    console.log(response.data.message.values[i])
+                    let date = new Date(response.data.message.values[i].timeAdd);
+                    let options = { hour12: false };
+                    var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+                    var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+                    s_date = s_date.split(' ')
+                    s_date = s_date[0].split('/')
+                    var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
+                    var _checkdate = dayjs(datenew).isSame(_date)
+                 
+                    if (_checkdate == true) {
+                        $("#table_view").append(`
+                        <tr>
+                            <td>
+                                <div class="info-box ${_collor[_num]} 
+                                 hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid;">
+                                 <div class="content">
+                                        <div style="font-size: 36px;" >${response.data.message.values[i].cue}</div>
+                                    </div>
                                 </div>
-                            </div>
+                             </td>
+                            <td>
+                                <div class="info-box ${_collor[_num]}
+                              hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid; ">
+                                    <div class="content">
+                                        <div style="font-size: 36px;">${response.data.message.values[i].serviceChannel}</div>
+                                    </div>
+                                </div>
                          </td>
-                        <td>
-                            <div class="info-box ${_collor[_num]}
-                          hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid; ">
-                                <div class="content">
-                                    <div style="font-size: 36px;">${response.data.message.values[i].serviceChannel}</div>
-                                </div>
-                            </div>
-                     </td>
-                    </tr>
-                `);
-                    _num = _num + 1;
-                    if (_collor.length == _num) {
-                        _num = 0;
+                        </tr>
+                    `);
+                        _num = _num + 1;
+                        if (_collor.length == _num) {
+                            _num = 0;
+                        }
                     }
+                   
                 }
             }
 
@@ -278,6 +426,19 @@ function queueprofileview(category_profile) {
     // console.log(_profile)
     // console.log(_queue)
 
+    var today = new Date();
+    var n_date = today.toISOString();
+    let date = new Date(n_date);
+    let options = { hour12: false };
+    var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+    var chk_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+    chk_date = chk_date.split(' ')
+    chk_date = chk_date[0].split('/')
+    var datenew = chk_date[2] + '/' + chk_date[0] + '/' + chk_date[1]
+
+
+
+
     /////////////////  filter arrar
     const profileSelectResult = _profile
         ? _profile.filter((val) => {
@@ -311,30 +472,43 @@ function queueprofileview(category_profile) {
         </thead>
         `);
     for (i = 0; i < dataResult.length; i++) {
-        $("#table_view").append(`
-                <tr>
-                    <td>
-                        <div class="info-box ${_collor[_num]} 
-                         hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid;">
-                         <div class="content">
-                                <div style="font-size: 36px;" >${dataResult[i].cue}</div>
-                            </div>
+        let date = new Date(dataResult[i].timeAdd);
+        let options = { hour12: false };
+        var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+        var s_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+        s_date = s_date.split(' ')
+        s_date = s_date[0].split('/')
+        var _date = s_date[2] + '/' + s_date[0] + '/' + s_date[1]
+        var _checkdate = dayjs(datenew).isSame(_date)
+     
+        if (_checkdate == true) {
+
+            $("#table_view").append(`
+            <tr>
+                <td>
+                    <div class="info-box ${_collor[_num]} 
+                     hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid;">
+                     <div class="content">
+                            <div style="font-size: 36px;" >${dataResult[i].cue}</div>
                         </div>
-                     </td>
-                    <td>
-                        <div class="info-box ${_collor[_num]}
-                      hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid; ">
-                            <div class="content">
-                                <div style="font-size: 36px;">${dataResult[i].serviceChannel}</div>
-                            </div>
-                        </div>
+                    </div>
                  </td>
-                </tr>
-            `);
-        _num = _num + 1;
-        if (_collor.length == _num) {
-            _num = 0;
+                <td>
+                    <div class="info-box ${_collor[_num]}
+                  hover-expand-effect" style="cursor:pointer; border-radius: 25px; border: 2px solid; ">
+                        <div class="content">
+                            <div style="font-size: 36px;">${dataResult[i].serviceChannel}</div>
+                        </div>
+                    </div>
+             </td>
+            </tr>
+        `);
+    _num = _num + 1;
+    if (_collor.length == _num) {
+        _num = 0;
+    }
         }
+        
     }
 }
 

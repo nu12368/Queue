@@ -243,10 +243,15 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="queueadvert.html">
+                                    <span>โฆษณา</span>
+                                </a>
+                            </li>
+                            <!-- <li>
                                 <a href="queueadvancebooking.html">
                                     <span>สร้างรายการจองคิวล่วงหน้า</span>
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </li>
 
@@ -443,9 +448,11 @@
                                                                     <input type="text" class="form-control" name="DPTCODE" id="DPTCODE" value="" required autocomplete="off" placeholder="รหัสแผนก" />
                                                                 </div>
                                                             </div>
-                                                            <!-- <div class="form-group form-float">
-                                                                <h5>กำหนดระยะเวลาการใช้งาน
-                                                                </h5>
+                                                            <div class="body">
+                                                                <h4>สำหรับการจองคิวออนไลน์ล่วงหน้า</h4>
+                                                            </div>
+                                                            <div class="form-group form-float">
+                                                                <h5 style="color: green;">*** การกำหนดระยะเวลาการใช้งานให้กับ แผนก จะสามารถจองคิวลวงหน้าได้</h5>
                                                                 <p>เลือก ชั่วโมง</p>
 
                                                                 <div class="form-line">
@@ -544,7 +551,7 @@
                                                                     <option value="59">59</option>
                                                                 </select>
                                                                 </div>
-                                                            </div> -->
+                                                            </div>
                                                             <button class="btn btn-primary waves-effect" id="submitcategory" class="primary" type="button">บันทึก</button>
                                                             <p id="save" style="font-size: 18px;"></p>
                                                         </div>
@@ -557,8 +564,9 @@
                                                                 <th>ลำดับที่</th>
                                                                 <th>รหัสแผนก</th>
                                                                 <th>ชื่อแผนก</th>
-                                                                <th>แก้ไข/ลบ</th>
-                                                                <!-- <th>กำหนดช่วงเวลา</th> -->
+                                                                <th>แก้ไขแผนก/ลบ</th>
+                                                                <th>แก้ไขจำนวนคิว</th>
+                                                                <th>กำหนดช่วงเวลา </th>
                                                             </tr>
                                                         </thead>
                                                     </table>
@@ -612,6 +620,206 @@
                                                 </div>
                                             </div>
 
+                                            <div class="container">
+                                                <div class="modal fade" id="addagendar" role="dialog">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div style="text-align: right;">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+                                                            </div>
+                                                            <div class="modal-header">
+                                                                <h3 class="modal-title" id="category_list">รายการจอง</h3>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="row clearfix">
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                        <div class="card">
+                                        
+                                                                            <div class="body">
+                                                                                <div>
+                                                                                    <h5 style="color: green;">ระบุจำนวนคิว แล้วกดปุ่ม บันทึก</h5>
+                                                                                </div>
+                                                                                <form id="formElem">
+                                                                                    <div class="table-responsive">
+                                                                                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display" id="table1_time">
+                                                                                            <thead>
+                                                                                                <tr>
+                                                                                                    <th>ช่วงเวลา</th>
+                                                                                                    <th>จำนวนคิว</th>
+                                                                                                </tr>
+                                                                                            </thead>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </form>
+                                        
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div style="text-align: right;">
+                                                                    <button class="btn btn-primary waves-effect" id="submitsettime" class="primary" type="button">บันทึก</button>
+                                                                </div>
+                                                            </div>
+                                        
+                                                        </div>
+                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                            <div class="container">
+                                                <div class="modal fade" id="addtime" role="dialog">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div style="text-align: right;">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+                                                            </div>
+                                                            <div class="modal-header">
+                                                                <h5 style="color: green;">*** การกำหนดระยะเวลาการใช้งานให้กับ แผนก จะสามารถจองคิวลวงหน้าได้</h5>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="row clearfix">
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                        <div class="card">
+                                                                            <div class="body">
+                                                                                <div class="body">
+                                                                                    <h4 id="category_list_update"></h4>
+                                                                                </div>
+                                                                                <div class="form-group form-float">
+                                                                                    <p>เลือก ชั่วโมง</p>
+                                                                                    <div class="form-line">
+                                                                                        <select name="hours" class="form-control" id="starthours_edit">
+                                                                                        <option value="00">00</option>
+                                                                                        <option value="1">01</option>
+                                                                                        <option value="2">02</option>
+                                                                                        <option value="3">03</option>
+                                                                                        <option value="4">04</option>
+                                                                                        <option value="5">05</option>
+                                                                                        <option value="6">06</option>
+                                                                                        <option value="7">07</option>
+                                                                                        <option value="8">08</option>
+                                                                                        <option value="9">09</option>
+                                                                                        <option value="10">10</option>
+                                                                                        <option value="11">11</option>
+                                                                                        <option value="12">12</option>
+                                                                                        <option value="13">13</option>
+                                                                                        <option value="14">14</option>
+                                                                                        <option value="15">15</option>
+                                                                                        <option value="16">16</option>
+                                                                                        <option value="17">17</option>
+                                                                                        <option value="18">18</option>
+                                                                                        <option value="19">19</option>
+                                                                                        <option value="20">20</option>
+                                                                                        <option value="21">21</option>
+                                                                                        <option value="22">22</option>
+                                                                                        <option value="23">23</option>
+                                                                                        <option value="24">24</option>
+                                                                                    </select>
+                                                                                    </div>
+                                                                                </div>
+                    
+                                                                                <div class="form-group form-float">
+                                                                                    <p>เลือก นาที</p>
+                                                                                    <div class="form-line">
+                                                                                        <select name="minutes" class="form-control" id="startminutes_edit">
+                                                                                        <option value="00">00</option>
+                                                                                        <option value="01">01</option>
+                                                                                        <option value="02">02</option>
+                                                                                        <option value="03">03</option>
+                                                                                        <option value="04">04</option>
+                                                                                        <option value="05">05</option>
+                                                                                        <option value="06">06</option>
+                                                                                        <option value="07">07</option>
+                                                                                        <option value="08">08</option>
+                                                                                        <option value="09">09</option>
+                                                                                        <option value="10">10</option>
+                                                                                        <option value="11">11</option>
+                                                                                        <option value="12">12</option>
+                                                                                        <option value="13">13</option>
+                                                                                        <option value="14">14</option>
+                                                                                        <option value="15">15</option>
+                                                                                        <option value="16">16</option>
+                                                                                        <option value="17">17</option>
+                                                                                        <option value="18">18</option>
+                                                                                        <option value="19">19</option>
+                                                                                        <option value="20">20</option>
+                                                                                        <option value="21">21</option>
+                                                                                        <option value="22">22</option>
+                                                                                        <option value="24">24</option>
+                                                                                        <option value="25">25</option>
+                                                                                        <option value="26">26</option>
+                                                                                        <option value="27">27</option>
+                                                                                        <option value="28">28</option>
+                                                                                        <option value="29">29</option>
+                                                                                        <option value="30">30</option>
+                                                                                        <option value="31">31</option>
+                                                                                        <option value="32">32</option>
+                                                                                        <option value="33">33</option>
+                                                                                        <option value="34">34</option>
+                                                                                        <option value="35">35</option>
+                                                                                        <option value="36">36</option>
+                                                                                        <option value="37">37</option>
+                                                                                        <option value="38">38</option>
+                                                                                        <option value="39">39</option>
+                                                                                        <option value="40">40</option>
+                                                                                        <option value="41">41</option>
+                                                                                        <option value="42">42</option>
+                                                                                        <option value="43">43</option>
+                                                                                        <option value="44">44</option>
+                                                                                        <option value="45">45</option>
+                                                                                        <option value="46">46</option>
+                                                                                        <option value="47">47</option>
+                                                                                        <option value="48">48</option>
+                                                                                        <option value="49">49</option>
+                                                                                        <option value="50">50</option>
+                                                                                        <option value="51">51</option>
+                                                                                        <option value="52">52</option>
+                                                                                        <option value="53">53</option>
+                                                                                        <option value="54">54</option>
+                                                                                        <option value="55">55</option>
+                                                                                        <option value="56">56</option>
+                                                                                        <option value="57">57</option>
+                                                                                        <option value="58">58</option>
+                                                                                        <option value="59">59</option>
+                                                                                    </select>
+                                                                                    </div>
+                                                                                </div>
+
+                                        
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div style="text-align: right;">
+                                                                    <button class="btn btn-primary waves-effect" id="submitsettime_Update" class="primary" type="button">บันทึก</button>
+                                                                </div>
+                                                            </div>
+                                        
+                                                        </div>
+                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                                             <div class="container">
@@ -628,10 +836,11 @@
                                                                     <table>
                                                                         <tr>
                                                                             <td> รหัสแผนก : </td>
-                                                                            <td> <input type="text" id="DPTCODE_edit" readonly name="user_edit"></td>
+                                                                            <td> <input type="text" id="DPTCODE_edit" readonly name="user_edit">  <font style="color: red;"> * แก้ไขไม่ได้ *
+                                                                            </font>
+                                                                            </td>
                                                                             <td>
-                                                                                <font style="color: red;"> * แก้ไขไม่ได้ *
-                                                                                </font>
+                                                                              
                                                                             </td>
                                                                             <td> </td>
                                                                         </tr>
@@ -651,7 +860,9 @@
                                                                         </tr>
                                                                         <tr>
                                                                             <td>ชื่อแผนกใหม่ :</td>
-                                                                            <td><input type="text" name="category_edit" id="category_edit" /></td>
+                                                                            <td><input type="text" name="category_edit" id="category_edit" /><font style="color: red;"> * เปลี่ยนชื่อแผนก ต้องกำหนดช่วงเวลาใหม่ *
+                                                                            </font>
+                                                                            </td>  
                                                                         </tr>
                                                                         <tr>
                                                                             <td>
