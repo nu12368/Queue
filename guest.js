@@ -367,10 +367,15 @@ function getcategoryview(refresh_token) {
                 }
 
                 console.log(_arr)
+
+        
                 var $select = $('#select_category');
                 $select.append('<option value=' + '0' + '>' + '-- เลือกแผนก --' + '</option>');
                 $.each(_arr, function (key, value) {
                     console.log(value)
+                    //  var datatime = JSON.stringify(value)
+                    //  $select.append(`<option>${value.category}</option>`);
+
                     if (value.intervalDifference != '') {
                         var datatime = JSON.stringify(value)
                         $select.append('<option value=' + datatime + '>' + value.category + '</option>');
@@ -443,6 +448,234 @@ function displyanone() {
     // document.getElementById('line2').style.display = 'none'
     // document.getElementById('line3').style.display = 'none'
 }
+
+function timeLimit(refresh_token, category, datainterDiff) {
+    return new Promise(resolve => {
+        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+            var urlipaddress = data.substring(1, data.length - 1);
+            axios.get(urlipaddress + 'timeLimit/' + _objectId, {
+                headers: {
+                    'Authorization': refresh_token
+                }
+            }).then(function (response) {
+                console.log(response.data.message.result)
+                for (const i in response.data.message.result) {
+                    if (response.data.message.result[i].category == category) {
+                        const interDiff = response.data.message.result[i].interDiff
+                        for (let f in interDiff) {
+                            if (f == datainterDiff) {
+                                // console.log(interDiff[f].limit)
+                                resolve(interDiff[f].limit)
+
+                            }
+                        }
+                    } else { }
+                }
+                resolve(0)
+                //   console.log(ar)
+            });
+        });
+    });
+}
+function getbookingQueue(refresh_token, dayOfBooking, category, proptime_) {
+    return new Promise(resolve => {
+        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+            var urlipaddress = data.substring(1, data.length - 1);
+
+            console.log(urlipaddress + 'getbookingQueue/' + _objectId + '?dayOfBooking=' + dayOfBooking + '&category=' + category)
+            axios.get(urlipaddress + 'getbookingQueue/' + _objectId + '?dayOfBooking=' + dayOfBooking + '&category=' + category, {
+                headers: {
+                    'Authorization': refresh_token
+                }
+            }).then(async function (response) {
+                console.log(response.data.message)
+                var q_limit;
+                console.log(proptime_)
+                if (proptime_ != '') {
+                    q_limit = await timeLimit(refresh_token, category, proptime_)
+                } else {
+                    q_limit = await timeLimit(refresh_token, category, document.getElementById("select_time").value)
+                }
+                console.log(q_limit)
+                var q_remain;
+                var respo = response.data.message.total
+                q_remain = parseInt(q_limit) - parseInt(respo)
+                if (q_limit != 0) {
+                    if (proptime_ != '') {//////บันทึก คิว
+                        resolve(q_remain);
+                    } else {///////ตรวจสอบ
+                        document.getElementById("q_totle").innerText = q_limit + ' คิว'
+                        document.getElementById("q_add").innerText = response.data.message.total + ' คิว'
+                        if (q_remain < 0 || q_remain == 0) {
+                            document.getElementById("q_remaining").innerText = 'เต็มแล้ว'
+                            document.getElementById("q_remaining").style.color = 'red'
+                        } else {
+                            document.getElementById("q_remaining").innerText = q_remain.toString() + ' คิว'
+                            document.getElementById("q_remaining").style.color = 'green'
+                        }
+                        // document.getElementById("q_remaining").innerText = q_remain.toString() + ' คิว'
+                        console.log(response.data.message.total)
+                        $("#StatusQueue").modal('show');
+                    }
+                } else {
+                    swal({
+                        title: 'ช่วงเวลา ' + document.getElementById("select_time").value + ' ไม่ได้กำหนดจำนวนคิว',
+                        text: '',
+                        type: "error",
+                    }, function (isConfirm) {
+                        swal("Cancelled", "Your imaginary file is safe :)", "error");
+                    });
+                }
+                resolve(q_remain);
+            }).catch(function (res) {
+                const { response } = res
+            });
+        });
+    });
+}
+
+
+
+function getbookingQueueToday(refresh_token, dayOfBooking, category, proptime_) {
+    return new Promise(resolve => {
+        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+            var urlipaddress = data.substring(1, data.length - 1);
+            console.log(urlipaddress + 'queue/' + _objectId + '?dayOfBooking=' + dayOfBooking + '&category=' + category)
+            axios.get(urlipaddress + 'queue/' + _objectId + '?dayOfBooking=' + dayOfBooking + '&category=' + category, {
+                headers: {
+                    'Authorization': refresh_token
+                }
+            }).then(async function (response) {
+                console.log(response.data.message)
+                var q_limit;
+                console.log(proptime_)
+                if (proptime_ != '') {
+                    q_limit = await timeLimit(refresh_token, category, proptime_)
+                } else {
+                    q_limit = await timeLimit(refresh_token, category, document.getElementById("select_time").value)
+                }
+                console.log(q_limit)
+                var q_remain;
+                var respo = response.data.message.total
+                q_remain = parseInt(q_limit) - parseInt(respo)
+                if (q_limit != 0) {
+                    if (proptime_ != '') {//////บันทึก คิว
+                        resolve(q_remain);
+                    } else {///////ตรวจสอบ
+                        document.getElementById("q_totle").innerText = q_limit + ' คิว'
+                        document.getElementById("q_add").innerText = response.data.message.total + ' คิว'
+
+                        if (q_remain < 0 || q_remain == 0) {
+                            document.getElementById("q_remaining").innerText = 'เต็มแล้ว'
+                            document.getElementById("q_remaining").style.color = 'red'
+                        } else {
+                            document.getElementById("q_remaining").innerText = q_remain.toString() + ' คิว'
+                            document.getElementById("q_remaining").style.color = 'green'
+                        }
+
+                        console.log(response.data.message.total)
+                        $("#StatusQueue").modal('show');
+                    }
+                } else {
+                    swal({
+                        title: 'ช่วงเวลา ' + document.getElementById("select_time").value + ' ไม่ได้กำหนดจำนวนคิว',
+                        text: '',
+                        type: "error",
+                    }, function (isConfirm) {
+                        swal("Cancelled", "Your imaginary file is safe :)", "error");
+                    });
+                }
+                resolve(q_remain);
+            }).catch(function (res) {
+                const { response } = res
+            });
+        });
+    });
+}
+
+
+function getadvt(refresh_token) {
+    console.log(refresh_token)
+    var n = 0;
+    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        var urlipaddress = data.substring(1, data.length - 1);
+
+        axios.get(urlipaddress + 'advt/' + _objectId, {
+            headers: {
+                'Authorization': refresh_token
+            }
+        }).then(function (response) {
+            console.log(response.data.message.result.length)
+            if (response.data.message.result.length == 0) {
+                document.getElementById('div_adv').style.display = 'none'
+                return
+            }
+            var _arr = new Array();
+            // $("#carousel-example-generic_2").empty();
+            $(".carousel-indicators").append(`
+                <li data-target="#carousel-example-generic_2" data-slide-to="0" class="active"></li>
+            `);
+            var _n_slide = 1
+            for (const i in response.data.message.result[0].imageAdvt) {
+                console.log(response.data.message.result[0].imageAdvt[i])
+                axios.get(urlipaddress + "files/advt/" + response.data.message.result[0].imageAdvt[i], {
+                    responseType: 'arraybuffer',
+                    headers: {
+                        'Authorization': refresh_token
+                    }
+                }).then(function (response) {
+                    console.log(response.data)
+                    var arrayBuffer = response.data; // Note: not oReq.responseText
+                    var u8 = new Uint8Array(arrayBuffer);
+                    var b64encoded = btoa(String.fromCharCode.apply(null, u8));
+                    var mimetype = "image/png"; // or whatever your image mime type is
+
+                    if (_n_slide == 1) {
+                        $(".carousel-indicators").append(`
+                            <li data-target="#carousel-example-generic_2" data-slide-to="${_n_slide}"></li>
+                            `);
+                        $(".carousel-inner").append(`
+                            <div class="item active">
+                                <img src="${"data:" + mimetype + ";base64," + b64encoded}" />
+                            </div>
+                            `);
+                    } else {
+
+                        $(".carousel-indicators").append(`
+                        <li data-target="#carousel-example-generic_2" data-slide-to="${_n_slide}"></li>
+                        `);
+                        $(".carousel-inner").append(`
+                        <div class="item">
+                            <img src="${"data:" + mimetype + ";base64," + b64encoded}"/>
+                        </div>
+                        `);
+                    }
+                    _n_slide = _n_slide + 1
+
+                });
+            }
+            //     $("#carousel-example-generic_2").append(`
+            //     <a class="left carousel-control" href="#carousel-example-generic_2"
+            //     role="button" data-slide="prev">
+            //     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            //     <span class="sr-only">Previous</span>
+            // </a>
+            // <a class="right carousel-control" href="#carousel-example-generic_2"
+            //     role="button" data-slide="next">
+            //     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            //     <span class="sr-only">Next</span>
+            // </a>
+            //     `);
+
+
+        }).catch(function (res) {
+            const { response } = res
+        });
+    });
+}
+
+
+
 var add_queue_result;
 $(async function () {
 
@@ -575,6 +808,10 @@ $(async function () {
 
                 await getqrcode(result, nameqr);
 
+
+                await getadvt(result)
+
+
             } catch (err) {
                 throw err.response.data.message;
             }
@@ -582,29 +819,35 @@ $(async function () {
         authGuest();
 
         $('#submitaddqueue').on('click', async function (e) {
+
+            var obj = JSON.parse(Cookies.get('refresh_tokenOnline'));
+            var userId = JSON.parse(Cookies.get('dataUserOnline'));
+            var _objectId_online = Cookies.get('_objectIdOnline');
+
+            const result_online = await acctoken(obj.refresh_token);
+
             var timeStart = document.getElementById('datequeue').value.split('/');
             var newdate = await dateToday()
             timeStart = timeStart[0].replace('-', '/').replace('-', '/')
-            //            console.log(timeStart)
-            // console.log(newdate)
+            //   console.log(timeStart.replace('/', '').replace('/', ''))
+            //  console.log(newdate)
             var _checkdate = dayjs(newdate).isSame(timeStart)
-            console.log(_checkdate)
+            //console.log(_checkdate)
+            console.log(document.getElementById("proptime").value)
 
-
-            if (_checkdate == true) {  ///////////////////////////////////// จอนออนไลน์  วันนี้
-                var obj = JSON.parse(Cookies.get('refresh_tokenOnline'));
-                var userId = JSON.parse(Cookies.get('dataUserOnline'));
-                var _objectId_online = Cookies.get('_objectIdOnline');
-
-                const result_online = await acctoken(obj.refresh_token);
-
-                var select_category = document.getElementById("qr_category").value
-                var post_catery;
-                for (i = 0; i < _category.length; i++) {
-                    if (select_category == _category[i].category) {
-                        post_catery = _category[i];
-                    }
+            var select_category = document.getElementById("qr_category").value
+            var post_catery;
+            for (i = 0; i < _category.length; i++) {
+                if (select_category == _category[i].category) {
+                    post_catery = _category[i];
                 }
+            }
+
+
+
+
+            //if (status_queue != 0) {
+            if (_checkdate == true) {  ///////////////////////////////////// จอนออนไลน์  วันนี้
                 const socket = io(urlipaddress);
                 socket.emit('addQueue', { addQueue: 'Updated' });
                 const dataaddQueue = {
@@ -613,14 +856,44 @@ $(async function () {
                     tel: document.getElementById("tel").value,
                     name: document.getElementById("username").value,
                 }
+
+                var dayOfBooking = document.getElementById('datequeue').value.replace('-', '').replace('-', '')
+                var status_queue = await getbookingQueueToday(result_online, dayOfBooking, post_catery.category, document.getElementById("proptime").value)
+
+                console.log(document.getElementById("proptime").value)
+                console.log(status_queue)
+                if (status_queue == 0 || status_queue < 0) {
+                    if (document.getElementById("proptime").value != '0') {
+                        showCancelMessage_queue('คิวเต็มแล้ว', '')
+                        return;
+                    }
+
+                }
+
                 axios.post(urlipaddress + 'addQueue/' + _objectId_online, dataaddQueue, {
                     headers: {
                         'Authorization': result_online
                     }
                 }).then(async function (response) {
                     if (response.data.message.status == "Successful") {
-                        document.getElementById('q_day').innerHTML = '<b>วัน/เวลา </b> ' + document.getElementById('_time').innerHTML
-                        document.getElementById('q_no').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  คิวที่ No. ' + response.data.message.queue
+                        // document.getElementById('q_day').innerHTML = '<b>วัน/เวลา </b> ' + document.getElementById('_time').innerHTML.replace('วันที่ : ', '')
+                        // document.getElementById('q_no').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  คิวที่ No. ' + response.data.message.queue
+                        document.getElementById('dayOfBooking').style.display = 'none'
+                        if (document.getElementById("proptime").value == '0') {
+                            console.log('--------------------')
+                            document.getElementById('q_day').innerHTML = '<b>วัน/เวลา </b> ' + document.getElementById('_time').innerHTML.replace('วันที่ : ', '')
+                            // document.getElementById('dayOfBooking').innerHTML = '<b>วันที่จองล่วงหน้า </b> ' + timeStart
+                            document.getElementById('timeOfBooking').innerHTML = '<b>จองช่วงเวลา </b> ' + '-'
+                            document.getElementById('q_no').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  คิวที่ No. ' + response.data.message.queue
+                        } else {
+                            console.log('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
+                            document.getElementById('q_day').innerHTML = '<b>วัน/เวลา </b> ' + document.getElementById('_time').innerHTML.replace('วันที่ : ', '') + '<br>'
+                            // document.getElementById('dayOfBooking').innerHTML = '<b>วันที่จองล่วงหน้า </b> ' + timeStart
+                            document.getElementById('timeOfBooking').innerHTML = '<b>จองช่วงเวลา </b> ' + document.getElementById("proptime").value
+
+                            document.getElementById('q_no').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  คิวที่ No. ' + response.data.message.queue
+                        }
+
 
                         $("#_viewlog").show();
                         html2canvas($("#createImg"), {
@@ -642,16 +915,111 @@ $(async function () {
 
                 _checkdate = dayjs(timeStart).isAfter(newdate)
                 console.log(_checkdate)
-
-
                 ////////////////// จองล่วงหน้า
                 if (_checkdate == true) {
-                    showCancelMessage_queue('ระบบยังไม่เปิดให้จองคิวล่วงหน้า', 'ระบบกำลังปรับปรุงการจองคิวล่างหน้า')
+                    //showCancelMessage_queue('ระบบยังไม่เปิดให้จองคิวล่วงหน้า', 'ระบบกำลังปรับปรุงการจองคิวล่างหน้า')
+
+                    // var obj = JSON.parse(Cookies.get('refresh_tokenOnline'));
+                    // var userId = JSON.parse(Cookies.get('dataUserOnline'));
+                    // var _objectId_online = Cookies.get('_objectIdOnline');
+                    // const result_online = await acctoken(obj.refresh_token);
+
+                    // var select_category = document.getElementById("qr_category").value
+                    // var post_catery;
+                    // for (i = 0; i < _category.length; i++) {
+                    //     if (select_category == _category[i].category) {
+                    //         post_catery = _category[i];
+                    //     }
+                    // }
+
+                    /////// เช็ค คิว ก่อน ว่า ว่างไม่ว่าง
+                    var dayOfBooking = document.getElementById('datequeue').value.replace('-', '').replace('-', '')
+                    var status_queue = await getbookingQueue(result_online, dayOfBooking, post_catery.category, document.getElementById("proptime").value)
+
+                    console.log(document.getElementById("proptime").value)
+                    console.log(status_queue)
+                    if (status_queue == 0 || status_queue < 0) {
+                        if (document.getElementById("proptime").value != '0') {
+                            showCancelMessage_queue('คิวเต็มแล้ว', '')
+                            return;
+                        }
+
+                    }
+                    var dataaddQueue;
+                    if (document.getElementById("proptime").value == '0') {
+                        dataaddQueue = {
+                            uId: userId.uId,
+                            values: post_catery.category,
+                            tel: document.getElementById("tel").value,
+                            name: document.getElementById("username").value,
+                            vehicleNumber: document.getElementById("vehicleNumber").value,
+                            dayOfBooking: timeStart.replace('/', '').replace('/', ''),
+                            timeOfBooking: '',
+                        }
+                    } else {
+                        dataaddQueue = {
+                            uId: userId.uId,
+                            values: post_catery.category,
+                            tel: document.getElementById("tel").value,
+                            name: document.getElementById("username").value,
+                            vehicleNumber: document.getElementById("vehicleNumber").value,
+                            dayOfBooking: timeStart.replace('/', '').replace('/', ''),
+                            timeOfBooking: document.getElementById("proptime").value,
+                        }
+                    }
+
+
+                    console.log(dataaddQueue)
+
+                    axios.post(urlipaddress + 'addBookingQueue/' + _objectId_online, dataaddQueue, {
+                        headers: {
+                            'Authorization': result_online
+                        }
+                    }).then(async function (response) {
+                        console.log(response.data.message.status)
+                        if (response.data.message.status == "Successful") {
+
+                            if (document.getElementById("proptime").value == '0') {
+                                console.log('--------------------')
+                                document.getElementById('q_day').innerHTML = '<b>วัน/เวลา </b> ' + document.getElementById('_time').innerHTML.replace('วันที่ : ', '')
+                                document.getElementById('dayOfBooking').innerHTML = '<b>วันที่จองล่วงหน้า </b> ' + timeStart
+                                document.getElementById('timeOfBooking').innerHTML = '<b>จองช่วงเวลา </b> ' + '-'
+
+                                document.getElementById('q_no').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  คิวที่ No. ' + response.data.message.queue
+                            } else {
+                                console.log('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
+                                document.getElementById('q_day').innerHTML = '<b>วัน/เวลา </b> ' + document.getElementById('_time').innerHTML.replace('วันที่ : ', '') + '<br>'
+                                document.getElementById('dayOfBooking').innerHTML = '<b>วันที่จองล่วงหน้า </b> ' + timeStart
+                                document.getElementById('timeOfBooking').innerHTML = '<b>จองช่วงเวลา </b> ' + document.getElementById("proptime").value
+
+                                document.getElementById('q_no').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  คิวที่ No. ' + response.data.message.queue
+                            }
+
+                            $("#_viewlog").show();
+                            html2canvas($("#createImg"), {
+                                onrendered: function (canvas) {
+                                    var imgsrc = canvas.toDataURL("image/png");
+                                    $("#img").show();
+                                }
+                            });
+                            displyanone()
+                            await showSuccessMessage_queue('จองคิวสำเร็จ', '')
+
+                        }
+                    }).catch(function (res) {
+                        const { response } = res
+                        console.log(response.data.message)
+                        showCancelMessage_queue(response.data.message, '')
+                    });
                 } else {
                     showCancelMessage_queue('เลยเวลาจอง', '')
                 }
-
             }
+            //} else {
+            //     showCancelMessage_queue('คิวเต็มแล้ว', '')
+            // }
+
+
 
 
 
@@ -780,24 +1148,24 @@ $(async function () {
 
         $('#qr_category').on('change', async function () {
             propcategory = document.getElementById("qr_category").value
-          //  console.log(propcategory)
-        var prop = await getProp(result, propcategory)
-         console.log(prop)
-          // console.log(propcategory)
-          $('#proptime').empty();
-          var $select = $('#proptime');
-          $select.append('<option value=' + '0' + '>' + '-- เลือกช่วงเวลา --' + '</option>');
-          $.each(prop.intervalDifference, function (key, value) {
-              console.log(value)
-              if (value.intervalDifference != '') {
-                  //var datatime = JSON.stringify(value)
-                 $select.append('<option value=' + value + '>' + value + '</option>');
-                //   var datatime = JSON.stringify(value)
-                //   $select.append('<option value=' + datatime + '>' + value.category + '</option>');
-              }
-  
-          });
-     });
+            //  console.log(propcategory)
+            var prop = await getProp(result, propcategory)
+            console.log(prop)
+            // console.log(propcategory)
+            $('#proptime').empty();
+            var $select = $('#proptime');
+            $select.append('<option value=' + '0' + '>' + '-- เลือกช่วงเวลา --' + '</option>');
+            $.each(prop.intervalDifference, function (key, value) {
+                console.log(value)
+                if (value.intervalDifference != '') {
+                    //var datatime = JSON.stringify(value)
+                    $select.append('<option value=' + value + '>' + value + '</option>');
+                    //   var datatime = JSON.stringify(value)
+                    //   $select.append('<option value=' + datatime + '>' + value.category + '</option>');
+                }
+
+            });
+        });
     });
     function showCancelMessage_queue(title, text) {
         swal({
@@ -880,8 +1248,11 @@ $(async function () {
 
     var propcategory
     var proptime
-    $('#select_category').on('change', function () {
+    $('#select_category').on('change', async function () {
+        //  try {
         propcategory = JSON.parse(document.getElementById("select_category").value)
+
+
         $('#select_time').empty();
         var $select = $('#select_time');
         $select.append('<option value=' + '0' + '>' + '-- เลือกช่วงเวลา --' + '</option>');
@@ -895,12 +1266,37 @@ $(async function () {
         });
     });
 
-    
-    $('#CheckQueue').on('click', async function () {
-        // $('#StatusQueue').empty();
-        // $('#StatusQueue').Modal();
-        $("#StatusQueue").modal('show');
 
+    $('#CheckQueue').on('click', async function () {
+
+        console.log(document.getElementById('select_category').value)
+        var select_category = document.getElementById('select_category').value;
+        select_category = JSON.parse(select_category)
+        console.log(select_category)
+        var dayOfBooking = document.getElementById('datequeue_Check').value.replace('-', '').replace('-', '')
+        var today = new Date();
+        var n_date = today.toISOString();
+        let date = new Date(n_date);
+        let options = { hour12: false };
+        var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+        var chk_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+        chk_date = chk_date.split(' ')
+        chk_date = chk_date[0].split('/')
+        var datenew = chk_date[2] + '/' + chk_date[0] + '/' + chk_date[1]
+        console.log(datenew)
+        var dateselect = document.getElementById('datequeue_Check').value.replace('-', '/').replace('-', '/')
+        console.log(dateselect)
+        var _checkdate = dayjs(dateselect).isAfter(datenew)
+        if (_checkdate == true) {
+            await getbookingQueue(result, dayOfBooking, select_category.category, '')
+        } else {
+            _checkdate = dayjs(dateselect).isSame(datenew)
+            if (_checkdate == true) {
+                await getbookingQueue(result, dayOfBooking, select_category.category, '')
+            } else {
+                showCancelMessage_queue('เลยเวลาจอง', '')
+            }
+        }
     });
 
 

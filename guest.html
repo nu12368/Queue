@@ -112,7 +112,7 @@
     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
-        <!-- <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script> -->
+    <!-- <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script> -->
 
 </head>
 <link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet' type='text/css'>
@@ -231,17 +231,17 @@
                                     <div class="card">
 
                                         <div class="body">
-                                            <div class="row clearfix" >
-                                            
+                                            <div class="row clearfix">
+
                                                 <div class="col-md-6">
-                                                     <div class="input-group colorpicker">
-                                                      <input type="button" value="จองคิวออนไลน์"
+                                                    <div class="input-group colorpicker">
+                                                        <input type="button" value="จองคิวออนไลน์"
                                                             onclick="modalLogin()" class="btn btn-primary waves-effect"
                                                             style="height: 50px;  width: 210px;  font-size: 24px;"
                                                             id="submit_q_login" class="primary" />
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="col-md-6">
                                                     <div class="input-group colorpicker">
                                                         <input type="button" value="ตรวจสอบสถานะคิว"
@@ -320,6 +320,13 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
+                                                            <div id='line3' class="form-line">
+                                                                <input type="text" class="form-control"
+                                                                    name="vehicleNumber" id="vehicleNumber" value=""
+                                                                    autocomplete="off" placeholder="ทะเบียนรถ" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
                                                             <input type="button" value="จองคิว"
                                                                 class="btn btn-primary waves-effect" id="submitaddqueue"
                                                                 class="primary" />
@@ -375,6 +382,10 @@
                                                                         <p id="q_category">
                                                                         </p>
                                                                         <p id="q_day">
+                                                                        </p>
+                                                                        <p id="dayOfBooking">
+                                                                        </p>
+                                                                        <p id="timeOfBooking">
                                                                         </p>
                                                                         <hr />
                                                                         <div style="text-align:center;">
@@ -457,13 +468,13 @@
                                     <div class="modal-content ">
                                         <div class="">
                                             <div id="div_login">
-                                                <div class="modal-header"  style="text-align: center;">
+                                                <div class="modal-header" style="text-align: center;">
                                                     <h5 class="modal-title" id="exampleModalCenterTitle"
-                                                        style="text-align: center;">เข้าสู่ระบบสำหรับสมาชิก</h5> 
-                                                        <br>
-                                                     
+                                                        style="text-align: center;">เข้าสู่ระบบสำหรับสมาชิก</h5>
+                                                    <br>
+
                                                 </div>
-                                              
+
                                                 <table align="center">
                                                     <tr>
                                                         <td style="text-align: right;"> <i class="material-icons">person
@@ -481,8 +492,9 @@
                                                     <tr>
                                                         <td></td>
                                                         <td style="font-size: 11px; text-align: center; border: none;">
-                                                              <p style="color: red;"> เข้าสู่ระบบด้วยหมายเลขโทรศัพท์ ไม่ต้องระบุรหัสผ่าน</p>
-                                                                <!-- <p style="color: red;"> ไม่ต้องระบุรหัสผ่าน </p> -->
+                                                            <p style="color: red;"> เข้าสู่ระบบด้วยหมายเลขโทรศัพท์
+                                                                ไม่ต้องระบุรหัสผ่าน</p>
+                                                            <!-- <p style="color: red;"> ไม่ต้องระบุรหัสผ่าน </p> -->
                                                         </td>
                                                         <td></td>
                                                         <td>&nbsp;</td>
@@ -509,6 +521,13 @@
                                                                     //   $("#exampleModalCenterImage").modal('show');
                                                                     document.getElementById('div_login').style.display = 'block'
                                                                     document.getElementById('div_register').style.display = 'none'
+                                                                    document.getElementById('tr1').style.display = 'block'
+                                                                    document.getElementById('tr2').style.display = 'block'
+                                                                    document.getElementById('tr3').style.display = 'block'
+                                                                    document.getElementById('tr44').style.display = 'block'
+                                                                    document.getElementById('td_phone').style.display = 'none'
+                                                                    
+                                                                    document.getElementById('td_person').style.display = 'block'
                                                                 }
 
                                                                 function regis_phone() {
@@ -518,9 +537,10 @@
                                                                     document.getElementById('tr1').style.display = 'none'
                                                                     document.getElementById('tr2').style.display = 'none'
                                                                     document.getElementById('tr3').style.display = 'none'
-                                                                    document.getElementById('tr4').style.display = 'none'
-                                                                    document.getElementById('tr5').style.display = 'none'
-                                                                    document.getElementById('tr6').style.display = 'none'
+                                                                    document.getElementById('tr11').style.display = 'none'
+                                                                    document.getElementById('tr22').style.display = 'none'
+                                                                    document.getElementById('tr33').style.display = 'none'
+                                                                    document.getElementById('tr44').style.display = 'block'
                                                                     document.getElementById('td_person').style.display = 'none'
                                                                     document.getElementById('td_phone').style.display = 'block'
                                                                     document.getElementById('div_login').style.display = 'none'
@@ -533,7 +553,7 @@
                                                                 onclick="SUBMITLOGIN()" name="login"
                                                                 style="cursor: pointer;">
 
-                                                          
+
                                                             <p id="adminlogin" style="color: red; font-size: 18px;"></p>
                                                             <input type="hidden" id="objid">
                                                             <input type="hidden" id="accesstoken">
@@ -553,7 +573,7 @@
                                                                             class="fa fa-phone fa-fw">
                                                                         </i> ลงทะเบียนด้วยหมายเลขโทรศัพท์
                                                                     </a>
-                                                                    <br>
+                                                                    <!-- <br>
                                                                     <i class='fab fa-line' style='font-size:24px'></i>
                                                                     <a href="#" style="width: 300px;" class="fab btn">
 
@@ -572,7 +592,7 @@
                                                                         class="google btn"><i
                                                                             class="fa fa-google fa-fw">
                                                                         </i> ดำเนินการเชื่อมต่อด้วย Google+
-                                                                    </a>
+                                                                    </a> -->
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -596,7 +616,7 @@
                                                                     return;
                                                                 }
 
-                                                                if(document.getElementById("member_login_pass").value != "" && document.getElementById("member_login_user").value == ""){
+                                                                if (document.getElementById("member_login_pass").value != "" && document.getElementById("member_login_user").value == "") {
                                                                     document.getElementById("lbCheck").innerText = "กรุณากรอก USER ID และ PASSWORD";
                                                                     return;
                                                                 }
@@ -604,18 +624,18 @@
                                                                 $.getScript("ip.js", function (data, textStatus, jqxhr) {
                                                                     var urlipaddress = data.substring(1, data.length - 1);
                                                                     var dataUser;
-                                                                    if(document.getElementById("member_login_pass").value == "" && document.getElementById("member_login_user").value != ""){
+                                                                    if (document.getElementById("member_login_pass").value == "" && document.getElementById("member_login_user").value != "") {
                                                                         dataUser = {
-                                                                        username: document.getElementById("member_login_user").value,
-                                                                        password: document.getElementById("member_login_user").value,
-                                                                    }
-                                                                    }else{
+                                                                            username: document.getElementById("member_login_user").value,
+                                                                            password: document.getElementById("member_login_user").value,
+                                                                        }
+                                                                    } else {
                                                                         dataUser = {
-                                                                        username: document.getElementById("member_login_user").value,
-                                                                        password: document.getElementById("member_login_pass").value,
+                                                                            username: document.getElementById("member_login_user").value,
+                                                                            password: document.getElementById("member_login_pass").value,
+                                                                        }
                                                                     }
-                                                                    }
-                                                                   
+
 
                                                                     axios.post(urlipaddress + 'login', dataUser).then(function (response) {
                                                                         //  console.log(response.data.message.refresh_token)
@@ -711,7 +731,7 @@
                                             </div>
 
 
-                                            <div id="div_register">
+                                            <div id="div_register" style="text-align: center;">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="" style="text-align: center;">
                                                         ลงทะเบียนสำหรับสมาชิกใหม่
@@ -719,80 +739,117 @@
 
                                                 </div>
                                                 <br>
-                                                <table align="center">
-                                                    <tr>
-                                                        <td id="td_person" style="text-align: right;"> <i
-                                                                class="material-icons">person
-                                                            </i> &nbsp;
-                                                        </td>
-                                                        <td id="td_phone" style="text-align: right; display: none;"> <i
-                                                                class="material-icons">phone
-                                                            </i> &nbsp;
-                                                        </td>
-                                                        <td> <input type="text" id="member_register_user" required
-                                                                autofocus name="member_register_user"
-                                                                class="form-control" placeholder="" value="">
-
-                                                        </td>
-                                                        <td></td>
-                                                        <td>&nbsp;</td>
-                                                    </tr>
-                                                    <tr id='tr1'>
-                                                        <td>
-                                                            <div>&nbsp;</div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id='tr2'>
-                                                        <td> <i class="material-icons">lock</i></td>
-                                                        <td><input type="password" name="member_register_pass" required
-                                                                autofocus class="form-control" placeholder="รหัสผ่าน"
+                                                <div  class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <table >
+                                                        <tr>
+                                                            <td>
+                                                                <i id="td_person" class="material-icons">person </i>
+                                                              
+                                                                <i id="td_phone" style="display: none;"
+                                                                    class="material-icons">phone</i>
+                                                                   
+                                                            </td>
+                                                            <td>
+                                                                <input type="text"
+                                                                id="member_register_user" required autofocus
+                                                                name="member_register_user" class="form-control" placeholder=""
+                                                                value="">
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                
+                                                </div>
+                                                <div  id='tr11'>&nbsp;</div>
+                                                <div id='tr1' class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <i class="material-icons">lock </i> 
+                                                            <td>
+                                                                <input type="password"
+                                                                name="member_register_pass" required autofocus
+                                                                class="form-control" placeholder="รหัสผ่าน"
                                                                 id="member_register_pass" value="" />
-                                                        </td>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                              
+                                                </div>
 
-                                                    </tr>
-                                                    <tr id='tr3'>
-                                                        <td>
-                                                            <div>&nbsp;</div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id='tr4'>
-                                                        <td> <i class="material-icons">lock</i></td>
-                                                        <td><input type="password" name="member_register_pass_confirm"
-                                                                required autofocus class="form-control"
-                                                                placeholder="ยืนยันรหัสผ่าน"
+                                                <div  id='tr22'>&nbsp;</div>
+                                                <div id='tr2' class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <i class="material-icons">lock </i> 
+                                                            </td>
+                                                            <td>
+                                                                <input type="password"
+                                                                name="member_register_pass_confirm" required autofocus
+                                                                class="form-control" placeholder="ยืนยันรหัสผ่าน"
                                                                 id="member_register_pass_confirm" value="" />
-                                                        </td>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
 
-                                                    </tr>
-                                                    <tr id='tr5'>
-                                                        <td>
-                                                            <div>&nbsp;</div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id='tr6'>
-                                                        <td> <i class="material-icons">phone</i></td>
-                                                        <td><input type="tel" name="member_register_phone" required
-                                                                autofocus class="form-control" placeholder="เบอร์โทร"
+                                           
+                                                </div>
+                                                <div  id='tr33'>&nbsp;</div>
+                                                <div id='tr3' class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <i class="material-icons">phone </i> 
+                                                            </td>
+                                                         
+                                                            <td>
+                                                                <input type="tel"
+                                                                name="member_register_phone" required autofocus
+                                                                class="form-control" placeholder="เบอร์โทร"
                                                                 id="member_register_phone" value="" />
-                                                        </td>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div id='tr44'>&nbsp;</div>
+                                                <div  class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                              
+                                                            </td>
+                                                         
+                                                            <td>
+                                                                <input type="button" value="ลงทะเบียนสำหรับสมาชิกใหม่"
+                                                                class="btn btn-block bg-pink waves-effect"
+                                                                id="Submitmember_register" name="login"
+                                                                style="cursor: pointer;">
 
-                                                    </tr>
+                                                                <div class="row m-t-15 m-b--20">
+                                                                    <div class="col-xs-12">
+                                                                        <a style="text-align: right; cursor: pointer;"
+                                                                            onclick="login()">เข้าสู่ระบบสำหรับสมาชิก</a>
+                                                                    </div>
+                                                                </div>
+
+                                                                <input type="hidden" id="check_register">
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+
+                                                <table align="center">
+
                                                     <tr>
                                                         <td></td>
                                                         <td>
                                                             <br>
-                                                            <input type="button" value="ลงทะเบียนสำหรับสมาชิกใหม่"
-                                                                class="btn btn-block bg-pink waves-effect"
-                                                                id="Submitmember_register" name="login"
-                                                                style="cursor: pointer;">
-                                                            <div class="row m-t-15 m-b--20">
-                                                                <div class="col-xs-12">
-                                                                    <a style="text-align: right; cursor: pointer;"
-                                                                        onclick="login()">เข้าสู่ระบบสำหรับสมาชิก</a>
-                                                                </div>
-                                                            </div>
+                                                           
+                                                       
                                                             <div>&nbsp;</div>
-                                                            <input type="hidden" id="check_register">
+                                                          
                                                         </td>
                                                     </tr>
 
@@ -822,50 +879,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row clearfix">
-
+                    <div class="row clearfix" id="div_adv">
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="card">
                                 <div class="header">
                                     <h2>โฆษณา</h2>
-
                                 </div>
                                 <div class="body">
                                     <div id="carousel-example-generic_2" class="carousel slide" data-ride="carousel">
-                                        <!-- Indicators -->
-                                        <ol class="carousel-indicators">
-                                            <li data-target="#carousel-example-generic_2" data-slide-to="0"
-                                                class="active"></li>
-                                            <li data-target="#carousel-example-generic_2" data-slide-to="1"></li>
-                                            <li data-target="#carousel-example-generic_2" data-slide-to="2"></li>
-                                        </ol>
-                                        <!-- Wrapper for slides -->
-                                        <div class="carousel-inner" role="listbox">
-                                            <div class="item active">
-                                                <img src="../../images/image-gallery/19.jpg" />
-                                                <div class="carousel-caption">
-                                                    <a style="color: white;"
-                                                        href="https://www.wacinfotech.com/index.html">ข้อมูลเพิ่มเติม</a>
-                                                    <!-- <h3></h3> -->
-                                                    <!-- <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p> -->
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <img src="../../images/image-gallery/12.jpg" />
-                                                <div class="carousel-caption">
-                                                    <!-- <h3>Second slide label</h3>
-                                                    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p> -->
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <img src="../../images/image-gallery/10.jpg" />
-                                                <div class="carousel-caption">
-                                                    <!-- <h3>Third slide label</h3>
-                                                    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p> -->
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Controls -->
+                                        <ol class="carousel-indicators"></ol>
+                                        <div class="carousel-inner" role="listbox"></div>
                                         <a class="left carousel-control" href="#carousel-example-generic_2"
                                             role="button" data-slide="prev">
                                             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -962,17 +985,17 @@
                                         <div class="col-sm-12">
                                             <div class="form-group form-float">
                                                 <h5>ทั้งหมด</h5>
-                                                <h3 style="color: blue;">200 คิว</h3>
+                                                <h3 style="color: blue;" id="q_totle"></h3>
                                             </div>
                                             <hr>
                                             <div class="form-group form-float">
                                                 <h5>จองแล้ว</h5>
-                                                <h3 style="color: orangered;">100 คิว</h3>
+                                                <h3 style="color: orangered;" id="q_add"></h3>
                                             </div>
                                             <hr>
                                             <div class="form-group form-float">
                                                 <h5>คงเหลือ</h5>
-                                                <h3 style="color: green;">100 คิว</h3>
+                                                <h3 style="color: green;" id="q_remaining"></h3>
                                             </div>
                                             <hr>
                                         </div>

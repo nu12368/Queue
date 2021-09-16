@@ -77,7 +77,6 @@ $(async function () {
         return;
     };
 
-
     function resize(item) {
         //define the width to resize e.g 600px
         var resize_width = 600;//without px
@@ -134,11 +133,6 @@ $(async function () {
             }
         }
     }
-
-
-
-
-
 
     var namefile;
     var typename;
@@ -261,10 +255,6 @@ $(async function () {
         reader.readAsArrayBuffer(file);
     }
 
-
-
-
-
     ///////// ลบรูปภาพ
     $('#EditaddImage').on('click', 'i.delete_cc', function (e) {
         var remove_index = $(this).attr("name");
@@ -280,6 +270,28 @@ $(async function () {
     var data;
     $.getScript("ip.js", function (dataipaddress, textStatus, jqxhr) {
         var urlipad = dataipaddress.substring(1, dataipaddress.length - 1);
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         $('#table_supplies').on('click', 'i.view_edit', function (e) {
             e.preventDefault();
             $("#EditaddImage").empty();

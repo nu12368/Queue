@@ -69,9 +69,9 @@ async function getcategoryview(refresh_token) {
 
                 for (i = 0; i < category.length; i++) {
                     var prop = await getProp(refresh_token, response.data.message.category[i].category)
-
+                    console.log(prop)
                     if (prop.intervalDifference != undefined) {
-                        console.log(prop)
+
                         _arr[n] = {
                             _num: num,
                             DPTCODE: response.data.message.category[i].DPTCODE,
@@ -184,6 +184,44 @@ async function getcategoryview(refresh_token) {
     });
 }
 
+var datebooking;;
+function timeLimit(refresh_token, category, datainterDiff) {
+    return new Promise(resolve => {
+        $.getScript("ip.js", function (data, textStatus, jqxhr) {
+            var urlipaddress = data.substring(1, data.length - 1);
+            axios.get(urlipaddress + 'timeLimit/' + _objectId + '?_limit=100', {
+                headers: {
+                    'Authorization': refresh_token
+                }
+            }).then(function (response) {
+                console.log(response.data.message.result)
+                for (const i in response.data.message.result) {
+
+                    if (response.data.message.result[i].category == category) {
+
+                        const interDiff = response.data.message.result[i].interDiff
+
+
+                        for (let f in interDiff) {
+                            if (f == datainterDiff) {
+                                let date = new Date(response.data.message.result[i].bookingDate);
+                                let options = { hour12: false };
+                                var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+                                var _s = sp[2].split(' ')
+                                console.log(_s)
+                                datebooking = _s[0] + sp[0].padStart(2, '0') + sp[1].padStart(2, '0')
+                                console.log(interDiff[f])
+                                resolve(interDiff[f])
+                            }
+                        }
+                    } else { }
+                }
+                resolve(0)
+                //   console.log(ar)
+            });
+        });
+    });
+}
 
 $(async function () {
     const result = await acctoken();
@@ -230,7 +268,7 @@ $(async function () {
         if (data == undefined) {
             data = table.row(this).data();
         }
-        console.log(data.category)
+        console.log(data)
         var prop = await getProp(result, data.category)
         console.log(prop.intervalDifference)
 
@@ -243,16 +281,27 @@ $(async function () {
         $('#addagendar').modal();
         var _arrtime = new Array();
         for (const i in prop.intervalDifference) {
+            console.log(prop.intervalDifference)
             var limit = await timeLimit(result, data.category, prop.intervalDifference[i])
             console.log(limit)
-            _arrtime[i] = {
-                time: prop.intervalDifference[i],
-                category: data.category,
-                limit: limit
+            if (limit == '0') {
+                _arrtime[i] = {
+                    time: prop.intervalDifference[i],
+                    category: data.category,
+                    limit: '0'
+                }
+            } else {
+                _arrtime[i] = {
+                    time: prop.intervalDifference[i],
+                    category: data.category,
+                    limit: limit.limit
+
+                }
             }
+
             //}
         }
-        console.log(_arrtime)
+        console.log(datebooking)
         $('#table1_time').DataTable().destroy();
         var table = $('#table1_time').DataTable({
             "pageLength": 25,
@@ -301,7 +350,7 @@ $(async function () {
         if (data == undefined) {
             data = table.row(this).data();
         }
-        console.log(data.category)
+        console.log(data)
         document.getElementById('category_list_update').innerText = 'แผนก : ' + data.category
         // var hr = document.getElementById('starthours').value
         // var mi = document.getElementById('startminutes').value
@@ -326,44 +375,28 @@ $(async function () {
             showCancelMessagecategory('กรุณาเลือกช่วงเวลา', '')
         }
     });
-    function timeLimit(refresh_token, category, datainterDiff) {
-        return new Promise(resolve => {
-            $.getScript("ip.js", function (data, textStatus, jqxhr) {
-                var urlipaddress = data.substring(1, data.length - 1);
-                axios.get(urlipaddress + 'timeLimit/' + _objectId, {
-                    headers: {
-                        'Authorization': refresh_token
-                    }
-                }).then(function (response) {
-                    console.log(response.data.message.result)
-                    for (const i in response.data.message.result) {
-                        if (response.data.message.result[i].category == category) {
-                            const interDiff = response.data.message.result[i].interDiff
-                            for (let f in interDiff) {
-                                if (f == datainterDiff) {
-                                    // console.log(interDiff[f].limit)
-                                    resolve(interDiff[f].limit)
-
-                                }
-                            }
-                        } else { }
-                    }
-                    resolve(0)
-                    //   console.log(ar)
-                });
-            });
-        });
-    }
 
 
 
     ////////////////////////// กำหนดจำนวนคิว
     $('#submitsettime').on('click', async function (e) {
-        var date = new Date()
-        mnth = ("0" + (date.getMonth() + 1)).slice(-2),
-            day = ("0" + date.getDate()).slice(-2);
 
-        var daypost = date.getFullYear() + mnth + day
+        if (datebooking == undefined) {
+            var date = new Date()
+            mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+                day = ("0" + date.getDate()).slice(-2);
+
+            var daypost = date.getFullYear() + mnth + day
+
+            datebooking = daypost
+        }
+        // var date = new Date()
+        // mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+        //     day = ("0" + date.getDate()).slice(-2);
+
+        // var daypost = date.getFullYear() + mnth + day
+        console.log(datebooking)
+
         const result = await acctoken();
         var table = $('#table1_time').DataTable();
         var data_ = table
@@ -378,7 +411,7 @@ $(async function () {
                     var datasetlimittime = {
                         'userId': _objectId,
                         'category': data_[0].category,
-                        'dayOfBooking': daypost,
+                        'dayOfBooking': datebooking,
                         'timeOfBooking': [rows.time],
                         'limit': limit
                     }
@@ -432,7 +465,7 @@ $(async function () {
                             method: 'delete',
                             data: {
                                 userId: _objectId,
-                                timePropId: datauser.timePropId 
+                                timePropId: datauser.timePropId
                             },
                             headers: { 'Authorization': result }
                         }).then(function (response) {
@@ -443,10 +476,10 @@ $(async function () {
                             console.log(response.data.message)
 
                         });
-                    }else{
+                    } else {
                         showSuccessMessagecategory('อัพเดทข้อมูลสำเร็จ')
                     }
-                  
+
                 }
             }).catch(function (res) {
                 const { response } = res
@@ -472,14 +505,14 @@ $(async function () {
                 console.log(response.data.message)
                 if (response.data.message == "delete complete") {
                     $("#myModaldelete").empty();
-///////////////////////
+                    ///////////////////////
                     if (datauser.timePropId != '') {
                         axios({
                             url: urlipaddress + 'delProp',
                             method: 'delete',
                             data: {
                                 userId: _objectId,
-                                timePropId: datauser.timePropId 
+                                timePropId: datauser.timePropId
                             },
                             headers: { 'Authorization': result }
                         }).then(function (response) {
@@ -490,11 +523,11 @@ $(async function () {
                             console.log(response.data.message)
 
                         });
-                    }else{
+                    } else {
                         showSuccessMessagecategory('ลบข้อมูลสำเร็จ')
                     }
 
-                 
+
                 }
             }).catch(function (res) {
                 const { response } = res
