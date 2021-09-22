@@ -134,7 +134,7 @@ async function getcategoryview(refresh_token) {
                             render: function (data) {
                                 console.log(data)
                                 if (data != '') {
-                                    return '<i href="" class="settime" style="font-size:14px;color:blue; cursor: pointer;">แก้ไขจำนวนคิว </i>'
+                                    return '<i href="" class="settime" style="font-size:14px;color:blue; cursor: pointer;">แก้ไขจำนวนคิว/สถานะ </i>'
                                 } else {
                                     return '<p style="font-size:14px;color:orange;">ยังไม่ได้กำหนดช่วงเวลา</p>'
                                 }
@@ -223,6 +223,78 @@ function timeLimit(refresh_token, category, datainterDiff) {
     });
 }
 
+async function setPropByUser(result, datasetprop) {
+
+    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        var urlipaddress = data.substring(1, data.length - 1);
+        const url = urlipaddress + 'setPropByUser';
+        let formData = new FormData();
+        console.log(_objectId)
+        formData.append('userId', _objectId);
+        formData.append('category', datasetprop[0].category);
+
+        if (datasetprop.length == 1) {
+            formData.append('customIntervalDifference[]', datasetprop[0].customIntervalDifference);
+        } else {
+            for (const i in datasetprop) {
+                formData.append('customIntervalDifference', datasetprop[i].customIntervalDifference);
+            }
+        }
+
+        formData.append('setFormat', '0');
+        formData.append('description', '');
+
+        axios.post(url, formData, {
+            headers: {
+                'Authorization': result
+            }
+        }).then(function (response) {
+            console.log(response.data.message)
+
+        }).catch(function (res) {
+            const { response } = res
+            console.log(response.data.message)
+            // if (response.data.message == 'category already exists.') {
+            // }
+
+        });
+    });
+}
+
+async function setDataTimeLimit(result, datasetprop) {
+    var date = new Date()
+    mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+        day = ("0" + date.getDate()).slice(-2);
+    var daypost = date.getFullYear() + mnth + day
+    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        var urlipaddress = data.substring(1, data.length - 1);
+        var datasetlimittime;
+        for (const i in datasetprop) {
+            datasetlimittime = {
+                'userId': _objectId,
+                'category': datasetprop[i].category,
+                'dayOfBooking': daypost,
+                'timeOfBooking': [datasetprop[i].customIntervalDifference],
+                'limit': datasetprop[i].limit,
+                'use': datasetprop[i].use
+            }
+            axios.post(urlipaddress + 'setTimeLimit/', datasetlimittime, {
+                headers: {
+                    'Authorization': result
+                }
+            }).then(function (response) {
+                console.log(response.data.message)
+            }).catch(function (res) {
+                const { response } = res
+                console.log(response.data.message)
+                if (response.data.message == 'fail.') {
+                }
+            });
+        }
+    });
+}
+
+
 $(async function () {
     const result = await acctoken();
     await getcategoryview(result);
@@ -288,13 +360,16 @@ $(async function () {
                 _arrtime[i] = {
                     time: prop.intervalDifference[i],
                     category: data.category,
-                    limit: '0'
+                    limit: '0',
+                    use: false
+
                 }
             } else {
                 _arrtime[i] = {
                     time: prop.intervalDifference[i],
                     category: data.category,
-                    limit: limit.limit
+                    limit: limit.limit,
+                    use: limit.use
 
                 }
             }
@@ -322,19 +397,62 @@ $(async function () {
             "order": [],
             columns: [
                 { data: "time" },
-                { data: "category" },
+                { data: "category", 'visible': false },
 
             ],
             'columnDefs': [{
-                'targets': 1,
+                'targets': 2,
                 'searchable': false,
                 'orderable': false,
                 'className': 'dt-body-center',
                 'render': function (data, type, full, meta) {
-
+                    console.log(full)
                     return '<input type="text"  class="timesetlimit form-control" id=' + full.time + ' value=' + full.limit + ' autocomplete="off" />';
                 }
-            }],
+            },
+            {
+                'targets': 3,
+                'searchable': false,
+                'orderable': false,
+                'className': 'dt-body-center',
+                'render': function (data, type, full, meta) {
+                    console.log(full)
+                    if (full.use == true) {
+                        return '<div class="switch"><span>ปิด</span> <label><input id="open2"type="checkbox" checked><span class="lever"></span></label><span>เปิด</span></div> ';
+                    } else {
+
+                        return '<div class="switch"><span>ปิด</span> <label><input id="open"type="checkbox"><span class="lever"></span></label><span>เปิด</span></div>';
+                    }
+                    //return '<div class="switch"><span>ปิด</span> <label><input id="open2"type="checkbox" checked><span class="lever"></span></label><span>เปิด</span></div> ';
+                }
+            }
+            ],
+            //             'columnDefs': [{
+            //                 'targets': 3,
+            //                 'searchable': false,
+            //                 'orderable': false,
+            //                 'className': 'dt-body-center',
+            //                 'render': function (data, type, full, meta) {
+            // console.log(full)
+            //                     return '<div class="switch"><span>ปิด</span> <label><input id="open2"type="checkbox" checked><spanclass="lever"></span></label><span>เปิด</span></div> ';
+            //                 }
+            //             }],
+            // 'columnDefs': [{
+            //     'targets': 2,
+            //     'searchable': false,
+            //     'orderable': false,
+            //     'className': 'dt-body-center',
+            //     'render': function(data, type, full, meta) {
+            //         return '<div class="switch"><span>ปิด</span> <label><input id="open2"type="checkbox" checked><spanclass="lever"></span></label><span>เปิด</span></div> ';
+            //         // if (full.use == true ) {
+
+            //         // } else {
+
+            //         //     return '<div class="switch"><span>ปิด</span> <label><input id="open"type="checkbox"><spanclass="lever"></span></label><span>เปิด</span></div>';
+            //         // }
+
+            //     }
+            // }],
 
         });
     });
@@ -361,19 +479,95 @@ $(async function () {
     });
 
     $('#submitsettime_Update').on('click', async function (e) {
+        const result = await acctoken();
         console.log(data.category)
-        var hr = document.getElementById('starthours_edit').value
-        var mi = document.getElementById('startminutes_edit').value
-        console.log(hr, mi)
 
+        var hours = new Array()
+        var minutes = new Array()
+        var DatasetPropByUser = new Array()
+        var chk_open = new Array;
+        var limit = new Array;
+        var n_h = 0;
+        var n_m = 0;
+        $('#tbl_posts_edit tr input[type="checkbox"]').each(function (i) {
+            chk_open[i] = this.checked
+        });
 
-        if (hr != '00' || mi != '00') {
-            await SetProp(result, hr, mi, data.category)
-            showSuccessMessagecategory('บันทึกสำเร็จ')
+        $('#tbl_posts_edit tr input[type="text"]').each(function (i) {
+            limit[i] = this.value
+        });
 
-        } else {
-            showCancelMessagecategory('กรุณาเลือกช่วงเวลา', '')
+        $('#tbl_posts_edit tr select').each(function (index) {
+            var value = $(this).val();
+            if ((index % 2 == 0)) {
+                hours[n_h] = value.padStart('2', '0'),
+                    n_h = n_h + 1
+            } else {
+                minutes[n_m] = value.padStart('2', '0'),
+                    n_m = n_m + 1
+            }
+        });
+        var _dataarr = new Array()
+        var n = 0;
+        for (const i in hours) {
+            if ((i % 2 == 0)) {
+                _dataarr[n] = hours[i] + ':' + minutes[i]
+            } else {
+                _dataarr[n] = hours[i] + ':' + minutes[i]
+            }
+            n = n + 1
         }
+        var customIntervalDifference = new Array()
+        var nn = 0
+        for (const i in _dataarr) {
+            if (i == 0) {
+                customIntervalDifference[i] = _dataarr[0] + '-' + _dataarr[1]
+            } else {
+                if (_dataarr[nn] != undefined) {
+                    customIntervalDifference[i] = _dataarr[nn] + '-' + _dataarr[nn + 1]
+                }
+            }
+            nn = nn + 2
+        }
+        for (const i in customIntervalDifference) {
+            DatasetPropByUser[i] = {
+                category: data.category,
+                customIntervalDifference: customIntervalDifference[i],
+                use: chk_open[i],
+                limit: limit[i]
+            }
+        }
+
+        //if (DatasetPropByUser.length != 0) {
+        var c_time;
+        var c_num = 0
+        for (const i in hours) {
+            if (hours[i] == '00') {
+                c_time = 'false'
+            } else {
+                c_time = 'true'
+                c_num = c_num + 1
+            }
+        }
+        //    }
+        if (c_num == '0') {
+            showCancelMessagecategory('กรุณากำหนดช่วงเวลา', '')
+            return
+        }
+
+        console.log(DatasetPropByUser)
+
+        if (DatasetPropByUser.length != 0) {
+            await setPropByUser(result, DatasetPropByUser)
+            await setDataTimeLimit(result, DatasetPropByUser)
+
+            //  getcategoryview(result);
+
+            showSuccessMessagecategory('บันทึกสำเร็จ')
+        }
+
+
+
     });
 
 
@@ -539,6 +733,83 @@ $(async function () {
 
     /////////////////////////////////// สร้างแผนก
     $('#submitcategory').on('click', async function (e) {
+
+        if (document.getElementById("namecategory").value == "" || document.getElementById("DPTCODE").value == "") {
+            showCancelMessagecategory('กรุณากรอกชื่อ แผนก และ รหัสแผนก')
+            return
+        }
+        var hours = new Array()
+        var minutes = new Array()
+        var DatasetPropByUser = new Array()
+        var chk_open = new Array;
+        var limit = new Array;
+        var n_h = 0;
+        var n_m = 0;
+        $('#tbl_posts tr input[type="checkbox"]').each(function (i) {
+            chk_open[i] = this.checked
+        });
+        $('#tbl_posts tr input[type="text"]').each(function (i) {
+            limit[i] = this.value
+        });
+
+        $('#tbl_posts tr select').each(function (index) {
+            var value = $(this).val();
+            if ((index % 2 == 0)) {
+                hours[n_h] = value.padStart('2', '0'),
+                    n_h = n_h + 1
+            } else {
+                minutes[n_m] = value.padStart('2', '0'),
+                    n_m = n_m + 1
+            }
+        });
+        var _dataarr = new Array()
+        var n = 0;
+        for (const i in hours) {
+            if ((i % 2 == 0)) {
+                _dataarr[n] = hours[i] + ':' + minutes[i]
+            } else {
+                _dataarr[n] = hours[i] + ':' + minutes[i]
+            }
+            n = n + 1
+        }
+        var customIntervalDifference = new Array()
+        var nn = 0
+        for (const i in _dataarr) {
+            if (i == 0) {
+                customIntervalDifference[i] = _dataarr[0] + '-' + _dataarr[1]
+            } else {
+                if (_dataarr[nn] != undefined) {
+                    customIntervalDifference[i] = _dataarr[nn] + '-' + _dataarr[nn + 1]
+                }
+            }
+            nn = nn + 2
+        }
+        for (const i in customIntervalDifference) {
+            DatasetPropByUser[i] = {
+                category: document.getElementById("namecategory").value,
+                customIntervalDifference: customIntervalDifference[i],
+                use: chk_open[i],
+                limit: limit[i]
+            }
+        }
+
+        if (DatasetPropByUser.length != 0) {
+            var c_time;
+            var c_num = 0
+            for (const i in hours) {
+                if (hours[i] == '00') {
+                    c_time = 'false'
+                } else {
+                    c_time = 'true'
+                    c_num = c_num + 1
+                }
+            }
+        }
+        if (c_num == '0') {
+            showCancelMessagecategory('กรุณากำหนดช่วงเวลา', 'ไม่มีช่วงเวลาให้กดปุ่ม ไอคอน ถังขยะ')
+            return
+        }
+
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
             const datacategory = {
@@ -552,13 +823,12 @@ $(async function () {
                     'Authorization': result
                 }
             }).then(async function (response) {
-                var hr = document.getElementById('starthours').value
-                var mi = document.getElementById('startminutes').value
-                console.log(hr, mi)
-                if (hr != '00' || mi != '00') {
-                    console.log('ggggggggggggggggg')
-                    await SetProp(result, hr, mi, document.getElementById("namecategory").value)
+                console.log(response.data.message)
+                if (DatasetPropByUser.length != 0) {
+                    await setPropByUser(result, DatasetPropByUser)
+                    await setDataTimeLimit(result, DatasetPropByUser)
                 }
+
                 showSuccessMessagecategory('บันทึกสำเร็จ')
                 getcategoryview(result);
             }).catch(function (res) {

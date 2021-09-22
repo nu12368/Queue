@@ -108,7 +108,7 @@ const queueloop = async (refresh_token, _page) => {
                                     แผนก ${response.data.message.values[i].category}
                                     </p>
                                     <p >
-                                    เวลา ${sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2]}
+                                    วัน-เวลา ${sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2]}
                                     </p>
                                     <p >
                                     ชื่อ ${response.data.message.values[i].name}
@@ -263,7 +263,7 @@ function getqueueview(refresh_token) {
                                     แผนก ${response.data.message.values[i].category}
                                     </p>
                                     <p >
-                                    เวลา ${sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2]}
+                                    วัน-เวลา ${sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2]}
                                     </p>
                                     <p >
                                     ชื่อ ${response.data.message.values[i].name}
@@ -279,7 +279,6 @@ function getqueueview(refresh_token) {
                             `);
                                 displyanone()
                             }
-                            // }
                         }
                     }
                     _num = _num + 1;
@@ -295,6 +294,298 @@ function getqueueview(refresh_token) {
         });
     });
 }
+
+const queuebookingloop = async (refresh_token, _page) => {
+
+    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        var urlipaddress = data.substring(1, data.length - 1);
+        axios.get(urlipaddress + 'getbookingQueue/' + _objectId + '?_page=' + _page + '&_limit=100&_sort=1', {
+            headers: {
+                'Authorization': refresh_token
+            }
+        }).then(function (response) {
+            console.log(response.data.message.values)
+            var totle = response.data.message.total
+            var looptotle = Math.ceil(totle / 100)
+            if (looptotle > 1) { ///// คิวมากกว่า loop 100
+                var _page = 1;
+                ///////////////// เฉพราะของตัวเอง
+                $("#table_queueonline").empty();
+                for (i = 0; i < looptotle; i++) {
+                    queuebookingloop(refresh_token, _page)
+                    _page = _page + 1
+                }
+            } else {
+                $("#table_queueonline").empty();
+                for (i = 0; i < response.data.message.values.length; i++) {
+                    /////////////////// เฉพราะของตัวเอง
+                    if (Cookies.get('dataUserOnline') != undefined) {
+                        var userId = JSON.parse(Cookies.get('dataUserOnline'));
+                        //  console.log(str_io)
+                        //if (str_io == '') {
+                        if (userId.uId == response.data.message.values[i].uId) {
+
+                            let date = new Date(response.data.message.values[i].timeAdd);
+                            let options = { hour12: false };
+                            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+
+                            var timeadd = sp[2].split(' ')
+
+                            var timeStart = timeadd[0] + '/' + sp[0].padStart(2, '0') + '/' + sp[1].padStart(2, '0')
+                            console.log(datenew)
+                            console.log(timeStart)
+                            var _checkdate = dayjs(datenew).isSame(timeStart)
+                            console.log(_checkdate)
+
+                            if (_checkdate == true) {
+                                $("#table_queueonline").empty();
+                                $("#table_queueonline").append(`
+                                            <tr>
+                                                <td>
+                                                <div>
+                                                <p
+                                                    style="text-align: center;">
+                                                <div>
+                                                    <b>
+                                                        <h3 style="text-align:justify; font-size: 24px;"
+                                                        > คิวที่ No. ${response.data.message.values[i].cue}</h3>
+                                                    </b>
+                                                </div>
+                                                </p>
+                                                <p >
+                                                แผนก ${response.data.message.values[i].category}
+                                                </p>
+                                                <p >
+                                                วัน-เวลา ${sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2]}
+                                                </p>
+                                                <p >
+                                                ชื่อ ${response.data.message.values[i].name}
+                                                </p>
+                                                <p >
+                                                เบอร์โทร ${response.data.message.values[i].tel}
+                                                </p>
+                                                <hr />
+                                                </div>
+                                            </td>
+                                            <td><a  class="q_delete"  id='${response.data.message.values[i]._id}' style="text-align:justify; color: red; font-size: 24px; cursor: pointer;">ลบ</a></td>                            
+                                            </tr>
+                                        `);
+                                displyanone()
+                                break
+                            } else {
+                                _checkdate = dayjs(timeStart).isAfter(datenew)
+                                console.log(_checkdate)
+                                ////////////////// จองล่วงหน้า
+                                if (_checkdate == true) {
+                                    $("#table_queueonline").empty();
+                                    $("#table_queueonline").append(`
+                                                    <tr>
+                                                        <td>
+                                                        <div>
+                                                        <p
+                                                            style="text-align: center;">
+                                                        <div>
+                                                            <b>
+                                                                <h3 style="text-align:justify; font-size: 24px;"
+                                                                > คิวที่ No. ${response.data.message.values[i].cue}</h3>
+                                                            </b>
+                                                        </div>
+                                                        </p>
+                                                        <p >
+                                                        แผนก ${response.data.message.values[i].category}
+                                                        </p>
+                                                        <p >
+                                                        วัน-เวลา ${sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2]}
+                                                        </p>
+                                                        <p >
+                                                        ชื่อ ${response.data.message.values[i].name}
+                                                        </p>
+                                                        <p >
+                                                        เบอร์โทร ${response.data.message.values[i].tel}
+                                                        </p>
+                                                        <hr />
+                                                        </div>
+                                                    </td>
+                                                    <td><a  class="q_delete"  id='${response.data.message.values[i]._id}' style="text-align:justify; color: red; font-size: 24px; cursor: pointer;">ลบ</a></td>                            
+                                                    </tr>
+                                                `);
+                                    displyanone()
+
+                                    break
+                                }
+                            }
+
+
+                        }
+                    }
+                }
+            }
+        }).catch(function (res) {
+            console.log(res.response.data)
+
+        });
+    });
+
+}
+async function getqueuebookingview(refresh_token) {
+
+    var today = new Date();
+    var n_date = today.toISOString();
+    let date = new Date(n_date);
+    let options = { hour12: false };
+    var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+    var chk_date = sp[0].padStart(2, '0') + "/" + sp[1].padStart(2, '0') + "/" + sp[2]
+    chk_date = chk_date.split(' ')
+    chk_date = chk_date[0].split('/')
+    var datenew = chk_date[2] + '/' + chk_date[0] + '/' + chk_date[1]
+    $.getScript("ip.js", function (data, textStatus, jqxhr) {
+        var urlipaddress = data.substring(1, data.length - 1);
+        axios.get(urlipaddress + 'getbookingQueue/' + _objectId + '?_page=1&_limit=100&_sort=1', {
+            headers: {
+                'Authorization': refresh_token
+            }
+        }).then(function (response) {
+            console.log(response.data.message.values)
+            var totle = response.data.message.total
+            var looptotle = Math.ceil(totle / 100)
+            if (looptotle > 1) { ///// คิวมากกว่า loop 100
+                var _page = 1;
+                ///////////////// เฉพราะของตัวเอง
+                $("#table_queueonline").empty();
+                for (i = 0; i < looptotle; i++) {
+                    queuebookingloop(refresh_token, _page)
+                    _page = _page + 1
+                }
+            } else {
+                $("#table_queueonline").empty();
+                for (i = 0; i < response.data.message.values.length; i++) {
+                    /////////////////// เฉพราะของตัวเอง
+                    if (Cookies.get('dataUserOnline') != undefined) {
+                        var userId = JSON.parse(Cookies.get('dataUserOnline'));
+                        //  console.log(str_io)
+                        //if (str_io == '') {
+                        if (userId.uId == response.data.message.values[i].uId) {
+                            console.log(response.data.message.values)
+                            let date = new Date(response.data.message.values[i].timeAdd);
+                            let options = { hour12: false };
+                            var sp = date.toLocaleString('en-US', options).replace(',', '').split('/')
+
+                            var timeadd = sp[2].split(' ')
+
+                            var timeStart = timeadd[0] + '/' + sp[0].padStart(2, '0') + '/' + sp[1].padStart(2, '0')
+                            console.log(datenew)
+                            console.log(timeStart)
+                            var _checkdate = dayjs(datenew).isSame(timeStart)
+                            console.log(_checkdate)
+
+
+
+                            let date_booking = new Date(response.data.message.values[i].bookingData.dayOfBooking);
+                            let options_booking = { hour12: false };
+                            var sp_booking = date_booking.toLocaleString('en-US', options_booking).replace(',', '').split('/')
+                            var booking_y = sp_booking[2].split(' ')
+                            if (_checkdate == true) {
+                                $("#table_queueonline").empty();
+                                $("#table_queueonline").append(`
+                                            <tr>
+                                                <td>
+                                                <div>
+                                                <p
+                                                    style="text-align: center;">
+                                                <div>
+                                                    <b>
+                                                        <h3 style="text-align:justify; font-size: 24px;"
+                                                        > คิวที่ No. ${response.data.message.values[i].cue}</h3>
+                                                    </b>
+                                                </div>
+                                                </p>
+                                                <p >
+                                                แผนก ${response.data.message.values[i].category}
+                                                </p>
+                                                <p >
+                                                วัน-เวลา ${sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2]}
+                                                </p>
+                                                <p >
+                                                วันที่จองล่วงหน้า ${sp_booking[1].padStart(2, '0') + '/' + sp_booking[0].padStart(2, '0') + '/' + booking_y[0]}
+                                                </p>
+                                                <p >
+                                                ช่วงเวลา ${response.data.message.values[i].bookingData.timeOfBooking}
+                                                </p>
+                                                <p >
+                                                ชื่อ ${response.data.message.values[i].name}
+                                                </p>
+                                                <p >
+                                                เบอร์โทร ${response.data.message.values[i].tel}
+                                                </p>
+                                                <hr />
+                                                </div>
+                                            </td>
+                                            <td><a  class="q_delete"  id='${response.data.message.values[i]._id}' style="text-align:justify; color: red; font-size: 24px; cursor: pointer;">ลบ</a></td>                            
+                                            </tr>
+                                        `);
+                                displyanone()
+                                break
+                            } else {
+                                _checkdate = dayjs(timeStart).isAfter(datenew)
+                                console.log(_checkdate)
+                                ////////////////// จองล่วงหน้า
+                                if (_checkdate == true) {
+                                    $("#table_queueonline").empty();
+                                    $("#table_queueonline").append(`
+                                                    <tr>
+                                                        <td>
+                                                        <div>
+                                                        <p
+                                                            style="text-align: center;">
+                                                        <div>
+                                                            <b>
+                                                                <h3 style="text-align:justify; font-size: 24px;"
+                                                                > คิวที่ No. ${response.data.message.values[i].cue}</h3>
+                                                            </b>
+                                                        </div>
+                                                        </p>
+                                                        <p >
+                                                        แผนก ${response.data.message.values[i].category}
+                                                        </p>
+                                                        <p >
+                                                        วัน-เวลา ${sp[1].padStart(2, '0') + "/" + sp[0].padStart(2, '0') + "/" + sp[2]}
+                                                        </p>
+                                                        <p >
+                                                        วันที่จองล่วงหน้า ${sp_booking[1].padStart(2, '0') + '/' + sp_booking[0].padStart(2, '0') + '/' + booking_y[0]}
+                                                        </p>
+                                                        <p >
+                                                        ช่วงเวลา ${response.data.message.values[i].bookingData.timeOfBooking}
+                                                        </p>
+                                                        <p >
+                                                        ชื่อ ${response.data.message.values[i].name}
+                                                        </p>
+                                                        <p >
+                                                        เบอร์โทร ${response.data.message.values[i].tel}
+                                                        </p>
+                                                        <hr />
+                                                        </div>
+                                                    </td>
+                                                    <td><a  class="q_delete"  id='${response.data.message.values[i]._id}' style="text-align:justify; color: red; font-size: 24px; cursor: pointer;">ลบ</a></td>                            
+                                                    </tr>
+                                                `);
+                                    displyanone()
+
+                                    break
+                                }
+                            }
+
+
+                        }
+                    }
+                }
+            }
+        }).catch(function (res) {
+            console.log(res.response.data)
+
+        });
+    });
+}
+
 
 async function getProp(refresh_token, category) {
     var arrar_null = new Array()
@@ -368,7 +659,7 @@ function getcategoryview(refresh_token) {
 
                 console.log(_arr)
 
-        
+
                 var $select = $('#select_category');
                 $select.append('<option value=' + '0' + '>' + '-- เลือกแผนก --' + '</option>');
                 $.each(_arr, function (key, value) {
@@ -453,7 +744,7 @@ function timeLimit(refresh_token, category, datainterDiff) {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
             var urlipaddress = data.substring(1, data.length - 1);
-            axios.get(urlipaddress + 'timeLimit/' + _objectId, {
+            axios.get(urlipaddress + 'timeLimit/' + _objectId + '?_limit=100', {
                 headers: {
                     'Authorization': refresh_token
                 }
@@ -534,8 +825,6 @@ function getbookingQueue(refresh_token, dayOfBooking, category, proptime_) {
     });
 }
 
-
-
 function getbookingQueueToday(refresh_token, dayOfBooking, category, proptime_) {
     return new Promise(resolve => {
         $.getScript("ip.js", function (data, textStatus, jqxhr) {
@@ -558,6 +847,8 @@ function getbookingQueueToday(refresh_token, dayOfBooking, category, proptime_) 
                 var q_remain;
                 var respo = response.data.message.total
                 q_remain = parseInt(q_limit) - parseInt(respo)
+
+                console.log(q_remain)
                 if (q_limit != 0) {
                     if (proptime_ != '') {//////บันทึก คิว
                         resolve(q_remain);
@@ -592,7 +883,6 @@ function getbookingQueueToday(refresh_token, dayOfBooking, category, proptime_) 
         });
     });
 }
-
 
 function getadvt(refresh_token) {
     console.log(refresh_token)
@@ -674,8 +964,6 @@ function getadvt(refresh_token) {
     });
 }
 
-
-
 var add_queue_result;
 $(async function () {
 
@@ -703,7 +991,11 @@ $(async function () {
         var result_refresh = await acctoken(obj_refresh.refresh_token);
         console.log(result_refresh)
         console.log('------------------------------------------------')
-        await getqueueview(result_refresh)
+        var q = await getqueueview(result_refresh)
+        console.log(q)
+        if (q == undefined) {
+            await getqueuebookingview(result_refresh)
+        }
         console.log('*****************************************************')
         console.log('222222222')
         document.getElementById('div_viwe').style.display = 'none'
@@ -744,14 +1036,33 @@ $(async function () {
                     },
                     headers: { 'Authorization': result }
                 }).then(function (response) {
-                    //console.log(response.data.message)
+                    console.log(response.data.message)
                     if (response.data.message == "delete completed") {
 
                     }
                 }).catch(function (res) {
                     const { response } = res
                     console.log(response.data.message)
-                    showCanceldeletequeue(response.data.message, '')
+                    if (response.data.message == 'update fail.') {
+                        axios({
+                            url: urlipaddress + 'delBookingQueue/' + _objectId,
+                            method: 'delete',
+                            data: {
+                                _id: remove_qid
+                            },
+                            headers: { 'Authorization': result }
+                        }).then(function (responsebooking) {
+                            console.log(responsebooking.data.message)
+                            if (responsebooking.data.message == "delete completed") {
+
+                            }
+                        }).catch(function (resbooking) {
+
+                            console.log(resbooking.data.message)
+                        })
+                    }
+
+                    //
                 });
             });
             swal({
@@ -967,29 +1278,28 @@ $(async function () {
                             timeOfBooking: document.getElementById("proptime").value,
                         }
                     }
-
-
                     console.log(dataaddQueue)
-
                     axios.post(urlipaddress + 'addBookingQueue/' + _objectId_online, dataaddQueue, {
                         headers: {
                             'Authorization': result_online
                         }
                     }).then(async function (response) {
                         console.log(response.data.message.status)
+                        var time_booking = timeStart.split('/')
                         if (response.data.message.status == "Successful") {
 
                             if (document.getElementById("proptime").value == '0') {
                                 console.log('--------------------')
                                 document.getElementById('q_day').innerHTML = '<b>วัน/เวลา </b> ' + document.getElementById('_time').innerHTML.replace('วันที่ : ', '')
-                                document.getElementById('dayOfBooking').innerHTML = '<b>วันที่จองล่วงหน้า </b> ' + timeStart
+
+                                document.getElementById('dayOfBooking').innerHTML = '<b>วันที่จองล่วงหน้า </b> ' + time_booking[2] + '/' + time_booking[1] + '/' + time_booking[0]
                                 document.getElementById('timeOfBooking').innerHTML = '<b>จองช่วงเวลา </b> ' + '-'
 
                                 document.getElementById('q_no').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  คิวที่ No. ' + response.data.message.queue
                             } else {
                                 console.log('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
                                 document.getElementById('q_day').innerHTML = '<b>วัน/เวลา </b> ' + document.getElementById('_time').innerHTML.replace('วันที่ : ', '') + '<br>'
-                                document.getElementById('dayOfBooking').innerHTML = '<b>วันที่จองล่วงหน้า </b> ' + timeStart
+                                document.getElementById('dayOfBooking').innerHTML = '<b>วันที่จองล่วงหน้า </b> ' + time_booking[2] + '/' + time_booking[1] + '/' + time_booking[0]
                                 document.getElementById('timeOfBooking').innerHTML = '<b>จองช่วงเวลา </b> ' + document.getElementById("proptime").value
 
                                 document.getElementById('q_no').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  คิวที่ No. ' + response.data.message.queue
@@ -1287,6 +1597,9 @@ $(async function () {
         var dateselect = document.getElementById('datequeue_Check').value.replace('-', '/').replace('-', '/')
         console.log(dateselect)
         var _checkdate = dayjs(dateselect).isAfter(datenew)
+
+
+        console.log(dayOfBooking, select_category.category)
         if (_checkdate == true) {
             await getbookingQueue(result, dayOfBooking, select_category.category, '')
         } else {
