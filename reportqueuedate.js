@@ -123,7 +123,7 @@ const view_datatable = async(responsedataview, q, day, category) => {
             }
         }
     }
-    document.getElementById("h_name_report").innerText = 'คิววันที่  ' + day + ' | ' + ' ผู้รอรับบริการ ' + ' | ' + ' แผนก ' + category + ' ' + '( จำนวน ' + _arr_qloop.length + ' คิว )'
+    document.getElementById("h_name_report").innerText = 'คิววันที่  ' + day + ' / ' + ' ผู้รอรับบริการ ' + ' / ' + ' แผนก ' + category + ' ' + '( จำนวน ' + _arr_qloop.length + ' คิว )'
     var table = $('#tablequeue_listuserqueue').DataTable({
         "lengthMenu": [
             [25, 50, 100],

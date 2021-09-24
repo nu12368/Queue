@@ -6,8 +6,6 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <title>WAC</title>
     <!-- Favicon-->
-    <link rel="icon" href="../../uploads/logo.ico" type="image/x-icon">
-
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
@@ -32,6 +30,7 @@
     <link href="../../plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
 
 
+
     <!-- Custom Css -->
     <link href="../../css/style.css" rel="stylesheet">
 
@@ -52,65 +51,104 @@
 
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
     <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
-
     <!-- modal  -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../../plugins2/responsive.bootstrap4.min.css">
-
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
     <link href="../../plugins/light-gallery/css/lightgallery.css" rel="stylesheet">
 
+    <script src="./queuereport_booking.js"></script>
     <script src="./pageTable.js"></script>
-
     <link href="./css-collor.css" rel="stylesheet">
+    <script src="./logout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.1.2/dist/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/dayjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/utc.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/isBetween.min.js"></script>
 
     <link href="../../plugins/sweetalert/sweetalert.css" rel="stylesheet" />
-    <script src="http://code.highcharts.com/highcharts.js"></script>
-
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.js"></script>
-
     <script src="./user.js"></script>
-    <script src="./queueqrcode.js"></script>
+    <script>
+        // Ignore this in your implementation
+        window.isMbscDemo = true;
+    </script>
+
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.1.2/dist/socket.io.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
 
 
+    <!-- Include Required Prerequisites -->
+    <!-- <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script> -->
+    <!-- <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script> -->
+    <!-- <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" /> -->
+    <!-- Include Date Range Picker -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
+    <!--     
+    <link rel="stylesheet" href="csscalendar/mobiscroll.jquery.min.css">
+    <script src="jscalendar/mobiscroll.jquery.min.js"></script> -->
+    <style>
+        .calendar.right {
+            display: block !important;
+        }
+    </style>
+    <style type="text/css">
+        .mbsc-page {
+            padding: 1em;
+        }
+    </style>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet' type='text/css'>
+
+
+    <style>
+        body h1 h2 h3 h4 h5 h6 ul li a p {
+            font-family: 'Kanit', sans-serif;
+        }
+        
+        div {
+            font-family: 'Kanit', sans-serif;
+        }
+    </style>
 </head>
-
-<link href="./css-collor.css" rel="stylesheet">
-
-<script src="./logout.js"></script>
-<script></script>
-<style>
-    .intro {
-        display: block !important;
-    }
-    
-    .intronone {
-        display: none !important;
-    }
-</style>
-<link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet' type='text/css'>
-<style>
-    body h1 h2 h3 h4 h5 h6 ul li a p {
-        font-family: 'Kanit', sans-serif;
-    }
-    
-    div {
-        font-family: 'Kanit', sans-serif;
-    }
-</style>
+<script>
+    $(function() {
+        $('input[name="daterange"]').daterangepicker({
+            singleDatePicker: false,
+            linkedCalendars: true,
+            locale: {
+                cancelLabel: 'ปิด',
+                applyLabel: 'ตกลง'
+            }
+        });
+    });
+</script>
 
 <body class="theme-red">
-    <!-- Page Loader -->
+    <!-- <script>
+        mobiscroll.setOptions({
+            locale: mobiscroll.localeTh,  // Specify language like: locale: mobiscroll.localePl or omit setting to use default
+            theme: 'ios',                 // Specify theme like: theme: 'ios' or omit setting to use default
+            themeVariant: 'light'     // More info about themeVariant: https://docs.mobiscroll.com/5-6-0/calendar#opt-themeVariant
+        });
+        $(function () {
+            // Mobiscroll Calendar initialization
+           $('#demo-range-selection').mobiscroll().datepicker({
+                controls: ['calendar'],   // More info about controls: https://docs.mobiscroll.com/5-6-0/calendar#opt-controls
+                display: 'inline',        // Specify display mode like: display: 'bottom' or omit setting to use default
+                rangeSelectMode: 'wizard',
+                select: 'range',          // More info about select: https://docs.mobiscroll.com/5-6-0/calendar#opt-select
+                showRangeLabels: true,
+                dateFormat: 'YYYY-MM-DD'
+            });
+        });
+    </script> -->
+
     <div class="page-loader-wrapper">
         <div class="loader">
             <div class="preloader">
@@ -147,6 +185,7 @@
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
+
                 <a class="navbar-brand" id="logoname" href="queuedashboard.html"></a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
@@ -177,11 +216,11 @@
 
                     <li id="queuedashboard">
                         <a href="queuedashboard.html">
-                            <i class="material-icons">queue</i>
+                            <i class="material-icons">home</i>
                             <span>แดชบอร์ด</span>
                         </a>
                     </li>
-                    <li >
+                    <li class="active">
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">subject</i>
                             <span>รายงาน</span>
@@ -193,7 +232,7 @@
                                     <span>รายงานคิวแบ่งตามวันที่</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <a href="queuereport_booking.html">
                                     <i class="material-icons">add_to_queue</i>
                                     <span>รายงานการจองล่วงหน้า</span>
@@ -207,7 +246,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">settings</i>
                             <span>ตั้งค่า</span>
@@ -238,7 +277,7 @@
                                     <span>ข้อความหน้าจอ</span>
                                 </a>
                             </li>
-                            <li class="active">
+                            <li>
                                 <a href="queueqrcode.html">
                                     <span>คิวอาร์โค้ด</span>
                                 </a>
@@ -283,7 +322,7 @@
         <aside id="rightsidebar" class="right-sidebar">
             <ul class="nav nav-tabs tab-nav-right" role="tablist">
                 <li role="presentation" class="active"><a href="#skins" data-toggle="tab">SKINS</a></li>
-                <!-- <li role="presentation"><a href="#settings" data-toggle="tab">SETTINGS</a></li> -->
+                <li role="presentation"><a href="#settings" data-toggle="tab">SETTINGS</a></li>
             </ul>
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active in active" id="skins">
@@ -424,102 +463,197 @@
         <!-- #END# Right Sidebar -->
     </section>
 
-
     <section class="content">
         <div class="container-fluid">
-            <!-- Input -->
-            <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="card">
-                                <div class="header header-new">
-                                    <h2>
-                                        <font style="color: white;">คิวอาร์โค้ด
-                                        </font>
-                                    </h2>
+            <div id="div_qall" class="col-xs-12 col-sm-12 col-md-8 col-lg-12">
+                <div class="card">
+                    <div class="header header-new">
+                        <h2>
+                            <font style="color: white;">รายงานการจองล่วงหน้า
+
+                            </font>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="row clearfix" id='did_search' style="display: block;">
+                            <div class="col-xs-4 form-group">
+                                <div class="form-line">
+                                    <p>เลือกวันที่</p>
+                                    <input class="drp-calendar.right form-control" id="daterange" type="text" name="daterange" value="">
+                                    <!-- <div id="demo-range-selection"></div> -->
                                 </div>
-                                <div class="body">
-                                    <form id="formElem">
-                                        <div class="tab-content">
-                                            <div role="tabpanel" class="tab-pane fade in active" id="home">
-                                                <div class="body">
-                                                    <div class="row clearfix">
-                                                        <div class="col-sm-12">
-                                                            <div class="form-group">
-                                                                <div class="form-group form-float">
-                                                                    <div class="list-unstyled row clearfix">
-                                                                        <h4>คิวอาร์โค้ด</h4>
-                                                                        <div id="createImg" style="text-align: center;">
-                                                                            <img id='Imageqrcode' />
-                                                                        </div>
-                                                                        <br>
-
-                                                                        <input type="file" name="filelogo" style="display: none;" multiple accept=".png, .jpg, .jpeg" id="filelogo">
-                                                                        <div id='a_load' style="text-align: center;">
-                                                                            <a id="i_regenlogo" style="cursor: pointer;">สร้างคิวอาร์โค้ดมีโลโก้
-                                                                                &nbsp; |</a> <a id="i_regen" style="cursor: pointer;">สร้างคิวอาร์โค้ด
-                                                                                &nbsp; |</a> &nbsp;
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                    </form>
+                            </div>
+                            <div class="col-xs-4 form-group">
+                                <table>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>
+                                            <button class="btn btn-primary waves-effect" id="submitqueueReportDatetime" class="primary" type="button"> ค้นหา</button>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                        <td>
+                                            <button class="btn btn-primary waves-effect" style="display: none;" id="btn_cancel" class="primary" type="button">ยกเลิก</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div style="text-align: center; display: none;" id="div_preloader">
+                            <div class="demo-preloader">
+                                <div class="preloader pl-size-xl">
+                                    <div class="spinner-layer">
+                                        <div class="circle-clipper left">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="circle-clipper right">
+                                            <div class="circle"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div id="test" style="float:right;">
+                        </div>
+                        <div>
+                            <br>
+                            <br>
+                        </div>
+
+                        <div class="table-responsive" id="div_table" style="display: none;">
+                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display" id="tablequeue" style="font-size: 18px; text-align: center;">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center; width: 250px;">วันที่</th>
+                                        <th style="text-align:center">จำนวนคิวจองล่วงหน้า</th>
+                                    </tr>
+                                </thead>
+                                <!-- <tfoot id='' style="text-align: center;">
+                                    <tr>
+                                        <th style="text-align:right">รวม</th>
+                                        <th style="text-align:center"></th>
+                                        <th style="text-align:center"></th>
+                                        <th style="text-align:center"></th>
+                                        <th style="text-align:center"></th>
+                                        <th style="text-align:center"></th>
+                                        <th style="text-align:center"></th>
+                                    </tr>
+                                </tfoot> -->
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <div id="div_qdisplay" style="display: none;" class="col-xs-12 col-sm-12 col-md-8 col-lg-12">
+                <div class="card">
+                    <div class="header header-new">
+                        <h2>
+                            <a id='a_back' style="color: white; cursor: pointer;">
+                                < ย้อนกลับ</a>
 
+                        </h2>
+                        <h2>
+                            <a id='a_back2' style="color: white; cursor: pointer; display: none;">
+                                < ย้อนกลับ</a>
 
-
-            <div class="container">
-                <div class="modal fade" id="myModaldont" role="dialog">
-                    <div class="modal-dialog" style="width: 300px; height: 200px;">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 id="title" class="modal-title">บันทึกข้อมูล</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-20">
-                                            <i class="fa fa-exclamation-triangle" id="c_delete" style="font-size:48px;color:red"></i>
-                                            <i class="fa fa-check-circle" id="completed" style="font-size:48px;color:green; display: none;"></i>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <h4 id="h_name_report"></h4>
+                        <div style="text-align: center; display: none;" id="div_preloadercategory">
+                            <div class="demo-preloader">
+                                <div class="preloader pl-size-xl">
+                                    <div class="spinner-layer">
+                                        <div class="circle-clipper left">
+                                            <div class="circle"></div>
                                         </div>
-                                        <div>
-                                            <label id="lbl_completed" for="fname"> </label>
+                                        <div class="circle-clipper right">
+                                            <div class="circle"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">ตกลง</button>
+                        </div>
+                        <div class="table-responsive" id='table_category'>
+                            <div id="test2" style="float:right;">
                             </div>
+                            <div>
+                                <br>
+                                <br>
+                            </div>
+                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display" id="table1_category_list" style="text-align:center; font-size: 18px;">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center">ลำดับที่</th>
+                                        <th style="text-align:center; width: 200px;">แผนก</th>
+                                        <th style="text-align:center">จำนวนคิวจองล่วงหน้า</th>
+                                      
+                                    </tr>
+                                </thead>
+                                <!-- <tfoot id='tfoot_queue' style="text-align: center;">
+                                    <tr>
+                                        <th style="text-align:center"></th>
+                                        <th style="text-align:right">รวม</th>
+                                        <th style="text-align:center"></th>
+                                        <th style="text-align:center"></th>
+                                        <th style="text-align:center"></th>
+                                        <th style="text-align:center"></th>
+                                        <th style="text-align:center"></th>
+                                        <th style="text-align:center"></th>
+                                    </tr>
+                                </tfoot> -->
+                            </table>
                         </div>
 
-                    </div>
 
+                        <h4 id="h_name_reportuserqueue"></h4>
+                        <div style="text-align: center; display: none;" id="div_preloaderuserqueue">
+                            <div class="demo-preloader">
+                                <div class="preloader pl-size-xl">
+                                    <div class="spinner-layer">
+                                        <div class="circle-clipper left">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="circle-clipper right">
+                                            <div class="circle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive" id="div_table_listuserqueue" style="display: none;">
+                            <div id="test3" style="float:right;">
+                            </div>
+                            <div>
+                                <br>
+                                <br>
+                            </div>
+                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable sortable tr hover table display" id="tablequeue_listuserqueue">
+                                <thead>
+                                    <tr>
+                                        <th>ลำดับที่</th>
+                                        <th>แผนก</th>
+                                        <th>หมายเลขคิว</th>
+                                        <th>ชื่อ</th>
+                                        <th>เบอร์โทร</th>
+                                        <th>วัน-เวลา</th>
+                                        <th>วันที่จองล่วงหน้า</th>
+                                        <th>ช่วงเวลาที่จอง</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-        </div>
+    </section>
+    </div>
     </section>
 
-
-    <!-- Jquery Core Js -->
     <!-- <script src="../../plugins/jquery/jquery.min.js"></script> -->
 
     <!-- Bootstrap Core Js -->
-    <!-- <script src="../../plugins/bootstrap/js/bootstrap.js"></script> -->
+    <script src="../../plugins/bootstrap/js/bootstrap.js"></script>
 
     <!-- Select Plugin Js -->
     <!-- <script src="../../plugins/bootstrap-select/js/bootstrap-select.js"></script> -->
@@ -530,20 +664,17 @@
     <!-- Waves Effect Plugin Js -->
     <script src="../../plugins/node-waves/waves.js"></script>
 
-    <script src="../../plugins/light-gallery/js/lightgallery-all.js"></script>
-    <script src="../../js/pages/medias/image-gallery.js"></script>
-
+    <!-- Autosize Plugin Js -->
     <script src="../../plugins/autosize/autosize.js"></script>
 
+    <!-- Moment Plugin Js -->
     <script src="../../plugins/momentjs/moment.js"></script>
 
-
+    <!-- Bootstrap Material Datetime Picker Plugin Js -->
     <script src="../../plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
 
     <!-- Bootstrap Datepicker Plugin Js -->
     <script src="../../plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-    <!-- Bootstrap Material Datetime Picker Plugin Js -->
-
 
     <script src="../../plugins/sweetalert/sweetalert.min.js"></script>
     <script src="../../js/pages/ui/dialogs.js"></script>
@@ -560,11 +691,26 @@
     <script src="../../plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
 
 
-    <script src="../../js/pages/forms/basic-form-elements.js"></script>
+
+    <script src="../../plugins/chartjs/Chart.bundle.js"></script>
+
+
+    <script src="../../plugins/light-gallery/js/lightgallery-all.js"></script>
+    <script src="../../js/pages/medias/image-gallery.js"></script>
+
     <!-- Custom Js -->
     <script src="../../js/admin.js"></script>
+    <script src="../../js/pages/forms/basic-form-elements.js"></script>
+
+    <!-- Demo Js -->
     <script src="../../js/demo.js"></script>
     <script src="../../plugins2/dataTables.responsive.min.js"></script>
+
+
+    <script src="../../plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../js/pages/ui/dialogs.js"></script>
+
+
 </body>
 
 </html>
